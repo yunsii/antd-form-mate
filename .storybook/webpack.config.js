@@ -3,26 +3,18 @@ const tsImportPluginFactory = require('ts-import-plugin');
 
 module.exports = async ({ config, mode }) => {
   config.module.rules.push({
-    test: /\.(ts|tsx)$/,
-    exclude: /node_modules/,
-    use: [
-      {
-        loader: require.resolve('awesome-typescript-loader'),
-        options: {
-          getCustomTransformers: () => ({
-            before: [tsImportPluginFactory({
-              libraryName: 'antd',
-              libraryDirectory: 'es',
-              style: true
-            })]
-          }),
-        },
-      },
-      // Optional
-      {
-        loader: require.resolve('react-docgen-typescript-loader'),
-      },
-    ],
+    test: /\.tsx$/,
+    loader: 'ts-loader',
+    options: {
+      transpileOnly: true,
+      getCustomTransformers: () => ({
+        before: [ tsImportPluginFactory({
+          libraryName: 'antd',
+          libraryDirectory: 'es',
+          style: true
+        }) ]
+      }),
+    },
   });
 
   config.resolve.extensions.push('.ts', '.tsx');

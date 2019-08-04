@@ -19,26 +19,17 @@ const webpackConfig = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: require.resolve('awesome-typescript-loader'),
-            options: {
-              getCustomTransformers: () => ({
-                before: [tsImportPluginFactory({
-                  libraryName: 'antd',
-                  libraryDirectory: 'es',
-                  style: true
-                })]
-              }),
-            },
-          },
-          // Optional
-          {
-            loader: require.resolve('react-docgen-typescript-loader'),
-          },
-        ],
+        test: /\.tsx$/,
+        loader: 'ts-loader',
+        options: {
+          getCustomTransformers: () => ({
+            before: [ tsImportPluginFactory({
+              libraryName: 'antd',
+              libraryDirectory: 'es',
+              style: true
+            }) ]
+          }),
+        },
       },
       {
         loader: 'babel-loader',
