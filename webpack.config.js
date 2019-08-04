@@ -2,7 +2,7 @@ const path = require('path');
 const tsImportPluginFactory = require('ts-import-plugin');
 const nodeExternals = require('webpack-node-externals');
 
-const moduleName = "antd-form-pro";
+const moduleName = "index";
 
 const webpackConfig = {
   mode: "production",

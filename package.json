@@ -1,5 +1,5 @@
 {
-  "name": "antd-form-pro",
+  "name": "antd-form-generator",
   "description": "基于 ant design 的表单组件",
   "version": "0.1.0",
   "dependencies": {
