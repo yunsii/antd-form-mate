@@ -1,14 +1,18 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, CSSProperties } from "react";
 import { message, Spin } from "antd";
-import { Map, Marker } from "react-amap";
+import { Map, Marker, MapProps } from "react-amap";
 import Geolocation from "react-amap-plugin-custom-geolocation";
 import PlaceSearch from "./PlaceSearch";
 
 let geocoder = null;
 const defaultMapWrapperHeight = 400;
+const titleHeight = 37;
+const spinHeight = 16;
 
 export const geoCode = (address, callback) => {
-  geocoder.getLocation(address, callback);
+  if (geocoder) {
+    (geocoder as any).getLocation(address, callback);
+  }
   // geocoder.getLocation(address, (status, result) => {
   //   console.log(address);
   //   console.log(status);
@@ -30,15 +34,32 @@ function isLocationPosition(locationPosition, position) {
   return locationLongitude === longitude && locationLatitude === latitude;
 }
 
-export function AMap(props) {
+export interface AMapProps {
+  /** position of Marker */
+  position?: {
+    longitude: number,
+    latitude: number,
+  };
+  /** human-readable address */
+  formattedAddress?: string;
+  /** AMap wrapper style */
+  wrapperStyle?: CSSProperties;
+  onClick?: (longitude: number, latitude: number) => void;
+  /** get human-readable address */
+  getFormattedAddress?: (formattedAddress: string) => void;
+  onCreated?: (map: any) => void;
+  mapProps?: MapProps;
+}
+
+export function AMap(props: AMapProps) {
   const {
+    position,
     wrapperStyle = {},
     formattedAddress,
-    position,
     onClick,
     getFormattedAddress,
     onCreated,
-    ...rest
+    mapProps,
   } = props;
   const [locationPosition, setLocationPosition] = useState({});
 
@@ -55,13 +76,15 @@ export function AMap(props) {
   };
 
   const regeoCode = (longitude, latitude) => {
-    geocoder.getAddress([longitude, latitude], (status, result) => {
-      if (getFormattedAddress) {
-        getFormattedAddress(
-          status === "complete" ? result.regeocode.formattedAddress : null
-        );
-      }
-    });
+    if (geocoder) {
+      (geocoder as any).getAddress([longitude, latitude], (status, result) => {
+        if (getFormattedAddress) {
+          getFormattedAddress(
+            status === "complete" ? result.regeocode.formattedAddress : null
+          );
+        }
+      });
+    }
   };
 
   const plugins = ["Scale"];
@@ -71,23 +94,30 @@ export function AMap(props) {
     renderFormattedAddress = formattedAddress;
   }
 
+  let spinMarginTop = defaultMapWrapperHeight / 2 - spinHeight as any;
   const { height } = wrapperStyle;
-  const spinMarginTop =
-    parseInt(height || defaultMapWrapperHeight, 10) / 2 - 16;
+  if (height) {
+    if (typeof height === "number") {
+      spinMarginTop = height / 2 - spinHeight;
+    } else if (typeof height === "string" && height.endsWith('vh')) {
+      spinMarginTop = `calc(${parseInt(height, 10) / 2}vh - ${spinHeight}px)`;
+    }
+  }
+  // console.log("spinMarginTop", spinMarginTop);
 
   return (
     <Fragment>
-      <p>当前地址：{renderFormattedAddress}</p>
+      <p style={{ margin: '8px 0' }}>当前地址：{renderFormattedAddress}</p>
       <div
         style={
           Object.keys(wrapperStyle).length
-            ? wrapperStyle
+            ? { ...wrapperStyle, height: height ? `calc(${height} - ${titleHeight}px)` : defaultMapWrapperHeight }
             : { height: defaultMapWrapperHeight }
         }
       >
         <Map
           amapkey="1460ee2529622747f8faacac3e860bd6"
-          plugins={plugins}
+          plugins={plugins as any}
           center={position}
           events={{
             created: handleCreatedMap,
@@ -106,7 +136,7 @@ export function AMap(props) {
           version="1.4.14&plugin=AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch"
           zoom={13}
           loading={<Spin style={{ width: "100%", marginTop: spinMarginTop }} />}
-          {...rest}
+          {...mapProps}
         >
           {position && !isLocationPosition(locationPosition, position) ? (
             <Marker position={position} />
@@ -142,7 +172,7 @@ export function AMap(props) {
           />
           <PlaceSearch
             onPlaceSelect={poi => {
-              console.log(poi);
+              console.log("PlaceSearch poi", poi);
               if (onClick) {
                 onClick(poi.location.lng, poi.location.lat);
               }
