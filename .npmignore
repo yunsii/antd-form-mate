@@ -2,6 +2,8 @@
 /.vscode/
 /docs/
 /node_modules/
+/.storybook/
+/stories/
 .gitignore
 .npmignore
 tslint.json
