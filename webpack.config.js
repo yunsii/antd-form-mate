@@ -19,6 +19,10 @@ const webpackConfig = {
   module: {
     rules: [
       {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+      },
+      {
         test: /\.tsx$/,
         loader: 'ts-loader',
         options: {

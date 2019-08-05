@@ -25,7 +25,7 @@ export let isUploadSuccess = response => {
 };
 
 export type UploadConfig = {
-  uploadFile: (file: File) => void;
+  uploadFile: (file: any) => void;
   isUploadSuccess: (response: any) => void;
   getUrl: (response: any) => void;
 }
