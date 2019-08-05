@@ -46,7 +46,7 @@ export let imageFormatLimit = '.jpg,.jpeg,.bmp,.png,.gif';
 export type PictureConfig = {
   imageFormatLimit?: string,
 }
-export function pictureConfig(options) {
+export function pictureConfig(options: PictureConfig) {
   if (options.imageFormatLimit !== undefined) {
     imageFormatLimit = options.imageFormatLimit;
   }
