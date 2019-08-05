@@ -4,8 +4,14 @@ import { action } from '@storybook/addon-actions';
 import * as moment from 'moment';
 import { Form, Button } from 'antd';
 // import { WrappedFormUtils } from 'antd/lib/form/Form';
-import { FormProvider, createFormItems, setDefaultExtra } from '../src';
-import { setCommenProps } from '../src/config';
+import FormMate, { config, AMap } from '../src';
+
+
+storiesOf('custom components', module)
+  .add('amap', () => <AMap wrapperStyle={{ height: '100vh' }} />);
+
+const { FormProvider, createFormItems, setDefaultExtra } = FormMate;
+const { setCommenProps } = config;
 
 setDefaultExtra({
   picture: '自定义图片默认提示',
@@ -44,11 +50,11 @@ function extraDateRangeFieldProps(initialValue, format = dateFormat) {
   }
 }
 
-export interface FormProProps {
+export interface FormProps {
   form: any
 }
 
-class FormPro extends React.Component<FormProProps, null> {
+class BasicForm extends React.Component<FormProps, null> {
   setFormItemsConfig = (detail: any = {}, mode?: string) => {
     return [
       {
@@ -136,16 +142,6 @@ class FormPro extends React.Component<FormProProps, null> {
         },
       },
       {
-        type: 'picture',
-        field: 'picture',
-        formItemProps: {
-          label: '图片',
-        },
-        fieldProps: {
-          initialValue: detail.picture,
-        },
-      },
-      {
         type: 'switch',
         field: 'switch',
         formItemProps: {
@@ -164,26 +160,6 @@ class FormPro extends React.Component<FormProProps, null> {
         },
         fieldProps: {
           initialValue: detail.slider,
-        },
-      },
-      {
-        type: 'file-dragger',
-        field: 'file',
-        formItemProps: {
-          label: '文件',
-        },
-        fieldProps: {
-          initialValue: detail.file,
-        },
-      },
-      {
-        type: 'location',
-        field: 'location',
-        formItemProps: {
-          label: '地址',
-        },
-        fieldProps: {
-          initialValue: detail.location,
         },
       },
       {
@@ -230,7 +206,79 @@ class FormPro extends React.Component<FormProProps, null> {
   }
 }
 
-const FormProDemo = Form.create()(FormPro as any);
+const BasicFormDemo = Form.create()(BasicForm as any);
 
 storiesOf('ant-form-mate', module)
-  .add('basic', () => <FormProDemo />);
+  .add('basic', () => <BasicFormDemo />);
+
+class AdvancedFormPro extends React.Component<FormProps, null> {
+  setFormItemsConfig = (detail: any = {}, mode?: string) => {
+    return [
+      {
+        type: 'picture',
+        field: 'picture',
+        formItemProps: {
+          label: '图片',
+        },
+        fieldProps: {
+          initialValue: detail.picture,
+        },
+      },
+      {
+        type: 'file-dragger',
+        field: 'file',
+        formItemProps: {
+          label: '文件',
+        },
+        fieldProps: {
+          initialValue: detail.file,
+        },
+      },
+      {
+        type: 'location',
+        field: 'location',
+        formItemProps: {
+          label: '地址',
+        },
+        fieldProps: {
+          initialValue: detail.location,
+        },
+      },
+    ];
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { form } = this.props;
+    form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
+
+  render() {
+    const { form } = this.props;
+    return (
+      <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
+        <FormProvider value={form}>
+          {createFormItems(this.setFormItemsConfig({}))}
+        </FormProvider>
+        <Form.Item wrapperCol={{ span: 13, offset: 7 }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={action('click submit')}
+          >
+            提交
+          </Button>
+        </Form.Item>
+      </Form>
+    )
+  }
+}
+
+const AdvancedFormProDemo = Form.create()(AdvancedFormPro as any);
+
+storiesOf('ant-form-mate', module)
+  .add('advaned', () => <AdvancedFormProDemo />);
