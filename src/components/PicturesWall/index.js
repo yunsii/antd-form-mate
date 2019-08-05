@@ -1,15 +1,15 @@
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
-import { Icon, Modal, message } from 'antd';
-import _isString from 'lodash/isString';
-import _isArray from 'lodash/isArray';
+import React from "react";
+import { Icon, Modal, message } from "antd";
+import _isString from "lodash/isString";
+import _isArray from "lodash/isArray";
 import CustomUpload, {
   processFileList,
   filterFileList,
   setFileList,
-  filterFileListOnComplete,
-} from '../Upload';
-import './index.css';
+  filterFileListOnComplete
+} from "../Upload";
+import "./index.css";
 
 const { IMAGE_FORMAT_LIMIT } = process.env;
 
@@ -26,7 +26,7 @@ export function getPicturesLink(fileList) {
 class PicturesWall extends React.Component {
   static getDerivedStateFromProps(props) {
     return {
-      fileList: setFileList(props),
+      fileList: setFileList(props)
     };
   }
 
@@ -35,8 +35,11 @@ class PicturesWall extends React.Component {
     // console.log(props.value);
     this.state = {
       previewVisible: false,
-      previewImage: '',
-      fileList: props.value && _isString(props.value) ? [{ uid: 1, url: props.value }] : [],
+      previewImage: "",
+      fileList:
+        props.value && _isString(props.value)
+          ? [{ uid: 1, url: props.value }]
+          : []
     };
   }
 
@@ -45,7 +48,7 @@ class PicturesWall extends React.Component {
   handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
+      previewVisible: true
     });
   };
 
@@ -75,15 +78,19 @@ class PicturesWall extends React.Component {
           listType="picture-card"
           disabled={disabled}
           onError={() => {
-            message.error('上传失败');
+            message.error("上传失败");
             const { fileList: afterErrorFileList } = this.state;
             onChange(filterFileListOnComplete(afterErrorFileList));
           }}
         >
           {fileList.length >= 1 ? null : uploadButton}
         </CustomUpload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        <Modal
+          visible={previewVisible}
+          footer={null}
+          onCancel={this.handleCancel}
+        >
+          <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
       </div>
     );

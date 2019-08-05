@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { Switch } from 'antd';
-
+import React, { Component } from "react";
+import { Switch } from "antd";
 
 export default class CustomSwitch extends Component {
   setValue = value => !!value;

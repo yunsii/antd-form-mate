@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from 'react';
-import { message, Spin } from 'antd';
-import { Map, Marker } from 'react-amap';
-import Geolocation from 'react-amap-plugin-custom-geolocation';
-import PlaceSearch from './PlaceSearch';
+import React, { Fragment, useState } from "react";
+import { message, Spin } from "antd";
+import { Map, Marker } from "react-amap";
+import Geolocation from "react-amap-plugin-custom-geolocation";
+import PlaceSearch from "./PlaceSearch";
 
 let geocoder = null;
 const defaultMapWrapperHeight = 400;
@@ -22,7 +22,10 @@ export const geoCode = (address, callback) => {
 };
 
 function isLocationPosition(locationPosition, position) {
-  const { longitude: locationLongitude, latitude: locationLatitude } = locationPosition;
+  const {
+    longitude: locationLongitude,
+    latitude: locationLatitude
+  } = locationPosition;
   const { longitude, latitude } = position;
   return locationLongitude === longitude && locationLatitude === latitude;
 }
@@ -46,7 +49,7 @@ export function AMap(props) {
     if (!geocoder) {
       geocoder = new window.AMap.Geocoder({
         // city: '010', // 城市设为北京，默认：“全国”
-        radius: 1000, // 范围，默认：500
+        radius: 1000 // 范围，默认：500
       });
     }
   };
@@ -54,27 +57,32 @@ export function AMap(props) {
   const regeoCode = (longitude, latitude) => {
     geocoder.getAddress([longitude, latitude], (status, result) => {
       if (getFormattedAddress) {
-        getFormattedAddress(status === 'complete' ? result.regeocode.formattedAddress : null);
+        getFormattedAddress(
+          status === "complete" ? result.regeocode.formattedAddress : null
+        );
       }
     });
   };
 
-  const plugins = ['Scale'];
+  const plugins = ["Scale"];
 
-  let renderFormattedAddress = '（请选择地址）';
+  let renderFormattedAddress = "（请选择地址）";
   if (formattedAddress) {
     renderFormattedAddress = formattedAddress;
   }
 
   const { height } = wrapperStyle;
-  const spinMarginTop = parseInt(height || defaultMapWrapperHeight, 10) / 2 - 16;
+  const spinMarginTop =
+    parseInt(height || defaultMapWrapperHeight, 10) / 2 - 16;
 
   return (
     <Fragment>
       <p>当前地址：{renderFormattedAddress}</p>
       <div
         style={
-          Object.keys(wrapperStyle).length ? wrapperStyle : { height: defaultMapWrapperHeight }
+          Object.keys(wrapperStyle).length
+            ? wrapperStyle
+            : { height: defaultMapWrapperHeight }
         }
       >
         <Map
@@ -85,16 +93,19 @@ export function AMap(props) {
             created: handleCreatedMap,
             click: event => {
               const { lnglat } = event;
-              console.log('click position:', `${lnglat.getLng()}, ${lnglat.getLat()}`);
+              console.log(
+                "click position:",
+                `${lnglat.getLng()}, ${lnglat.getLat()}`
+              );
               if (onClick) {
                 onClick(lnglat.getLng(), lnglat.getLat());
               }
               regeoCode(lnglat.getLng(), lnglat.getLat());
-            },
+            }
           }}
           version="1.4.14&plugin=AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch"
           zoom={13}
-          loading={<Spin style={{ width: '100%', marginTop: spinMarginTop }} />}
+          loading={<Spin style={{ width: "100%", marginTop: spinMarginTop }} />}
           {...rest}
         >
           {position && !isLocationPosition(locationPosition, position) ? (
@@ -106,10 +117,10 @@ export function AMap(props) {
             buttonPosition="RB"
             events={{
               created: o => {
-                window.AMap.event.addListener(o, 'complete', result => {
+                window.AMap.event.addListener(o, "complete", result => {
                   setLocationPosition({
                     longitude: result.position.lng,
-                    latitude: result.position.lat,
+                    latitude: result.position.lat
                   });
                   if (onClick) {
                     onClick(result.position.lng, result.position.lat);
@@ -118,11 +129,15 @@ export function AMap(props) {
                     getFormattedAddress(result.formattedAddress);
                   }
                 }); // 返回定位信息
-                window.AMap.event.addListener(o, 'error', ({ info, message: msg }) => {
-                  message.error('定位失败', info, msg);
-                  console.error('定位失败', info, msg);
-                }); // 返回定位出错信息
-              },
+                window.AMap.event.addListener(
+                  o,
+                  "error",
+                  ({ info, message: msg }) => {
+                    message.error("定位失败", info, msg);
+                    console.error("定位失败", info, msg);
+                  }
+                ); // 返回定位出错信息
+              }
             }}
           />
           <PlaceSearch

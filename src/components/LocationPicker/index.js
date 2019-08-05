@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Input, Modal, Icon, message } from 'antd';
-import AMap from '../CutomAMap';
+import React, { Component } from "react";
+import { Input, Modal, Icon, message } from "antd";
+import AMap from "../CutomAMap";
 
 export default class LocationPicker extends Component {
   map = null;
@@ -9,17 +9,17 @@ export default class LocationPicker extends Component {
     mapVisible: false,
     position: undefined,
     formattedAddress: undefined,
-    isMounted: false,
+    isMounted: false
   };
 
   componentDidMount() {
     this.setState({
-      isMounted: true,
-    })
+      isMounted: true
+    });
   }
 
   handleMapCreated = map => {
-    console.log('amap is created.');
+    console.log("amap is created.");
     if (map) this.map = map;
   };
 
@@ -27,8 +27,8 @@ export default class LocationPicker extends Component {
     this.setState({
       position: {
         longitude,
-        latitude,
-      },
+        latitude
+      }
     });
   };
 
@@ -37,17 +37,17 @@ export default class LocationPicker extends Component {
     const { position, formattedAddress } = this.state;
     onChange({
       position,
-      formattedAddress,
+      formattedAddress
     });
     this.setState({
-      mapVisible: false,
+      mapVisible: false
     });
   };
 
   handleAfterMapClose = () => {
     this.setState({
       position: undefined,
-      formattedAddress: undefined,
+      formattedAddress: undefined
     });
     if (this.map) {
       this.map.clearMap();
@@ -67,16 +67,16 @@ export default class LocationPicker extends Component {
         onClick={this.handleMapClick}
         getFormattedAddress={address => {
           if (!address) {
-            message.error('根据经纬度转换地址失败');
+            message.error("根据经纬度转换地址失败");
             this.setState({
-              formattedAddress: null,
+              formattedAddress: null
             });
             return;
           }
           this.setState({ formattedAddress: address });
         }}
       />
-    )
+    );
     if (!isMounted) map = null;
 
     return (
@@ -85,7 +85,12 @@ export default class LocationPicker extends Component {
           placeholder="请选择地址"
           {...rest}
           value={inputFormattedAddress}
-          suffix={<Icon type="environment" onClick={() => this.setState({ mapVisible: true })} />}
+          suffix={
+            <Icon
+              type="environment"
+              onClick={() => this.setState({ mapVisible: true })}
+            />
+          }
         />
         <Modal
           title="高德地图"

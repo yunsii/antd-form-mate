@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
-import { Upload, Icon, message } from 'antd';
-import _isString from 'lodash/isString';
-import _isArray from 'lodash/isArray';
-
+import React, { Component } from "react";
+import { Upload, Icon, message } from "antd";
+import _isString from "lodash/isString";
+import _isArray from "lodash/isArray";
 
 const { Dragger } = Upload;
 
-let uploadFile = (file) => null;
-let getUrlFromResponse = (response) => {
+let uploadFile = file => null;
+let getUrlFromResponse = response => {
   const { data } = response;
   return data.path;
 };
-let isUploadSuccess = (response) => {
+let isUploadSuccess = response => {
   const { data } = response;
   return data;
 };
@@ -33,7 +32,7 @@ export function processFileList(fileList) {
     if (item.response) {
       return {
         ...item,
-        url: getUrlFromResponse(item.response), // uploading 状态 无 response 属性
+        url: getUrlFromResponse(item.response) // uploading 状态 无 response 属性
       };
     }
     return item;
@@ -41,14 +40,18 @@ export function processFileList(fileList) {
 }
 
 export function filterFileList(fileList) {
-  return fileList.filter(item => item.status === 'uploading' || item.url);
+  return fileList.filter(item => item.status === "uploading" || item.url);
 }
 
 export function filterFileListOnComplete(fileList) {
   return fileList.filter(item => item.url);
 }
 
-const customRequest = uploadFunction => async ({ file, onSuccess, onError }) => {
+const customRequest = uploadFunction => async ({
+  file,
+  onSuccess,
+  onError
+}) => {
   let response = null;
   if (uploadFunction) {
     response = await uploadFunction(file);
@@ -81,12 +84,12 @@ export function setFileList(props) {
 export class CustomDragger extends Component {
   static getDerivedStateFromProps(props) {
     return {
-      fileList: setFileList(props),
+      fileList: setFileList(props)
     };
   }
 
   state = {
-    fileList: setFileList(this.props),
+    fileList: setFileList(this.props)
   };
 
   handleChange = ({ fileList }) => {
@@ -114,7 +117,7 @@ export class CustomDragger extends Component {
         onChange={this.handleChange}
         fileList={fileList}
         onError={() => {
-          message.error('上传失败');
+          message.error("上传失败");
           const { fileList: afterErrorFileList } = this.state;
           onChange(filterFileListOnComplete(afterErrorFileList));
         }}
@@ -143,7 +146,7 @@ export default function CustomUpload(props) {
     onError,
     children,
     disabled,
-    uploadFunction,
+    uploadFunction
   } = props;
   return (
     <Upload
@@ -151,7 +154,7 @@ export default function CustomUpload(props) {
       name="image"
       onError={onError}
       customRequest={customRequest(uploadFunction)}
-      listType={listType || 'text'}
+      listType={listType || "text"}
       fileList={fileList}
       onPreview={onPreview}
       onChange={onChange}

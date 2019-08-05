@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { PureComponent } from 'react';
-import { Select, Spin } from 'antd';
+import React, { PureComponent } from "react";
+import { Select, Spin } from "antd";
 
 const { Option } = Select;
 
@@ -15,13 +15,25 @@ class CustomSelect extends PureComponent {
   };
 
   render() {
-    const { value, options, loading, onChange, handleChange, ...rest } = this.props;
+    const {
+      value,
+      options,
+      loading,
+      onChange,
+      handleChange,
+      ...rest
+    } = this.props;
     const disabledStyle = {
-      backgroundColor: 'rgba(0, 0, 0, 0.25)',
+      backgroundColor: "rgba(0, 0, 0, 0.25)"
     };
     return (
       <Spin spinning={loading || false}>
-        <Select value={value} placeholder="请选择" onChange={this.handleChange} {...rest}>
+        <Select
+          value={value}
+          placeholder="请选择"
+          onChange={this.handleChange}
+          {...rest}
+        >
           {options &&
             options.map(item => (
               <Option
