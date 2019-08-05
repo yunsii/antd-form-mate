@@ -1,7 +1,8 @@
 {
-  "name": "antd-form-pro",
+  "name": "antd-form-mate",
   "description": "基于 ant design 的表单组件",
-  "version": "0.1.1",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
   "dependencies": {
     "antd": "^3.20.7",
     "babel-plugin-import": "^1.12.0",
@@ -70,12 +71,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theprimone/antd-form-pro.git"
+    "url": "git+https://github.com/theprimone/antd-form-mate.git"
   },
   "bugs": {
-    "url": "https://github.com/theprimone/antd-form-pro/issues"
+    "url": "https://github.com/theprimone/antd-form-mate/issues"
   },
-  "homepage": "https://github.com/theprimone/antd-form-pro#readme",
+  "homepage": "https://github.com/theprimone/antd-form-mate#readme",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
   "author": "theprimone <yuns.xie@qq.com> (https://theprimone.top/)",
