@@ -281,4 +281,4 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
 const AdvancedFormProDemo = Form.create()(AdvancedFormPro as any);
 
 storiesOf('ant-form-mate', module)
-  .add('advaned', () => <AdvancedFormProDemo />);
+  .add('advanced', () => <AdvancedFormProDemo />);
