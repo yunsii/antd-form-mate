@@ -2,6 +2,13 @@
 
 基于 ant design 的表单组件，配置化实现表单功能。
 
+![basic.png](https://s2.ax1x.com/2019/08/05/eRsRjH.png)
+<p align="center">基础表单项</p>
+
+![advanced.png](https://s2.ax1x.com/2019/08/05/eRs2ge.png)
+<p align="center">高级表单项</p>
+
+
 ## 可配置类型
 
 1. custom 自定义组件类型
