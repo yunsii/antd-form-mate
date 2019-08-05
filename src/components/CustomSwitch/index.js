@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Switch } from "antd";
 
 export default class CustomSwitch extends Component {
-  setValue = value => !!value;
+  setValue = checked => !!checked;
 
   render() {
-    const { value, ...rest } = this.props;
-    return <Switch {...rest} value={this.setValue(value)} />;
+    const { checked, ...rest } = this.props;
+    return <Switch {...rest} checked={this.setValue(checked)} />;
   }
 }

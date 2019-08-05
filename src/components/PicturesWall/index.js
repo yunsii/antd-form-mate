@@ -9,9 +9,9 @@ import CustomUpload, {
   setFileList,
   filterFileListOnComplete
 } from "../Upload";
+import { imageFormatLimit } from '../../config';
 import "./index.css";
 
-const { IMAGE_FORMAT_LIMIT } = process.env;
 
 export function getPicturesLink(fileList) {
   if (_isArray(fileList) && fileList.length === 1) {
@@ -71,7 +71,7 @@ class PicturesWall extends React.Component {
     return (
       <div className="clearfix">
         <CustomUpload
-          accept={IMAGE_FORMAT_LIMIT}
+          accept={imageFormatLimit}
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}

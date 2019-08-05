@@ -2,37 +2,15 @@ import React, { Component } from "react";
 import { Upload, Icon, message } from "antd";
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
-
+import { uploadFile, isUploadSuccess, getUrl } from '../../config';
 const { Dragger } = Upload;
-
-let uploadFile = file => null;
-let getUrlFromResponse = response => {
-  const { data } = response;
-  return data.path;
-};
-let isUploadSuccess = response => {
-  const { data } = response;
-  return data;
-};
-
-export function config(options) {
-  if (options.uploadFile !== undefined) {
-    uploadFile = options.uploadFile;
-  }
-  if (options.getUrlFromResponse !== undefined) {
-    getUrlFromResponse = options.getUrlFromResponse;
-  }
-  if (options.isUploadSuccess !== undefined) {
-    isUploadSuccess = options.isUploadSuccess;
-  }
-}
 
 export function processFileList(fileList) {
   return fileList.map(item => {
     if (item.response) {
       return {
         ...item,
-        url: getUrlFromResponse(item.response) // uploading 状态 无 response 属性
+        url: getUrl(item.response) // uploading 状态 无 response 属性
       };
     }
     return item;

@@ -4,7 +4,16 @@ import { action } from '@storybook/addon-actions';
 import * as moment from 'moment';
 import { Form, Button } from 'antd';
 // import { WrappedFormUtils } from 'antd/lib/form/Form';
-import { FormProvider, createFormItems } from '../src';
+import { FormProvider, createFormItems, setDefaultExtra } from '../src';
+import { setCommenProps } from '../src/config';
+
+setDefaultExtra({
+  picture: '自定义图片默认提示',
+})
+
+setCommenProps({
+  allowClear: true,
+})
 
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
@@ -202,7 +211,6 @@ class FormPro extends React.Component<FormProProps, null> {
 
   render() {
     const { form } = this.props;
-    console.log(form);
     return (
       <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
         <FormProvider value={form}>
@@ -224,5 +232,5 @@ class FormPro extends React.Component<FormProProps, null> {
 
 const FormProDemo = Form.create()(FormPro as any);
 
-storiesOf('ant-form-pro', module)
+storiesOf('ant-form-mate', module)
   .add('basic', () => <FormProDemo />);

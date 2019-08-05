@@ -11,20 +11,42 @@ import CustomSwitch from "./components/CustomSwitch";
 import CustomSelect from "./components/Select";
 import LocationPicker from "./components/LocationPicker";
 import PicturesWall from "./components/PicturesWall";
-import { CustomDragger } from "./components/Upload";
-import { inputComponentStyle } from "./style";
+import { CustomDragger } from "./components/Upload/index";
+import { commenStyle, commenProps } from "./config";
 
+
+const { TextArea, Password } = Input;
 const FormContext = React.createContext<WrappedFormUtils | null>(null);
 export const FormProvider = FormContext.Provider;
 const FormConsumer = FormContext.Consumer;
 
-export const defaultExtra = {
+export let defaultExtra = {
   picture: "图片必须大于100*100像素"
 };
 
-export const defaultTypeHint = {
+export let defaultTypeHint = {
   email: "请输入正确的邮箱格式"
 };
+
+export type DefaultExtraOptions = {
+  [key in ComponentType]: any;
+}
+export function setDefaultExtra(options: DefaultExtraOptions) {
+  defaultExtra = {
+    ...defaultExtra,
+    ...options,
+  }
+}
+
+export type DefaultTypeHintOptions = {
+  [key in ComponentType]: any;
+}
+export function setDefaultTypeHint(options: DefaultTypeHintOptions) {
+  defaultTypeHint = {
+    ...defaultTypeHint,
+    ...options,
+  }
+}
 
 const setValuePropName = type => {
   if (type === "switch") {
@@ -45,14 +67,15 @@ function renderInputComponent(inputConfig) {
       return CustomComponent;
     case "date":
       return (
-        <CustomDatePicker style={inputComponentStyle} {...componentProps} />
+        <CustomDatePicker style={commenStyle} {...commenProps} {...componentProps} />
       );
     case "datetime":
       return (
         <CustomDatePicker
-          style={{ minWidth: "unset", ...inputComponentStyle }}
+          style={{ minWidth: "unset", ...commenStyle }}
           format="YYYY-MM-DD HH:mm:ss"
           showTime
+          {...commenProps}
           {...componentProps}
         />
       );
@@ -61,7 +84,8 @@ function renderInputComponent(inputConfig) {
         <CustomRangePicker
           format="YYYY-MM-DD HH:mm:ss"
           showTime
-          style={inputComponentStyle}
+          style={commenStyle}
+          {...commenProps}
           {...componentProps}
         />
       );
@@ -69,43 +93,46 @@ function renderInputComponent(inputConfig) {
       return (
         <InputNumber
           placeholder="请输入"
+          style={commenStyle}
+          {...commenProps}
           {...componentProps}
-          style={inputComponentStyle}
         />
       );
     case "select":
-      return <CustomSelect {...componentProps} style={inputComponentStyle} />;
+      return <CustomSelect style={commenStyle} {...commenProps} {...componentProps} />;
     case "textarea":
       return (
-        <Input.TextArea
-          style={{ ...inputComponentStyle }}
+        <TextArea
+          style={{ ...commenStyle }}
           placeholder="请输入"
           {...componentProps}
         />
       );
     case "password":
       return (
-        <Input.Password
-          style={inputComponentStyle}
+        <Password
+          style={commenStyle}
           placeholder="请输入密码"
+          {...commenProps}
           {...componentProps}
         />
       );
     case "picture":
-      return <PicturesWall {...componentProps} />;
+      return <PicturesWall {...commenProps} {...componentProps} />;
     case "switch":
       return <CustomSwitch {...componentProps} />;
     case "slider":
-      return <Slider {...componentProps} />;
+      return <Slider {...commenProps} {...componentProps} />;
     case "file-dragger":
-      return <CustomDragger {...componentProps} />;
+      return <CustomDragger {...commenProps} {...componentProps} />;
     case "location":
-      return <LocationPicker {...componentProps} />;
+      return <LocationPicker {...commenProps} {...componentProps} />;
     default:
       return (
         <Input
-          style={inputComponentStyle}
+          style={commenStyle}
           placeholder="请输入"
+          {...commenProps}
           {...componentProps}
         />
       );
@@ -200,13 +227,13 @@ export const createFormItems = (
                   {restFieldProps.initialValue}
                 </span>
               ) : (
-                form &&
-                form.getFieldDecorator(field, {
-                  ...restFieldProps,
-                  valuePropName: setValuePropName(type),
-                  rules: setDefaultCheckedTypeHint(type, rules)
-                })(renderInputComponent({ ...componentProps, type, component }))
-              )}
+                  form &&
+                  form.getFieldDecorator(field, {
+                    ...restFieldProps,
+                    valuePropName: setValuePropName(type),
+                    rules: setDefaultCheckedTypeHint(type, rules)
+                  })(renderInputComponent({ ...componentProps, type, component }))
+                )}
             </Form.Item>
           ) : null
         }
