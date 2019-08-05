@@ -30,3 +30,6 @@
 | formItemProps | Form.Item 支持的配置，新增 `dense` 属性配置 Form.Item `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
 | fieldProps | 字段值配置  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
 | component | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | React.ElementType | - |
+
+
+未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
