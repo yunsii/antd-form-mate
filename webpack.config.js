@@ -53,31 +53,33 @@ const webpackConfig = {
         },
       },
       {
-        test: /\.less$/,
-        loaders: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'less-loader',
-            options: {
-              javascriptEnabled: true
-            }
-          }
-        ],
-        include: [
-          path.resolve(__dirname, './src'),
-          /[\\/]node_modules[\\/].*antd/
-        ]
+        test: /\.(css|less)$/,
+        include: /node_modules/,
+        use: [{
+          loader: 'style-loader' // creates style nodes from JS strings
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS
+        }, {
+          loader: 'less-loader', // compiles Less to CSS
+          options: { javascriptEnabled: true, sourceMap: true },
+        }],
       },
       {
-        test: /\.css$/,
-        loaders: [
-          'style-loader',
-          'css-loader',
-        ],
-        include: [
-          path.resolve(__dirname, './src'),
-        ]
+        test: /\.(css|less)$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'style-loader' // creates style nodes from JS strings
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS
+          options: {
+            modules: {
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+            },
+          }
+        }, {
+          loader: 'less-loader', // compiles Less to CSS
+          options: { javascriptEnabled: true, sourceMap: true },
+        }],
       },
     ]
   },

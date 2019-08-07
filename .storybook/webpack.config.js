@@ -38,21 +38,34 @@ module.exports = async ({ config, mode }) => {
   });
 
   config.module.rules.push({
-    test: /\.less$/,
-    loaders: [
-      'style-loader',
-      'css-loader',
-      {
-        loader: 'less-loader',
-        options: {
-          javascriptEnabled: true
-        }
+    test: /\.(css|less)$/,
+    include: /node_modules/,
+    use: [{
+      loader: 'style-loader' // creates style nodes from JS strings
+    }, {
+      loader: 'css-loader', // translates CSS into CommonJS
+    }, {
+      loader: 'less-loader', // compiles Less to CSS
+      options: { javascriptEnabled: true, sourceMap: true },
+    }],
+  })
+
+  config.module.rules.push({
+    test: /\.(css|less)$/,
+    exclude: /node_modules/,
+    use: [{
+      loader: 'style-loader' // creates style nodes from JS strings
+    }, {
+      loader: 'css-loader', // translates CSS into CommonJS
+      options: {
+        modules: {
+          localIdentName: '[path][name]__[local]--[hash:base64:5]',
+        },
       }
-    ],
-    include: [
-      path.resolve(__dirname, '../src'),
-      /[\\/]node_modules[\\/].*antd/
-    ]
+    }, {
+      loader: 'less-loader', // compiles Less to CSS
+      options: { javascriptEnabled: true, sourceMap: true },
+    }],
   });
 
   return config;

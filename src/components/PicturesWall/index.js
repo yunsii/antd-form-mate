@@ -10,7 +10,7 @@ import CustomUpload, {
   filterFileListOnComplete
 } from "../Upload";
 import { imageFormatLimit } from '../../config';
-import "./index.css";
+import styles from "./index.less";
 
 
 export function getPicturesLink(fileList) {
@@ -69,7 +69,7 @@ class PicturesWall extends React.Component {
       </div>
     );
     return (
-      <div className="clearfix">
+      <div className={`${styles.pictureWall} clearfix`}>
         <CustomUpload
           accept={imageFormatLimit}
           fileList={fileList}
