@@ -6,10 +6,6 @@ import { Form, Button } from 'antd';
 // import { WrappedFormUtils } from 'antd/lib/form/Form';
 import FormMate, { config, AMap } from '../src';
 
-
-storiesOf('custom components', module)
-  .add('amap', () => <AMap wrapperStyle={{ height: '100vh' }} />);
-
 const { FormProvider, createFormItems, setDefaultExtra } = FormMate;
 const { setCommenProps } = config;
 
@@ -282,3 +278,6 @@ const AdvancedFormProDemo = Form.create()(AdvancedFormPro as any);
 
 storiesOf('ant-form-mate', module)
   .add('advanced', () => <AdvancedFormProDemo />);
+
+storiesOf('custom components', module)
+  .add('amap', () => <AMap wrapperStyle={{ height: '100vh' }} />);
