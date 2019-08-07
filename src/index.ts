@@ -1,8 +1,12 @@
-import * as AntdFormMateConfig from './config';
-import * as AntdFormMate from './antd-form-mate';
+import * as FormMateConfig from './config';
+import * as FormMate from './antd-form-mate';
 
-export const config = AntdFormMateConfig;
+export default FormMate;
+export const config = FormMateConfig;
 
-export default AntdFormMate;
+// export interface. reference: https://github.com/babel/babel/issues/8361
+export type ComponentType = FormMate.ComponentType;
+export type CustomFormItemProps = FormMate.CustomFormItemProps;
+export type ItemConfig = FormMate.ItemConfig;
 
 export { default as AMap } from './components/CutomAMap';
