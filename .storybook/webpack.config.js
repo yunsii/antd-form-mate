@@ -3,10 +3,9 @@ const tsImportPluginFactory = require('ts-import-plugin');
 
 module.exports = async ({ config, mode }) => {
   config.module.rules.push({
-    test: /\.tsx$/,
+    test: /\.(ts|tsx)$/,
     loader: 'ts-loader',
     options: {
-      transpileOnly: true,
       getCustomTransformers: () => ({
         before: [ tsImportPluginFactory({
           libraryName: 'antd',

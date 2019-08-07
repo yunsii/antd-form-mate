@@ -19,11 +19,7 @@ const webpackConfig = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        loader: 'ts-loader',
-      },
-      {
-        test: /\.tsx$/,
+        test: /\.(ts|tsx)$/,
         loader: 'ts-loader',
         options: {
           getCustomTransformers: () => ({
