@@ -1,4 +1,3 @@
-const path = require('path');
 const tsImportPluginFactory = require('ts-import-plugin');
 
 module.exports = async ({ config, mode }) => {

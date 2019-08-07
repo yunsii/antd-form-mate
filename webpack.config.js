@@ -1,4 +1,3 @@
-const path = require('path');
 const tsImportPluginFactory = require('ts-import-plugin');
 const nodeExternals = require('webpack-node-externals');
 
