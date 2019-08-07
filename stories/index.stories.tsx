@@ -55,12 +55,52 @@ class BasicForm extends React.Component<FormProps, null> {
     return [
       {
         type: 'date',
-        field: 'date',
+        field: 'formatDate',
         formItemProps: {
-          label: '日期',
+          label: '格式化日期',
         },
         fieldProps: {
           ...extraDateFieldProps(moment().format(dateFormat))
+        },
+        componentProps: {
+          onChange: value => console.log(value),
+        },
+      },
+      {
+        type: 'date',
+        field: 'unix',
+        formItemProps: {
+          label: 'unix 时间戳',
+        },
+        fieldProps: {
+          initialValue: 1565151166,
+          normalize: (value, prevValue, allValues) => {
+            // console.log(value, prevValue, allValues);
+            if (value instanceof moment) {
+              return (value as any).unix();
+            }
+            return value;
+          },
+        },
+        componentProps: {
+          onChange: value => console.log(value),
+        },
+      },
+      {
+        type: 'date',
+        field: 'ms',
+        formItemProps: {
+          label: '毫秒时间戳',
+        },
+        fieldProps: {
+          initialValue: 1565151166124,
+          normalize: (value, prevValue, allValues) => {
+            // console.log(value, prevValue, allValues);
+            if (value instanceof moment) {
+              return (value as any).valueOf();
+            }
+            return value;
+          },
         },
         componentProps: {
           onChange: value => console.log(value),
@@ -83,7 +123,7 @@ class BasicForm extends React.Component<FormProps, null> {
           label: '有效期',
         },
         fieldProps: {
-          ...extraDateRangeFieldProps(['2019-01-01 00:00:00', moment().format(datetimeFormat)]),
+          ...extraDateRangeFieldProps(['2019-01-01 12:00:00', '2019-08-07 10:00:00']),
         },
       },
       {
