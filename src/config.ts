@@ -17,7 +17,9 @@ export function setCommenProps(options) {
 export let uploadFile;
 export let getUrl = response => {
   const { data } = response;
-  return data.path;
+  return {
+    url: data.path,
+  }
 };
 export let isUploadSuccess = response => {
   const { data } = response;
@@ -27,7 +29,7 @@ export let isUploadSuccess = response => {
 export type UploadConfig = {
   uploadFile: (file: any) => void;
   isUploadSuccess: (response: any) => void;
-  getUrl: (response: any) => void;
+  getUrl: (response: any) => { url: string, [k: string]: any };
 }
 export function uploadConfig(options: UploadConfig) {
   if (options.uploadFile !== undefined) {

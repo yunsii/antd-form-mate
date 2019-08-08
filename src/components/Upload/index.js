@@ -10,7 +10,7 @@ export function processFileList(fileList) {
     if (item.response) {
       return {
         ...item,
-        url: getUrl(item.response) // uploading 状态 无 response 属性
+        ...getUrl(item.response) // uploading 状态 无 response 属性
       };
     }
     return item;
