@@ -1,6 +1,12 @@
 import React from "react";
 
-export default class PlaceSearch extends React.Component {
+export interface PlaceSearchProps {
+  __map__?: any;
+  onPlaceSelect?: (poi: any) => void;
+  style?: React.CSSProperties;
+}
+
+export default class PlaceSearch extends React.Component<PlaceSearchProps> {
   constructor(props) {
     super(props);
     const { __map__: map } = props;
@@ -43,6 +49,6 @@ export default class PlaceSearch extends React.Component {
       ...customStyle
     };
 
-    return <input id="placeSearch" style={style} placeholder="搜索地址" />;
+    return <input id="placeSearch" style={style as any} placeholder="搜索地址" />;
   }
 }
