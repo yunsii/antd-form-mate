@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Switch } from "antd";
 
-export default class CustomSwitch extends Component {
+export interface CustomSwitchProps {
+  checked?: boolean | number;
+}
+
+export default class CustomSwitch extends Component<CustomSwitchProps> {
   setValue = checked => !!checked;
 
   render() {
