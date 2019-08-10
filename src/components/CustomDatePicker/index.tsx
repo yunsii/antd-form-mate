@@ -21,8 +21,30 @@ function setDateTimeValue(value) {
   return moment(value);
 }
 
+function disabledLessThanOrEqualTodayDate(current) {
+  return current && current < moment().endOf('day');
+}
+
+function disabledAfterTodayDate(current) {
+  return !disabledLessThanOrEqualTodayDate(current);
+}
+
+function setDisabledDate(todayAndBefore, onlyAfterToday) {
+  let disabledDate: any = null;
+  if (todayAndBefore && onlyAfterToday) {
+    disabledDate = null;
+  } else if (onlyAfterToday) {
+    disabledDate = disabledLessThanOrEqualTodayDate;
+  } else if (todayAndBefore) {
+    disabledDate = disabledAfterTodayDate;
+  }
+  return disabledDate;
+}
+
 export interface CustomRangePickerProps {
   value?: string[] | number[] | Moment[];
+  onlyAfterToday?: boolean;
+  todayAndBefore?: boolean;
 }
 
 export class CustomRangePicker extends Component<CustomRangePickerProps> {
@@ -37,18 +59,33 @@ export class CustomRangePicker extends Component<CustomRangePickerProps> {
   };
 
   render() {
-    const { value, ...rest } = this.props;
-    return <RangePicker {...rest} value={this.setValue(value)} />;
+    const { value, onlyAfterToday, todayAndBefore, ...rest } = this.props;
+    return (
+      <RangePicker
+        disabledDate={setDisabledDate(todayAndBefore, onlyAfterToday)}
+        {...rest}
+        value={this.setValue(value)}
+      />
+    );
   }
 }
 
 export interface CustomDatePickerProps {
   value?: string | number | Moment;
+  onlyAfterToday?: boolean;
+  todayAndBefore?: boolean;
 }
 
 export default class CustomDatePicker extends Component<CustomDatePickerProps> {
   render() {
-    const { value, ...rest } = this.props;
-    return <DatePicker {...rest} value={setDateTimeValue(value) as any} />;
+    const { value, onlyAfterToday, todayAndBefore, ...rest } = this.props;
+
+    return (
+      <DatePicker
+        disabledDate={setDisabledDate(todayAndBefore, onlyAfterToday)}
+        {...rest}
+        value={setDateTimeValue(value) as any}
+      />
+    );
   }
 }
