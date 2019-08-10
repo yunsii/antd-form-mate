@@ -115,15 +115,28 @@ class BasicForm extends React.Component<FormProps, null> {
         fieldProps: {
           ...extraDateFieldProps(moment().format(datetimeFormat), datetimeFormat)
         },
+        componentProps: {
+          onlyAfterToday: true,
+        }
       },
       {
-        type: 'datetime-range',
-        field: 'period',
+        type: 'date-range',
+        field: 'date-period',
         formItemProps: {
-          label: '有效期',
+          label: '日期区间',
         },
         fieldProps: {
           ...extraDateRangeFieldProps(['2019-01-01 12:00:00', '2019-08-07 10:00:00']),
+        },
+      },
+      {
+        type: 'datetime-range',
+        field: 'datetime-period',
+        formItemProps: {
+          label: '日期时间区间',
+        },
+        fieldProps: {
+          ...extraDateRangeFieldProps(['2019-01-01', '2019-08-07']),
         },
       },
       {
