@@ -1,17 +1,18 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
-import { Icon, Modal, message } from "antd";
+import { Icon, Modal } from "antd";
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import CustomUpload, {
   processFileList,
   filterFileList,
   setFileList,
-  filterFileListOnComplete
-} from "../Upload";
+  CustomUploadPorps,
+} from "../Upload/index";
+import { picturesWallLacale } from '../../locale';
 import { imageFormatLimit } from '../../config';
+import { getBase64 } from '../../utils';
 import styles from "./index.less";
-
 
 export function getPicturesLink(fileList) {
   if (_isArray(fileList) && fileList.length === 1) {
@@ -23,14 +24,24 @@ export function getPicturesLink(fileList) {
   return fileList;
 }
 
-class PicturesWall extends React.Component {
-  static getDerivedStateFromProps(props) {
+export interface PicturesWallProps extends CustomUploadPorps {
+  value?: string | any[];
+}
+
+export interface PicturesWallState {
+  previewVisible: boolean;
+  previewImage: string;
+  fileList: any[];
+}
+
+class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState> {
+  static getDerivedStateFromProps(props: PicturesWallProps) {
     return {
       fileList: setFileList(props)
     };
   }
 
-  constructor(props) {
+  constructor(props: PicturesWallProps) {
     super(props);
     // console.log(props.value);
     this.state = {
@@ -38,52 +49,52 @@ class PicturesWall extends React.Component {
       previewImage: "",
       fileList:
         props.value && _isString(props.value)
-          ? [{ uid: 1, url: props.value }]
+          ? [{ uid: -1, url: props.value }]
           : []
     };
   }
 
   handleCancel = () => this.setState({ previewVisible: false });
 
-  handlePreview = file => {
+  handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
     this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true
+      previewImage: file.url || file.preview,
+      previewVisible: true,
     });
   };
 
   handleChange = ({ fileList }) => {
+    console.log(fileList);
+    const { onChange } = this.props;
     const formatFiles = processFileList(fileList);
-    if (this.props.onChange) {
-      this.props.onChange(filterFileList(formatFiles));
+    if (onChange) {
+      onChange(filterFileList(formatFiles));
     }
   };
 
   render() {
-    const { disabled, onChange } = this.props;
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text">上传</div>
+        <div className="ant-upload-text">{picturesWallLacale.upload}</div>
       </div>
     );
     return (
       <div className={`${styles.pictureWall} clearfix`}>
         <CustomUpload
+          {...this.props}
           accept={imageFormatLimit}
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
           listType="picture-card"
-          disabled={disabled}
-          onError={() => {
-            message.error("上传失败");
-            const { fileList: afterErrorFileList } = this.state;
-            onChange(filterFileListOnComplete(afterErrorFileList));
-          }}
         >
-          {fileList.length >= 1 ? null : uploadButton}
+          {fileList.length >= (this.props.filesCountLimit || 1)  ? null : uploadButton}
         </CustomUpload>
         <Modal
           visible={previewVisible}
