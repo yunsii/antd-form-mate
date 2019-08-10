@@ -89,6 +89,15 @@ function renderInputComponent(inputConfig) {
           {...componentProps}
         />
       );
+    case "date-range":
+      return (
+        <CustomRangePicker
+          format="YYYY-MM-DD"
+          style={commenStyle}
+          {...commenProps}
+          {...componentProps}
+        />
+      );
     case "number":
       return (
         <InputNumber
@@ -155,6 +164,7 @@ export type ComponentType =
   | "custom"
   | "date"
   | "datetime"
+  | "date-range"
   | "datetime-range"
   | "number"
   | "select"
