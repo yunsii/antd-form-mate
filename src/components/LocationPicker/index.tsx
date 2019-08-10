@@ -1,14 +1,36 @@
 import React, { Component } from "react";
 import { Input, Modal, Icon, message } from "antd";
-import AMap from "../CutomAMap";
+import AMap from "../CutomAMap/index";
 
-export default class LocationPicker extends Component {
-  map = null;
+export type Position = {
+  longitude: number;
+  latitude: number;
+};
+
+export type Value = {
+  position: Position | undefined,
+  formattedAddress: string;
+};
+
+export interface LocationPickerProps {
+  value?: Value;
+  onChange?: (value: Value) => void;
+}
+
+export interface LocationPickerState {
+  mapVisible: boolean;
+  position: Position | undefined;
+  formattedAddress: undefined | string;
+  isMounted: boolean;
+}
+
+export default class LocationPicker extends Component<LocationPickerProps, LocationPickerState> {
+  map: any;
 
   state = {
     mapVisible: false,
     position: undefined,
-    formattedAddress: undefined,
+    formattedAddress: '',
     isMounted: false
   };
 
@@ -35,10 +57,12 @@ export default class LocationPicker extends Component {
   handleMapOk = () => {
     const { onChange } = this.props;
     const { position, formattedAddress } = this.state;
-    onChange({
-      position,
-      formattedAddress
-    });
+    if (onChange) {
+      onChange({
+        position,
+        formattedAddress
+      });
+    }
     this.setState({
       mapVisible: false
     });
@@ -55,11 +79,11 @@ export default class LocationPicker extends Component {
   };
 
   render() {
-    const { value = {}, onChange, ...rest } = this.props;
+    const { value = {} as Value, onChange, ...rest } = this.props;
     const { mapVisible, position, formattedAddress, isMounted } = this.state;
     const { formattedAddress: inputFormattedAddress } = value;
 
-    let map = (
+    let map: any = (
       <AMap
         position={position}
         formattedAddress={formattedAddress}
@@ -69,7 +93,7 @@ export default class LocationPicker extends Component {
           if (!address) {
             message.error("根据经纬度转换地址失败");
             this.setState({
-              formattedAddress: null
+              formattedAddress: '',
             });
             return;
           }
