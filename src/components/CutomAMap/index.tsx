@@ -7,7 +7,7 @@ import PlaceSearch from "./PlaceSearch";
 let geocoder = null;
 const defaultMapWrapperHeight = 400;
 const titleHeight = 37;
-const spinHeight = 16;
+const spinHight = 16;
 
 export const geoCode = (address, callback) => {
   if (geocoder) {
@@ -94,17 +94,7 @@ export function AMap(props: AMapProps) {
     renderFormattedAddress = formattedAddress;
   }
 
-  let spinMarginTop = defaultMapWrapperHeight / 2 - spinHeight as any;
   const { height } = wrapperStyle;
-  if (height) {
-    if (typeof height === "number") {
-      spinMarginTop = height / 2 - spinHeight;
-    } else if (typeof height === "string" && height.endsWith('vh')) {
-      spinMarginTop = `calc(${parseInt(height, 10) / 2}vh - ${spinHeight}px)`;
-    }
-  }
-  // console.log("spinMarginTop", spinMarginTop);
-
   return (
     <Fragment>
       <p style={{ margin: '8px 0' }}>当前地址：{renderFormattedAddress}</p>
@@ -135,7 +125,15 @@ export function AMap(props: AMapProps) {
           }}
           version="1.4.14&plugin=AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch"
           zoom={13}
-          loading={<Spin style={{ width: "100%", marginTop: spinMarginTop }} />}
+          loading={
+            <Spin
+              style={{
+                position: 'absolute',
+                top: `calc(50% - ${spinHight / 2}px)`,
+                left: `calc(50% - ${spinHight / 2}px)`
+              }}
+            />
+          }
           {...mapProps}
         >
           {position && !isLocationPosition(locationPosition, position) ? (
