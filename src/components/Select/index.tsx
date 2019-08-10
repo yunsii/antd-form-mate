@@ -3,23 +3,21 @@ import { Select, Spin } from "antd";
 
 const { Option } = Select;
 
-class CustomSelect extends PureComponent {
-  handleChange = (value, option) => {
-    if (this.props.handleChange) {
-      this.props.handleChange(value, option);
-    }
-    if (this.props.onChange) {
-      this.props.onChange(value, option);
-    }
-  };
+export type Option = {
+  text: any;
+  value: any;
+  [k: string]: any;
+}
+export interface CustomSelectProps {
+  options: Option[],
+  loading?: boolean;
+}
 
+class CustomSelect extends PureComponent<CustomSelectProps> {
   render() {
     const {
-      value,
       options,
       loading,
-      onChange,
-      handleChange,
       ...rest
     } = this.props;
     const disabledStyle = {
@@ -28,9 +26,7 @@ class CustomSelect extends PureComponent {
     return (
       <Spin spinning={loading || false}>
         <Select
-          value={value}
           placeholder="请选择"
-          onChange={this.handleChange}
           {...rest}
         >
           {options &&
