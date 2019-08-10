@@ -1,3 +1,5 @@
+import { getBase64 } from './utils';
+
 export let commenStyle = { width: "100%" };
 export function setCommenStyle(options) {
   commenStyle = {
@@ -14,7 +16,15 @@ export function setCommenProps(options) {
   }
 }
 
-export let uploadFile;
+export let directUpload = true;
+export let uploadFile = async (file) => {
+  const dataUrl = await getBase64(file);
+  return {
+    data: {
+      path: dataUrl,
+    }
+  };
+};
 export let getUrl = response => {
   const { data } = response;
   return {
@@ -27,9 +37,10 @@ export let isUploadSuccess = response => {
 };
 
 export type UploadConfig = {
-  uploadFile: (file: any) => void;
+  uploadFile: (file: any) => any;
   isUploadSuccess: (response: any) => void;
   getUrl: (response: any) => { url: string, [k: string]: any };
+  directUpload?: boolean;
 }
 export function uploadConfig(options: UploadConfig) {
   if (options.uploadFile !== undefined) {
@@ -40,6 +51,9 @@ export function uploadConfig(options: UploadConfig) {
   }
   if (options.isUploadSuccess !== undefined) {
     isUploadSuccess = options.isUploadSuccess;
+  }
+  if (options.directUpload !== undefined) {
+    directUpload = options.directUpload;
   }
 }
 
