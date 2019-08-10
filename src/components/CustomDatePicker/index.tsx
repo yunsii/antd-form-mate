@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from "react";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import _isArray from "lodash/isArray";
 import { DatePicker } from "antd";
 
@@ -21,7 +21,11 @@ function setDateTimeValue(value) {
   return moment(value);
 }
 
-export class CustomRangePicker extends Component {
+export interface CustomRangePickerProps {
+  value?: string[] | number[] | Moment[];
+}
+
+export class CustomRangePicker extends Component<CustomRangePickerProps> {
   setValue = value => {
     if (!value) return null;
     if (!(_isArray(value) && value.length >= 2)) {
@@ -38,9 +42,13 @@ export class CustomRangePicker extends Component {
   }
 }
 
-export default class CustomDatePicker extends Component {
+export interface CustomDatePickerProps {
+  value?: string | number | Moment;
+}
+
+export default class CustomDatePicker extends Component<CustomDatePickerProps> {
   render() {
     const { value, ...rest } = this.props;
-    return <DatePicker {...rest} value={setDateTimeValue(value)} />;
+    return <DatePicker {...rest} value={setDateTimeValue(value) as any} />;
   }
 }
