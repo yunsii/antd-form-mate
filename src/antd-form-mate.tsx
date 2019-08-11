@@ -12,6 +12,7 @@ import CustomSelect from "./components/Select/index";
 import LocationPicker from "./components/LocationPicker/index";
 import PicturesWall from "./components/PicturesWall/index";
 import { CustomDragger } from "./components/Upload/index";
+import CustomCheckGroup from "./components/CustomCheckGroup/index";
 import { commenStyle, commenProps } from "./config";
 
 
@@ -136,6 +137,8 @@ function renderInputComponent(inputConfig) {
       return <CustomDragger {...commenProps} {...componentProps} />;
     case "location":
       return <LocationPicker {...commenProps} {...componentProps} />;
+    case "check-group":
+      return <CustomCheckGroup style={commenStyle} {...commenProps} {...componentProps} />;
     default:
       return (
         <Input

@@ -54,6 +54,28 @@ class BasicForm extends React.Component<FormProps, null> {
   setFormItemsConfig = (detail: any = {}, mode?: string) => {
     return [
       {
+        type: 'check-group',
+        field: 'checks',
+        formItemProps: {
+          label: '多选',
+        },
+        componentProps: {
+          options: [
+            {
+              text: '地球',
+              value: 'earth',
+            },
+            {
+              text: '银河',
+              value: 'galaxy',
+            },
+          ],
+          onChange: (value) => {
+            console.log(value);
+          }
+        },
+      },
+      {
         type: 'date',
         field: 'formatDate',
         formItemProps: {
@@ -160,6 +182,10 @@ class BasicForm extends React.Component<FormProps, null> {
         },
         componentProps: {
           options: [
+            {
+              text: '地球',
+              value: 'earth',
+            },
             {
               text: '银河',
               value: 'galaxy',
