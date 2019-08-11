@@ -16,3 +16,4 @@ export { default as LocationPicker } from './components/LocationPicker';
 export { default as PicturesWall } from './components/PicturesWall';
 export { default as Select } from './components/Select';
 export { default as Upload, CustomDragger as Dragger } from './components/Upload';
+export { default as CheckGroup } from './components/CustomCheckGroup';
