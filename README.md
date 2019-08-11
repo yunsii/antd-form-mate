@@ -14,7 +14,8 @@
 1. custom 自定义组件类型
 2. date 日期
 3. datetime 日期时间
-4. datetime-range 时间范围
+3. date-range 日期范围
+4. datetime-range 日期时间范围
 5. number
 6. select
 7. textarea
