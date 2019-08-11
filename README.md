@@ -26,6 +26,7 @@
 12. file-dragger
 13. string 默认类型
 14. location 地址，基于高德地图
+15. check-group 多选框
 
 ## API
 
