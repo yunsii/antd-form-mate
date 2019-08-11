@@ -8,6 +8,7 @@ export type Option = {
   value: any;
   [k: string]: any;
 }
+
 export interface CustomSelectProps {
   options: Option[],
   loading?: boolean;
