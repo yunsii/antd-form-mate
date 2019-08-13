@@ -227,29 +227,35 @@ export const createFormItems = (
 
     return (
       <FormConsumer key={field}>
-        {form =>
-          form ? (
-            <Form.Item
-              style={dense ? { marginBottom: 0, ...style } : style}
-              {...layout}
-              extra={extra || defaultExtra[type]}
-              {...restFormItemProps}
-            >
-              {type === "plain" ? (
-                <span className="ant-form-text">
-                  {restFieldProps.initialValue}
-                </span>
-              ) : (
-                  form &&
-                  form.getFieldDecorator(field, {
-                    ...restFieldProps,
-                    valuePropName: setValuePropName(type),
-                    rules: setDefaultCheckedTypeHint(type, rules)
-                  })(renderInputComponent({ ...componentProps, type, component }))
-                )}
-            </Form.Item>
-          ) : null
-        }
+        {form => {
+          if (form) {
+            let item: any = (
+              <span className="ant-form-text">
+                {restFieldProps.initialValue}
+              </span>
+            )
+            if (type !== 'plain') {
+              item = (
+                form.getFieldDecorator(field, {
+                  ...restFieldProps,
+                  valuePropName: setValuePropName(type),
+                  rules: setDefaultCheckedTypeHint(type, rules)
+                })(renderInputComponent({ ...componentProps, type, component }))
+              )
+            }
+            return (
+              <Form.Item
+                style={dense ? { marginBottom: 0, ...style } : style}
+                {...layout}
+                extra={extra || defaultExtra[type]}
+                {...restFormItemProps}
+              >
+                {item}
+              </Form.Item>
+            )
+          }
+          return null;
+        }}
       </FormConsumer>
     );
   });
