@@ -5,17 +5,26 @@
       font-size: 32px;
       color: #999;
     }
-    
+
     .ant-upload-select-picture-card .ant-upload-text {
       margin-top: 8px;
       color: #666;
     }
 
     .ant-upload-list-item-info {
+      // rewrite img wrapper style to center img
       >span {
         position: absolute;
         top: 50%;
         transform: translate(0, -50%);
+
+        // rewrite file icon style to center icon
+        i {
+          display: block;
+          position: relative;
+          left: 30px;
+          transform: unset;
+        }
       }
     }
   }
