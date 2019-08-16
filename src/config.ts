@@ -16,7 +16,6 @@ export function setCommenProps(options) {
   }
 }
 
-export let directUpload = true;
 export let uploadFile = async (file) => {
   const dataUrl = await getBase64(file);
   return {
@@ -40,7 +39,6 @@ export type UploadConfig = {
   uploadFile: (file: any) => any;
   isUploadSuccess: (response: any) => void;
   getUrl: (response: any) => { url: string, [k: string]: any };
-  directUpload?: boolean;
 }
 export function uploadConfig(options: UploadConfig) {
   if (options.uploadFile !== undefined) {
@@ -51,9 +49,6 @@ export function uploadConfig(options: UploadConfig) {
   }
   if (options.isUploadSuccess !== undefined) {
     isUploadSuccess = options.isUploadSuccess;
-  }
-  if (options.directUpload !== undefined) {
-    directUpload = options.directUpload;
   }
 }
 

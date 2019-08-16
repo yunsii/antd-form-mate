@@ -169,7 +169,6 @@ export interface CustomUploadPorps extends UploadProps {
   fileSizeLimit?: number;
   countLimitHint?: (countLimit: number) => string;
   sizeLimitHint?: (sizeLimit: number) => string;
-  directUpload?: boolean;
 }
 
 // https://github.com/react-component/upload/blob/master/examples/customRequest.js
