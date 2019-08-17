@@ -178,6 +178,7 @@ export type ComponentType =
   | "slider"
   | "file-dragger"
   | "location"
+  | "check-group"
   | string;
 
 export interface ItemConfig {
