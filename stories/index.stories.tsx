@@ -76,6 +76,28 @@ class BasicForm extends React.Component<FormProps, null> {
         },
       },
       {
+        type: 'radio-group',
+        field: 'radio',
+        formItemProps: {
+          label: '单选',
+        },
+        componentProps: {
+          options: [
+            {
+              text: '地球',
+              value: 'earth',
+            },
+            {
+              text: '银河',
+              value: 'galaxy',
+            },
+          ],
+          onChange: (value) => {
+            console.log(value);
+          }
+        },
+      },
+      {
         type: 'date',
         field: 'formatDate',
         formItemProps: {

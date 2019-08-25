@@ -13,6 +13,7 @@ import LocationPicker from "./components/LocationPicker/index";
 import PicturesWall from "./components/PicturesWall/index";
 import { CustomDragger } from "./components/Upload/index";
 import CustomCheckGroup from "./components/CustomCheckGroup/index";
+import CustomRadioGroup from "./components/CustomRadioGroup/index";
 import { commenStyle, commenProps } from "./config";
 
 
@@ -138,7 +139,10 @@ function renderInputComponent(inputConfig) {
     case "location":
       return <LocationPicker {...commenProps} {...componentProps} />;
     case "check-group":
-      return <CustomCheckGroup style={commenStyle} {...commenProps} {...componentProps} />;
+      const { allowClear, ...rest } = commenProps as any;
+      return <CustomCheckGroup style={commenStyle} {...rest} {...componentProps} />;
+    case "radio-group":
+      return <CustomRadioGroup style={commenStyle} {...commenProps} {...componentProps} />;
     default:
       return (
         <Input
@@ -179,6 +183,7 @@ export type ComponentType =
   | "file-dragger"
   | "location"
   | "check-group"
+  | "radio-group"
   | string;
 
 export interface ItemConfig {
