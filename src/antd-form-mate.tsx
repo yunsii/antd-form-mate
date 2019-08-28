@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Form, Input, InputNumber, Slider } from "antd";
+import { trim } from 'validator';
 import { FormItemProps } from "antd/lib/form";
 import { WrappedFormUtils, GetFieldDecoratorOptions } from "antd/lib/form/Form";
 import { ColProps } from "antd/lib/col";
@@ -31,7 +32,7 @@ export let defaultTypeHint = {
 };
 
 export type DefaultExtraOptions = {
-  [key in ComponentType]: any;
+  [key in ComponentType]?: any;
 }
 export function setDefaultExtra(options: DefaultExtraOptions) {
   defaultExtra = {
@@ -155,10 +156,26 @@ function renderInputComponent(inputConfig) {
   }
 }
 
-function setDefaultCheckedTypeHint(type, rules) {
-  let result = [...rules];
+function setDefaultCheckedTypeHint(type: ComponentType, rules) {
+  let result: any[] = [];
   if (type === "email") {
-    result = [{ type: "email", message: defaultTypeHint.email }, ...rules];
+    result = [
+      {
+        type: "email",
+        message: defaultTypeHint.email
+      },
+      ...rules,
+    ];
+  } else if (["textarea", "string", "email"].includes(type)) {
+    result = [
+      {
+        transform(value) {
+          console.log(trim(value))
+          return trim(value);
+        }
+      },
+      ...rules,
+    ]
   }
   return result;
 }
@@ -168,6 +185,7 @@ export interface CustomFormItemProps extends FormItemProps {
 }
 
 export type ComponentType =
+  | "plain"
   | "custom"
   | "date"
   | "datetime"
@@ -175,7 +193,6 @@ export type ComponentType =
   | "datetime-range"
   | "number"
   | "select"
-  | "textarea"
   | "password"
   | "picture"
   | "switch"
@@ -184,10 +201,13 @@ export type ComponentType =
   | "location"
   | "check-group"
   | "radio-group"
-  | string;
+  /** string input, no whitespace */
+  | "textarea"
+  | "email"
+  | "string"
 
 export interface ItemConfig {
-  type: ComponentType;
+  type?: ComponentType;
   field: string;
   formItemProps?: CustomFormItemProps;
   fieldProps?: GetFieldDecoratorOptions;
@@ -206,7 +226,7 @@ export const createFormItems = (
 ) => {
   return itemsConfig.map(item => {
     const {
-      type,
+      type = "string",
       field,
       formItemProps = {} as CustomFormItemProps,
       fieldProps = {},
@@ -221,7 +241,7 @@ export const createFormItems = (
       labelCol,
       ...restFormItemProps
     } = formItemProps;
-    const { rules = [], ...restFieldProps } = fieldProps;
+    const { rules = [], initialValue, ...restFieldProps } = fieldProps;
     const itemLayout = wrapperCol && labelCol ? { wrapperCol, labelCol } : null;
 
     let layout = itemLayout || globalLayout || defaultLayout;
@@ -237,15 +257,15 @@ export const createFormItems = (
           if (form) {
             let item: any = (
               <span className="ant-form-text">
-                {restFieldProps.initialValue}
+                {initialValue}
               </span>
             )
             if (type !== 'plain') {
               item = (
                 form.getFieldDecorator(field, {
-                  ...restFieldProps,
                   valuePropName: setValuePropName(type),
-                  rules: setDefaultCheckedTypeHint(type, rules)
+                  rules: setDefaultCheckedTypeHint(type, rules),
+                  ...restFieldProps,
                 })(renderInputComponent({ ...componentProps, type, component }))
               )
             }

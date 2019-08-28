@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import * as moment from 'moment';
 import { Form, Button } from 'antd';
 // import { WrappedFormUtils } from 'antd/lib/form/Form';
-import FormMate, { config, AMap } from '../src';
+import FormMate, { config, AMap, ItemConfig } from '../src';
 
 const { FormProvider, createFormItems, setDefaultExtra } = FormMate;
 const { setCommenProps } = config;
@@ -51,7 +51,7 @@ export interface FormProps {
 }
 
 class BasicForm extends React.Component<FormProps, null> {
-  setFormItemsConfig = (detail: any = {}, mode?: string) => {
+  setFormItemsConfig = (detail: any = {}, mode?: string): ItemConfig[] => {
     return [
       {
         type: 'check-group',
@@ -260,7 +260,7 @@ class BasicForm extends React.Component<FormProps, null> {
         },
       },
       {
-        type: 'default/string',
+        type: 'string',
         field: 'name',
         formItemProps: {
           label: '姓名',
@@ -309,7 +309,7 @@ storiesOf('ant-form-mate', module)
   .add('basic', () => <BasicFormDemo />);
 
 class AdvancedFormPro extends React.Component<FormProps, null> {
-  setFormItemsConfig = (detail: any = {}, mode?: string) => {
+  setFormItemsConfig = (detail: any = {}, mode?: string): ItemConfig[] => {
     return [
       {
         type: 'picture',
