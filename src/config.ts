@@ -40,7 +40,7 @@ export type UploadConfig = {
   isUploadSuccess: (response: any) => void;
   getUrl: (response: any) => { url: string, [k: string]: any };
 }
-export function uploadConfig(options: UploadConfig) {
+export function setUploadConfig(options: UploadConfig) {
   if (options.uploadFile !== undefined) {
     uploadFile = options.uploadFile;
   }
@@ -57,7 +57,7 @@ export let imageFormatLimit = '.jpg,.jpeg,.bmp,.png,.gif';
 export type PictureConfig = {
   imageFormatLimit?: string,
 }
-export function pictureConfig(options: PictureConfig) {
+export function setPictureConfig(options: PictureConfig) {
   if (options.imageFormatLimit !== undefined) {
     imageFormatLimit = options.imageFormatLimit;
   }
