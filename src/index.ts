@@ -1,8 +1,18 @@
 import * as FormMateConfig from './config';
+import * as FormMateLocale from './locale';
 import * as FormMate from './antd-form-mate';
 
 export default FormMate;
-export const config = FormMateConfig;
+export const config = {
+  setCommenStyle: FormMateConfig.setCommenStyle,
+  setCommenProps: FormMateConfig.setCommenProps,
+  UploadConfig: FormMateConfig.setUploadConfig,
+  setPictureConfig: FormMateConfig.setPictureConfig,
+};
+export const locale = {
+  setPicturesWallLocale: FormMateLocale.setPicturesWallLocale,
+  setDraggerLocale: FormMateLocale.setDraggerLocale,
+};
 
 // export interface. reference: https://github.com/babel/babel/issues/8361
 export type ComponentType = FormMate.ComponentType;
