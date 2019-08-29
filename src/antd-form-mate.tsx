@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Form, Input, InputNumber, Slider } from "antd";
-import { trim } from 'validator';
 import { FormItemProps } from "antd/lib/form";
 import { WrappedFormUtils, GetFieldDecoratorOptions } from "antd/lib/form/Form";
 import { ColProps } from "antd/lib/col";
@@ -166,16 +165,6 @@ function setDefaultCheckedTypeHint(type: ComponentType, rules) {
       },
       ...rules,
     ];
-  } else if (["textarea", "string", "email"].includes(type)) {
-    result = [
-      {
-        transform(value) {
-          console.log(trim(value))
-          return trim(value);
-        }
-      },
-      ...rules,
-    ]
   }
   return result;
 }
