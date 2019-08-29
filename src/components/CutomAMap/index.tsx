@@ -49,6 +49,7 @@ export interface AMapProps {
   getFormattedAddress?: (formattedAddress: string) => void;
   onCreated?: (map: any) => void;
   mapProps?: MapProps;
+  children?: React.ReactChildren;
 }
 
 export function AMap(props: AMapProps) {
@@ -60,6 +61,7 @@ export function AMap(props: AMapProps) {
     getFormattedAddress,
     onCreated,
     mapProps,
+    children,
   } = props;
   const [locationPosition, setLocationPosition] = useState({});
 
@@ -179,6 +181,7 @@ export function AMap(props: AMapProps) {
               }
             }}
           />
+          {children}
         </Map>
       </div>
     </Fragment>
