@@ -72,7 +72,8 @@ class BasicForm extends React.Component<FormProps, null> {
           ],
           onChange: (value) => {
             console.log(value);
-          }
+          },
+          cols: 3,
         },
       },
       {
@@ -94,7 +95,8 @@ class BasicForm extends React.Component<FormProps, null> {
           ],
           onChange: (value) => {
             console.log(value);
-          }
+          },
+          cols: 2,
         },
       },
       {
