@@ -4,7 +4,7 @@ import { UploadProps } from 'antd/lib/upload';
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import { uploadFile, isUploadSuccess, getUrl } from '../../config';
-import { draggerLacale } from '../../locale';
+import { draggerLocale } from '../../locale';
 
 const { Dragger } = Upload as any;
 
@@ -151,7 +151,7 @@ export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerSt
         <p className="ant-upload-drag-icon">
           <Icon type="inbox" />
         </p>
-        <p className="ant-upload-text">{draggerLacale.upload}</p>
+        <p className="ant-upload-text">{draggerLocale.upload}</p>
         {/* <p className="ant-upload-hint">
           Support for a single or bulk upload. Strictly prohibit from uploading company data or other
           band files

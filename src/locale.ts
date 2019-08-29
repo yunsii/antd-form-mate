@@ -1,27 +1,27 @@
-export const picturesWallLacale = {
+export const picturesWallLocale = {
   upload: '上传',
 }
 
-export type PicturesWallLacale = {
+export type PicturesWallLocale = {
   upload?: string;
 }
 
-export function setPicturesWallLocalLocale(config: PicturesWallLacale) {
+export function setPicturesWallLocale(config: PicturesWallLocale) {
   if (config.upload !== undefined) {
-    picturesWallLacale.upload = config.upload;
+    picturesWallLocale.upload = config.upload;
   }
 }
 
-export const draggerLacale = {
+export const draggerLocale = {
   upload: '点击或拖拽文件到此处上传',
 }
 
-export type DraggerLacale = {
+export type DraggerLocale = {
   upload?: string;
 }
 
-export function setDraggerLacale(config: DraggerLacale) {
+export function setDraggerLocale(config: DraggerLocale) {
   if (config.upload !== undefined) {
-    draggerLacale.upload = config.upload;
+    draggerLocale.upload = config.upload;
   }
 }

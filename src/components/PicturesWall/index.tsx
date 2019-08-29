@@ -9,7 +9,7 @@ import CustomUpload, {
   setFileList,
   CustomUploadPorps,
 } from "../Upload/index";
-import { picturesWallLacale } from '../../locale';
+import { picturesWallLocale } from '../../locale';
 import { imageFormatLimit } from '../../config';
 import { getBase64 } from '../../utils';
 import styles from "./index.less";
@@ -81,7 +81,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text">{picturesWallLacale.upload}</div>
+        <div className="ant-upload-text">{picturesWallLocale.upload}</div>
       </div>
     );
     return (
