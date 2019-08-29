@@ -13,7 +13,19 @@ export interface CustomCheckGroupProps extends CheckboxGroupProps {
 
 export default class CustomCheckGroup extends React.Component<CustomCheckGroupProps> {
   render() {
-    const { cols = 3, options = [], ...rest } = this.props;
+    const { cols, options = [], ...rest } = this.props;
+    if (!cols) {
+      return (
+        <Checkbox.Group {...rest}>
+          {options && (options as Option[]).map((item) => {
+            const { value, ...rest } = item;
+            return (
+              <Checkbox value={item.value} {...rest}>{item.text}</Checkbox>
+            )
+          })}
+        </Checkbox.Group>
+      )
+    }
     const span = 24 / cols;
     return (
       <Checkbox.Group {...rest}>
