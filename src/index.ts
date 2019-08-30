@@ -6,7 +6,7 @@ export default FormMate;
 export const config = {
   setCommenStyle: FormMateConfig.setCommenStyle,
   setCommenProps: FormMateConfig.setCommenProps,
-  UploadConfig: FormMateConfig.setUploadConfig,
+  uploadConfig: FormMateConfig.setUploadConfig,
   setPictureConfig: FormMateConfig.setPictureConfig,
 };
 export const locale = {
