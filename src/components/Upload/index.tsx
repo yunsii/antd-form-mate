@@ -37,11 +37,11 @@ const commonBeforeUpload = (limit) => (file, fileList) => {
 }
 
 export function processFileList(fileList) {
-  return fileList.map(item => {
+  return fileList.map(async item => {
     if (item.response) {
       return {
         ...item,
-        ...getUrl(item.response) // uploading 状态 无 response 属性
+        ...await getUrl(item.response, item.originFileObj), // uploading 状态 无 response 属性
       };
     }
     return item;
