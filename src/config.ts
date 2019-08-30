@@ -37,7 +37,7 @@ export let isUploadSuccess = response => {
 
 export type UploadConfig = {
   uploadFile: (file: any) => any;
-  isUploadSuccess: (response: any) => void;
+  isUploadSuccess: (response: any) => boolean;
   getUrl: (response: any) => { url: string, [k: string]: any };
 }
 export function setUploadConfig(options: UploadConfig) {
