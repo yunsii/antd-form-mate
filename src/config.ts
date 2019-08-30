@@ -36,9 +36,9 @@ export let isUploadSuccess = response => {
 };
 
 export type UploadConfig = {
-  uploadFile: (file: any) => any;
-  isUploadSuccess: (response: any) => boolean;
-  getUrl: (response: any) => { url: string, [k: string]: any };
+  uploadFile?: (file: any) => any;
+  isUploadSuccess?: (response: any) => boolean;
+  getUrl?: (response: any) => { url: string, [k: string]: any };
 }
 export function setUploadConfig(options: UploadConfig) {
   if (options.uploadFile !== undefined) {
