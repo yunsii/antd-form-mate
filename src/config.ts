@@ -24,10 +24,10 @@ export let uploadFile = async (file) => {
     }
   };
 };
-export let getUrl = async (response, originFileObj) => {
-  const dataUrl = await getBase64(originFileObj);
+export let getUrl = (response: any = {}) => {
+  const { data } = response;
   return {
-    url: dataUrl,
+    url: data.path,
   };
 };
 export let isUploadSuccess = response => {
@@ -38,7 +38,7 @@ export let isUploadSuccess = response => {
 export type UploadConfig = {
   uploadFile?: (file: any) => any;
   isUploadSuccess?: (response: any) => boolean;
-  getUrl?: (response: any, originFileObj: any) => Promise<{ url: string, [k: string]: any }>;
+  getUrl?: (response: any) => { url: string, [k: string]: any };
 }
 export function setUploadConfig(options: UploadConfig) {
   if (options.uploadFile !== undefined) {

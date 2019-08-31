@@ -37,11 +37,11 @@ const commonBeforeUpload = (limit) => (file, fileList) => {
 }
 
 export function processFileList(fileList) {
-  return fileList.map(async item => {
+  return fileList.map(item => {
     if (item.response) {
       return {
         ...item,
-        ...await getUrl(item.response, item.originFileObj), // uploading 状态 无 response 属性
+        ...getUrl(item.response), // uploading 状态 无 response 属性
       };
     }
     return item;
@@ -146,6 +146,10 @@ export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerSt
           countLimitHint: countLimitHint || defaultCountLimitHint,
           sizeLimitHint: sizeLimitHint || defaultSizeLimitHint,
         })}
+        onPreview={(file) => {
+          console.log(file);
+          window.open(file.url);
+        }}
         {...rest}
       >
         <p className="ant-upload-drag-icon">

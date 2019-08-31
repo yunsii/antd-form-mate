@@ -68,9 +68,9 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   };
 
   handleChange = ({ fileList }) => {
-    console.log(fileList);
     const { onChange } = this.props;
     const formatFiles = processFileList(fileList);
+    // console.log(formatFiles);
     if (onChange) {
       onChange(filterFileList(formatFiles));
     }
