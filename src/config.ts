@@ -20,15 +20,14 @@ export let uploadFile = async (file) => {
   const dataUrl = await getBase64(file);
   return {
     data: {
-      path: dataUrl,
+      url: dataUrl,
+      thumbUrl: dataUrl,
     }
   };
 };
 export let getUrl = (response: any = {}) => {
   const { data } = response;
-  return {
-    url: data.path,
-  };
+  return data.url;
 };
 export let isUploadSuccess = response => {
   const { data } = response;
@@ -38,7 +37,7 @@ export let isUploadSuccess = response => {
 export type UploadConfig = {
   uploadFile?: (file: any) => any;
   isUploadSuccess?: (response: any) => boolean;
-  getUrl?: (response: any) => { url: string, [k: string]: any };
+  getUrl?: (response: any) => string;
 }
 export function setUploadConfig(options: UploadConfig) {
   if (options.uploadFile !== undefined) {

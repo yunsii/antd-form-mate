@@ -4,13 +4,11 @@ import { Icon, Modal } from "antd";
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import CustomUpload, {
-  processFileList,
-  filterFileList,
   setFileList,
   CustomUploadPorps,
 } from "../Upload/index";
 import { picturesWallLocale } from '../../locale';
-import { imageFormatLimit } from '../../config';
+import { imageFormatLimit, getUrl } from '../../config';
 import { getBase64 } from '../../utils';
 import styles from "./index.less";
 
@@ -57,22 +55,21 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   handleCancel = () => this.setState({ previewVisible: false });
 
   handlePreview = async file => {
-    if (!file.url && !file.preview) {
+    if (!file.response && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
 
     this.setState({
-      previewImage: file.url || file.preview,
+      previewImage: getUrl(file.response) || file.preview,
       previewVisible: true,
     });
   };
 
   handleChange = ({ fileList }) => {
+    console.log('pc', fileList);
     const { onChange } = this.props;
-    const formatFiles = processFileList(fileList);
-    // console.log(formatFiles);
     if (onChange) {
-      onChange(filterFileList(formatFiles));
+      onChange(fileList.filter(item => item.status !== undefined));
     }
   };
 
@@ -84,6 +81,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
         <div className="ant-upload-text">{picturesWallLocale.upload}</div>
       </div>
     );
+    console.log('pw render', fileList);
     return (
       <div className={`${styles.pictureWall} clearfix`}>
         <CustomUpload
@@ -94,7 +92,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
           onChange={this.handleChange}
           listType="picture-card"
         >
-          {fileList.length >= (this.props.filesCountLimit || 1)  ? null : uploadButton}
+          {fileList.length >= (this.props.filesCountLimit || 1) ? null : uploadButton}
         </CustomUpload>
         <Modal
           visible={previewVisible}

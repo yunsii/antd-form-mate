@@ -3,7 +3,7 @@ import { Upload, Icon, message } from "antd";
 import { UploadProps } from 'antd/lib/upload';
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
-import { uploadFile, isUploadSuccess, getUrl } from '../../config';
+import { uploadFile, isUploadSuccess } from '../../config';
 import { draggerLocale } from '../../locale';
 
 const { Dragger } = Upload as any;
@@ -11,45 +11,50 @@ const { Dragger } = Upload as any;
 const defaultFilesCountLimit = 1;
 const defaultFileSizeLimit = 100 * 1024 * 1024;
 
-const defaultCountLimitHint = (countLimit: number) => `超过最大数量：${countLimit}`;
+const defaultMimeLimitHint = (accept: string) => `上传文件类型错误，仅限 ${accept}`;
+const defaultCountLimitHint = (countLimit: number) => `仅限上传 ${countLimit} 个文件`;
 const defaultSizeLimitHint = (sizeLimit: number) => `图片必须小于 ${sizeLimit} B`;
 
-const commonBeforeUpload = (limit) => (file, fileList) => {
+const commonBeforeUpload = (limit) => (file) => {
   const {
     filesCountLimit = defaultFilesCountLimit,
     fileSizeLimit = defaultFileSizeLimit,
+    accept,
+    mimeLimitHint = defaultMimeLimitHint,
     countLimitHint = defaultCountLimitHint,
     sizeLimitHint = defaultSizeLimitHint,
+
+    fileList: uploadedFileList,
   } = limit;
+  console.log(file, uploadedFileList);
+  console.log(filesCountLimit, fileSizeLimit, accept);
+
+  if (accept && typeof accept === 'string') {
+    const mimeTypeReg = new RegExp(accept.replace(/,/g, "|"));
+    const { name, type } = file;
+    if (!mimeTypeReg.test(name) || !mimeTypeReg.test(type)) {
+      message.error(mimeLimitHint(accept));
+      return false;
+    } 
+  }
   // const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   // if (!isJpgOrPng) {
   //   message.error('You can only upload JPG/PNG file!');
   // }
-  const isLtCount = fileList.length <= filesCountLimit;
+  const isLtCount = uploadedFileList.length < filesCountLimit;
   if (!isLtCount) {
     message.error(countLimitHint(filesCountLimit))
   }
-  const isLtSize = file.size < fileSizeLimit;
+  const isLtSize = file.size <= fileSizeLimit;
   if (!isLtSize) {
     message.error(sizeLimitHint(fileSizeLimit));
   }
+  console.log('isLtCount && isLtSize', isLtCount && isLtSize)
   return isLtCount && isLtSize;
 }
 
-export function processFileList(fileList) {
-  return fileList.map(item => {
-    if (item.response) {
-      return {
-        ...item,
-        ...getUrl(item.response), // uploading 状态 无 response 属性
-      };
-    }
-    return item;
-  });
-}
-
 export function filterFileList(fileList) {
-  return fileList.filter(item => item.status === "uploading" || item.url);
+  return fileList.filter(item => item.status !== undefined);
 }
 
 const customRequest = uploadFunction => async ({
@@ -111,11 +116,8 @@ export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerSt
 
   handleChange = ({ fileList }) => {
     const { onChange } = this.props;
-    let newFileList = [...fileList];
-    const formatFiles = processFileList(newFileList);
-
     if (onChange) {
-      onChange(filterFileList(formatFiles));
+      onChange(filterFileList(fileList));
     }
   };
 
@@ -145,11 +147,9 @@ export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerSt
           accept,
           countLimitHint: countLimitHint || defaultCountLimitHint,
           sizeLimitHint: sizeLimitHint || defaultSizeLimitHint,
+
+          fileList,
         })}
-        onPreview={(file) => {
-          console.log(file);
-          window.open(file.url);
-        }}
         {...rest}
       >
         <p className="ant-upload-drag-icon">
@@ -181,10 +181,8 @@ export default function CustomUpload(props: CustomUploadPorps) {
     accept,
     listType,
     fileList,
-    onPreview,
     onChange,
     children,
-    disabled,
 
     filesCountLimit,
     fileSizeLimit,
@@ -201,15 +199,15 @@ export default function CustomUpload(props: CustomUploadPorps) {
       customRequest={customRequest(uploadFunction)}
       listType={listType || "text"}
       fileList={fileList}
-      onPreview={onPreview}
       onChange={onChange}
-      disabled={disabled}
       beforeUpload={commonBeforeUpload({
         filesCountLimit,
         fileSizeLimit,
         accept,
         countLimitHint,
         sizeLimitHint,
+
+        fileList,
       })}
       {...rest}
     >
