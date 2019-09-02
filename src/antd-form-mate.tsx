@@ -252,6 +252,7 @@ export const createFormItems = (
             if (type !== 'plain') {
               item = (
                 form.getFieldDecorator(field, {
+                  initialValue,
                   valuePropName: setValuePropName(type),
                   rules: setDefaultCheckedTypeHint(type, rules),
                   ...restFieldProps,
