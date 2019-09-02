@@ -4,7 +4,7 @@
   "version": "0.2.4",
   "main": "./dist/index.js",
   "dependencies": {
-    "antd": "^3.21.4",
+    "antd": "^3.22.2",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-amap": "^1.2.8",
