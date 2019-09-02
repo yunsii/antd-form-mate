@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Form, Button } from 'antd';
 // import { WrappedFormUtils } from 'antd/lib/form/Form';
 import FormMate, { config, AMap, ItemConfig } from '../src';
+import PicturesWall from './PictureWall';
 
 const { FormProvider, createFormItems, setDefaultExtra } = FormMate;
 const { setCommenProps } = config;
@@ -322,6 +323,9 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
         fieldProps: {
           initialValue: detail.picture,
         },
+        componentProps: {
+          filesCountLimit: 3,
+        },
       },
       {
         type: 'file-dragger',
@@ -384,3 +388,6 @@ storiesOf('ant-form-mate', module)
 
 storiesOf('custom components', module)
   .add('amap', () => <AMap wrapperStyle={{ height: '100vh' }} />);
+
+storiesOf('antd official components', module)
+  .add('PictureWall', () => <PicturesWall />);
