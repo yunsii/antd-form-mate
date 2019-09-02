@@ -59,6 +59,9 @@ class BasicForm extends React.Component<FormProps, null> {
         formItemProps: {
           label: '多选',
         },
+        fieldProps: {
+          initialValue: 'earth',
+        },
         componentProps: {
           options: [
             {
@@ -82,6 +85,9 @@ class BasicForm extends React.Component<FormProps, null> {
         formItemProps: {
           label: '单选',
         },
+        fieldProps: {
+          initialValue: 'earth',
+        },
         componentProps: {
           options: [
             {
@@ -93,6 +99,7 @@ class BasicForm extends React.Component<FormProps, null> {
               value: 'galaxy',
             },
           ],
+          disabled: true,
           onChange: (value) => {
             console.log(value);
           },
@@ -202,7 +209,7 @@ class BasicForm extends React.Component<FormProps, null> {
           label: '选择',
         },
         fieldProps: {
-          initialValue: detail.select,
+          initialValue: 'earth',
         },
         componentProps: {
           options: [
