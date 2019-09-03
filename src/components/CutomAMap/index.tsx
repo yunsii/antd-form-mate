@@ -3,6 +3,7 @@ import { message, Spin } from "antd";
 import { Map, Marker, MapProps } from "react-amap";
 import Geolocation from "react-amap-plugin-custom-geolocation";
 import PlaceSearch from "./PlaceSearch";
+import { isDevelopEnv } from '../../utils';
 
 let geocoder = null;
 const defaultMapWrapperHeight = 400;
@@ -40,8 +41,6 @@ export interface AMapProps {
     longitude: number,
     latitude: number,
   };
-  /** human-readable address */
-  formattedAddress?: string;
   /** AMap wrapper style */
   wrapperStyle?: CSSProperties;
   onClick?: (longitude: number, latitude: number) => void;
@@ -56,7 +55,6 @@ export function AMap(props: AMapProps) {
   const {
     position,
     wrapperStyle = {},
-    formattedAddress,
     onClick,
     getFormattedAddress,
     onCreated,
@@ -64,6 +62,7 @@ export function AMap(props: AMapProps) {
     children,
   } = props;
   const [locationPosition, setLocationPosition] = useState({});
+  const [formattedAddress, setFormattedAddress] = useState();
 
   const handleCreatedMap = map => {
     if (onCreated) {
@@ -80,11 +79,11 @@ export function AMap(props: AMapProps) {
   const regeoCode = (longitude, latitude) => {
     if (geocoder) {
       (geocoder as any).getAddress([longitude, latitude], (status, result) => {
+        const address = status === "complete" ? result.regeocode.formattedAddress : null;
         if (getFormattedAddress) {
-          getFormattedAddress(
-            status === "complete" ? result.regeocode.formattedAddress : null
-          );
+          getFormattedAddress(address);
         }
+        setFormattedAddress(address);
       });
     }
   };
@@ -95,6 +94,10 @@ export function AMap(props: AMapProps) {
   if (formattedAddress) {
     renderFormattedAddress = formattedAddress;
   }
+
+  const centerProp = position ? {
+    center: position,
+  } : {};
 
   const { height } = wrapperStyle;
   return (
@@ -110,15 +113,16 @@ export function AMap(props: AMapProps) {
         <Map
           amapkey="1460ee2529622747f8faacac3e860bd6"
           plugins={plugins as any}
-          center={position}
           events={{
             created: handleCreatedMap,
             click: event => {
               const { lnglat } = event;
-              console.log(
-                "click position:",
-                `${lnglat.getLng()}, ${lnglat.getLat()}`
-              );
+              if (isDevelopEnv()) {
+                console.log(
+                  "click position:",
+                  `${lnglat.getLng()}, ${lnglat.getLat()}`
+                );
+              }
               if (onClick) {
                 onClick(lnglat.getLng(), lnglat.getLat());
               }
@@ -136,6 +140,7 @@ export function AMap(props: AMapProps) {
               }}
             />
           }
+          {...centerProp}
           {...mapProps}
         >
           {position && !isLocationPosition(locationPosition, position) ? (
@@ -158,6 +163,7 @@ export function AMap(props: AMapProps) {
                   if (getFormattedAddress) {
                     getFormattedAddress(result.formattedAddress);
                   }
+                  setFormattedAddress(result.formattedAddress);
                 }); // 返回定位信息
                 window.AMap.event.addListener(
                   o,
@@ -176,9 +182,11 @@ export function AMap(props: AMapProps) {
               if (onClick) {
                 onClick(poi.location.lng, poi.location.lat);
               }
+              const address = `${poi.district}${poi.address}${poi.name}`
               if (getFormattedAddress) {
-                getFormattedAddress(`${poi.district}${poi.address}${poi.name}`);
+                getFormattedAddress(address);
               }
+              setFormattedAddress(address);
             }}
           />
           {children}
