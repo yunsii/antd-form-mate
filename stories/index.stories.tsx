@@ -7,6 +7,7 @@ import { Form, Button } from 'antd';
 import FormMate, { config, AMap, ItemConfig } from '../src';
 import PicturesWall from './PictureWall';
 
+const { useState } = React;
 const { FormProvider, createFormItems, setDefaultExtra } = FormMate;
 const { setCommenProps } = config;
 
@@ -332,7 +333,8 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
           initialValue: detail.picture,
         },
         componentProps: {
-          filesCountLimit: 3,
+          filesCountLimit: 2,
+          accept: 'image/*',
         },
       },
       {
@@ -344,6 +346,9 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
         fieldProps: {
           initialValue: detail.file,
         },
+        componentProps: {
+          accept: '.txt',
+        }
       },
       {
         type: 'location',
@@ -394,8 +399,20 @@ const AdvancedFormProDemo = Form.create()(AdvancedFormPro as any);
 storiesOf('ant-form-mate', module)
   .add('advanced', () => <AdvancedFormProDemo />);
 
+
+function AMapDemo(props) {
+  const [position, setPosition] = useState();
+  return (
+    <AMap
+      wrapperStyle={{ height: '100vh' }}
+      position={position}
+      onClick={(longitude, latitude) => setPosition({ longitude, latitude })}
+    />
+  )
+}
+
 storiesOf('custom components', module)
-  .add('amap', () => <AMap wrapperStyle={{ height: '100vh' }} />);
+  .add('amap', () => <AMapDemo />);
 
 storiesOf('antd official components', module)
   .add('PictureWall', () => <PicturesWall />);
