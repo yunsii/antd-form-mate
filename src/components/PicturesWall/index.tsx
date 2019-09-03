@@ -6,6 +6,7 @@ import _isArray from "lodash/isArray";
 import CustomUpload, {
   setFileList,
   CustomUploadPorps,
+  filterFileList,
 } from "../Upload/index";
 import { picturesWallLocale } from '../../locale';
 import { imageFormatLimit, getUrl } from '../../config';
@@ -41,7 +42,6 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
 
   constructor(props: PicturesWallProps) {
     super(props);
-    // console.log(props.value);
     this.state = {
       previewVisible: false,
       previewImage: "",
@@ -66,10 +66,9 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   };
 
   handleChange = ({ fileList }) => {
-    console.log('pc', fileList);
     const { onChange } = this.props;
     if (onChange) {
-      onChange(fileList.filter(item => item.status !== undefined));
+      onChange(filterFileList(fileList));
     }
   };
 
@@ -81,12 +80,11 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
         <div className="ant-upload-text">{picturesWallLocale.upload}</div>
       </div>
     );
-    console.log('pw render', fileList);
     return (
       <div className={`${styles.pictureWall} clearfix`}>
         <CustomUpload
-          {...this.props}
           accept={imageFormatLimit}
+          {...this.props}
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}

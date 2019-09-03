@@ -26,16 +26,14 @@ const commonBeforeUpload = (limit) => (file) => {
 
     fileList: uploadedFileList,
   } = limit;
-  console.log(file, uploadedFileList);
-  console.log(filesCountLimit, fileSizeLimit, accept);
 
   if (accept && typeof accept === 'string') {
     const mimeTypeReg = new RegExp(accept.replace(/,/g, "|"));
     const { name, type } = file;
-    if (!mimeTypeReg.test(name) || !mimeTypeReg.test(type)) {
+    if (!mimeTypeReg.test(name) && !mimeTypeReg.test(type)) {
       message.error(mimeLimitHint(accept));
       return false;
-    } 
+    }
   }
   // const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   // if (!isJpgOrPng) {
@@ -49,12 +47,12 @@ const commonBeforeUpload = (limit) => (file) => {
   if (!isLtSize) {
     message.error(sizeLimitHint(fileSizeLimit));
   }
-  console.log('isLtCount && isLtSize', isLtCount && isLtSize)
   return isLtCount && isLtSize;
 }
 
 export function filterFileList(fileList) {
-  return fileList.filter(item => item.status !== undefined);
+  // console.log(fileList);
+  return fileList.filter(item => item.status !== undefined && item.status !== 'error');
 }
 
 const customRequest = uploadFunction => async ({
@@ -115,6 +113,7 @@ export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerSt
 
 
   handleChange = ({ fileList }) => {
+    // console.log(fileList);
     const { onChange } = this.props;
     if (onChange) {
       onChange(filterFileList(fileList));
@@ -150,6 +149,7 @@ export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerSt
 
           fileList,
         })}
+        accept={accept}
         {...rest}
       >
         <p className="ant-upload-drag-icon">
