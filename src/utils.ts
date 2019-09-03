@@ -6,3 +6,7 @@ export function getBase64(file) {
     reader.onerror = error => reject(error);
   });
 }
+
+export function isDevelopEnv() {
+  return process.env.NODE_ENV === 'development';
+}
