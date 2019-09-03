@@ -61,7 +61,7 @@ class BasicForm extends React.Component<FormProps, null> {
           label: '多选',
         },
         fieldProps: {
-          initialValue: 'earth',
+          initialValue: ['earth'],
         },
         componentProps: {
           options: [
@@ -277,6 +277,7 @@ class BasicForm extends React.Component<FormProps, null> {
         },
         fieldProps: {
           initialValue: detail.name,
+          rules: [{ required: true, message: '请输入姓名！' }],
         },
       },
     ];
