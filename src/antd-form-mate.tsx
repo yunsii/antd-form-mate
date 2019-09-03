@@ -156,17 +156,15 @@ function renderInputComponent(inputConfig) {
 }
 
 function setDefaultCheckedTypeHint(type: ComponentType, rules) {
-  let result: any[] = [];
+  let result = {};
   if (type === "email") {
-    result = [
-      {
-        type: "email",
-        message: defaultTypeHint.email
-      },
-      ...rules,
-    ];
+    result = {
+      type: "email",
+      message: defaultTypeHint.email
+    };
   }
-  return result;
+
+  return [result, ...rules];
 }
 
 export interface CustomFormItemProps extends FormItemProps {
@@ -240,6 +238,7 @@ export const createFormItems = (
       };
     }
 
+    console.log(setDefaultCheckedTypeHint(type, rules))
     return (
       <FormConsumer key={field}>
         {form => {
