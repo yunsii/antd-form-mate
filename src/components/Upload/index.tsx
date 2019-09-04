@@ -5,6 +5,7 @@ import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import { uploadFile, isUploadSuccess } from '../../config';
 import { draggerLocale } from '../../locale';
+import { sizeOfFile, getImageDimension, getBase64 } from '../../utils';
 
 const { Dragger } = Upload as any;
 
@@ -13,41 +14,67 @@ const defaultFileSizeLimit = 100 * 1024 * 1024;
 
 const defaultMimeLimitHint = (accept: string) => `上传文件类型错误，仅限 ${accept}`;
 const defaultCountLimitHint = (countLimit: number) => `仅限上传 ${countLimit} 个文件`;
+const defaultDimensionLimitHint = (dimensionLimit: string) => `图片像素不大于${dimensionLimit}`;
 const defaultSizeLimitHint = (sizeLimit: number) => `图片必须小于 ${sizeLimit} B`;
 
-const commonBeforeUpload = (limit) => (file) => {
+const commonBeforeUpload = (limit) => (file: any) => {
   const {
     filesCountLimit = defaultFilesCountLimit,
     fileSizeLimit = defaultFileSizeLimit,
+    dimensionLimit,
     accept,
     mimeLimitHint = defaultMimeLimitHint,
     countLimitHint = defaultCountLimitHint,
+    dimensionLimitHint = defaultDimensionLimitHint,
     sizeLimitHint = defaultSizeLimitHint,
 
     fileList: uploadedFileList,
   } = limit;
+  const { name, type } = file;
 
-  if (accept && typeof accept === 'string') {
-    const mimeTypeReg = new RegExp(accept.replace(/,/g, "|"));
-    const { name, type } = file;
-    if (!mimeTypeReg.test(name) && !mimeTypeReg.test(type)) {
-      message.error(mimeLimitHint(accept));
-      return false;
+  return new Promise(async (resolve, reject) => {
+    if (accept && typeof accept === 'string') {
+      const mimeTypeReg = new RegExp(accept.replace(/,/g, "|"));
+      if (!mimeTypeReg.test(name) && !mimeTypeReg.test(type)) {
+        message.error(mimeLimitHint(accept));
+        reject();
+        return;
+      }
     }
-  }
-  // const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  // if (!isJpgOrPng) {
-  //   message.error('You can only upload JPG/PNG file!');
-  // }
-  const isLtCount = uploadedFileList.length < filesCountLimit;
-  if (!isLtCount) {
-    message.error(countLimitHint(filesCountLimit))
-  }
-  const isLtSize = file.size <= fileSizeLimit;
-  if (!isLtSize) {
-    message.error(sizeLimitHint(fileSizeLimit));
-  }
-  return isLtCount && isLtSize;
+
+    // console.log('/image\/./.test(type)', /image\/./.test(type));
+    if (/image\/./.test(type) && dimensionLimit) {
+      const [widthLimit, heightLimit] = dimensionLimit.split('*').map(item => parseInt(item, 10));
+      // console.log(file);
+      const dataUrl: any = await getBase64(file);
+      const { width, height }: any = await getImageDimension(dataUrl);
+      if (width <= widthLimit && height <= heightLimit) {
+        resolve();
+        return;
+      }
+      message.error(dimensionLimitHint(dimensionLimit));
+      reject();
+      return;
+    }
+
+    // const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    // if (!isJpgOrPng) {
+    //   message.error('You can only upload JPG/PNG file!');
+    // }
+    const isLtCount = uploadedFileList.length < filesCountLimit;
+    if (!isLtCount) {
+      message.error(countLimitHint(filesCountLimit))
+    }
+    const isLtSize = sizeOfFile(file) <= fileSizeLimit;
+    if (!isLtSize) {
+      message.error(sizeLimitHint(fileSizeLimit));
+    }
+    if (isLtCount && isLtSize) {
+      resolve();
+      return;
+    };
+    reject();
+  }) as Promise<void>
 }
 
 export function filterFileList(fileList) {
@@ -171,8 +198,10 @@ export interface CustomUploadPorps extends UploadProps {
   children?: any;
   filesCountLimit?: number;
   fileSizeLimit?: number;
+  dimensionLimit?: string;
   countLimitHint?: (countLimit: number) => string;
   sizeLimitHint?: (sizeLimit: number) => string;
+  dimensionLimitHint?: (dimensionLimit: string) => string;
 }
 
 // https://github.com/react-component/upload/blob/master/examples/customRequest.js
@@ -186,8 +215,10 @@ export default function CustomUpload(props: CustomUploadPorps) {
 
     filesCountLimit,
     fileSizeLimit,
+    dimensionLimit,
     countLimitHint,
     sizeLimitHint,
+    dimensionLimitHint,
     uploadFunction,
     ...rest
   } = props;
@@ -203,8 +234,10 @@ export default function CustomUpload(props: CustomUploadPorps) {
       beforeUpload={commonBeforeUpload({
         filesCountLimit,
         fileSizeLimit,
+        dimensionLimit,
         accept,
         countLimitHint,
+        dimensionLimitHint,
         sizeLimitHint,
 
         fileList,
