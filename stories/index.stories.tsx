@@ -328,6 +328,7 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
         field: 'picture',
         formItemProps: {
           label: '图片',
+          extra: '图片像素不大于1920*1080',
         },
         fieldProps: {
           initialValue: detail.picture,
@@ -335,6 +336,7 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
         componentProps: {
           filesCountLimit: 2,
           accept: 'image/*',
+          dimensionLimit: '1920*1080',
         },
       },
       {
