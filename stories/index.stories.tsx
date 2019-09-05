@@ -328,7 +328,10 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
         field: 'picture',
         formItemProps: {
           label: '图片',
-          extra: '图片像素不大于1920*1080',
+          // extra: '图片像素仅限520*360',
+          // extra: '图片像素不大于520*360',
+          // extra: '图片像素不小于520*360',
+          extra: '图片像素不小于520*360，且不大于1920*1080',
         },
         fieldProps: {
           initialValue: detail.picture,
@@ -336,7 +339,21 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
         componentProps: {
           filesCountLimit: 2,
           accept: 'image/*',
-          dimensionLimit: '1920*1080',
+          // dimensionLimit: '520*360',
+          // dimensionLimit: '<520*360',
+          // dimensionLimit: '>520*360',
+          dimensionLimit: '520*360,1920*1080',
+          // checkImage: ({ dimension }) => {
+          //   const { width, height } = dimension;
+          //   return width === 520 && height === 360;
+          // },
+          // imageLimitHint: (dimensionLimit, customCheck) => {
+          //   console.log('xxxxxxxxxx', customCheck)
+          //   if (!customCheck) {
+          //     return '图片像素仅限520*360';
+          //   }
+          //   return `图片像素限制 ${dimensionLimit}`;
+          // }
         },
       },
       {
