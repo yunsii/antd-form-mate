@@ -3,13 +3,13 @@ import React, { Component } from "react";
 import moment, { Moment } from "moment";
 import _isArray from "lodash/isArray";
 import { DatePicker } from "antd";
+import { RangePickerProps, DatePickerProps } from 'antd/lib/date-picker/interface';
 
 // Warning: Function components cannot be given refs.
 const { RangePicker } = DatePicker;
 
-function setDateTimeValue(value) {
-  if (!value) return null;
-  if (value instanceof moment) return value;
+function setDateTimeValue(value: undefined | null | number | Moment): undefined | Moment {
+  if (!value) return undefined;
   if (typeof value === "number") {
     const currentMs = moment().valueOf();
     const currentMsLength = `${currentMs}`.length;
@@ -18,6 +18,7 @@ function setDateTimeValue(value) {
     }
     return moment.unix(value);
   }
+  if (value instanceof moment) return value;
   return moment(value);
 }
 
@@ -41,18 +42,17 @@ function setDisabledDate(todayAndBefore, onlyAfterToday) {
   return disabledDate;
 }
 
-export interface CustomRangePickerProps {
-  value?: string[] | number[] | Moment[];
+export interface CustomRangePickerProps extends RangePickerProps {
   onlyAfterToday?: boolean;
   todayAndBefore?: boolean;
 }
 
 export class CustomRangePicker extends Component<CustomRangePickerProps> {
   setValue = value => {
-    if (!value) return null;
+    if (!value) return [undefined, undefined];
     if (!(_isArray(value) && value.length >= 2)) {
       console.error("RangePicker value is error:", value);
-      return null;
+      return [undefined, undefined];
     }
     if (value[0] instanceof moment) return value;
     return [setDateTimeValue(value[0]), setDateTimeValue(value[1])];
@@ -70,8 +70,7 @@ export class CustomRangePicker extends Component<CustomRangePickerProps> {
   }
 }
 
-export interface CustomDatePickerProps {
-  value?: string | number | Moment;
+export interface CustomDatePickerProps extends DatePickerProps {
   onlyAfterToday?: boolean;
   todayAndBefore?: boolean;
 }
@@ -84,7 +83,7 @@ export default class CustomDatePicker extends Component<CustomDatePickerProps> {
       <DatePicker
         disabledDate={setDisabledDate(todayAndBefore, onlyAfterToday)}
         {...rest}
-        value={setDateTimeValue(value) as any}
+        value={setDateTimeValue(value)}
       />
     );
   }
