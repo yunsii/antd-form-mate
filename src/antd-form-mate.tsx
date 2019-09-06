@@ -1,19 +1,23 @@
 import * as React from "react";
 import { Form, Input, InputNumber, Slider } from "antd";
 import { FormItemProps } from "antd/lib/form";
+import { InputNumberProps } from "antd/lib/input-number";
+import { PasswordProps, TextAreaProps, InputProps } from "antd/lib/input";
+import { SliderProps } from "antd/lib/slider";
 import { WrappedFormUtils, GetFieldDecoratorOptions } from "antd/lib/form/Form";
 import { ColProps } from "antd/lib/col";
-
 import CustomDatePicker, {
-  CustomRangePicker
+  CustomRangePicker,
+  CustomDatePickerProps,
+  CustomRangePickerProps,
 } from "./components/CustomDatePicker/index";
-import CustomSwitch from "./components/CustomSwitch/index";
-import CustomSelect from "./components/Select/index";
-import LocationPicker from "./components/LocationPicker/index";
-import PicturesWall from "./components/PicturesWall/index";
-import { CustomDragger } from "./components/Upload/index";
-import CustomCheckGroup from "./components/CustomCheckGroup/index";
-import CustomRadioGroup from "./components/CustomRadioGroup/index";
+import CustomSwitch, { CustomSwitchProps } from "./components/CustomSwitch/index";
+import CustomSelect, { CustomSelectProps } from "./components/Select/index";
+import LocationPicker, { LocationPickerProps } from "./components/LocationPicker/index";
+import PicturesWall, { PicturesWallProps } from "./components/PicturesWall/index";
+import { CustomDragger, CustomDraggerProps } from "./components/Upload/index";
+import CustomCheckGroup, { CustomCheckGroupProps } from "./components/CustomCheckGroup/index";
+import CustomRadioGroup, { CustomRadioGroupProps } from "./components/CustomRadioGroup/index";
 import { commenStyle, commenProps } from "./config";
 
 
@@ -196,12 +200,29 @@ export type ComponentType =
   | "email"
   | "string"
 
+export type ComponentProps =
+  | CustomDatePickerProps
+  | CustomRangePickerProps
+  | InputNumberProps
+  | CustomSelectProps
+  | PasswordProps
+  | PicturesWallProps
+  | CustomSwitchProps
+  | SliderProps
+  | CustomDraggerProps
+  | LocationPickerProps
+  | CustomCheckGroupProps
+  | CustomRadioGroupProps
+  /** string input, no whitespace */
+  | TextAreaProps
+  | InputProps
+
 export interface ItemConfig {
   type?: ComponentType;
   field: string;
   formItemProps?: CustomFormItemProps;
   fieldProps?: GetFieldDecoratorOptions;
-  componentProps?: any;
+  componentProps?: ComponentProps;
   component?: React.ElementType;
 }
 
