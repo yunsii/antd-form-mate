@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import * as moment from 'moment';
+import moment, { Moment } from 'moment';
 import { Form, Button } from 'antd';
 // import { WrappedFormUtils } from 'antd/lib/form/Form';
 import FormMate, { config, AMap, ItemConfig } from '../src';
@@ -41,7 +41,7 @@ function extraDateRangeFieldProps(initialValue, format = dateFormat) {
     normalize: (value, prevValue, allValues) => {
       // console.log(value, prevValue, allValues);
       if (value && Array.isArray(value) && value[0] instanceof moment) {
-        return [value[0].format(format), value[1].format(format)];
+        return [(value[0] as Moment).format(format), value[1].format(format)];
       }
       return value;
     },
@@ -341,19 +341,14 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
           accept: 'image/*',
           // dimensionLimit: '520*360',
           // dimensionLimit: '<520*360',
-          // dimensionLimit: '>520*360',
-          dimensionLimit: '520*360,1920*1080',
-          // checkImage: ({ dimension }) => {
-          //   const { width, height } = dimension;
-          //   return width === 520 && height === 360;
-          // },
-          // imageLimitHint: (dimensionLimit, customCheck) => {
-          //   console.log('xxxxxxxxxx', customCheck)
-          //   if (!customCheck) {
-          //     return '图片像素仅限520*360';
+          dimensionLimit: '>520*360',
+          // dimensionLimit: '520*360,1920*1080',
+          // checkImage: ({ name }) => {
+          //   if (/[A-Za-z0-9]*/.test(name.split('.')[0])) {
+          //     return '文件名称仅限字母数字';
           //   }
-          //   return `图片像素限制 ${dimensionLimit}`;
-          // }
+          //   return;
+          // },
         },
       },
       {
