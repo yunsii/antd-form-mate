@@ -6,6 +6,7 @@ import _isArray from "lodash/isArray";
 import { uploadFile, isUploadSuccess } from '../../config';
 import { draggerLocale } from '../../locale';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../utils';
+import { processDimensionLimit, isLimitDimension } from './utils';
 
 const { Dragger } = Upload as any;
 
@@ -14,56 +15,8 @@ const defaultFileSizeLimit = 100 * 1024 * 1024;
 
 const defaultMimeLimitHint = (accept: string) => `上传文件类型错误，仅限 ${accept}`;
 const defaultCountLimitHint = (countLimit: number) => `仅限上传 ${countLimit} 个文件`;
-const defaultImageLimitHint = (dimensionLimit: string, customCheck: boolean) => `图片像素限制 ${dimensionLimit}`;
+const defaultImageLimitHint = (dimensionLimit: string, customHint: string) => customHint || `图片像素限制 ${dimensionLimit}`;
 const defaultSizeLimitHint = (sizeLimit: number) => `图片必须小于 ${sizeLimit} B`;
-
-function processDimensionLimit(dimensionLimit: string) {
-  let result: any[] = [false, false];
-  let limit = dimensionLimit;
-  if (!dimensionLimit.startsWith('<') && !dimensionLimit.startsWith('>') && !dimensionLimit.match(',')) {
-    limit = `<${limit}`
-  }
-  const getWidthAndHeight = (item: string) => item.split('*').map(item => parseInt(item, 10))
-  if (limit.startsWith('<')) {
-    const [width, height] = getWidthAndHeight(limit.slice(1))
-    result[1] = {
-      width,
-      height,
-    }
-  } else if (limit.startsWith('>')) {
-    const [width, height] = getWidthAndHeight(limit.slice(1))
-    result[0] = {
-      width,
-      height,
-    }
-  } else {
-    const [min, max] = limit.split(',');
-    const [minWidth, minHeight] = getWidthAndHeight(min);
-    const [maxWidth, maxHeight] = getWidthAndHeight(max);
-    result[0] = {
-      width: minWidth,
-      height: minHeight,
-    }
-    result[1] = {
-      width: maxWidth,
-      height: maxHeight,
-    }
-  }
-  return result;
-}
-
-function isLimitDimension(limits: any[], dimension: { width: number, height: number }) {
-  const { width, height } = dimension;
-  const isLessOrEqual = (limit) => width <= limit.width && height <= limit.height
-  const isMoreOrEqual = (limit) => width >= limit.width && height >= limit.height
-  if (limits[0] === false) {
-    return isLessOrEqual(limits[1]);
-  }
-  if (limits[1] === false) {
-    return isMoreOrEqual(limits[0]);
-  }
-  return isMoreOrEqual(limits[0]) && isLessOrEqual(limits[1]);
-}
 
 const commonBeforeUpload = (limit) => (file: any) => {
   const {
@@ -71,7 +24,7 @@ const commonBeforeUpload = (limit) => (file: any) => {
     fileSizeLimit = defaultFileSizeLimit,
     dimensionLimit,
     accept,
-    checkImage = () => true,
+    checkImage = () => undefined,
     mimeLimitHint = defaultMimeLimitHint,
     countLimitHint = defaultCountLimitHint,
     imageLimitHint = defaultImageLimitHint,
@@ -86,26 +39,24 @@ const commonBeforeUpload = (limit) => (file: any) => {
       const mimeTypeReg = new RegExp(accept.replace(/,/g, "|"));
       if (!mimeTypeReg.test(name) && !mimeTypeReg.test(type)) {
         message.error(mimeLimitHint(accept));
-        reject();
-        return;
+        return reject();
       }
     }
 
-    // console.log('/image\/./.test(type)', /image\/./.test(type));
     if (/image\/./.test(type) && dimensionLimit) {
       const limits = processDimensionLimit(dimensionLimit);
       // console.log(file);
       const dataUrl: any = await getBase64(file);
       const dimension: any = await getImageDimension(dataUrl);
-      console.log(limits);
-      console.log(dimension);
-      if (isLimitDimension(limits, dimension) && checkImage({ dimension, type, name, size: sizeOfFile(file) })) {
-        resolve();
-        return;
+      // console.log(limits);
+      // console.log(dimension);
+
+      const customHint = checkImage({ dimension, type, name, size: sizeOfFile(file) });
+      if (isLimitDimension(limits, dimension) && !customHint) {
+        return resolve();
       }
-      message.error(imageLimitHint(dimensionLimit, checkImage({ dimension, type, name, size: sizeOfFile(file) })));
-      reject();
-      return;
+      message.error(imageLimitHint(dimensionLimit, customHint));
+      return reject();
     }
 
     const isLtCount = uploadedFileList.length < filesCountLimit;
@@ -117,8 +68,7 @@ const commonBeforeUpload = (limit) => (file: any) => {
       message.error(sizeLimitHint(fileSizeLimit));
     }
     if (isLtCount && isLtSize) {
-      resolve();
-      return;
+      return resolve();
     };
     reject();
   }) as Promise<void>
@@ -249,7 +199,8 @@ export interface CustomUploadPorps extends UploadProps {
   filesCountLimit?: number;
   fileSizeLimit?: number;
   dimensionLimit?: string;
-  checkImage?: (info: { dimension: { width: number, height: number }, type: string, name: string, size: number }) => boolean;
+  /*! return hint if validate failed */
+  checkImage?: (info: { dimension: { width: number, height: number }, type: string, name: string, size: number }) => string;
   countLimitHint?: (countLimit: number) => string;
   sizeLimitHint?: (sizeLimit: number) => string;
   imageLimitHint?: (dimensionLimit: string, customCheck: boolean) => string;
