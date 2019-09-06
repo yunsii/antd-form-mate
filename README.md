@@ -49,7 +49,7 @@ $ npm start
 11. `slider` 滑动输入
 12. `file-dragger`
 13. `string` **默认类型**
-14. `location` 地址，基于高德地图
+14. `location` 地址录入，基于高德地图
 15. `check-group` 多选框
 16. `radio-group` 单选框
 
@@ -59,10 +59,11 @@ $ npm start
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `type` | 上述类型 | `string` | `'string'` |
+| `type` | 上述类型 | [`ComponentType`](./src/antd-form-mate.tsx#L181) | `'string'` |
 | `field` | 字段名 | `string` | - |
 | `formItemProps` | Form.Item 支持的配置，新增 `dense` 属性配置 Form.Item `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
 | `fieldProps` | 字段值配置  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
+| `componentProps` | 额外的组件配置 | [`ComponentProps`](./src/antd-form-mate.tsx#L203) | - |
 | `component` | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | `React.ElementType` | - |
 
 未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
