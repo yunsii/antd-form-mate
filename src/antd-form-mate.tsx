@@ -22,7 +22,7 @@ import { commenStyle, commenProps } from "./config";
 
 
 const { TextArea, Password } = Input;
-const FormContext = React.createContext<WrappedFormUtils | null>(null);
+const FormContext = React.createContext<WrappedFormUtils | undefined>(undefined);
 export const FormProvider = FormContext.Provider;
 const FormConsumer = FormContext.Consumer;
 
