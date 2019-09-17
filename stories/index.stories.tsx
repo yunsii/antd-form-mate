@@ -56,6 +56,13 @@ class BasicForm extends React.Component<FormProps, null> {
   setFormItemsConfig = (detail: any = {}, mode?: string): ItemConfig[] => {
     return [
       {
+        type: 'hidden',
+        field: 'hidden',
+        fieldProps: {
+          initialValue: 1,
+        },
+      },
+      {
         type: 'check-group',
         field: 'checks',
         formItemProps: {
