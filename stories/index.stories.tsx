@@ -8,7 +8,7 @@ import FormMate, { config, AMap, ItemConfig } from '../src';
 import PicturesWall from './PictureWall';
 
 const { useState } = React;
-const { FormProvider, createFormItems, setDefaultExtra } = FormMate;
+const { createFormItems, setDefaultExtra } = FormMate;
 const { setCommenProps } = config;
 
 setDefaultExtra({
@@ -278,6 +278,17 @@ class BasicForm extends React.Component<FormProps, null> {
         },
       },
       {
+        type: 'email',
+        field: 'email',
+        formItemProps: {
+          label: '邮箱',
+        },
+        fieldProps: {
+          initialValue: detail.email,
+          rules: [{ required: true, message: '请输入邮箱！' }],
+        },
+      },
+      {
         type: 'string',
         field: 'name',
         formItemProps: {
@@ -305,9 +316,7 @@ class BasicForm extends React.Component<FormProps, null> {
     const { form } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
-        <FormProvider value={form}>
-          {createFormItems(this.setFormItemsConfig({}))}
-        </FormProvider>
+        {createFormItems(form)(this.setFormItemsConfig({}))}
         <Form.Item wrapperCol={{ span: 13, offset: 7 }}>
           <Button
             type="primary"
@@ -398,9 +407,7 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
     const { form } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
-        <FormProvider value={form}>
-          {createFormItems(this.setFormItemsConfig({}))}
-        </FormProvider>
+        {createFormItems(form)(this.setFormItemsConfig({}))}
         <Form.Item wrapperCol={{ span: 13, offset: 7 }}>
           <Button
             type="primary"
