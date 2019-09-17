@@ -20,7 +20,6 @@ import CustomCheckGroup, { CustomCheckGroupProps } from "./components/CustomChec
 import CustomRadioGroup, { CustomRadioGroupProps } from "./components/CustomRadioGroup/index";
 import { commenStyle, commenProps } from "./config";
 
-
 const { TextArea, Password } = Input;
 const FormContext = React.createContext<WrappedFormUtils | undefined>(undefined);
 export const FormProvider = FormContext.Provider;
@@ -176,6 +175,7 @@ function setDefaultCheckedTypeHint(type: ComponentType, rules) {
 
 export interface CustomFormItemProps extends FormItemProps {
   dense?: boolean;
+  hidden?: boolean;
 }
 
 export type ComponentType =
@@ -199,6 +199,7 @@ export type ComponentType =
   | "textarea"
   | "email"
   | "string"
+  | "hidden"
 
 export type ComponentProps =
   | CustomDatePickerProps
@@ -250,6 +251,7 @@ export const createFormItems = (
       extra,
       wrapperCol,
       labelCol,
+      hidden,
       ...restFormItemProps
     } = formItemProps;
     const { rules = [], initialValue, ...restFieldProps } = fieldProps;
@@ -266,6 +268,13 @@ export const createFormItems = (
       <FormConsumer key={field}>
         {form => {
           if (form) {
+            if (type === 'hidden') {
+              form.getFieldDecorator(field, {
+                initialValue,
+              })
+              return;
+            }
+
             let item: any = (
               <span className="ant-form-text">
                 {initialValue}
@@ -296,5 +305,5 @@ export const createFormItems = (
         }}
       </FormConsumer>
     );
-  });
+  }).filter(item => item);
 };
