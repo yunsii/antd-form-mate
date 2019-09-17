@@ -21,16 +21,22 @@ import CustomRadioGroup, { CustomRadioGroupProps } from "./components/CustomRadi
 import { commenStyle, commenProps } from "./config";
 
 const { TextArea, Password } = Input;
-const FormContext = React.createContext<WrappedFormUtils | undefined>(undefined);
-export const FormProvider = FormContext.Provider;
-const FormConsumer = FormContext.Consumer;
 
-export let defaultExtra = {
-  picture: "图片必须大于100*100像素"
+let defaultExtra = {
+  picture: "图片必须大于100*100像素",
 };
 
-export let defaultTypeHint = {
-  email: "请输入正确的邮箱格式"
+let defaultTypeHint = {
+  email: "请输入正确的邮箱格式",
+};
+
+let defaultTypeRules = {
+  email: [
+    {
+      type: "email",
+      message: defaultTypeHint.email
+    },
+  ],
 };
 
 export type DefaultExtraOptions = {
@@ -52,6 +58,18 @@ export function setDefaultTypeHint(options: DefaultTypeHintOptions) {
     ...options,
   }
 }
+
+export type DefaultTypeRulesOptions = {
+  email?: any;
+}
+export function setDefaultTypeRule(options: DefaultTypeHintOptions) {
+  defaultTypeHint = {
+    ...defaultTypeHint,
+    ...options,
+  }
+}
+
+export let setTypeRules: (type: ComponentType, rules) => any[] = (type, rules) => rules;
 
 const setValuePropName = type => {
   if (type === "switch") {
@@ -158,18 +176,14 @@ function renderInputComponent(inputConfig) {
   }
 }
 
-function setDefaultCheckedTypeHint(type: ComponentType, rules) {
+function setDefaultTypeRules(type: ComponentType, rules) {
   let result = [...rules];
-  if (type === "email") {
+  if (defaultTypeRules[type]) {
     result = [
-      {
-        type: "email",
-        message: defaultTypeHint.email
-      },
+      ...defaultTypeRules[type],
       ...result,
-    ];
+    ]
   }
-
   return result;
 }
 
@@ -195,11 +209,11 @@ export type ComponentType =
   | "location"
   | "check-group"
   | "radio-group"
+  | "hidden"
   /** string input, no whitespace */
   | "textarea"
   | "email"
   | "string"
-  | "hidden"
 
 export type ComponentProps =
   | CustomDatePickerProps
@@ -232,11 +246,11 @@ export interface Layout {
   wrapperCol?: ColProps;
 }
 
-export const createFormItems = (
+export const createFormItems = (form: WrappedFormUtils) => (
   itemsConfig: ItemConfig[],
   globalLayout?: Layout
 ) => {
-  return itemsConfig.map(item => {
+  return itemsConfig.map(config => {
     const {
       type = "string",
       field,
@@ -244,7 +258,7 @@ export const createFormItems = (
       fieldProps = {},
       componentProps = {},
       component
-    } = item;
+    } = config;
     const {
       style = {},
       dense,
@@ -264,46 +278,39 @@ export const createFormItems = (
       };
     }
 
-    return (
-      <FormConsumer key={field}>
-        {form => {
-          if (form) {
-            if (type === 'hidden') {
-              form.getFieldDecorator(field, {
-                initialValue,
-              })
-              return;
-            }
+    if (type === 'hidden') {
+      form.getFieldDecorator(field, {
+        initialValue,
+      })
+      return null;
+    }
 
-            let item: any = (
-              <span className="ant-form-text">
-                {initialValue}
-              </span>
-            )
-            if (type !== 'plain') {
-              item = (
-                form.getFieldDecorator(field, {
-                  initialValue,
-                  valuePropName: setValuePropName(type),
-                  rules: setDefaultCheckedTypeHint(type, rules),
-                  ...restFieldProps,
-                })(renderInputComponent({ ...componentProps, type, component }))
-              )
-            }
-            return (
-              <Form.Item
-                style={dense ? { marginBottom: 0, ...style } : style}
-                {...layout}
-                extra={extra || defaultExtra[type]}
-                {...restFormItemProps}
-              >
-                {item}
-              </Form.Item>
-            )
-          }
-          return null;
-        }}
-      </FormConsumer>
-    );
+    let inputComponent: any = (
+      <span className="ant-form-text">
+        {initialValue}
+      </span>
+    )
+    if (type !== 'plain') {
+      inputComponent = (
+        form.getFieldDecorator(field, {
+          initialValue,
+          valuePropName: setValuePropName(type),
+          rules: setDefaultTypeRules(type, rules),
+          ...restFieldProps,
+        })(renderInputComponent({ ...componentProps, type, component }))
+      )
+    }
+
+    return (
+      <Form.Item
+        key={field}
+        style={dense ? { marginBottom: 0, ...style } : style}
+        {...layout}
+        extra={extra || defaultExtra[type]}
+        {...restFormItemProps}
+      >
+        {inputComponent}
+      </Form.Item>
+    )
   }).filter(item => item);
 };
