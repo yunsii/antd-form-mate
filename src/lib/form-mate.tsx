@@ -308,5 +308,5 @@ export const createFormItems = (form: WrappedFormUtils) => (
         {inputComponent}
       </Form.Item>
     )
-  }).filter(item => item);
+  }).filter(item => item !== null);
 };
