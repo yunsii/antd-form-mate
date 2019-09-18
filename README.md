@@ -72,7 +72,7 @@ $ npm start
 ```tsx
 import { Form, Button } from 'antd';
 import { createFormItems } from 'antd-form-mate';
-import { ItemConfig } from 'antd-form-mate/lib/form-mate';
+import { ItemConfig } from 'antd-form-mate/dist/lib/form-mate';
 
 export interface FormProps {
   form: any
