@@ -52,6 +52,7 @@ $ npm start
 14. `location` 地址录入，基于高德地图
 15. `check-group` 多选框
 16. `radio-group` 单选框
+17. `hidden` 隐藏字段
 
 ### API
 
@@ -65,5 +66,72 @@ $ npm start
 | `fieldProps` | 字段值配置  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
 | `componentProps` | 额外的组件配置 | [`ComponentProps`](./src/antd-form-mate.tsx#L203) | - |
 | `component` | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | `React.ElementType` | - |
+
+### 基础用法
+
+```tsx
+import { Form, Button } from 'antd';
+import { createFormItems } from 'antd-form-mate';
+import { ItemConfig } from 'antd-form-mate/lib/form-mate';
+
+export interface FormProps {
+  form: any
+}
+
+class BasicForm extends React.Component<FormProps, null> {
+  setFormItemsConfig = (detail: any = {}): ItemConfig[] => {
+    return [
+      {
+        type: 'hidden',
+        field: 'hidden',
+        fieldProps: {
+          initialValue: 1,
+        },
+      },
+      {
+        type: 'string',
+        field: 'name',
+        formItemProps: {
+          label: '姓名',
+        },
+        fieldProps: {
+          initialValue: detail.name,
+          rules: [{ required: true, message: '请输入姓名！' }],
+        },
+      },
+    ];
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { form } = this.props;
+    form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
+
+  render() {
+    const { form } = this.props;
+    return (
+      <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
+        {createFormItems(form)(this.setFormItemsConfig({}))}
+        <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={action('click submit')}
+          >
+            提交
+          </Button>
+        </Form.Item>
+      </Form>
+    )
+  }
+}
+
+export default Form.create()(BasicForm as any);
+```
 
 未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
