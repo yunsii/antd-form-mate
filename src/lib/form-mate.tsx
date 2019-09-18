@@ -18,7 +18,7 @@ import PicturesWall, { PicturesWallProps } from "./components/PicturesWall/index
 import { CustomDragger, CustomDraggerProps } from "./components/Upload/index";
 import CustomCheckGroup, { CustomCheckGroupProps } from "./components/CustomCheckGroup/index";
 import CustomRadioGroup, { CustomRadioGroupProps } from "./components/CustomRadioGroup/index";
-import { commenStyle, commenProps } from "./config";
+import { commenStyle, commenProps } from "../config";
 
 const { TextArea, Password } = Input;
 
@@ -68,8 +68,6 @@ export function setDefaultTypeRule(options: DefaultTypeHintOptions) {
     ...options,
   }
 }
-
-export let setTypeRules: (type: ComponentType, rules) => any[] = (type, rules) => rules;
 
 const setValuePropName = type => {
   if (type === "switch") {
@@ -189,7 +187,6 @@ function setDefaultTypeRules(type: ComponentType, rules) {
 
 export interface CustomFormItemProps extends FormItemProps {
   dense?: boolean;
-  hidden?: boolean;
 }
 
 export type ComponentType =
@@ -265,7 +262,6 @@ export const createFormItems = (form: WrappedFormUtils) => (
       extra,
       wrapperCol,
       labelCol,
-      hidden,
       ...restFormItemProps
     } = formItemProps;
     const { rules = [], initialValue, ...restFieldProps } = fieldProps;
