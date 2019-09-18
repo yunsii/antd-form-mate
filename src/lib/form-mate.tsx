@@ -245,7 +245,7 @@ export interface Layout {
 
 export const createFormItems = (form: WrappedFormUtils) => (
   itemsConfig: ItemConfig[],
-  globalLayout?: Layout
+  globalLayout?: Layout,
 ) => {
   return itemsConfig.map(config => {
     const {
@@ -308,5 +308,5 @@ export const createFormItems = (form: WrappedFormUtils) => (
         {inputComponent}
       </Form.Item>
     )
-  }).filter(item => item !== null);
+  }).filter(item => item !== null) as JSX.Element[];
 };
