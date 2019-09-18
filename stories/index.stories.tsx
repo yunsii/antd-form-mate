@@ -318,7 +318,7 @@ class BasicForm extends React.Component<FormProps, null> {
     return (
       <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
         {createFormItems(form)(this.setFormItemsConfig({}))}
-        <Form.Item wrapperCol={{ span: 13, offset: 7 }}>
+        <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
           <Button
             type="primary"
             htmlType="submit"
@@ -409,7 +409,7 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
     return (
       <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
         {createFormItems(form)(this.setFormItemsConfig({}))}
-        <Form.Item wrapperCol={{ span: 13, offset: 7 }}>
+        <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
           <Button
             type="primary"
             htmlType="submit"
