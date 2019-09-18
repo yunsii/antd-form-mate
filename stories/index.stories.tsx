@@ -4,12 +4,13 @@ import { action } from '@storybook/addon-actions';
 import moment, { Moment } from 'moment';
 import { Form, Button } from 'antd';
 // import { WrappedFormUtils } from 'antd/lib/form/Form';
-import FormMate, { config, AMap, ItemConfig } from '../src';
+import { createFormItems, config } from '../src';
+import { ItemConfig } from '../src/lib/form-mate';
+import AMap from '../src/lib/components/CutomAMap';
 import PicturesWall from './PictureWall';
 
 const { useState } = React;
-const { createFormItems, setDefaultExtra } = FormMate;
-const { setCommenProps } = config;
+const { setDefaultExtra, setCommenProps } = config;
 
 setDefaultExtra({
   picture: '自定义图片默认提示',
