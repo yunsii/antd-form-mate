@@ -302,7 +302,7 @@ export const createFormItems = (form: WrappedFormUtils) => (
         key={field}
         style={dense ? { marginBottom: 0, ...style } : style}
         {...layout}
-        extra={extra || defaultExtra[type]}
+        extra={extra !== undefined ? extra : defaultExtra[type]}
         {...restFormItemProps}
       >
         {inputComponent}
