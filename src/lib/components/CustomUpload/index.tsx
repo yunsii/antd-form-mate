@@ -1,24 +1,21 @@
-import React, { Component } from "react";
-import { Upload, Icon, message } from "antd";
+import React from "react";
+import { Upload, message } from "antd";
 import { UploadProps } from 'antd/lib/upload';
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import { uploadFile, isUploadSuccess } from '../../../config';
-import { draggerLocale } from '../../../locale';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
 
-const { Dragger } = Upload as any;
+export const defaultFilesCountLimit = 1;
+export const defaultFileSizeLimit = 100 * 1024 * 1024;
 
-const defaultFilesCountLimit = 1;
-const defaultFileSizeLimit = 100 * 1024 * 1024;
+export const defaultMimeLimitHint = (accept: string) => `上传文件类型错误，仅限 ${accept}`;
+export const defaultCountLimitHint = (countLimit: number) => `仅限上传 ${countLimit} 个文件`;
+export const defaultImageLimitHint = (dimensionLimit: string, customHint: string) => customHint || `图片像素限制 ${dimensionLimit}`;
+export const defaultSizeLimitHint = (sizeLimit: number) => `图片必须小于 ${sizeLimit} B`;
 
-const defaultMimeLimitHint = (accept: string) => `上传文件类型错误，仅限 ${accept}`;
-const defaultCountLimitHint = (countLimit: number) => `仅限上传 ${countLimit} 个文件`;
-const defaultImageLimitHint = (dimensionLimit: string, customHint: string) => customHint || `图片像素限制 ${dimensionLimit}`;
-const defaultSizeLimitHint = (sizeLimit: number) => `图片必须小于 ${sizeLimit} B`;
-
-const commonBeforeUpload = (limit) => (file: any) => {
+export const commonBeforeUpload = (limit) => (file: any) => {
   const {
     filesCountLimit = defaultFilesCountLimit,
     fileSizeLimit = defaultFileSizeLimit,
@@ -79,7 +76,7 @@ export function filterFileList(fileList) {
   return fileList.filter(item => item.status !== undefined && item.status !== 'error');
 }
 
-const customRequest = uploadFunction => async ({
+export const customRequest = uploadFunction => async ({
   file,
   onSuccess,
   onError
@@ -114,84 +111,6 @@ export function setFileList(props): UploadProps["fileList"] {
   }
   return fileList;
 }
-
-export interface CustomDraggerProps extends CustomUploadPorps { }
-
-export interface CustomDraggerState {
-  fileList: UploadProps["fileList"];
-}
-
-export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
-  static getDerivedStateFromProps(props: CustomDraggerProps) {
-    return {
-      fileList: setFileList(props)
-    };
-  }
-
-  constructor(props: CustomDraggerProps) {
-    super(props);
-    this.state = {
-      fileList: setFileList(this.props)
-    };
-  }
-
-  handleChange = ({ fileList }) => {
-    // console.log(fileList);
-    const { onChange } = this.props;
-    if (onChange) {
-      onChange(filterFileList(fileList));
-    }
-  };
-
-  render() {
-    const {
-      uploadFunction,
-      onChange,
-      filesCountLimit,
-      fileSizeLimit,
-      dimensionLimit,
-      accept,
-      checkImage,
-      countLimitHint,
-      sizeLimitHint,
-      ...rest
-    } = this.props;
-    const { fileList } = this.state;
-
-    return (
-      <Dragger
-        name="file"
-        // multiple: true
-        customRequest={customRequest(uploadFunction)}
-        onChange={this.handleChange}
-        fileList={fileList}
-        beforeUpload={commonBeforeUpload({
-          filesCountLimit,
-          fileSizeLimit,
-          dimensionLimit,
-          accept,
-          checkImage,
-          countLimitHint: countLimitHint || defaultCountLimitHint,
-          sizeLimitHint: sizeLimitHint || defaultSizeLimitHint,
-
-          fileList,
-        })}
-        accept={accept}
-        {...rest}
-      >
-        <p className="ant-upload-drag-icon">
-          <Icon type="inbox" />
-        </p>
-        <p className="ant-upload-text">{draggerLocale.upload}</p>
-        {/* <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-          band files
-        </p> */}
-      </Dragger>
-    );
-  }
-}
-
 
 export interface CustomUploadPorps extends UploadProps {
   uploadFunction?: any;
