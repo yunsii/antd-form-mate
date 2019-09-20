@@ -15,7 +15,7 @@ import CustomSwitch, { CustomSwitchProps } from "./components/CustomSwitch/index
 import CustomSelect, { CustomSelectProps } from "./components/CustomSelect/index";
 import LocationPicker, { LocationPickerProps } from "./components/LocationPicker/index";
 import PicturesWall, { PicturesWallProps } from "./components/PicturesWall/index";
-import { CustomDragger, CustomDraggerProps } from "./components/Upload/index";
+import { CustomDragger, CustomDraggerProps } from "./components/CustomUpload/CustomDragger";
 import CustomCheckGroup, { CustomCheckGroupProps } from "./components/CustomCheckGroup/index";
 import CustomRadioGroup, { CustomRadioGroupProps } from "./components/CustomRadioGroup/index";
 import { commenStyle, commenProps } from "../config";
