@@ -9,7 +9,7 @@ import CustomUpload, {
   filterFileList,
 } from "../Upload/index";
 import { picturesWallLocale } from '../../../locale';
-import { imageFormatLimit, getUrl } from '../../../config';
+import { imageFormatLimit } from '../../../config';
 import { getBase64 } from '../../../utils';
 import styles from "./index.less";
 
@@ -55,16 +55,12 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   handleCancel = () => this.setState({ previewVisible: false });
 
   handlePreview = async file => {
-    if (!file.response && !file.preview) {
-      if (/^data:image\/.+;base64,/.test(file.url)) {
-        file.preview = file.url;
-      } else {
-        file.preview = await getBase64(file.originFileObj);
-      }
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
     }
 
     this.setState({
-      previewImage: getUrl(file.response) || file.preview,
+      previewImage: file.url || file.preview,
       previewVisible: true,
     });
   };
