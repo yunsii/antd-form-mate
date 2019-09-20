@@ -406,7 +406,7 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
           initialValue: detail.file,
         },
         componentProps: {
-          accept: '.txt',
+          accept: 'image/*',
         }
       },
       {
