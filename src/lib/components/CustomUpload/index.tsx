@@ -118,7 +118,7 @@ export interface CustomUploadPorps extends UploadProps {
   filesCountLimit?: number;
   fileSizeLimit?: number;
   dimensionLimit?: string;
-  /*! return hint if validate failed */
+  /** return hint if validate failed */
   checkImage?: (info: { dimension: { width: number, height: number }, type: string, name: string, size: number }) => string;
   countLimitHint?: (countLimit: number) => string;
   sizeLimitHint?: (sizeLimit: number) => string;
