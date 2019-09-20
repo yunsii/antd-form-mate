@@ -7,7 +7,7 @@ import CustomUpload, {
   setFileList,
   CustomUploadPorps,
   filterFileList,
-} from "../Upload/index";
+} from "../CustomUpload/index";
 import { picturesWallLocale } from '../../../locale';
 import { imageFormatLimit } from '../../../config';
 import { getBase64 } from '../../../utils';

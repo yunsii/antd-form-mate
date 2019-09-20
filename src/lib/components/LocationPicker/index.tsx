@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Input, Modal, Icon, message } from "antd";
-import AMap from "../CutomAMap/index";
+import AMap from "../CustomAMap/index";
 
 export type Position = {
   longitude: number;
