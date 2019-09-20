@@ -56,7 +56,11 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
 
   handlePreview = async file => {
     if (!file.response && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
+      if (/^data:image\/.+;base64,/.test(file.url)) {
+        file.preview = file.url;
+      } else {
+        file.preview = await getBase64(file.originFileObj);
+      }
     }
 
     this.setState({
