@@ -222,16 +222,44 @@ class BasicForm extends React.Component<FormProps, null> {
           initialValue: 'earth',
         },
         componentProps: {
-          options: [
+          groupOptions: [
             {
-              text: '地球',
-              value: 'earth',
+              text: '星系',
+              options: [
+                {
+                  text: '地球',
+                  value: 'earth',
+                },
+                {
+                  text: '银河',
+                  value: 'galaxy',
+                },
+              ],
             },
             {
-              text: '银河',
-              value: 'galaxy',
+              text: '水果',
+              options: [
+                {
+                  text: '香蕉',
+                  value: 'banana',
+                },
+                {
+                  text: '苹果',
+                  value: 'apple',
+                },
+              ],
             },
           ],
+          // options: [
+          //   {
+          //     text: '地球',
+          //     value: 'earth',
+          //   },
+          //   {
+          //     text: '银河',
+          //     value: 'galaxy',
+          //   },
+          // ],
         },
       },
       {

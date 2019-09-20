@@ -12,7 +12,7 @@ import CustomDatePicker, {
   CustomRangePickerProps,
 } from "./components/CustomDatePicker/index";
 import CustomSwitch, { CustomSwitchProps } from "./components/CustomSwitch/index";
-import CustomSelect, { CustomSelectProps } from "./components/Select/index";
+import CustomSelect, { CustomSelectProps } from "./components/CustomSelect/index";
 import LocationPicker, { LocationPickerProps } from "./components/LocationPicker/index";
 import PicturesWall, { PicturesWallProps } from "./components/PicturesWall/index";
 import { CustomDragger, CustomDraggerProps } from "./components/Upload/index";
