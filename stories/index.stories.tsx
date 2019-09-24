@@ -6,7 +6,7 @@ import { Form, Button } from 'antd';
 // import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { createFormItems, config } from '../src';
 import { ItemConfig } from '../src/lib/form-mate';
-import AMap from '../src/lib/components/CutomAMap';
+import AMap from '../src/lib/components/CustomAMap';
 import PicturesWall from './PictureWall';
 
 const { useState } = React;
@@ -394,6 +394,10 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
           //   }
           //   return;
           // },
+
+          onChange: (file) => {
+            console.log(file);
+          }
         },
       },
       {
