@@ -1,6 +1,7 @@
 import React from "react";
 import { Upload, message } from "antd";
 import { UploadProps } from 'antd/lib/upload';
+import { UploadFile } from 'antd/lib/upload/interface';
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import { uploadFile, isUploadSuccess } from '../../../config';
@@ -71,9 +72,8 @@ export const commonBeforeUpload = (limit) => (file: any) => {
   }) as Promise<void>
 }
 
-export function filterFileList(fileList) {
-  // console.log(fileList);
-  return fileList.filter(item => item.status !== undefined && item.status !== 'error');
+export function filterFileList(fileList: any[]) {
+  return fileList.filter(item => item.status !== undefined && (item.status !== 'error' || item.status === 'initial'));
 }
 
 export const customRequest = uploadFunction => async ({
@@ -99,13 +99,13 @@ function setFileNameByPath(path) {
   return pathSegment[pathSegment.length - 1];
 }
 
-export function setFileList(props): UploadProps["fileList"] {
+export function setFileList(props): UploadFile[] {
   const { value } = props;
-  let fileList: any[] = [];
+  let fileList: UploadFile[] = [];
   if (value && _isString(value)) {
-    fileList = [{ uid: -1, url: value, name: setFileNameByPath(value) }];
+    fileList = [{ uid: '-1', url: value, name: setFileNameByPath(value), status: 'initial' } as any];
   } else if (value && _isArray(value) && _isString(value[0])) {
-    fileList = value.map((item, index) => ({ uid: -index, url: item, name: setFileNameByPath(value) }));
+    fileList = value.map((item, index) => ({ uid: `${-index}`, url: item, name: setFileNameByPath(value), status: 'initial' } as any));
   } else if (value && _isArray(value)) {
     fileList = [...value];
   }
