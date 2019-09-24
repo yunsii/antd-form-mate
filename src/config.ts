@@ -25,9 +25,9 @@ export let uploadFile = async (file) => {
     }
   };
 };
-export let isUploadSuccess = response => {
+export let isUploadSuccess = (response = {} as any) => {
   const { data } = response;
-  return data;
+  return !!data;
 };
 
 export type UploadConfig = {
