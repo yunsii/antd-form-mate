@@ -52,7 +52,7 @@ class CustomSelect extends PureComponent<CustomSelectProps> {
         >
           {groupOptions && groupOptions.map(item => {
             return (
-              <Select.OptGroup label={item.text}>
+              <Select.OptGroup label={item.text} key={item.text}>
                 {renderOptions(item.options)}
               </Select.OptGroup>
             )
