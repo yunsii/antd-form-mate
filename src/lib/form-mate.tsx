@@ -81,6 +81,13 @@ const defaultLayout = {
   wrapperCol: { span: 12 }
 };
 
+function setExtra(extra: any, type: ComponentType) {
+  if (extra === false) {
+    return undefined;
+  }
+  return extra || defaultExtra[type];
+}
+
 function renderInputComponent(inputConfig) {
   const { type, component: CustomComponent, ...componentProps } = inputConfig;
   switch (type) {
@@ -302,7 +309,7 @@ export const createFormItems = (form: WrappedFormUtils) => (
         key={field}
         style={dense ? { marginBottom: 0, ...style } : style}
         {...layout}
-        extra={extra !== undefined ? extra : defaultExtra[type]}
+        extra={setExtra(extra, type)}
         {...restFormItemProps}
       >
         {inputComponent}
