@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Upload, Icon } from "antd";
 import { UploadProps } from 'antd/lib/upload';
-import _isString from "lodash/isString";
-import _isArray from "lodash/isArray";
 import { draggerLocale } from '../../../locale';
 import {
   CustomUploadPorps,
@@ -24,7 +22,7 @@ export interface CustomDraggerState {
   fileList: UploadProps["fileList"];
 }
 
-export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
+export default class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
   static getDerivedStateFromProps(props: CustomDraggerProps) {
     return {
       fileList: setFileList(props)
@@ -42,7 +40,7 @@ export class CustomDragger extends Component<CustomDraggerProps, CustomDraggerSt
     // console.log(fileList);
     const { onChange } = this.props;
     if (onChange) {
-      onChange(filterFileList(fileList));
+      onChange(filterFileList(fileList) as any);
     }
   };
 
