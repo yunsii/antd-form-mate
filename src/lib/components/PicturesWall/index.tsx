@@ -1,7 +1,5 @@
-/* eslint-disable react/destructuring-assignment */
 import React from "react";
 import { Icon, Modal } from "antd";
-import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import CustomUpload, {
   setFileList,
@@ -34,9 +32,10 @@ export interface PicturesWallState {
 }
 
 class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState> {
+  /** ref: https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops */
   static getDerivedStateFromProps(props: PicturesWallProps) {
     return {
-      fileList: setFileList(props)
+      fileList: setFileList(props),
     };
   }
 
@@ -45,10 +44,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
     this.state = {
       previewVisible: false,
       previewImage: "",
-      fileList:
-        props.value && _isString(props.value)
-          ? [{ uid: -1, url: props.value }]
-          : []
+      fileList: [],
     };
   }
 
@@ -66,9 +62,10 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   };
 
   handleChange = ({ fileList }) => {
+    // console.log(fileList);
     const { onChange } = this.props;
     if (onChange) {
-      onChange(filterFileList(fileList));
+      onChange(filterFileList(fileList) as any);
     }
   };
 
