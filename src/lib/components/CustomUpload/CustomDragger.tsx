@@ -29,12 +29,9 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
     };
   }
 
-  constructor(props: CustomDraggerProps) {
-    super(props);
-    this.state = {
-      fileList: setFileList(this.props)
-    };
-  }
+  state = {
+    fileList: [],
+  };
 
   handleChange = ({ fileList }) => {
     // console.log(fileList);

@@ -40,14 +40,11 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
     };
   }
 
-  constructor(props: PicturesWallProps) {
-    super(props);
-    this.state = {
-      previewVisible: false,
-      previewImage: "",
-      fileList: [],
-    };
-  }
+  state = {
+    previewVisible: false,
+    previewImage: "",
+    fileList: [],
+  };
 
   handleCancel = () => this.setState({ previewVisible: false });
 
