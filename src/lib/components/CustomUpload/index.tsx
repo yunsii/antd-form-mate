@@ -16,7 +16,7 @@ export const defaultCountLimitHint = (countLimit: number) => `仅限上传 ${cou
 export const defaultImageLimitHint = (dimensionLimit: string, customHint: string) => customHint || `图片像素限制 ${dimensionLimit}`;
 export const defaultSizeLimitHint = (sizeLimit: number) => `图片必须小于 ${sizeLimit} B`;
 
-export const commonBeforeUpload = (limit) => (file: any) => {
+export const commonBeforeUpload = (limit: any) => (file: any) => {
   const {
     filesCountLimit = defaultFilesCountLimit,
     fileSizeLimit = defaultFileSizeLimit,
@@ -72,11 +72,11 @@ export const commonBeforeUpload = (limit) => (file: any) => {
   }) as Promise<void>
 }
 
-export function filterFileList(fileList: any[]) {
-  return fileList.filter(item => item.status !== undefined && (item.status !== 'error' || item.status === 'initial'));
+export function filterFileList(fileList: UploadFile[]) {
+  return fileList.filter(item => item.status !== undefined && item.status !== 'error');
 }
 
-export const customRequest = uploadFunction => async ({
+export const customRequest = (uploadFunction: Function) => async ({
   file,
   onSuccess,
   onError
@@ -94,18 +94,18 @@ export const customRequest = uploadFunction => async ({
   }
 };
 
-function setFileNameByPath(path) {
+function setFileNameByPath(path: string) {
   const pathSegment = path.split(/\//g);
   return pathSegment[pathSegment.length - 1];
 }
 
-export function setFileList(props): UploadFile[] {
+export function setFileList(props: any): UploadFile[] {
   const { value } = props;
   let fileList: UploadFile[] = [];
   if (value && _isString(value)) {
-    fileList = [{ uid: '-1', url: value, name: setFileNameByPath(value), status: 'initial' } as any];
+    fileList = [{ uid: '-1', url: value, name: setFileNameByPath(value), status: 'done' } as any];
   } else if (value && _isArray(value) && _isString(value[0])) {
-    fileList = value.map((item, index) => ({ uid: `${-index}`, url: item, name: setFileNameByPath(value), status: 'initial' } as any));
+    fileList = value.map((item, index) => ({ uid: `${-index}`, url: item, name: setFileNameByPath(item), status: 'done' } as any));
   } else if (value && _isArray(value)) {
     fileList = [...value];
   }
