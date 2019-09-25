@@ -409,7 +409,8 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
           label: '文件',
         },
         fieldProps: {
-          initialValue: detail.file,
+          // initialValue: detail.file,
+          initialValue: 'https://s2.ax1x.com/2019/09/25/uEvPxI.png',
         },
         componentProps: {
           accept: 'image/*',
