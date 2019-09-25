@@ -25,6 +25,10 @@ export let uploadFile = async (file) => {
     }
   };
 };
+export let getUrl = (response: any = {}) => {
+  const { data } = response;
+  return data;
+};
 export let isUploadSuccess = (response = {} as any) => {
   const { data } = response;
   return !!data;
@@ -33,6 +37,7 @@ export let isUploadSuccess = (response = {} as any) => {
 export type UploadConfig = {
   uploadFile?: (file: any) => any;
   isUploadSuccess?: (response: any) => boolean;
+  getUrl?: (response: any) => { url: string, thumbUrl?: string };
 }
 export function setUploadConfig(options: UploadConfig) {
   if (options.uploadFile !== undefined) {
@@ -40,6 +45,9 @@ export function setUploadConfig(options: UploadConfig) {
   }
   if (options.isUploadSuccess !== undefined) {
     isUploadSuccess = options.isUploadSuccess;
+  }
+  if (options.getUrl !== undefined) {
+    getUrl = options.getUrl;
   }
 }
 

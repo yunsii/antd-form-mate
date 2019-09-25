@@ -4,7 +4,7 @@ import { UploadProps } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
-import { uploadFile, isUploadSuccess } from '../../../config';
+import { uploadFile, isUploadSuccess, getUrl } from '../../../config';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
 
@@ -107,7 +107,12 @@ export function setFileList(props: any): UploadFile[] {
   } else if (value && _isArray(value) && _isString(value[0])) {
     fileList = value.map((item, index) => ({ uid: `${-index}`, url: item, name: setFileNameByPath(item), status: 'done' } as any));
   } else if (value && _isArray(value)) {
-    fileList = [...value];
+    fileList = value.map(item => {
+      if (item.response) {
+        return { ...item, ...getUrl(item.response) }
+      }
+      return item;
+    })
   }
   return fileList;
 }
