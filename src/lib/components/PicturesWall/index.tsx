@@ -1,6 +1,7 @@
 import React from "react";
 import { Icon, Modal } from "antd";
 import _isArray from "lodash/isArray";
+import { UploadFile } from 'antd/lib/upload/interface';
 import CustomUpload, {
   setFileList,
   CustomUploadPorps,
@@ -50,7 +51,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
 
   handleCancel = () => this.setState({ previewVisible: false });
 
-  handlePreview = async file => {
+  handlePreview = async (file: any) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -61,7 +62,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
     });
   };
 
-  handleChange = ({ fileList }) => {
+  handleChange = ({ fileList }: { fileList: UploadFile[] }) => {
     // console.log(fileList);
     const { onChange } = this.props;
     if (onChange) {
