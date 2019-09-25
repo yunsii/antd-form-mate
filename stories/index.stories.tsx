@@ -413,6 +413,7 @@ class AdvancedFormPro extends React.Component<FormProps, null> {
         },
         componentProps: {
           accept: 'image/*',
+          filesCountLimit: 2,
         }
       },
       {
