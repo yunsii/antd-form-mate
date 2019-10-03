@@ -242,7 +242,7 @@ export interface ItemConfig {
   formItemProps?: CustomFormItemProps;
   fieldProps?: GetFieldDecoratorOptions;
   componentProps?: ComponentProps;
-  component?: React.ElementType;
+  component?: JSX.Element;
 }
 
 export interface Layout {
