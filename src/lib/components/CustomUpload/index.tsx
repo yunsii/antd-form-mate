@@ -76,12 +76,12 @@ export function filterFileList(fileList: UploadFile[]) {
   return fileList.filter(item => item.status !== undefined && item.status !== 'error');
 }
 
-export const customRequest = (uploadFunction: Function) => async ({
+export const customRequest = (uploadFunction?: (file: File) => Promise<any>) => async ({
   file,
   onSuccess,
   onError
 }) => {
-  let response: any = null;
+  let response: any;
   if (uploadFunction) {
     response = await uploadFunction(file);
   } else {
@@ -118,7 +118,7 @@ export function setFileList(props: any): UploadFile[] {
 }
 
 export interface CustomUploadPorps extends UploadProps {
-  uploadFunction?: any;
+  uploadFunction?: (file: File) => Promise<any>;
   children?: any;
   filesCountLimit?: number;
   fileSizeLimit?: number;
