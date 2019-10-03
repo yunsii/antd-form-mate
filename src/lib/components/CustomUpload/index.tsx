@@ -76,23 +76,28 @@ export function filterFileList(fileList: UploadFile[]) {
   return fileList.filter(item => item.status !== undefined && item.status !== 'error');
 }
 
-export const customRequest = (uploadFunction?: (file: File) => Promise<any>) => async ({
+export const customRequest = (
+  uploadFunction?: (file: File) => Promise<any>,
+  isUploadOk?: (response: any) => boolean
+) => async ({
   file,
   onSuccess,
   onError
 }) => {
-  let response: any;
-  if (uploadFunction) {
-    response = await uploadFunction(file);
-  } else {
-    response = await uploadFile(file);
-  }
-  if (isUploadSuccess(response)) {
-    onSuccess(response, file);
-  } else {
-    onError(response);
-  }
-};
+    let response: any;
+    if (uploadFunction) {
+      response = await uploadFunction(file);
+    } else {
+      response = await uploadFile(file);
+    }
+    if (isUploadOk && isUploadOk(response)) {
+      onSuccess(response, file);
+    } else if (isUploadSuccess(response)) {
+      onSuccess(response, file);
+    } else {
+      onError(response);
+    }
+  };
 
 function setFileNameByPath(path: string) {
   const pathSegment = path.split(/\//g);
@@ -119,7 +124,8 @@ export function setFileList(props: any): UploadFile[] {
 
 export interface CustomUploadPorps extends UploadProps {
   uploadFunction?: (file: File) => Promise<any>;
-  children?: any;
+  isUploadOk?: (response: any) => boolean;
+  children?: React.ReactChildren;
   filesCountLimit?: number;
   fileSizeLimit?: number;
   dimensionLimit?: string;
@@ -147,6 +153,7 @@ export default function CustomUpload(props: CustomUploadPorps) {
     sizeLimitHint,
     imageLimitHint,
     uploadFunction,
+    isUploadOk,
     ...rest
   } = props;
 
@@ -154,7 +161,7 @@ export default function CustomUpload(props: CustomUploadPorps) {
     <Upload
       accept={accept}
       name="image"
-      customRequest={customRequest(uploadFunction)}
+      customRequest={customRequest(uploadFunction, isUploadOk)}
       listType={listType || "text"}
       fileList={fileList}
       onChange={onChange}
