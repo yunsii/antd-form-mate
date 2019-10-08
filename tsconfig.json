@@ -19,6 +19,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "stories/EditableTable"],
   "exclude": ["node_modules", "stories", "packages", ".storybook"]
 }
