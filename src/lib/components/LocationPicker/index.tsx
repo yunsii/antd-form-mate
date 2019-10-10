@@ -117,7 +117,7 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
         />
         <Modal
           title="高德地图"
-          width={600}
+          width={800}
           visible={mapVisible}
           onCancel={() => this.setState({ mapVisible: false })}
           onOk={this.handleMapOk}
