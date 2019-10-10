@@ -130,7 +130,6 @@ export function AMap(props: AMapProps) {
             }
           }}
           version="1.4.14&plugin=AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch"
-          zoom={13}
           loading={
             <Spin
               style={{
