@@ -125,7 +125,7 @@ export function setFileList(props: any): UploadFile[] {
 export interface CustomUploadPorps extends UploadProps {
   uploadFunction?: (file: File) => Promise<any>;
   isUploadOk?: (response: any) => boolean;
-  children?: React.ReactChildren;
+  children?: React.ReactChildren | React.ReactNode;
   filesCountLimit?: number;
   fileSizeLimit?: number;
   dimensionLimit?: string;
