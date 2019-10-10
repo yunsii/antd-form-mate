@@ -61,3 +61,16 @@ export function setPictureConfig(options: PictureConfig) {
     imageFormatLimit = options.imageFormatLimit;
   }
 }
+
+export let mapConfig = {
+  amapKey: '1460ee2529622747f8faacac3e860bd6',
+};
+
+export type mapConfig = {
+  amapKey?: string,
+}
+export function setMapConfig(options: mapConfig) {
+  if (options.amapKey !== undefined) {
+    mapConfig.amapKey = options.amapKey;
+  }
+}
