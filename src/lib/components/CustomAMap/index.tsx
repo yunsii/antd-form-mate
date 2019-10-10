@@ -1,9 +1,10 @@
 import React, { Fragment, useState, CSSProperties } from "react";
-import { message, Spin } from "antd";
+import { Spin } from "antd";
 import { Map, Marker, MapProps } from "react-amap";
 import Geolocation from "react-amap-plugin-custom-geolocation";
 import PlaceSearch from "./PlaceSearch";
 import { isDevelopEnv } from '../../../utils';
+import { mapConfig } from '../../../config';
 
 let geocoder = null;
 const defaultMapWrapperHeight = 400;
@@ -35,6 +36,8 @@ function isLocationPosition(locationPosition, position) {
   return locationLongitude === longitude && locationLatitude === latitude;
 }
 
+export type ErrorType = 'locationError' | 'getFormattedAddress';
+
 export interface AMapProps {
   /** position of Marker */
   position?: {
@@ -49,25 +52,24 @@ export interface AMapProps {
   onCreated?: (map: any) => void;
   mapProps?: MapProps;
   children?: React.ReactChildren;
+  onError?: (type: ErrorType, value: any) => void;
 }
 
-export function AMap(props: AMapProps) {
-  const {
-    position,
-    wrapperStyle = {},
-    onClick,
-    getFormattedAddress,
-    onCreated,
-    mapProps,
-    children,
-  } = props;
+export function AMap({
+  position,
+  wrapperStyle = {},
+  onClick = () => { },
+  getFormattedAddress = () => { },
+  onCreated = () => { },
+  mapProps,
+  children,
+  onError = () => { },
+}: AMapProps) {
   const [locationPosition, setLocationPosition] = useState({});
   const [formattedAddress, setFormattedAddress] = useState();
 
   const handleCreatedMap = map => {
-    if (onCreated) {
-      onCreated(map);
-    }
+    onCreated(map);
     if (!geocoder) {
       geocoder = new window.AMap.Geocoder({
         // city: '010', // 城市设为北京，默认：“全国”
@@ -80,8 +82,10 @@ export function AMap(props: AMapProps) {
     if (geocoder) {
       (geocoder as any).getAddress([longitude, latitude], (status, result) => {
         const address = status === "complete" ? result.regeocode.formattedAddress : null;
-        if (getFormattedAddress) {
-          getFormattedAddress(address);
+        getFormattedAddress(address);
+        if (!address) {
+          onError('getFormattedAddress', address);
+          console.error('getFormattedAddress:', address);
         }
         setFormattedAddress(address);
       });
@@ -111,7 +115,7 @@ export function AMap(props: AMapProps) {
         }
       >
         <Map
-          amapkey="1460ee2529622747f8faacac3e860bd6"
+          amapkey={mapConfig.amapKey}
           plugins={plugins as any}
           events={{
             created: handleCreatedMap,
@@ -123,9 +127,7 @@ export function AMap(props: AMapProps) {
                   `${lnglat.getLng()}, ${lnglat.getLat()}`
                 );
               }
-              if (onClick) {
-                onClick(lnglat.getLng(), lnglat.getLat());
-              }
+              onClick(lnglat.getLng(), lnglat.getLat());
               regeoCode(lnglat.getLng(), lnglat.getLat());
             }
           }}
@@ -156,20 +158,16 @@ export function AMap(props: AMapProps) {
                     longitude: result.position.lng,
                     latitude: result.position.lat
                   });
-                  if (onClick) {
-                    onClick(result.position.lng, result.position.lat);
-                  }
-                  if (getFormattedAddress) {
-                    getFormattedAddress(result.formattedAddress);
-                  }
+                  onClick(result.position.lng, result.position.lat);
+                  getFormattedAddress(result.formattedAddress);
                   setFormattedAddress(result.formattedAddress);
                 }); // 返回定位信息
                 window.AMap.event.addListener(
                   o,
                   "error",
                   ({ info, message: msg }) => {
-                    message.error("定位失败", info, msg);
-                    console.error("定位失败", info, msg);
+                    onError('locationError', { info, message: msg });
+                    console.error("location error, info:", info, ", message:", msg);
                   }
                 ); // 返回定位出错信息
               }
@@ -178,13 +176,9 @@ export function AMap(props: AMapProps) {
           <PlaceSearch
             onPlaceSelect={poi => {
               console.log("PlaceSearch poi", poi);
-              if (onClick) {
-                onClick(poi.location.lng, poi.location.lat);
-              }
+              onClick(poi.location.lng, poi.location.lat);
               const address = `${poi.district}${poi.address}${poi.name}`
-              if (getFormattedAddress) {
-                getFormattedAddress(address);
-              }
+              getFormattedAddress(address);
               setFormattedAddress(address);
             }}
           />
