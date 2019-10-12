@@ -69,7 +69,7 @@ export type ProgressEventEvents = {
   onProgress: OnEvent,
   onTimeout?: OnEvent,
 }
-export const progressXhr: (url: string, data: ProgressEventData, events: ProgressEventEvents) => void = (
+export const progressXhr: (url: string, data: ProgressEventData, events: ProgressEventEvents) => any = (
   url,
   {
     method,
