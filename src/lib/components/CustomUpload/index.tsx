@@ -79,7 +79,7 @@ export function filterFileList(fileList: UploadFile[]) {
 }
 
 export const customRequest = (
-  uploadFunction?: (file: File, onProgress: ({ percent: number }) => void) => Promise<any>,
+  uploadFunction?: (file: File, setProgress: (percent: number) => any) => Promise<any>,
   isolatedIsUploadSuccess?: (response: any) => boolean
 ) => async ({
   file,
@@ -89,7 +89,7 @@ export const customRequest = (
 }) => {
     let response: any;
     if (uploadFunction) {
-      response = await uploadFunction(file, onProgress);
+      response = await uploadFunction(file, (percent) => onProgress({ percent }));
     } else {
       response = await uploadFile(file);
     }
@@ -126,7 +126,7 @@ export function setFileList(props: CustomDraggerProps | PicturesWallProps): Uplo
 }
 
 export interface CustomUploadPorps extends UploadProps {
-  uploadFunction?: (file: File, onProgress: ({ percent: number }) => void) => Promise<any>;
+  uploadFunction?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
   isUploadSuccess?: (response: any) => boolean;
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
   children?: React.ReactChildren | React.ReactNode;
