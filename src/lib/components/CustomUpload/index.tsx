@@ -7,6 +7,8 @@ import _isArray from "lodash/isArray";
 import { uploadFile, isUploadSuccess, getUrl } from '../../../config';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
+import { CustomDraggerProps } from "./CustomDragger";
+import { PicturesWallProps } from "../PicturesWall/index";
 
 export const defaultFilesCountLimit = 1;
 export const defaultFileSizeLimit = 100 * 1024 * 1024;
@@ -77,20 +79,21 @@ export function filterFileList(fileList: UploadFile[]) {
 }
 
 export const customRequest = (
-  uploadFunction?: (file: File) => Promise<any>,
-  isUploadOk?: (response: any) => boolean
+  uploadFunction?: (file: File, onProgress: ({ percent: number }) => void) => Promise<any>,
+  isolatedIsUploadSuccess?: (response: any) => boolean
 ) => async ({
   file,
   onSuccess,
-  onError
+  onError,
+  onProgress,
 }) => {
     let response: any;
     if (uploadFunction) {
-      response = await uploadFunction(file);
+      response = await uploadFunction(file, onProgress);
     } else {
       response = await uploadFile(file);
     }
-    if (isUploadOk && isUploadOk(response)) {
+    if (isolatedIsUploadSuccess && isolatedIsUploadSuccess(response)) {
       onSuccess(response, file);
     } else if (isUploadSuccess(response)) {
       onSuccess(response, file);
@@ -104,8 +107,8 @@ function setFileNameByPath(path: string) {
   return pathSegment[pathSegment.length - 1];
 }
 
-export function setFileList(props: any): UploadFile[] {
-  const { value } = props;
+export function setFileList(props: CustomDraggerProps | PicturesWallProps): UploadFile[] {
+  const { value, getUrl: isolatedGetUrl } = props;
   let fileList: UploadFile[] = [];
   if (value && _isString(value)) {
     fileList = [{ uid: '-1', url: value, name: setFileNameByPath(value), status: 'done' } as any];
@@ -114,7 +117,7 @@ export function setFileList(props: any): UploadFile[] {
   } else if (value && _isArray(value)) {
     fileList = value.map(item => {
       if (item.response) {
-        return { ...item, ...getUrl(item.response) }
+        return { ...item, ...isolatedGetUrl ? isolatedGetUrl(item.response) : getUrl(item.response) }
       }
       return item;
     })
@@ -123,8 +126,9 @@ export function setFileList(props: any): UploadFile[] {
 }
 
 export interface CustomUploadPorps extends UploadProps {
-  uploadFunction?: (file: File) => Promise<any>;
-  isUploadOk?: (response: any) => boolean;
+  uploadFunction?: (file: File, onProgress: ({ percent: number }) => void) => Promise<any>;
+  isUploadSuccess?: (response: any) => boolean;
+  getUrl?: (response: any) => { url: string, thumbUrl?: string };
   children?: React.ReactChildren | React.ReactNode;
   filesCountLimit?: number;
   fileSizeLimit?: number;
@@ -153,7 +157,7 @@ export default function CustomUpload(props: CustomUploadPorps) {
     sizeLimitHint,
     imageLimitHint,
     uploadFunction,
-    isUploadOk,
+    isUploadSuccess: isolatedIsUploadSuccess,
     ...rest
   } = props;
 
@@ -161,7 +165,7 @@ export default function CustomUpload(props: CustomUploadPorps) {
     <Upload
       accept={accept}
       name="image"
-      customRequest={customRequest(uploadFunction, isUploadOk)}
+      customRequest={customRequest(uploadFunction, isolatedIsUploadSuccess)}
       listType={listType || "text"}
       fileList={fileList}
       onChange={onChange}
