@@ -1,3 +1,6 @@
+import _keys from "lodash/keys";
+import _cloneDeep from "lodash/cloneDeep";
+
 export function getBase64(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -41,4 +44,68 @@ export function getImageDimension(imageUrl: string) {
 export function sizeOfFile(file: File) {
   const { size } = file;
   return size;
+}
+
+export function setResponse(response: XMLHttpRequest['response']) {
+  let result: any;
+  try {
+    result = JSON.parse(response);
+  } catch (err) {
+    result = _cloneDeep(response);
+  }
+  return result;
+}
+
+export type OnEvent = (xhr: XMLHttpRequest, ev: ProgressEvent) => void;
+export type ProgressEventData = {
+  method: string;
+  data: Document | BodyInit | null;
+  headers?: {
+    [k: string]: any;
+  };
+  withCredentials?: boolean;
+}
+export type ProgressEventEvents = {
+  onProgress: OnEvent,
+  onTimeout?: OnEvent,
+}
+export const progressXhr: (url: string, data: ProgressEventData, events: ProgressEventEvents) => void = (
+  url,
+  {
+    method,
+    data,
+    headers,
+    withCredentials = true,
+  },
+  {
+    onProgress = () => { },
+    onTimeout = () => { },
+  },
+) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+    if (headers) {
+      _keys(headers).forEach(item => {
+        xhr.setRequestHeader(item, headers[item]);
+      })
+    } else {
+      xhr.setRequestHeader('Accept', 'application/json');
+    }
+    xhr.withCredentials = withCredentials;
+    xhr.addEventListener('load', (ev) => {
+      resolve(setResponse(xhr.response))
+    });
+    xhr.upload.addEventListener("progress", (ev) => {
+      onProgress(xhr, ev);
+    }, false);
+    xhr.addEventListener('error', (ev) => {
+      reject({ type: 'error', xhr, progressEvent: ev });
+    });
+    xhr.addEventListener('timeout', (ev) => {
+      onTimeout(xhr, ev);
+      reject({ type: 'timeout', xhr, progressEvent: ev })
+    });
+    xhr.send(data);
+  })
 }
