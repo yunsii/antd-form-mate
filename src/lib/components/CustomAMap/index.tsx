@@ -3,7 +3,7 @@ import { Spin } from "antd";
 import { Map, Marker, MapProps } from "react-amap";
 import Geolocation from "react-amap-plugin-custom-geolocation";
 import PlaceSearch from "./PlaceSearch";
-import { isDevelopEnv } from '../../../utils';
+import { mapLocale } from '../../../locale';
 import { mapConfig } from '../../../config';
 
 let geocoder = null;
@@ -94,14 +94,15 @@ export function AMap({
   const regeoCode = (longitude: number, latitude: number) => {
     if (geocoder) {
       (geocoder as any).getAddress([longitude, latitude], (status, result) => {
+        console.log(status, result);
         if (status === 'complete') {
-          const { regeocode: { addressComponent } } = result;
-          getFormattedAddress(formattedAddress, {
+          const { regeocode: { addressComponent, formattedAddress: resultAddress } } = result;
+          getFormattedAddress(resultAddress, {
             lat: latitude,
             lng: longitude,
             ...addressComponent,
           });
-          setFormattedAddress(formattedAddress);
+          setFormattedAddress(resultAddress);
         } else {
           onError('getFormattedAddress', { status, result });
           console.error('getFormattedAddress:', status, result);
@@ -113,7 +114,7 @@ export function AMap({
 
   const plugins = ["Scale"];
 
-  let renderFormattedAddress = "（请选择地址）";
+  let renderFormattedAddress = mapLocale.addressPickPlaceholder;
   if (formattedAddress) {
     renderFormattedAddress = formattedAddress;
   }
@@ -125,7 +126,7 @@ export function AMap({
   const { height } = wrapperStyle;
   return (
     <Fragment>
-      <p style={{ margin: '8px 0' }}>当前地址：{renderFormattedAddress}</p>
+      <p style={{ margin: '8px 0' }}>{mapLocale.currentAddress}：{renderFormattedAddress}</p>
       <div
         style={
           Object.keys(wrapperStyle).length
