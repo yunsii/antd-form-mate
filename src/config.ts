@@ -16,7 +16,7 @@ export function setCommenProps(options) {
   }
 }
 
-export let uploadFile = async (file) => {
+export let uploadFile = async (file, onProgress?: { percent: number }) => {
   const dataUrl = await getBase64(file);
   return {
     data: {
@@ -35,7 +35,7 @@ export let isUploadSuccess = (response = {} as any) => {
 };
 
 export type UploadConfig = {
-  uploadFile?: (file: any) => any;
+  uploadFile?: (file: any, onProgress?: ({ percent: number })) => any;
   isUploadSuccess?: (response: any) => boolean;
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
 }
