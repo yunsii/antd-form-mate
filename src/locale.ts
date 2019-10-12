@@ -24,17 +24,22 @@ export function setDraggerLocale(config: DraggerLocale) {
 
 export const mapLocale = {
   currentAddress: '当前地址：',
-  addressPlaceholder: '（请选择地址）',
+  addressPickPlaceholder: '请选择地址',
+  addressInputPlaceholder: '请输入地址'
 }
 export type MapLocale = {
   currentAddress?: string;
-  addressPlaceholder?: string;
+  addressPickPlaceholder?: string;
+  addressInputPlaceholder?: string;
 }
 export function setMapLocale(config: MapLocale) {
   if (config.currentAddress !== undefined) {
     mapLocale.currentAddress = config.currentAddress;
   }
-  if (config.addressPlaceholder !== undefined) {
-    mapLocale.addressPlaceholder = config.addressPlaceholder;
+  if (config.addressPickPlaceholder !== undefined) {
+    mapLocale.addressPickPlaceholder = config.addressPickPlaceholder;
+  }
+  if (config.addressInputPlaceholder !== undefined) {
+    mapLocale.addressInputPlaceholder = config.addressInputPlaceholder;
   }
 }
