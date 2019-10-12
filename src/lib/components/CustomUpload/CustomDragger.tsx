@@ -34,7 +34,7 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
   };
 
   handleChange = ({ fileList }) => {
-    // console.log(fileList);
+    console.log(fileList);
     const { onChange } = this.props;
     if (onChange) {
       onChange(filterFileList(fileList) as any);

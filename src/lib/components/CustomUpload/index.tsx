@@ -43,11 +43,11 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
 
     if (/image\/./.test(type) && dimensionLimit) {
       const limits = processDimensionLimit(dimensionLimit);
-      // console.log(file);
+      console.log(file);
       const dataUrl: any = await getBase64(file);
       const dimension: any = await getImageDimension(dataUrl);
-      // console.log(limits);
-      // console.log(dimension);
+      console.log(limits);
+      console.log(dimension);
 
       const customHint = checkImage({ dimension, type, name, size: sizeOfFile(file) });
       if (isLimitDimension(limits, dimension) && !customHint) {

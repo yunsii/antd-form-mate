@@ -46,7 +46,7 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
   }
 
   handleMapCreated = map => {
-    // console.log("amap is created.");
+    console.log("amap is created.");
     if (map) this.map = map;
   };
 
@@ -93,7 +93,8 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
         position={position}
         onCreated={this.handleMapCreated}
         onClick={this.handleMapClick}
-        getFormattedAddress={address => {
+        getFormattedAddress={(address, info) => {
+          console.log(info);
           if (!address) {
             this.setState({
               formattedAddress: '',
