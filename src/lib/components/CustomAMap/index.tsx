@@ -38,6 +38,19 @@ function isLocationPosition(locationPosition, position) {
 
 export type ErrorType = 'locationError' | 'getFormattedAddress';
 
+export interface AddressInfo {
+  lat: number;
+  lng: number;
+  adcode: string;
+  district: string;
+  city?: string;
+  citycode?: string;
+  province?: string;
+  street?: string;
+  streetNumber?: string;
+  township?: string;
+}
+
 export interface AMapProps {
   /** position of Marker */
   position?: {
@@ -48,7 +61,7 @@ export interface AMapProps {
   wrapperStyle?: CSSProperties;
   onClick?: (longitude: number, latitude: number) => void;
   /** get human-readable address */
-  getFormattedAddress?: (formattedAddress: string) => void;
+  getFormattedAddress?: (formattedAddress: string, info: AddressInfo) => void;
   onCreated?: (map: any) => void;
   mapProps?: MapProps;
   children?: React.ReactChildren;
@@ -78,16 +91,22 @@ export function AMap({
     }
   };
 
-  const regeoCode = (longitude, latitude) => {
+  const regeoCode = (longitude: number, latitude: number) => {
     if (geocoder) {
       (geocoder as any).getAddress([longitude, latitude], (status, result) => {
-        const address = status === "complete" ? result.regeocode.formattedAddress : null;
-        getFormattedAddress(address);
-        if (!address) {
-          onError('getFormattedAddress', address);
-          console.error('getFormattedAddress:', address);
+        if (status === 'complete') {
+          const { regeocode: { addressComponent } } = result;
+          getFormattedAddress(formattedAddress, {
+            lat: latitude,
+            lng: longitude,
+            ...addressComponent,
+          });
+          setFormattedAddress(formattedAddress);
+        } else {
+          onError('getFormattedAddress', { status, result });
+          console.error('getFormattedAddress:', status, result);
+          setFormattedAddress(null);
         }
-        setFormattedAddress(address);
       });
     }
   };
@@ -121,12 +140,10 @@ export function AMap({
             created: handleCreatedMap,
             click: event => {
               const { lnglat } = event;
-              if (isDevelopEnv()) {
-                console.log(
-                  "click position:",
-                  `${lnglat.getLng()}, ${lnglat.getLat()}`
-                );
-              }
+              console.log(
+                "click position:",
+                `${lnglat.getLng()}, ${lnglat.getLat()}`
+              );
               onClick(lnglat.getLng(), lnglat.getLat());
               regeoCode(lnglat.getLng(), lnglat.getLat());
             }
@@ -154,12 +171,17 @@ export function AMap({
             events={{
               created: o => {
                 window.AMap.event.addListener(o, "complete", result => {
+                  const { addressComponent, formattedAddress, position } = result;
                   setLocationPosition({
                     longitude: result.position.lng,
                     latitude: result.position.lat
                   });
                   onClick(result.position.lng, result.position.lat);
-                  getFormattedAddress(result.formattedAddress);
+                  getFormattedAddress(formattedAddress, {
+                    lat: position.lat,
+                    lng: position.lng,
+                    ...addressComponent
+                  });
                   setFormattedAddress(result.formattedAddress);
                 }); // 返回定位信息
                 window.AMap.event.addListener(
@@ -178,7 +200,12 @@ export function AMap({
               console.log("PlaceSearch poi", poi);
               onClick(poi.location.lng, poi.location.lat);
               const address = `${poi.district}${poi.address}${poi.name}`
-              getFormattedAddress(address);
+              getFormattedAddress(address, {
+                lat: poi.location.lat,
+                lng: poi.location.lng,
+                adcode: poi.adcode,
+                district: poi.district,
+              });
               setFormattedAddress(address);
             }}
           />
