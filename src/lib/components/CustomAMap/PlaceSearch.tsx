@@ -1,4 +1,5 @@
 import React from "react";
+import { mapLocale } from '../../../locale';
 
 export interface PlaceSearchProps {
   __map__?: any;
@@ -49,6 +50,6 @@ export default class PlaceSearch extends React.Component<PlaceSearchProps> {
       ...customStyle
     };
 
-    return <input id="placeSearch" style={style as any} placeholder="搜索地址" />;
+    return <input id="placeSearch" style={style as any} placeholder={mapLocale.addressInputPlaceholder} />;
   }
 }
