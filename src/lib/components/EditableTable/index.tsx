@@ -1,36 +1,58 @@
 /* eslint-disable react/no-multi-comp */
 import React, { PureComponent, useContext } from 'react';
-import { Table, Form, Spin } from 'antd';
+import { Table, Form, Spin, Button } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { TableProps, ColumnProps } from 'antd/lib/table';
-import { createFormItems } from '../../form-mate';
+import { createFormItems, ItemConfig } from '../../form-mate';
+import { addDivider } from '../../../utils';
 
 const EditableTableContext = React.createContext({} as WrappedFormUtils);
 const EditableTableProvider = EditableTableContext.Provider;
 
-function EditableCell(props) {
+export type FormItemConfig = Pick<ItemConfig, "type" | "fieldProps" | "componentProps" | "component">
+
+export interface EditableColumnProps<T> extends ColumnProps<T> {
+  formItemConfig?: FormItemConfig;
+}
+
+export interface EditableCellProps<T> {
+  editing?: boolean;
+  record: T;
+  formItemConfig: FormItemConfig,
+  dataIndex: string,
+  title: string,
+  children: any;
+}
+
+function EditableCell(props: EditableCellProps<any>) {
   const form = useContext(EditableTableContext);
   const renderCell = () => {
     const {
       editing,
       dataIndex,
       title,
-      inputType,
+      formItemConfig = {},
       record,
-      index,
       children,
-      inputConfig = {},
       ...restProps
     } = props;
+    console.log(editing);
+    const { fieldProps, ...restFormItemConfig } = formItemConfig;
     return (
       <td {...restProps}>
-        {editing ? (
+        {editing && dataIndex ? (
           <Form.Item style={{ margin: 0 }}>
             {createFormItems(form)([
               {
-                ...inputConfig,
+                ...restFormItemConfig,
                 field: dataIndex,
-                initialValue: record[dataIndex],
+                fieldProps: {
+                  ...fieldProps,
+                  initialValue: record[dataIndex],
+                },
+                formItemProps: {
+                  dense: true,
+                }
               },
             ])}
           </Form.Item>
@@ -46,14 +68,14 @@ function EditableCell(props) {
 
 export interface EditableTableProps<T> extends TableProps<T> {
   form: WrappedFormUtils;
-  columns: ColumnProps<T>[];
+  columns: EditableColumnProps<T>[];
   initialData: T[];
 }
 
 export interface EditableTableState<T> {
   initialData: T[];
   data: T[];
-  editingKey: number;
+  editingKey: number | null;
   count: number;
 }
 
@@ -62,7 +84,7 @@ function initialState(props: EditableTableProps<any>) {
   return {
     initialData: initialData as any[],
     data: initialData as any[],
-    editingKey: -1,
+    editingKey: null,
     count: initialData.length,
   }
 }
@@ -71,7 +93,7 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
   static getDerivedStateFromProps(props: EditableTableProps<any>, state: EditableTableState<any>) {
     const { initialData } = props;
     const { initialData: initialDataInState } = state;
-    if (Array.isArray(initialDataInState) && initialDataInState.length) {
+    if (Array.isArray(initialDataInState) && !initialDataInState.length) {
       return {
         initialData,
         data: initialData,
@@ -131,7 +153,7 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
     this.setState({ data: newData });
   };
 
-  isEditing = record => record.key === this.state.editingKey;
+  isEditing = record => record.id === this.state.editingKey;
 
   cancel = (key, record) => {
     if (!record.id) {
@@ -175,8 +197,75 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
     this.setState({ editingKey: key });
   }
 
+  parseColumns = (columns: EditableColumnProps<any>[]) => {
+    console.log(columns);
+    return columns.map(col => {
+      if (!col.formItemConfig) {
+        return col;
+      }
+      return {
+        ...col,
+        onCell: record => ({
+          record,
+          formItemConfig: col.formItemConfig,
+          dataIndex: col.dataIndex,
+          title: col.title,
+          editing: this.isEditing(record),
+        }),
+      };
+    });
+  }
+
+  renderColumns = () => {
+    const { columns } = this.props;
+    const { editingKey } = this.state;
+    const renderOption = ({ text, onClick }) => <a onClick={onClick}>{text}</a>
+    const setInitOptionsConfig = (record) => {
+      return [
+        {
+          text: '编辑',
+          onClick: () => {
+            this.setState({ editingKey: record.id });
+          },
+        },
+        {
+          text: '删除',
+          onClick: () => { },
+        },
+      ]
+    }
+    const setEditOptionsConfig = (record) => {
+      let result = setInitOptionsConfig(record);
+      result.splice(0, 1,
+        {
+          text: '保存',
+          onClick: () => { },
+        },
+        {
+          text: '取消',
+          onClick: () => {
+            this.setState({ editingKey: null });
+          },
+        },
+      )
+      return result;
+    }
+    return [
+      ...columns,
+      {
+        title: '操作',
+        render: (value, record) => {
+          if (editingKey === null) {
+            return addDivider(setInitOptionsConfig(record).map(renderOption));
+          }
+          return addDivider(setEditOptionsConfig(record).map(renderOption));
+        }
+      }
+    ]
+  }
+
   render() {
-    const { form, columns } = this.props;
+    const { form } = this.props;
     const { data, initialData } = this.state;
     console.log(initialData);
 
@@ -189,7 +278,9 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
     return (
       <Spin spinning={!initialData.length}>
         <EditableTableProvider value={form}>
+          <Button type='primary' style={{ margin: '12px 0' }}>新建</Button>
           <Table
+            rowKey='id'
             rowClassName={(_, index) => {
               if (index % 2) {
                 return 'table-row';
@@ -199,7 +290,7 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
             components={components}
             bordered
             dataSource={data}
-            columns={columns}
+            columns={this.parseColumns(this.renderColumns())}
             pagination={false}
           />
         </EditableTableProvider>
