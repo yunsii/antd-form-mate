@@ -12,16 +12,33 @@ export default Form.create()((props) => {
         {
           title: '索引',
           dataIndex: 'id',
+          formItemConfig: {
+            type: 'string',
+            fieldProps: {
+              rules: [
+                {
+                  max: 3,
+                }
+              ]
+            }
+          },
         },
         {
           title: '姓名',
           dataIndex: 'name',
+          formItemConfig: {
+            type: 'string'
+          },
         },
       ]}
       initialData={[
         {
           id: 12,
           name: 'xys',
+        },
+        {
+          id: 48,
+          name: 'theprimone',
         },
       ]}
     />
