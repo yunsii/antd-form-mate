@@ -1,5 +1,8 @@
+import React from 'react';
+import { Divider } from 'antd';
 import _keys from "lodash/keys";
 import _cloneDeep from "lodash/cloneDeep";
+import _flatten from "lodash/flatten";
 
 export function getBase64(file: File) {
   return new Promise((resolve, reject) => {
@@ -108,4 +111,15 @@ export const progressXhr: (url: string, data: ProgressEventData, events: Progres
     });
     xhr.send(data);
   })
+}
+
+export function addDivider(actions) {
+  return _flatten(
+    actions.map((item, index) => {
+      if (index + 1 < actions.length) {
+        return [item, <Divider key={`${item.key}_divider`} type="vertical" />];
+      }
+      return [item];
+    })
+  );
 }
