@@ -1,5 +1,6 @@
 import * as FormMateConfig from './config';
 import * as FormMateLocale from './locale';
+import * as FormMateUtils from './utils';
 import {
   setDefaultExtra,
   setDefaultTypeHint,
@@ -22,6 +23,10 @@ export const locale = {
   setPicturesWallLocale: FormMateLocale.setPicturesWallLocale,
   setDraggerLocale: FormMateLocale.setDraggerLocale,
 };
+
+export const utils = {
+  progressXhr: FormMateUtils.progressXhr,
+}
 
 export { default as CheckGroup} from './lib/components/CustomCheckGroup';
 export { default as DatePicker} from './lib/components/CustomDatePicker';

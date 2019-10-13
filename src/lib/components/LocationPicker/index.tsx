@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Input, Modal, Icon, message } from "antd";
-import AMap from "../CustomAMap/index";
+import { Input, Modal, Icon } from "antd";
+import AMap, { ErrorType } from "../CustomAMap/index";
 
 export type Position = {
   longitude: number;
@@ -12,9 +12,14 @@ export type Value = {
   formattedAddress: string;
 };
 
+export type ErrorType = 'getFormattedAddress'
+
 export interface LocationPickerProps {
   value?: Value;
   onChange?: (value: Value) => void;
+  onError: (type: ErrorType, value: any) => void;
+  placeholder?: string;
+  modalTitle?: string;
 }
 
 export interface LocationPickerState {
@@ -41,7 +46,7 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
   }
 
   handleMapCreated = map => {
-    // console.log("amap is created.");
+    console.log("amap is created.");
     if (map) this.map = map;
   };
 
@@ -79,7 +84,7 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
   };
 
   render() {
-    const { value = {} as Value, onChange, ...rest } = this.props;
+    const { value = {} as Value, onChange, onError, placeholder, modalTitle, ...rest } = this.props;
     const { mapVisible, position, isMounted } = this.state;
     const { formattedAddress: inputFormattedAddress } = value;
 
@@ -88,9 +93,9 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
         position={position}
         onCreated={this.handleMapCreated}
         onClick={this.handleMapClick}
-        getFormattedAddress={address => {
+        getFormattedAddress={(address, info) => {
+          console.log(info);
           if (!address) {
-            message.error("根据经纬度转换地址失败");
             this.setState({
               formattedAddress: '',
             });
@@ -98,6 +103,7 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
           }
           this.setState({ formattedAddress: address });
         }}
+        onError={onError}
       />
     );
     if (!isMounted) map = null;
@@ -105,7 +111,7 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
     return (
       <>
         <Input
-          placeholder="请选择地址"
+          placeholder={placeholder || "请选择地址"}
           {...rest}
           value={inputFormattedAddress}
           suffix={
@@ -116,8 +122,8 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
           }
         />
         <Modal
-          title="高德地图"
-          width={600}
+          title={modalTitle || "高德地图"}
+          width={800}
           visible={mapVisible}
           onCancel={() => this.setState({ mapVisible: false })}
           onOk={this.handleMapOk}

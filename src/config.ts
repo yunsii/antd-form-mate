@@ -16,7 +16,7 @@ export function setCommenProps(options) {
   }
 }
 
-export let uploadFile = async (file) => {
+export let uploadFile = async (file, onProgress?: { percent: number }) => {
   const dataUrl = await getBase64(file);
   return {
     data: {
@@ -35,7 +35,7 @@ export let isUploadSuccess = (response = {} as any) => {
 };
 
 export type UploadConfig = {
-  uploadFile?: (file: any) => any;
+  uploadFile?: (file: any, onProgress?: ({ percent: number })) => any;
   isUploadSuccess?: (response: any) => boolean;
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
 }
@@ -59,5 +59,18 @@ export type PictureConfig = {
 export function setPictureConfig(options: PictureConfig) {
   if (options.imageFormatLimit !== undefined) {
     imageFormatLimit = options.imageFormatLimit;
+  }
+}
+
+export let mapConfig = {
+  amapKey: '1460ee2529622747f8faacac3e860bd6',
+};
+
+export type mapConfig = {
+  amapKey?: string,
+}
+export function setMapConfig(options: mapConfig) {
+  if (options.amapKey !== undefined) {
+    mapConfig.amapKey = options.amapKey;
   }
 }

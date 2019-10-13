@@ -16,7 +16,9 @@ import {
 
 const { Dragger } = Upload as any;
 
-export interface CustomDraggerProps extends CustomUploadPorps { }
+export interface CustomDraggerProps extends CustomUploadPorps {
+  value?: string | any[];
+}
 
 export interface CustomDraggerState {
   fileList: UploadProps["fileList"];
@@ -34,7 +36,7 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
   };
 
   handleChange = ({ fileList }) => {
-    // console.log(fileList);
+    console.log(fileList);
     const { onChange } = this.props;
     if (onChange) {
       onChange(filterFileList(fileList) as any);
@@ -44,6 +46,7 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
   render() {
     const {
       uploadFunction,
+      isUploadSuccess,
       onChange,
       filesCountLimit,
       fileSizeLimit,
@@ -60,7 +63,7 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
       <Dragger
         name="file"
         // multiple: true
-        customRequest={customRequest(uploadFunction)}
+        customRequest={customRequest(uploadFunction, isUploadSuccess)}
         onChange={this.handleChange}
         fileList={fileList}
         beforeUpload={commonBeforeUpload({
