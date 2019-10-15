@@ -17,9 +17,10 @@ export default Form.create()((props) => {
             fieldProps: {
               rules: [
                 {
-                  max: 3,
+                  max: 7,
                 }
-              ]
+              ],
+              initialValue: "ASDF",
             }
           },
         },
@@ -33,11 +34,11 @@ export default Form.create()((props) => {
       ]}
       initialData={[
         {
-          id: 12,
+          id: "DQFDQW",
           name: 'xys',
         },
         {
-          id: 48,
+          id: "SDGEDA",
           name: 'theprimone',
         },
       ]}
