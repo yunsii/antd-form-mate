@@ -3,8 +3,11 @@ import React, { PureComponent, useContext } from 'react';
 import { Table, Form, Spin, Button } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { TableProps, ColumnProps } from 'antd/lib/table';
+import _get from 'lodash/get';
+import _cloneDeep from 'lodash/cloneDeep';
 import { createFormItems, ItemConfig } from '../../form-mate';
 import { addDivider } from '../../../utils';
+import styles from './index.less';
 
 const EditableTableContext = React.createContext({} as WrappedFormUtils);
 const EditableTableProvider = EditableTableContext.Provider;
@@ -36,7 +39,6 @@ function EditableCell(props: EditableCellProps<any>) {
       children,
       ...restProps
     } = props;
-    console.log(editing);
     const { fieldProps, ...restFormItemConfig } = formItemConfig;
     return (
       <td {...restProps}>
@@ -62,7 +64,6 @@ function EditableCell(props: EditableCellProps<any>) {
       </td>
     );
   };
-
   return renderCell();
 }
 
@@ -79,13 +80,34 @@ export interface EditableTableState<T> {
   count: number;
 }
 
+function setInitialRecord(columns: EditableColumnProps<any>[]) {
+  const result = {};
+  columns.forEach(element => {
+    const initialValue = _get(element, 'formItemConfig.fieldProps.initialValue');
+    if (element.dataIndex && initialValue) {
+      result[element.dataIndex] = initialValue;
+    }
+  });
+  return result;
+}
+
+function setInitialData(initialData) {
+  return initialData.map((item, index) => {
+    return {
+      ...item,
+      key: index + 1,
+    }
+  })
+}
+
 function initialState(props: EditableTableProps<any>) {
-  const { initialData = [] } = props;
+  const { initialData = [], columns } = props;
   return {
-    initialData: initialData as any[],
-    data: initialData as any[],
+    initialData: setInitialData(initialData) as any[],
+    data: setInitialData(initialData) as any[],
     editingKey: null,
     count: initialData.length,
+    initialRecord: setInitialRecord(columns),
   }
 }
 
@@ -96,8 +118,8 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
     if (Array.isArray(initialDataInState) && !initialDataInState.length) {
       return {
         initialData,
-        data: initialData,
-        count: initialData.length,
+        data: setInitialData(initialData),
+        count: setInitialData(initialData).length,
       }
     }
     return null;
@@ -106,24 +128,26 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
   state = initialState(this.props);
 
   handleAdd = () => {
-    const { data, count } = this.state;
+    const { data, count, initialRecord } = this.state;
+    console.log(initialRecord);
     this.setState({
       data: [
         ...data,
         {
-          key: count,
+          key: count + 1,
+          ...initialRecord,
         },
       ],
-      editingKey: count,
+      editingKey: count + 1,
       count: count + 1,
     });
   };
 
-  handleDelete = (id, key) => {
+  handleDelete = (record) => {
     const { data } = this.state;
     const doDelete = () => {
       this.setState({
-        data: data.filter(item => item.key !== key),
+        data: data.filter(item => item.key !== record.key),
       });
     };
     // if (id) {
@@ -139,57 +163,38 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
     doDelete();
   };
 
-  handleEditableSave = row => {
-    console.log(row);
-    const { data } = this.state;
-    const newData = [...data];
-    const index = newData.findIndex(item => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    console.log('-> row newData', newData);
-    this.setState({ data: newData });
-  };
+  isEditingRecord = record => record.key === this.state.editingKey;
 
-  isEditing = record => record.id === this.state.editingKey;
-
-  cancel = (key, record) => {
+  handleCancel = (record) => {
     if (!record.id) {
       const { data } = this.state;
       this.setState({
         data: data.filter(item => item.id),
-        editingKey: -1,
+        editingKey: null,
       });
       return;
     }
     const { form } = this.props;
     form.validateFields(error => {
       if (error) return;
-      this.setState({ editingKey: -1 });
+      this.setState({ editingKey: null });
     });
   };
 
-  save(key) {
+  handleSave = (key) => {
     const { form } = this.props;
     form.validateFields((error, row) => {
       if (error) return;
       console.log(row);
+      const { data } = this.state;
       // eslint-disable-next-line react/destructuring-assignment
-      const newData = [...this.state.data];
-      const index = newData.findIndex(item => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        this.setState({ data: newData, editingKey: -1 });
-      } else {
-        newData.push(row);
-        this.setState({ data: newData, editingKey: -1 });
-      }
+      const newData = _cloneDeep(data);
+      const item = newData[key - 1];
+      newData.splice(key - 1, 1, {
+        ...item,
+        ...row,
+      });
+      this.setState({ data: newData, editingKey: null });
     });
   }
 
@@ -198,7 +203,6 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
   }
 
   parseColumns = (columns: EditableColumnProps<any>[]) => {
-    console.log(columns);
     return columns.map(col => {
       if (!col.formItemConfig) {
         return col;
@@ -210,7 +214,7 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
           formItemConfig: col.formItemConfig,
           dataIndex: col.dataIndex,
           title: col.title,
-          editing: this.isEditing(record),
+          editing: this.isEditingRecord(record),
         }),
       };
     });
@@ -219,33 +223,42 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
   renderColumns = () => {
     const { columns } = this.props;
     const { editingKey } = this.state;
-    const renderOption = ({ text, onClick }) => <a onClick={onClick}>{text}</a>
+    const renderOption = ({ text, onClick }) => {
+      if (!onClick) {
+        return <span key={text} className={styles.notAllow}>{text}</span>
+      }
+      return (
+        <a key={text} onClick={onClick}>{text}</a>
+      )
+    }
     const setInitOptionsConfig = (record) => {
-      return [
+      let result = [
         {
           text: '编辑',
           onClick: () => {
-            this.setState({ editingKey: record.id });
+            this.setState({ editingKey: record.key });
           },
         },
         {
           text: '删除',
-          onClick: () => { },
+          onClick: () => this.handleDelete(record),
         },
-      ]
+      ];
+      if (editingKey && editingKey !== record.key) {
+        return result.map(item => ({ text: item.text }));
+      }
+      return result;
     }
     const setEditOptionsConfig = (record) => {
-      let result = setInitOptionsConfig(record);
+      let result: any = setInitOptionsConfig(record);
       result.splice(0, 1,
         {
           text: '保存',
-          onClick: () => { },
+          onClick: () => this.handleSave(record.key),
         },
         {
           text: '取消',
-          onClick: () => {
-            this.setState({ editingKey: null });
-          },
+          onClick: () => this.handleCancel(record),
         },
       )
       return result;
@@ -255,7 +268,7 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
       {
         title: '操作',
         render: (value, record) => {
-          if (editingKey === null) {
+          if (editingKey === null || editingKey !== record.key) {
             return addDivider(setInitOptionsConfig(record).map(renderOption));
           }
           return addDivider(setEditOptionsConfig(record).map(renderOption));
@@ -266,8 +279,7 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
 
   render() {
     const { form } = this.props;
-    const { data, initialData } = this.state;
-    console.log(initialData);
+    const { data, initialData, editingKey } = this.state;
 
     const components = {
       body: {
@@ -278,9 +290,16 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
     return (
       <Spin spinning={!initialData.length}>
         <EditableTableProvider value={form}>
-          <Button type='primary' style={{ margin: '12px 0' }}>新建</Button>
+          <Button
+            type='primary'
+            style={{ margin: '12px 0' }}
+            onClick={this.handleAdd}
+            disabled={!!editingKey}
+          >
+            新建
+          </Button>
           <Table
-            rowKey='id'
+            rowKey='key'
             rowClassName={(_, index) => {
               if (index % 2) {
                 return 'table-row';
