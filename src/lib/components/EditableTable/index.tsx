@@ -4,9 +4,12 @@ import { Table, Form, Spin, Button } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { TableProps, ColumnProps } from 'antd/lib/table';
 import _get from 'lodash/get';
+import _isArray from 'lodash/isArray';
 import _cloneDeep from 'lodash/cloneDeep';
+import _findIndex from 'lodash/findIndex';
 import { createFormItems, ItemConfig } from '../../form-mate';
 import { addDivider } from '../../../utils';
+import { setRenderForColumn } from './utils';
 import styles from './index.less';
 
 const EditableTableContext = React.createContext({} as WrappedFormUtils);
@@ -187,10 +190,10 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
       if (error) return;
       console.log(row);
       const { data } = this.state;
-      // eslint-disable-next-line react/destructuring-assignment
       const newData = _cloneDeep(data);
-      const item = newData[key - 1];
-      newData.splice(key - 1, 1, {
+      const targetIndex = _findIndex(newData, item => item.key === key);
+      const item = newData[targetIndex];
+      newData.splice(targetIndex, 1, {
         ...item,
         ...row,
       });
@@ -264,7 +267,7 @@ class EditableTable extends PureComponent<EditableTableProps<any>, EditableTable
       return result;
     }
     return [
-      ...columns,
+      ...columns.map(setRenderForColumn),
       {
         title: '操作',
         render: (value, record) => {
