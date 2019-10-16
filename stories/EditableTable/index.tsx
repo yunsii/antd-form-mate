@@ -10,8 +10,18 @@ export default Form.create()((props) => {
       form={form}
       columns={[
         {
-          title: '索引',
-          dataIndex: 'id',
+          title: '姓名',
+          dataIndex: 'name',
+          formItemConfig: {
+            type: 'string',
+            fieldProps: {
+              initialValue: "xxx",
+            }
+          },
+        },
+        {
+          title: '性别',
+          dataIndex: 'gender',
           formItemConfig: {
             type: 'string',
             fieldProps: {
@@ -20,25 +30,27 @@ export default Form.create()((props) => {
                   max: 7,
                 }
               ],
-              initialValue: "ASDF",
+              initialValue: "女",
             }
           },
         },
         {
-          title: '姓名',
-          dataIndex: 'name',
+          title: '生日',
+          dataIndex: 'birthday',
           formItemConfig: {
-            type: 'string'
+            type: 'date'
           },
         },
       ]}
       initialData={[
         {
-          id: "DQFDQW",
+          id: 123,
+          gender: "男",
           name: 'xys',
         },
         {
-          id: "SDGEDA",
+          id: 23,
+          gender: "女",
           name: 'theprimone',
         },
       ]}
