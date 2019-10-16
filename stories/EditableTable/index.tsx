@@ -1,6 +1,18 @@
 import * as React from 'react';
+import moment from 'moment';
 import { Form } from 'antd';
 import EditableTable from '../../src/lib/components/EditableTable';
+
+const genderOptions = [
+  {
+    text: '男',
+    value: 1,
+  },
+  {
+    text: '女',
+    value: 2,
+  },
+];
 
 export default Form.create()((props) => {
   const { form } = props;
@@ -23,20 +35,24 @@ export default Form.create()((props) => {
           title: '性别',
           dataIndex: 'gender',
           formItemConfig: {
-            type: 'string',
+            type: 'select',
             fieldProps: {
-              rules: [
-                {
-                  max: 7,
-                }
-              ],
-              initialValue: "女",
-            }
+              initialValue: 1,
+            },
+            componentProps: {
+              options: genderOptions,
+            },
           },
         },
         {
           title: '生日',
           dataIndex: 'birthday',
+          render: (value) => {
+            if (value) {
+              return moment(value).format('YYYY-MM-DD');
+            }
+            return '-';
+          },
           formItemConfig: {
             type: 'date'
           },
@@ -45,12 +61,12 @@ export default Form.create()((props) => {
       initialData={[
         {
           id: 123,
-          gender: "男",
+          gender: 1,
           name: 'xys',
         },
         {
           id: 23,
-          gender: "女",
+          gender: 2,
           name: 'theprimone',
         },
       ]}
