@@ -111,9 +111,9 @@ export function setFileList(props: CustomDraggerProps | PicturesWallProps): Uplo
   const { value, getUrl: isolatedGetUrl } = props;
   let fileList: UploadFile[] = [];
   if (value && _isString(value)) {
-    fileList = [{ uid: '-1', url: value, name: setFileNameByPath(value), status: 'done' } as any];
+    fileList = [{ uid: setFileNameByPath(value), url: value, name: setFileNameByPath(value), status: 'done' } as any];
   } else if (value && _isArray(value) && _isString(value[0])) {
-    fileList = value.map((item, index) => ({ uid: `${-index}`, url: item, name: setFileNameByPath(item), status: 'done' } as any));
+    fileList = value.map((item, index) => ({ uid: setFileNameByPath(item), url: item, name: setFileNameByPath(item), status: 'done' } as any));
   } else if (value && _isArray(value)) {
     fileList = value.map(item => {
       if (item.response) {
