@@ -9,7 +9,7 @@ import CustomUpload, {
 } from "../CustomUpload/index";
 import { picturesWallLocale } from '../../../locale';
 import { imageFormatLimit } from '../../../config';
-import { getBase64 } from '../../../utils';
+import { getBase64, getImageDimension } from '../../../utils';
 import styles from "./index.less";
 
 export function getPicturesLink(fileList) {
@@ -30,6 +30,7 @@ export interface PicturesWallState {
   previewVisible: boolean;
   previewImage: string;
   fileList: any[];
+  previewWidth: number;
 }
 
 class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState> {
@@ -44,6 +45,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
     previewVisible: false,
     previewImage: "",
     fileList: [],
+    previewWidth: 600,
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
@@ -53,11 +55,24 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
       file.preview = await getBase64(file.originFileObj);
     }
 
+    const url = file.url || file.preview;
+
     this.setState({
-      previewImage: file.url || file.preview,
+      previewWidth: await this.setPreviewWidth(url),
+      previewImage: url,
       previewVisible: true,
     });
   };
+
+  setPreviewWidth = async (url: string) => {
+    const { width } = await getImageDimension(url);
+    const innerWidth = window.innerWidth;
+    if (width <= innerWidth) {
+      return width <= 800 ? width : 1000;
+    } else {
+      return innerWidth * 0.6;
+    }
+  }
 
   handleChange = ({ fileList }: { fileList: UploadFile[] }) => {
     console.log(fileList);
@@ -68,7 +83,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   };
 
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
+    const { previewVisible, previewImage, fileList, previewWidth } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -91,6 +106,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
           visible={previewVisible}
           footer={null}
           onCancel={this.handleCancel}
+          width={previewWidth}
         >
           <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
