@@ -14,7 +14,7 @@ export function isDevelopEnv() {
   return process.env.NODE_ENV === 'development';
 }
 
-export function getImageDimension(imageUrl: string) {
+export function getImageDimension(imageUrl: string): Promise<{ width: number, height: number }> {
   const img = new Image();
   img.src = imageUrl;
   return new Promise((resolve, reject) => {
