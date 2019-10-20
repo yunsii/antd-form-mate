@@ -129,7 +129,6 @@ function renderInputComponent(inputConfig) {
     case "number":
       return (
         <InputNumber
-          placeholder="请输入"
           style={commenStyle}
           {...commenProps}
           {...componentProps}
@@ -141,7 +140,6 @@ function renderInputComponent(inputConfig) {
       return (
         <TextArea
           style={{ ...commenStyle }}
-          placeholder="请输入"
           {...componentProps}
         />
       );
@@ -149,7 +147,6 @@ function renderInputComponent(inputConfig) {
       return (
         <Password
           style={commenStyle}
-          placeholder="请输入密码"
           {...commenProps}
           {...componentProps}
         />
@@ -173,7 +170,6 @@ function renderInputComponent(inputConfig) {
       return (
         <Input
           style={commenStyle}
-          placeholder="请输入"
           {...commenProps}
           {...componentProps}
         />
