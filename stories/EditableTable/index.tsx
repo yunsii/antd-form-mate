@@ -1,7 +1,7 @@
 import * as React from 'react';
 import moment from 'moment';
 import { Form } from 'antd';
-import EditableTable from '../../src/lib/components/EditableTable';
+import EditableTable, { EditableTableProps } from '../../src/lib/components/EditableTable';
 
 const genderOptions = [
   {
@@ -14,11 +14,16 @@ const genderOptions = [
   },
 ];
 
-export default Form.create()((props) => {
+export interface RecordInterface {
+  id: number;
+  gender: number;
+  name: string;
+}
+
+export default Form.create()((props: EditableTableProps<RecordInterface>) => {
   const { form } = props;
   return (
     <EditableTable
-      rowKey='id'
       form={form}
       columns={[
         {
@@ -54,7 +59,12 @@ export default Form.create()((props) => {
             return '-';
           },
           formItemConfig: {
-            type: 'date'
+            type: 'date',
+            fieldProps: {
+              rules: [
+                { required: true },
+              ],
+            },
           },
         },
       ]}
