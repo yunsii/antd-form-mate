@@ -18,19 +18,21 @@ const EditableTableProvider = EditableTableContext.Provider;
 
 export type FormItemConfig = Pick<ItemConfig, "type" | "fieldProps" | "componentProps" | "component">
 
+export type OmittedTableProps<T> = Omit<TableProps<T>, 'onChange'>
+
 export interface DefaultRecordParams { id: number | string }
 
 export interface EditableColumnProps<T> extends ColumnProps<T> {
   formItemConfig?: FormItemConfig;
 }
 
-export interface EditableTableProps<T> extends TableProps<T> {
+export interface EditableTableProps<T> extends OmittedTableProps<T> {
   form: WrappedFormUtils;
   columns: EditableColumnProps<T>[];
   initialData: T[];
-  onCreate: (fieldsValue: any) => Promise<boolean | undefined>;
-  onUpdate: (fieldsValue: any) => Promise<boolean | undefined>;
-  onDelete: (record: any) => Promise<boolean | undefined>;
+  onCreate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
+  onUpdate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
+  onDelete: (record: T & { key: number }) => Promise<boolean | void>;
 }
 
 export interface EditableTableState<T> {
@@ -97,7 +99,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
 
   state = initialState(this.props);
 
-  handleLoading = async (func: any) => {
+  handleLoading = async (func: () => Promise<boolean | void>) => {
     this.setState({
       tableLoading: true,
     });
@@ -128,9 +130,8 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     const { onDelete } = this.props;
     const { data } = this.state;
 
-    console.log('delete record', record);
-    const isOk = this.handleLoading(async () => await onDelete(record));
-    if (isOk) {
+    const isOk = await this.handleLoading(async () => await onDelete(record));
+    if (isOk !== false) {
       this.setState({
         data: data.filter(item => item.key !== record.key),
       });
@@ -148,11 +149,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
       });
       return;
     }
-    const { form } = this.props;
-    form.validateFields(error => {
-      if (error) return;
-      this.setState({ editingKey: null });
-    });
+    this.setState({ editingKey: null });
   };
 
   handleSave = (key: number) => {
@@ -169,16 +166,14 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
         ...fieldsValue,
       };
       const { id } = newRecord;
-      let isOk: boolean | undefined = false;
+      let isOk: boolean | void = true;
       if (id !== undefined) {
-        console.log('update record', newRecord);
         isOk = await this.handleLoading(async () => await onUpdate(newRecord));
       } else {
-        console.log('create record', newRecord);
         isOk = await this.handleLoading(async () => await onCreate(newRecord));
       }
 
-      if (isOk) {
+      if (isOk !== false) {
         newData.splice(targetIndex, 1, newRecord);
         this.setState({ data: newData, editingKey: null });
       }
@@ -211,7 +206,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     const { columns } = this.props;
     const { editingKey } = this.state;
 
-    const renderOption = ({ text, onClick }) => {
+    const renderOption = ({ text, onClick }: { text: string, onClick: any }) => {
       if (!onClick) {
         return <span key={text} className={styles.notAllow}>{text}</span>
       }
@@ -221,34 +216,32 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     }
 
     const setInitOptionsConfig = (record: T & { key: number }) => {
-      let result = [
+      let result: { text: string; onClick: (() => void) | undefined }[] = [
         {
           text: '编辑',
-          onClick: () => {
-            this.setState({ editingKey: record.key });
-          },
+          onClick: () => { this.setState({ editingKey: record.key }) },
         },
         {
           text: '删除',
-          onClick: () => this.handleDelete(record),
+          onClick: () => { this.handleDelete(record) },
         },
       ];
       if (editingKey && editingKey !== record.key) {
-        return result.map(item => ({ text: item.text }));
+        return result.map(item => ({ text: item.text, onClick: undefined }));
       }
       return result;
     }
 
     const setEditOptionsConfig = (record: T & { key: number }) => {
-      let result: any = setInitOptionsConfig(record);
+      let result = setInitOptionsConfig(record);
       result.splice(0, 1,
         {
           text: '保存',
-          onClick: () => this.handleSave(record.key),
+          onClick: () => { this.handleSave(record.key) },
         },
         {
           text: '取消',
-          onClick: () => this.handleCancel(record),
+          onClick: () => { this.handleCancel(record) },
         },
       )
       return result;
