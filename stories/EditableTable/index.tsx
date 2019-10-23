@@ -1,7 +1,7 @@
 import * as React from 'react';
 import moment from 'moment';
 import { Form } from 'antd';
-import EditableTable, { EditableTableProps } from '../../src/lib/components/EditableTable';
+import EditableTable from '../../src/lib/components/EditableTable';
 
 const genderOptions = [
   {
@@ -14,13 +14,7 @@ const genderOptions = [
   },
 ];
 
-export interface RecordInterface {
-  id: number;
-  gender: number;
-  name: string;
-}
-
-export default Form.create()((props: EditableTableProps<RecordInterface>) => {
+export default Form.create()((props) => {
   const { form } = props;
   return (
     <EditableTable
@@ -73,13 +67,24 @@ export default Form.create()((props: EditableTableProps<RecordInterface>) => {
           id: 123,
           gender: 1,
           name: 'xys',
+          birthday: null,
         },
         {
           id: 23,
           gender: 2,
           name: 'theprimone',
+          birthday: null,
         },
       ]}
+      onCreate={async (record) => {
+        console.log('create record', record);
+      }}
+      onUpdate={async (record) => {
+        console.log('update record', record);
+      }}
+      onDelete={async (record) => {
+        console.log('delete record', record);
+      }}
     />
   )
 })
