@@ -4,9 +4,9 @@ import { Table, Spin, Button } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { TableProps, ColumnProps } from 'antd/lib/table';
 import _get from 'lodash/get';
-import _isArray from 'lodash/isArray';
 import _cloneDeep from 'lodash/cloneDeep';
 import _findIndex from 'lodash/findIndex';
+import _isEqual from 'lodash/isEqual';
 import { ItemConfig } from '../../form-mate';
 import { addDivider } from '../../../utils';
 import { setRenderForColumn } from './utils';
@@ -18,21 +18,22 @@ const EditableTableProvider = EditableTableContext.Provider;
 
 export type FormItemConfig = Pick<ItemConfig, "type" | "fieldProps" | "componentProps" | "component">
 
-export type OmittedTableProps<T> = Omit<TableProps<T>, 'onChange'>
-
 export interface DefaultRecordParams { id: number | string }
 
 export interface EditableColumnProps<T> extends ColumnProps<T> {
   formItemConfig?: FormItemConfig;
 }
 
-export interface EditableTableProps<T> extends OmittedTableProps<T> {
+export interface EditableTableProps<T> extends TableProps<T> {
   form: WrappedFormUtils;
   columns: EditableColumnProps<T>[];
   initialData: T[];
   onCreate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
   onUpdate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
   onDelete: (record: T & { key: number }) => Promise<boolean | void>;
+  syncData: (data: T[]) => void;
+  ref?: (ref: EditableTable<any>) => void;
+  loading?: boolean;
 }
 
 export interface EditableTableState<T> {
@@ -69,8 +70,8 @@ function initialState<T>(props: EditableTableProps<T>) {
   return {
     initialData: setInitialData(initialData),
     data: setInitialData(initialData),
-    editingKey: null,
     count: initialData.length,
+    editingKey: null,
     initialRecordValues: setEditInitialValues(columns),
     tableLoading: false,
   }
@@ -82,22 +83,33 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     onCreate: () => true,
     onUpdate: () => true,
     onDelete: () => true,
+    syncData: () => true,
   }
 
   static getDerivedStateFromProps<T extends DefaultRecordParams>(props: EditableTableProps<T>, state: EditableTableState<T>) {
     const { initialData } = props;
     const { initialData: initialDataInState } = state;
-    if (Array.isArray(initialDataInState) && !initialDataInState.length) {
+    if (!_isEqual(initialData, initialDataInState)) {
       return {
         initialData,
         data: setInitialData(initialData),
         count: setInitialData(initialData).length,
+        editingKey: null,
       }
     }
     return null;
   }
 
   state = initialState(this.props);
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { data: prevData } = prevState;
+    const { data: thisData } = this.state;
+    const { syncData } = this.props;
+    if (!_isEqual(prevData, thisData)) {
+      syncData(thisData);
+    }
+  }
 
   handleLoading = async (func: () => Promise<boolean | void>) => {
     this.setState({
@@ -130,13 +142,20 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     const { onDelete } = this.props;
     const { data } = this.state;
 
-    const isOk = await this.handleLoading(async () => await onDelete(record));
+    let isOk: boolean | void;
+    if (!record.id) {
+      isOk = true;
+    } else {
+      isOk = await this.handleLoading(async () => await onDelete(record));
+    }
     if (isOk !== false) {
       this.setState({
         data: data.filter(item => item.key !== record.key),
       });
     }
   };
+
+  public isEditing = (record: T & { key: number }) => !!this.state.editingKey;
 
   isEditingRecord = (record: T & { key: number }) => record.key === this.state.editingKey;
 
@@ -152,18 +171,29 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     this.setState({ editingKey: null });
   };
 
+  getColumnsValue = (fieldsValue) => {
+    const { columns } = this.props;
+    let result: any = {};
+    columns.forEach((element) => {
+      if (element.dataIndex) {
+        result[element.dataIndex] = fieldsValue[element.dataIndex];
+      }
+    });
+    return result;
+  }
+
   handleSave = (key: number) => {
     const { form, onCreate, onUpdate } = this.props;
     form.validateFields(async (error, fieldsValue) => {
       if (error) return;
       console.log(fieldsValue);
+      const filteredValue = this.getColumnsValue(fieldsValue);
       const { data } = this.state;
       const newData = _cloneDeep(data);
       const targetIndex = _findIndex(newData, item => item.key === key);
-      const targetItem = newData[targetIndex];
       const newRecord = {
-        ...targetItem,
-        ...fieldsValue,
+        ...newData[targetIndex],
+        ...filteredValue,
       };
       const { id } = newRecord;
       let isOk: boolean | void = true;
@@ -233,8 +263,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     }
 
     const setEditOptionsConfig = (record: T & { key: number }) => {
-      let result = setInitOptionsConfig(record);
-      result.splice(0, 1,
+      return [
         {
           text: '保存',
           onClick: () => { this.handleSave(record.key) },
@@ -243,8 +272,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
           text: '取消',
           onClick: () => { this.handleCancel(record) },
         },
-      )
-      return result;
+      ];
     }
 
     return [
@@ -262,8 +290,12 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
   }
 
   render() {
-    const { form, loading } = this.props;
-    const { data, initialData, editingKey, tableLoading } = this.state;
+    const { form, loading, ref } = this.props;
+    const { data, editingKey, tableLoading } = this.state;
+
+    if (ref) {
+      ref(this);
+    }
 
     const components = {
       body: {
@@ -272,7 +304,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     };
 
     return (
-      <Spin spinning={!initialData.length}>
+      <Spin spinning={loading || tableLoading}>
         <EditableTableProvider value={form}>
           <Button
             type='primary'
@@ -295,7 +327,6 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
             dataSource={data}
             columns={this.parseColumns(this.renderColumns())}
             pagination={false}
-            loading={loading || tableLoading}
           />
         </EditableTableProvider>
       </Spin>
