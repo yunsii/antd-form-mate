@@ -31,7 +31,8 @@ export interface EditableTableProps<T> extends TableProps<T> {
   onCreate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
   onUpdate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
   onDelete: (record: T & { key: number }) => Promise<boolean | void>;
-  syncData: (data: T[]) => void;
+  onDataChange: (data: T[]) => void;
+  onRecordAdd?: (initialRecord: T, prevData: T[]) => T;
   ref?: (ref: EditableTable<any>) => void;
   loading?: boolean;
 }
@@ -83,7 +84,6 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     onCreate: () => true,
     onUpdate: () => true,
     onDelete: () => true,
-    syncData: () => true,
   }
 
   static getDerivedStateFromProps<T extends DefaultRecordParams>(props: EditableTableProps<T>, state: EditableTableState<T>) {
@@ -105,9 +105,9 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { data: prevData } = prevState;
     const { data: thisData } = this.state;
-    const { syncData } = this.props;
+    const { onDataChange } = this.props;
     if (!_isEqual(prevData, thisData)) {
-      syncData(thisData);
+      onDataChange(thisData);
     }
   }
 
@@ -123,14 +123,22 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
   }
 
   handleAdd = () => {
+    const { onRecordAdd } = this.props;
     const { data, count, initialRecordValues } = this.state;
     console.log(initialRecordValues);
+    let newRecord: T = {
+      ...initialRecordValues,
+    };
+    if (onRecordAdd) {
+      newRecord = { ...newRecord, ...onRecordAdd(newRecord, data) };
+    }
+
     this.setState({
       data: [
         ...data,
         {
+          ...newRecord,
           key: count + 1,
-          ...initialRecordValues,
         },
       ],
       editingKey: count + 1,
