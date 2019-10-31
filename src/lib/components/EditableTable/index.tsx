@@ -33,6 +33,7 @@ export interface EditableTableProps<T> extends TableProps<T> {
   onDelete: (record: T & { key: number }) => Promise<boolean | void>;
   onDataChange: (data: T[]) => void;
   onRecordAdd?: (initialRecord: T, prevData: T[]) => T;
+  editingKey?: (editingKey: number | null) => void;
   ref?: (ref: EditableTable<any>) => void;
   loading?: boolean;
 }
@@ -102,12 +103,15 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
 
   state = initialState(this.props);
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { data: prevData } = prevState;
-    const { data: thisData } = this.state;
-    const { onDataChange } = this.props;
+  componentDidUpdate(prevProps, prevState: EditableTableState<T>, snapshot) {
+    const { data: prevData, editingKey: prevEditingKey } = prevState;
+    const { data: thisData, editingKey: thisEditingKey } = this.state;
+    const { onDataChange, editingKey } = this.props;
     if (!_isEqual(prevData, thisData)) {
       onDataChange(thisData);
+    }
+    if (!_isEqual(prevEditingKey, thisEditingKey) && editingKey) {
+      editingKey(thisEditingKey);
     }
   }
 
