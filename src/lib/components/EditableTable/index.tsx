@@ -105,6 +105,12 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
 
   state = initialState(this.props);
 
+  componentDidMount() {
+    const { onDataChange } = this.props;
+    const { data } = this.state;
+    onDataChange(data);
+  }
+
   componentDidUpdate(prevProps, prevState: EditableTableState<T>, snapshot) {
     const { data: prevData, editingKey: prevEditingKey } = prevState;
     const { data: thisData, editingKey: thisEditingKey } = this.state;
