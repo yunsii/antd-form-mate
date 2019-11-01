@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import React, { PureComponent } from 'react';
-import { Table, Spin, Button } from 'antd';
+import { Table, Spin, Button, Popconfirm } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { TableProps, ColumnProps } from 'antd/lib/table';
 import _get from 'lodash/get';
@@ -130,9 +130,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     const { onRecordAdd } = this.props;
     const { data, count, initialRecordValues } = this.state;
     console.log(initialRecordValues);
-    let newRecord: T = {
-      ...initialRecordValues,
-    };
+    let newRecord: T = { ...initialRecordValues };
     if (onRecordAdd) {
       newRecord = { ...newRecord, ...onRecordAdd(newRecord, data) };
     }
@@ -251,6 +249,16 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     const renderOption = ({ text, onClick }: { text: string, onClick: any }) => {
       if (!onClick) {
         return <span key={text} className={styles.notAllow}>{text}</span>
+      }
+      if (text === '删除') {
+        return (
+          <Popconfirm
+            title="确定删除吗？?"
+            onConfirm={onClick}
+          >
+            <a key={text}>删除</a>
+          </Popconfirm>
+        )
       }
       return (
         <a key={text} onClick={onClick}>{text}</a>
