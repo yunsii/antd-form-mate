@@ -85,6 +85,9 @@ export default Form.create()((props) => {
       onDelete={async (record) => {
         console.log('delete record', record);
       }}
+      onDataChange={(data) => {
+        console.log(data);
+      }}
     />
   )
 })
