@@ -6,6 +6,7 @@ import { TableProps, ColumnProps } from 'antd/lib/table';
 import _get from 'lodash/get';
 import _cloneDeep from 'lodash/cloneDeep';
 import _findIndex from 'lodash/findIndex';
+import _isFunction from 'lodash/isFunction';
 import _isEqual from 'lodash/isEqual';
 import { ItemConfig } from '../../form-mate';
 import { addDivider } from '../../../utils';
@@ -32,6 +33,7 @@ export interface EditableTableProps<T> extends TableProps<T> {
   onUpdate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
   onDelete: (record: T & { key: number }) => Promise<boolean | void>;
   onDataChange: (data: T[]) => void;
+  onCancel?: (record: T & { key: number }) => void;
   onRecordAdd?: (initialRecord: T, prevData: T[]) => T;
   editingKey?: (editingKey: number | null) => void;
   ref?: (ref: EditableTable<any>) => void;
@@ -169,7 +171,9 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
 
   isEditingRecord = (record: T & { key: number }) => record.key === this.state.editingKey;
 
-  handleCancel = (record: T) => {
+  handleCancel = (record: T & { key: number }) => {
+    const { onCancel } = this.props;
+    if (_isFunction(onCancel)) { onCancel(record) }
     if (!record.id) {
       const { data } = this.state;
       this.setState({
