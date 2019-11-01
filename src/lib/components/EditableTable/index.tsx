@@ -33,7 +33,7 @@ export interface EditableTableProps<T> extends TableProps<T> {
   onUpdate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
   onDelete: (record: T & { key: number }) => Promise<boolean | void>;
   onDataChange: (data: T[]) => void;
-  onCancel?: (record: T & { key: number }) => void;
+  onCancel?: (prevRecord: T & { key: number }, record: T & { key: number }) => void;
   onRecordAdd?: (initialRecord: T, prevData: T[]) => T;
   editingKey?: (editingKey: number | null) => void;
   ref?: (ref: EditableTable<any>) => void;
@@ -171,10 +171,10 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
 
   isEditingRecord = (record: T & { key: number }) => record.key === this.state.editingKey;
 
-  handleCancel = (record: T & { key: number }) => {
-    const { onCancel } = this.props;
-    if (_isFunction(onCancel)) { onCancel(record) }
-    if (!record.id) {
+  handleCancel = (prevRecord) => {
+    const { onCancel, form } = this.props;
+    if (_isFunction(onCancel)) { onCancel(prevRecord, { ...prevRecord, ...this.getColumnsValue(form.getFieldsValue()) }) }
+    if (!prevRecord.id) {
       const { data } = this.state;
       this.setState({
         data: data.filter(item => item.id),
