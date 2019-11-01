@@ -88,6 +88,9 @@ export default Form.create()((props) => {
       onDataChange={(data) => {
         console.log(data);
       }}
+      onCancel={(prevRecord, record) => {
+        console.log(prevRecord, record);
+      }}
     />
   )
 })
