@@ -257,10 +257,11 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
       if (text === '删除') {
         return (
           <Popconfirm
+            key={text}
             title="确定删除吗？?"
             onConfirm={onClick}
           >
-            <a key={text}>删除</a>
+            <a>删除</a>
           </Popconfirm>
         )
       }
