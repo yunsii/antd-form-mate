@@ -87,6 +87,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     onCreate: () => true,
     onUpdate: () => true,
     onDelete: () => true,
+    onDataChange: () => null,
   }
 
   static getDerivedStateFromProps<T extends DefaultRecordParams>(props: EditableTableProps<T>, state: EditableTableState<T>) {
