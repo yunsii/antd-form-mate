@@ -59,29 +59,30 @@ $ npm start
 
 ### API
 
-### 表单项
+#### 表单项
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `type` | 上述类型 | [`ComponentType`](./src/antd-form-mate.tsx#L181) | `'string'` |
+| `type` | 上述类型 | [`ComponentType`](./src/lib/form-mate.tsx#L199) | `'string'` |
 | `field` | 字段名 | `string` | - |
 | `formItemProps` | Form.Item 支持的配置，新增 `dense` 属性配置 Form.Item `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
 | `fieldProps` | 字段值配置  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
-| `componentProps` | 额外的组件配置 | [`ComponentProps`](./src/antd-form-mate.tsx#L203) | - |
+| `componentProps` | 额外的组件配置 | [`ComponentProps`](./src/lib/form-mate.tsx#L222) | - |
 | `component` | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | `React.ElementType` | - |
 
 ### 基础用法
 
 ```tsx
 import { Form, Button } from 'antd';
+import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { createFormItems } from 'antd-form-mate';
 import { ItemConfig } from 'antd-form-mate/dist/lib/form-mate';
 
 export interface FormProps {
-  form: any
+  form: WrappedFormUtils;
 }
 
-class BasicForm extends React.Component<FormProps, null> {
+class BasicForm extends React.Component<FormProps> {
   setFormItemsConfig = (detail: any = {}): ItemConfig[] => {
     return [
       {
@@ -138,3 +139,32 @@ export default Form.create()(BasicForm as any);
 ```
 
 未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
+
+## EditableTable
+
+结合前一节配置化表单实现的可编辑表格
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `form` | `Form.create()` 注入的表单对象 | WrappedFormUtils | - |
+| `columns` | 扩展列模型 | [`EditableColumnProps`](./src/lib/components/EditableTable/index.tsx#L24) | - |
+| `initialData` | 表格初始化数据 | `T[]` | - |
+| `onCreate` | 点击保存后该记录无 `id` 触发该事件  | `(fieldsValue: T & { key: number }) => Promise<boolean | void>` | - |
+| `onUpdate` | 点击保存后该记录有 `id` 触发该事件 | `(fieldsValue: T & { key: number }) => Promise<boolean | void>` | - |
+| `onDelete` | 删除点击事件，仅当该记录有 `id` 时触发 | `(record: T & { key: number }) => Promise<boolean | void>` | - |
+| `onDataChange` | 表格数据更新事件，切忌将该数据重写入 `initialData` 中已使用的状态，否者导致表格无法正常编辑 | `(data: T[]) => void` | - |
+| `onCancel` | 取消编辑点击事件 | `(prevRecord: T & { key: number }, record: T & { key: number }) => void` | - |
+| `onRecordAdd` | 当添加一条记录时，需要写入额外的默认值时可调用该方法 | `(initialRecord: T, prevData: T[]) => T` | - |
+| `editingKey` | 获取正在编辑的 `key` | `React.ElementType` | - |
+| `ref` | 组件引用 | `EditableTable` | - |
+| `loading` | 加载中状态 | `boolean` | - |
+
+#### 关于 `key`
+
+内部使用自增变量作为每条记录的 `key` ，当删除一条记录时，也不会重用之前的 `key` 。
+
+### 基础用法
+
+参考 [EditableTable/index.tsx](/stories/EditableTable/index.tsx) 。
