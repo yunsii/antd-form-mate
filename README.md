@@ -151,9 +151,9 @@ export default Form.create()(BasicForm as any);
 | `form` | `Form.create()` 注入的表单对象 | WrappedFormUtils | - |
 | `columns` | 扩展列模型 | [`EditableColumnProps`](./src/lib/components/EditableTable/index.tsx#L24) | - |
 | `initialData` | 表格初始化数据 | `T[]` | - |
-| `onCreate` | 点击保存后该记录无 `id` 触发该事件  | `(fieldsValue: T & { key: number }) => Promise<boolean | void>` | - |
-| `onUpdate` | 点击保存后该记录有 `id` 触发该事件 | `(fieldsValue: T & { key: number }) => Promise<boolean | void>` | - |
-| `onDelete` | 删除点击事件，仅当该记录有 `id` 时触发 | `(record: T & { key: number }) => Promise<boolean | void>` | - |
+| `onCreate` | 点击保存后该记录无 `id` 触发该事件  | `(fieldsValue: T & { key: number }) => Promise<boolean \| void>` | - |
+| `onUpdate` | 点击保存后该记录有 `id` 触发该事件 | `(fieldsValue: T & { key: number }) => Promise<boolean \| void>` | - |
+| `onDelete` | 删除点击事件，仅当该记录有 `id` 时触发 | `(record: T & { key: number }) => Promise<boolean \| void>` | - |
 | `onDataChange` | 表格数据更新事件，切忌将该数据重写入 `initialData` 中已使用的状态，否者导致表格无法正常编辑 | `(data: T[]) => void` | - |
 | `onCancel` | 取消编辑点击事件 | `(prevRecord: T & { key: number }, record: T & { key: number }) => void` | - |
 | `onRecordAdd` | 当添加一条记录时，需要写入额外的默认值时可调用该方法 | `(initialRecord: T, prevData: T[]) => T` | - |
