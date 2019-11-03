@@ -64,7 +64,7 @@ class AdvancedForm extends React.Component<FormProps, null> {
           label: '地址',
         },
         fieldProps: {
-          initialValue: detail.location,
+          initialValue: { position: { longitude: 114.104624, latitude: 22.554863 }, formattedAddress: "广东省深圳市罗湖区桂园街道红岭2118号大院建设集团大厦" },
         },
       },
     ];
