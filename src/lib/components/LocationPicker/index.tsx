@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Input, Modal, Icon } from "antd";
 import AMap, { ErrorType } from "../CustomAMap/index";
+import styles from './index.less';
 
 export type Position = {
   longitude: number;
@@ -83,14 +84,22 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
     }
   };
 
+  handleInputChange = (event) => {
+    const { onChange } = this.props;
+    if (onChange && event.target.value === '') {
+      onChange({} as Value)
+    }
+  }
+
   render() {
     const { value = {} as Value, onChange, onError, placeholder, modalTitle, ...rest } = this.props;
-    const { mapVisible, position, isMounted } = this.state;
-    const { formattedAddress: inputFormattedAddress } = value;
+    const { mapVisible, position, isMounted, formattedAddress } = this.state;
+    const { formattedAddress: inputFormattedAddress, position: inputPosition } = value;
 
     let map: any = (
       <AMap
-        position={position}
+        position={position || inputPosition}
+        formattedAddress={formattedAddress || inputFormattedAddress}
         onCreated={this.handleMapCreated}
         onClick={this.handleMapClick}
         getFormattedAddress={(address, info) => {
@@ -113,11 +122,16 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
         <Input
           placeholder={placeholder || "请选择地址"}
           {...rest}
+          className={styles.input}
+          onChange={this.handleInputChange}
           value={inputFormattedAddress}
+          onClick={() => this.setState({ mapVisible: true })}
+          unselectable="on"
+          readOnly
           suffix={
             <Icon
-              type="environment"
-              onClick={() => this.setState({ mapVisible: true })}
+            type="environment"
+            onClick={() => this.setState({ mapVisible: true })}
             />
           }
         />
