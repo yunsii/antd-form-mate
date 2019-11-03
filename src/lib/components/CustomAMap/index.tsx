@@ -57,11 +57,12 @@ export interface AMapProps {
     longitude: number,
     latitude: number,
   };
+  formattedAddress?: string;
   /** AMap wrapper style */
   wrapperStyle?: CSSProperties;
   onClick?: (longitude: number, latitude: number) => void;
   /** get human-readable address */
-  getFormattedAddress?: (formattedAddress: string, info: AddressInfo) => void;
+  getFormattedAddress?: (formattedAddress: string | null, info?: AddressInfo) => void;
   onCreated?: (map: any) => void;
   mapProps?: MapProps;
   children?: React.ReactChildren;
@@ -70,6 +71,7 @@ export interface AMapProps {
 
 export function AMap({
   position,
+  formattedAddress,
   wrapperStyle = {},
   onClick = () => { },
   getFormattedAddress = () => { },
@@ -79,7 +81,6 @@ export function AMap({
   onError = () => { },
 }: AMapProps) {
   const [locationPosition, setLocationPosition] = useState({});
-  const [formattedAddress, setFormattedAddress] = useState();
 
   const handleCreatedMap = map => {
     onCreated(map);
@@ -102,11 +103,10 @@ export function AMap({
             lng: longitude,
             ...addressComponent,
           });
-          setFormattedAddress(resultAddress);
         } else {
           onError('getFormattedAddress', { status, result });
           console.error('getFormattedAddress:', status, result);
-          setFormattedAddress(null);
+          getFormattedAddress(null);
         }
       });
     }
@@ -183,7 +183,6 @@ export function AMap({
                     lng: position.lng,
                     ...addressComponent
                   });
-                  setFormattedAddress(result.formattedAddress);
                 }); // 返回定位信息
                 window.AMap.event.addListener(
                   o,
@@ -207,7 +206,6 @@ export function AMap({
                 adcode: poi.adcode,
                 district: poi.district,
               });
-              setFormattedAddress(address);
             }}
           />
           {children}
