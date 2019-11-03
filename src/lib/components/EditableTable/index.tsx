@@ -36,7 +36,6 @@ export interface EditableTableProps<T> extends TableProps<T> {
   onCancel?: (prevRecord: T & { key: number }, record: T & { key: number }) => void;
   onRecordAdd?: (initialRecord: T, prevData: T[]) => T;
   editingKey?: (editingKey: number | null) => void;
-  ref?: (ref: EditableTable<any>) => void;
   loading?: boolean;
 }
 
@@ -322,12 +321,8 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
   }
 
   render() {
-    const { form, loading, ref } = this.props;
+    const { form, loading } = this.props;
     const { data, editingKey, tableLoading } = this.state;
-
-    if (ref) {
-      ref(this);
-    }
 
     const components = {
       body: {
