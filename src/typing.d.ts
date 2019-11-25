@@ -1,5 +1,5 @@
 declare module "*.less";
 
-interface Window { 
-  AMap: any; 
+interface Window {
+  AMap: any;
 }

@@ -4,6 +4,10 @@ import _keys from "lodash/keys";
 import _cloneDeep from "lodash/cloneDeep";
 import _flatten from "lodash/flatten";
 
+export function isDevelopEnv() {
+  return process.env.NODE_ENV === 'development';
+}
+
 export function getBase64(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -11,10 +15,6 @@ export function getBase64(file: File) {
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
   });
-}
-
-export function isDevelopEnv() {
-  return process.env.NODE_ENV === 'development';
 }
 
 export function getImageDimension(imageUrl: string): Promise<{ width: number, height: number }> {
