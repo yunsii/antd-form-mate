@@ -1,7 +1,7 @@
 import * as React from "react";
 import _get from 'lodash/get';
 import { Form, Input, InputNumber, Slider } from "antd";
-import { WrappedFormUtils } from "antd/lib/form/Form";
+import { WrappedFormUtils, ValidationRule } from "antd/lib/form/Form";
 import CustomDatePicker, { CustomRangePicker } from "./components/CustomDatePicker/index";
 import CustomSwitch from "./components/CustomSwitch/index";
 import CustomSelect from "./components/CustomSelect/index";
@@ -71,17 +71,16 @@ const defaultLayout = {
 };
 
 function setExtra(extra: any, type: ComponentType) {
-  if (extra === false) {
+  if (extra === false || extra === null) {
     return undefined;
   }
   return extra || defaultExtra[type];
 }
 
-function renderInputComponent(inputConfig) {
-  const { type, component: CustomComponent } = inputConfig;
+function renderInputComponent(type: ComponentType, component?: JSX.Element) {
   switch (type) {
     case "custom":
-      return CustomComponent;
+      return component;
     case "date":
       return <CustomDatePicker />;
     case "datetime":
@@ -117,7 +116,7 @@ function renderInputComponent(inputConfig) {
   }
 }
 
-function setDefaultTypeRules(type: ComponentType, rules) {
+function setDefaultTypeRules(type: ComponentType, rules: ValidationRule[]) {
   let result = [...rules];
   if (defaultTypeRules[type]) {
     result = [
@@ -139,15 +138,15 @@ export const createFormItems = (form: WrappedFormUtils) => (
       formItemProps = {} as CustomFormItemProps,
       fieldProps = {},
       componentProps = {},
-      component
+      component,
     } = config;
     const { rules = [], initialValue, ...restFieldProps } = fieldProps;
 
     if (type === 'hidden') {
-      form.getFieldDecorator(field, {
-        initialValue,
-      })
+      form.getFieldDecorator(field, { initialValue })
       return null;
+    } else if (type === 'plain') {
+      return <span className="ant-form-text">{initialValue}</span>;
     }
 
     const {
@@ -159,20 +158,24 @@ export const createFormItems = (form: WrappedFormUtils) => (
       ...restFormItemProps
     } = formItemProps;
 
-    const itemLayout = wrapperCol && labelCol ? { wrapperCol, labelCol } : null;
-    let layout = itemLayout || globalLayout || defaultLayout;
-    if (!itemLayout && !globalLayout && !restFormItemProps.label) {
-      layout = {
-        wrapperCol: { span: 24 }
-      };
+    const setLayout = () => {
+      const itemLayout = wrapperCol && labelCol ? { wrapperCol, labelCol } : null;
+      const layout = itemLayout || globalLayout || defaultLayout;
+      const noLayoutAndLabel = !itemLayout && !globalLayout && !restFormItemProps.label;
+      return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
     }
 
-    let inputComponent: any = <span className="ant-form-text">{initialValue}</span>;
-
-    if (type !== 'plain') {
-      const renderComponent = renderInputComponent({ type, component });
-      inputComponent = (
-        form.getFieldDecorator(field, {
+    const renderComponent = renderInputComponent(type, component);
+    return (
+      renderComponent &&
+      <Form.Item
+        key={field}
+        style={dense ? { marginBottom: 0, ...style } : style}
+        extra={setExtra(extra, type)}
+        {...setLayout()}
+        {...restFormItemProps}
+      >
+        {form.getFieldDecorator(field, {
           initialValue,
           valuePropName: setValuePropName(type),
           rules: setDefaultTypeRules(type, rules),
@@ -180,20 +183,8 @@ export const createFormItems = (form: WrappedFormUtils) => (
         })(React.cloneElement(renderComponent, {
           ...commenProps(type, _get(renderComponent, 'props.style')),
           ...componentProps as any,
-        }))
-      )
-    }
-
-    return (
-      <Form.Item
-        key={field}
-        style={dense ? { marginBottom: 0, ...style } : style}
-        {...layout}
-        extra={setExtra(extra, type)}
-        {...restFormItemProps}
-      >
-        {inputComponent}
+        }))}
       </Form.Item>
-    )
-  }).filter(item => item !== null) as JSX.Element[];
+    );
+  }).filter(item => item) as JSX.Element[];
 };
