@@ -18,8 +18,8 @@ export default class CustomCheckGroup extends React.Component<CustomCheckGroupPr
       return (
         <Checkbox.Group {...rest}>
           {options && (options as Option[]).map((item) => {
-            const { value, ...rest } = item;
-            return <Checkbox key={`${item.value}`} value={item.value} {...rest}>{item.text}</Checkbox>
+            const { value, ...itemRest } = item;
+            return <Checkbox key={`${item.value}`} value={item.value} {...itemRest}>{item.text}</Checkbox>
           })}
         </Checkbox.Group>
       )
