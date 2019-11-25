@@ -68,7 +68,7 @@ $ npm start
 | `formItemProps` | Form.Item 支持的配置，新增 `dense` 属性配置 Form.Item `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
 | `fieldProps` | 字段值配置  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
 | `componentProps` | 额外的组件配置 | [`ComponentProps`](./src/lib/props.d.ts#L222) | - |
-| `component` | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | `React.ElementType` | - |
+| `component` | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | `JSX.Element` | - |
 
 ### 基础用法
 
