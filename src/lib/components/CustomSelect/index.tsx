@@ -19,6 +19,7 @@ export interface CustomSelectProps {
   options?: Option[];
   disabledStyle?: React.CSSProperties;
   loading?: boolean;
+  style?: React.CSSProperties;
 }
 
 class CustomSelect extends PureComponent<CustomSelectProps> {

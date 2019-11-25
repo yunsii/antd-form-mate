@@ -18,7 +18,7 @@ export type ErrorType = 'getFormattedAddress'
 export interface LocationPickerProps {
   value?: Value;
   onChange?: (value: Value) => void;
-  onError: (type: ErrorType, value: any) => void;
+  onError?: (type: ErrorType, value: any) => void;
   placeholder?: string;
   modalTitle?: string;
 }

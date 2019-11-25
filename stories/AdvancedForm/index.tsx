@@ -2,7 +2,7 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Form, Button } from 'antd';
 import { createFormItems } from '../../src';
-import { ItemConfig } from '../../src/lib/form-mate';
+import { ItemConfig } from '../../src/lib/props';
 import { FormProps } from '../interfaces';
 
 class AdvancedForm extends React.Component<FormProps, null> {

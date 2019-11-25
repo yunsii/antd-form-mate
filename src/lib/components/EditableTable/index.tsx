@@ -8,7 +8,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _findIndex from 'lodash/findIndex';
 import _isFunction from 'lodash/isFunction';
 import _isEqual from 'lodash/isEqual';
-import { ItemConfig } from '../../form-mate';
+import { ItemConfig } from '../../props';
 import { addDivider } from '../../../utils';
 import { setRenderForColumn } from './utils';
 import styles from './index.less';

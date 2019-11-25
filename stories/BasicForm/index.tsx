@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import moment, { Moment } from 'moment';
 import { Form, Button } from 'antd';
 import { createFormItems } from '../FormMate';
-import { ItemConfig } from '../../src/lib/form-mate';
+import { ItemConfig } from '../../src/lib/props';
 import { FormProps } from '../interfaces';
 
 const dateFormat = 'YYYY-MM-DD';

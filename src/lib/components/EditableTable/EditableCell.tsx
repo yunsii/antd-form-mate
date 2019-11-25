@@ -6,7 +6,8 @@ import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import _cloneDeep from 'lodash/cloneDeep';
 import _findIndex from 'lodash/findIndex';
-import { createFormItems, ItemConfig } from '../../form-mate';
+import { createFormItems } from '../../form-mate';
+import { ItemConfig } from '../../props';
 import { EditableTableContext } from './FormContext';
 
 export type FormItemConfig = Pick<ItemConfig, "type" | "fieldProps" | "componentProps" | "component">
