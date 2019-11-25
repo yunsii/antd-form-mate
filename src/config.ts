@@ -1,18 +1,22 @@
+import { ComponentType } from './lib/props';
 import { getBase64 } from './utils';
 
-export let commenStyle = { width: "100%" };
-export function setCommenStyle(options) {
-  commenStyle = {
-    ...commenStyle,
-    ...options,
-  }
-}
+export const commenStyle = { width: "100%" };
 
-export let commenProps = {};
-export function setCommenProps(options) {
-  commenProps = {
-    ...commenProps,
-    ...options,
+export let commenProps: any = () => ({});
+export function setCommenProps(setProps: (type: ComponentType) => any) {
+  const internalProps = commenProps();
+  commenProps = (type: ComponentType, defaultStyle: any) => {
+    const { style, ...rest } = setProps(type) || {};
+    return {
+      ...internalProps,
+      ...rest,
+      style: {
+        ...defaultStyle,
+        ...(type !== 'switch' ? commenStyle : {}),
+        ...style,
+      },
+    };
   }
 }
 
