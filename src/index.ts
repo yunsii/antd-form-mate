@@ -13,7 +13,6 @@ export const config = {
   setDefaultExtra,
   setDefaultTypeHint,
   setDefaultTypeRule,
-  setCommenStyle: FormMateConfig.setCommenStyle,
   setCommenProps: FormMateConfig.setCommenProps,
   setUploadConfig: FormMateConfig.setUploadConfig,
   setPictureConfig: FormMateConfig.setPictureConfig,
