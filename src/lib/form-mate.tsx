@@ -1,34 +1,47 @@
 import * as React from "react";
+import _get from 'lodash/get';
 import { Form, Input, InputNumber, Slider } from "antd";
-import { FormItemProps } from "antd/lib/form";
-import { InputNumberProps } from "antd/lib/input-number";
-import { PasswordProps, TextAreaProps, InputProps } from "antd/lib/input";
-import { SliderProps } from "antd/lib/slider";
-import { WrappedFormUtils, GetFieldDecoratorOptions } from "antd/lib/form/Form";
-import { ColProps } from "antd/lib/col";
-import CustomDatePicker, {
-  CustomRangePicker,
-  CustomDatePickerProps,
-  CustomRangePickerProps,
-} from "./components/CustomDatePicker/index";
-import CustomSwitch, { CustomSwitchProps } from "./components/CustomSwitch/index";
-import CustomSelect, { CustomSelectProps } from "./components/CustomSelect/index";
-import LocationPicker, { LocationPickerProps } from "./components/LocationPicker/index";
-import PicturesWall, { PicturesWallProps } from "./components/PicturesWall/index";
-import CustomDragger, { CustomDraggerProps } from "./components/CustomUpload/CustomDragger";
-import CustomCheckGroup, { CustomCheckGroupProps } from "./components/CustomCheckGroup/index";
-import CustomRadioGroup, { CustomRadioGroupProps } from "./components/CustomRadioGroup/index";
-import { commenStyle, commenProps } from "../config";
+import { WrappedFormUtils } from "antd/lib/form/Form";
+import CustomDatePicker, { CustomRangePicker } from "./components/CustomDatePicker/index";
+import CustomSwitch from "./components/CustomSwitch/index";
+import CustomSelect from "./components/CustomSelect/index";
+import LocationPicker from "./components/LocationPicker/index";
+import PicturesWall from "./components/PicturesWall/index";
+import CustomDragger from "./components/CustomUpload/CustomDragger";
+import CustomCheckGroup from "./components/CustomCheckGroup/index";
+import CustomRadioGroup from "./components/CustomRadioGroup/index";
+import { commenProps } from "../config";
+import {
+  ComponentType,
+  CustomFormItemProps,
+  ItemConfig,
+  Layout,
+  DefaultExtraOptions,
+  DefaultTypeHintOptions,
+  DefaultTypeRulesOptions,
+} from "./props";
 
 const { TextArea, Password } = Input;
 
 let defaultExtra = {
   picture: "图片必须大于100*100像素",
 };
+export function setDefaultExtra(options: DefaultExtraOptions) {
+  defaultExtra = {
+    ...defaultExtra,
+    ...options,
+  }
+}
 
 let defaultTypeHint = {
   email: "请输入正确的邮箱格式",
 };
+export function setDefaultTypeHint(options: DefaultTypeHintOptions) {
+  defaultTypeHint = {
+    ...defaultTypeHint,
+    ...options,
+  }
+}
 
 let defaultTypeRules = {
   email: [
@@ -38,33 +51,9 @@ let defaultTypeRules = {
     },
   ],
 };
-
-export type DefaultExtraOptions = {
-  [key in ComponentType]?: any;
-}
-export function setDefaultExtra(options: DefaultExtraOptions) {
-  defaultExtra = {
-    ...defaultExtra,
-    ...options,
-  }
-}
-
-export type DefaultTypeHintOptions = {
-  email?: any;
-}
-export function setDefaultTypeHint(options: DefaultTypeHintOptions) {
-  defaultTypeHint = {
-    ...defaultTypeHint,
-    ...options,
-  }
-}
-
-export type DefaultTypeRulesOptions = {
-  email?: any;
-}
-export function setDefaultTypeRule(options: DefaultTypeHintOptions) {
-  defaultTypeHint = {
-    ...defaultTypeHint,
+export function setDefaultTypeRule(options: DefaultTypeRulesOptions) {
+  defaultTypeRules = {
+    ...defaultTypeRules,
     ...options,
   }
 }
@@ -89,95 +78,42 @@ function setExtra(extra: any, type: ComponentType) {
 }
 
 function renderInputComponent(inputConfig) {
-  const { type, component: CustomComponent, ...componentProps } = inputConfig;
+  const { type, component: CustomComponent } = inputConfig;
   switch (type) {
     case "custom":
       return CustomComponent;
     case "date":
-      return (
-        <CustomDatePicker style={commenStyle} {...commenProps} {...componentProps} />
-      );
+      return <CustomDatePicker />;
     case "datetime":
-      return (
-        <CustomDatePicker
-          style={{ minWidth: "unset", ...commenStyle }}
-          format="YYYY-MM-DD HH:mm:ss"
-          showTime
-          {...commenProps}
-          {...componentProps}
-        />
-      );
+      return <CustomDatePicker style={{ minWidth: "unset" }} format="YYYY-MM-DD HH:mm:ss" showTime />;
     case "datetime-range":
-      return (
-        <CustomRangePicker
-          format="YYYY-MM-DD HH:mm:ss"
-          showTime
-          style={commenStyle}
-          {...commenProps}
-          {...componentProps}
-        />
-      );
+      return <CustomRangePicker format="YYYY-MM-DD HH:mm:ss" showTime />;
     case "date-range":
-      return (
-        <CustomRangePicker
-          format="YYYY-MM-DD"
-          style={commenStyle}
-          {...commenProps}
-          {...componentProps}
-        />
-      );
+      return <CustomRangePicker format="YYYY-MM-DD" />;
     case "number":
-      return (
-        <InputNumber
-          placeholder="请输入"
-          style={commenStyle}
-          {...commenProps}
-          {...componentProps}
-        />
-      );
+      return <InputNumber placeholder="请输入" />;
     case "select":
-      return <CustomSelect style={commenStyle} {...commenProps} {...componentProps} />;
+      return <CustomSelect />;
     case "textarea":
-      return (
-        <TextArea
-          style={{ ...commenStyle }}
-          placeholder="请输入"
-          {...componentProps}
-        />
-      );
+      return <TextArea placeholder="请输入" />;
     case "password":
-      return (
-        <Password
-          style={commenStyle}
-          placeholder="请输入密码"
-          {...commenProps}
-          {...componentProps}
-        />
-      );
+      return <Password placeholder="请输入密码" />;
     case "picture":
-      return <PicturesWall {...commenProps} {...componentProps} />;
+      return <PicturesWall />;
     case "switch":
-      return <CustomSwitch {...componentProps} />;
+      return <CustomSwitch />;
     case "slider":
-      return <Slider {...commenProps} {...componentProps} />;
+      return <Slider />;
     case "file-dragger":
-      return <CustomDragger {...commenProps} {...componentProps} />;
+      return <CustomDragger />;
     case "location":
-      return <LocationPicker {...commenProps} {...componentProps} />;
+      return <LocationPicker />;
     case "check-group":
-      const { allowClear, ...rest } = commenProps as any;
-      return <CustomCheckGroup style={commenStyle} {...rest} {...componentProps} />;
+      return <CustomCheckGroup />;
     case "radio-group":
-      return <CustomRadioGroup style={commenStyle} {...commenProps} {...componentProps} />;
+      return <CustomRadioGroup />;
     default:
-      return (
-        <Input
-          style={commenStyle}
-          placeholder="请输入"
-          {...commenProps}
-          {...componentProps}
-        />
-      );
+      return <Input placeholder="请输入" />;
   }
 }
 
@@ -190,64 +126,6 @@ function setDefaultTypeRules(type: ComponentType, rules) {
     ]
   }
   return result;
-}
-
-export interface CustomFormItemProps extends FormItemProps {
-  dense?: boolean;
-}
-
-export type ComponentType =
-  | "plain"
-  | "custom"
-  | "date"
-  | "datetime"
-  | "date-range"
-  | "datetime-range"
-  | "number"
-  | "select"
-  | "password"
-  | "picture"
-  | "switch"
-  | "slider"
-  | "file-dragger"
-  | "location"
-  | "check-group"
-  | "radio-group"
-  | "hidden"
-  /** string input, no whitespace */
-  | "textarea"
-  | "email"
-  | "string"
-
-export type ComponentProps =
-  | CustomDatePickerProps
-  | CustomRangePickerProps
-  | InputNumberProps
-  | CustomSelectProps
-  | PasswordProps
-  | PicturesWallProps
-  | CustomSwitchProps
-  | SliderProps
-  | CustomDraggerProps
-  | LocationPickerProps
-  | CustomCheckGroupProps
-  | CustomRadioGroupProps
-  /** string input, no whitespace */
-  | TextAreaProps
-  | InputProps
-
-export interface ItemConfig {
-  type?: ComponentType;
-  field: string;
-  formItemProps?: CustomFormItemProps;
-  fieldProps?: GetFieldDecoratorOptions;
-  componentProps?: ComponentProps;
-  component?: JSX.Element;
-}
-
-export interface Layout {
-  labelCol?: ColProps;
-  wrapperCol?: ColProps;
 }
 
 export const createFormItems = (form: WrappedFormUtils) => (
@@ -263,23 +141,7 @@ export const createFormItems = (form: WrappedFormUtils) => (
       componentProps = {},
       component
     } = config;
-    const {
-      style = {},
-      dense,
-      extra,
-      wrapperCol,
-      labelCol,
-      ...restFormItemProps
-    } = formItemProps;
     const { rules = [], initialValue, ...restFieldProps } = fieldProps;
-    const itemLayout = wrapperCol && labelCol ? { wrapperCol, labelCol } : null;
-
-    let layout = itemLayout || globalLayout || defaultLayout;
-    if (!itemLayout && !globalLayout && !restFormItemProps.label) {
-      layout = {
-        wrapperCol: { span: 24 }
-      };
-    }
 
     if (type === 'hidden') {
       form.getFieldDecorator(field, {
@@ -288,19 +150,37 @@ export const createFormItems = (form: WrappedFormUtils) => (
       return null;
     }
 
-    let inputComponent: any = (
-      <span className="ant-form-text">
-        {initialValue}
-      </span>
-    )
+    const {
+      style = {},
+      dense,
+      extra,
+      wrapperCol,
+      labelCol,
+      ...restFormItemProps
+    } = formItemProps;
+
+    const itemLayout = wrapperCol && labelCol ? { wrapperCol, labelCol } : null;
+    let layout = itemLayout || globalLayout || defaultLayout;
+    if (!itemLayout && !globalLayout && !restFormItemProps.label) {
+      layout = {
+        wrapperCol: { span: 24 }
+      };
+    }
+
+    let inputComponent: any = <span className="ant-form-text">{initialValue}</span>;
+
     if (type !== 'plain') {
+      const renderComponent = renderInputComponent({ type, component });
       inputComponent = (
         form.getFieldDecorator(field, {
           initialValue,
           valuePropName: setValuePropName(type),
           rules: setDefaultTypeRules(type, rules),
           ...restFieldProps,
-        })(renderInputComponent({ ...componentProps, type, component }))
+        })(React.cloneElement(renderComponent, {
+          ...commenProps(type, _get(renderComponent, 'props.style')),
+          ...componentProps as any,
+        }))
       )
     }
 
