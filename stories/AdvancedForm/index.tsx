@@ -17,7 +17,7 @@ class AdvancedForm extends React.Component<FormProps, null> {
           // extra: '图片像素不大于520*360',
           // extra: '图片像素不小于520*360',
           // extra: '图片像素不小于520*360，且不大于1920*1080',
-          extra: false,
+          // extra: false,
         },
         fieldProps: {
           // initialValue: detail.picture,
