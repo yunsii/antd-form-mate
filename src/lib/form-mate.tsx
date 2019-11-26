@@ -77,10 +77,8 @@ function setExtra(extra: any, type: ComponentType) {
   return extra || defaultExtra[type];
 }
 
-function renderInputComponent(type: ComponentType, component?: JSX.Element) {
+function renderInputComponent(type: ComponentType) {
   switch (type) {
-    case "custom":
-      return component;
     case "date":
       return <CustomDatePicker />;
     case "datetime":
@@ -165,9 +163,19 @@ export const createFormItems = (form: WrappedFormUtils) => (
       return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
     }
 
-    const renderComponent = renderInputComponent(type, component);
+    const setComponent = () => {
+      return type === 'custom' ? component : (
+        React.cloneElement(
+          renderInputComponent(type),
+          {
+            ...commenProps(type, _get(renderInputComponent(type), 'props.style')),
+            ...componentProps as any,
+          }
+        )
+      )
+    }
+
     return (
-      renderComponent &&
       <Form.Item
         key={field}
         style={dense ? { marginBottom: 0, ...style } : style}
@@ -180,10 +188,7 @@ export const createFormItems = (form: WrappedFormUtils) => (
           valuePropName: setValuePropName(type),
           rules: setDefaultTypeRules(type, rules),
           ...restFieldProps,
-        })(React.cloneElement(renderComponent, {
-          ...commenProps(type, _get(renderComponent, 'props.style')),
-          ...componentProps as any,
-        }))}
+        })(setComponent())}
       </Form.Item>
     );
   }).filter(item => item) as JSX.Element[];
