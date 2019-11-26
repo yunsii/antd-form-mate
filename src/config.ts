@@ -5,12 +5,13 @@ export const commenStyle = { width: "100%" };
 
 export let commenProps: any = () => ({});
 export function setCommenProps(setProps: (type: ComponentType) => any) {
-  const internalProps = commenProps();
+  const defaultCommenProps = commenProps();
+
   commenProps = (type: ComponentType, defaultStyle: any) => {
     const { style = {}, ...rest } = setProps(type) || {};
     // console.log(type, rest);
     return {
-      ...internalProps,
+      ...defaultCommenProps,
       ...rest,
       style: {
         ...defaultStyle,
