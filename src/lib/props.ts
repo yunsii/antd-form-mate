@@ -3,7 +3,6 @@ import { InputNumberProps } from "antd/lib/input-number";
 import { PasswordProps, TextAreaProps, InputProps } from "antd/lib/input";
 import { SliderProps } from "antd/lib/slider";
 import {
-  CustomRangePicker,
   CustomDatePickerProps,
   CustomRangePickerProps,
 } from "./components/CustomDatePicker/index";
@@ -14,7 +13,7 @@ import { PicturesWallProps } from "./components/PicturesWall/index";
 import { CustomDraggerProps } from "./components/CustomUpload/CustomDragger";
 import { CustomCheckGroupProps } from "./components/CustomCheckGroup/index";
 import { CustomRadioGroupProps } from "./components/CustomRadioGroup/index";
-import { WrappedFormUtils, GetFieldDecoratorOptions } from "antd/lib/form/Form";
+import { GetFieldDecoratorOptions } from "antd/lib/form/Form";
 import { ColProps } from "antd/lib/col";
 
 export type ComponentType =
