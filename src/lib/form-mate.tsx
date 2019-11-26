@@ -58,7 +58,7 @@ export function setDefaultTypeRule(options: DefaultTypeRulesOptions) {
   }
 }
 
-const setValuePropName = type => {
+const setValuePropName = (type: ComponentType) => {
   if (type === "switch") {
     return "checked";
   }
