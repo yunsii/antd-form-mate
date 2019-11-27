@@ -46,6 +46,16 @@ class BasicForm extends React.Component<FormProps, null> {
         },
       },
       {
+        type: 'plain',
+        field: 'plain',
+        formItemProps: {
+          label: '纯文本',
+        },
+        fieldProps: {
+          initialValue: 'plain',
+        },
+      },
+      {
         type: 'check-group',
         field: 'checks',
         formItemProps: {
