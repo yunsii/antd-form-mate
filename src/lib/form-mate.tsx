@@ -77,7 +77,7 @@ function setExtra(extra: any, type: ComponentType) {
   return extra || defaultExtra[type];
 }
 
-function renderInputComponent(type: ComponentType) {
+function setInputComponent(type: ComponentType) {
   switch (type) {
     case "date":
       return <CustomDatePicker />;
@@ -143,8 +143,6 @@ export const createFormItems = (form: WrappedFormUtils) => (
     if (type === 'hidden') {
       form.getFieldDecorator(field, { initialValue })
       return null;
-    } else if (type === 'plain') {
-      return <span className="ant-form-text">{initialValue}</span>;
     }
 
     const {
@@ -166,13 +164,22 @@ export const createFormItems = (form: WrappedFormUtils) => (
     const setComponent = () => {
       return type === 'custom' ? component : (
         React.cloneElement(
-          renderInputComponent(type),
+          setInputComponent(type),
           {
-            ...commenProps(type, _get(renderInputComponent(type), 'props.style')),
+            ...commenProps(type, _get(setInputComponent(type), 'props.style')),
             ...componentProps as any,
           }
         )
       )
+    }
+
+    const setItemComponent = () => {
+      return type === 'plain' ? <span className="ant-form-text">{initialValue}</span> : form.getFieldDecorator(field, {
+        initialValue,
+        valuePropName: setValuePropName(type),
+        rules: setDefaultTypeRules(type, rules),
+        ...restFieldProps,
+      })(setComponent());
     }
 
     return (
@@ -183,12 +190,7 @@ export const createFormItems = (form: WrappedFormUtils) => (
         {...setLayout()}
         {...restFormItemProps}
       >
-        {form.getFieldDecorator(field, {
-          initialValue,
-          valuePropName: setValuePropName(type),
-          rules: setDefaultTypeRules(type, rules),
-          ...restFieldProps,
-        })(setComponent())}
+        {setItemComponent()}
       </Form.Item>
     );
   }).filter(item => item) as JSX.Element[];
