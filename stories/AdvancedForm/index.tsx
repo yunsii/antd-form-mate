@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Form, Button } from 'antd';
-import { createFormItems } from '../../src';
+import { createFormItems } from '../FormMate';
 import { ItemConfig } from '../../src/lib/props';
 import { FormProps } from '../interfaces';
 
