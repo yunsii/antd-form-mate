@@ -138,7 +138,13 @@ class BasicForm extends React.Component<FormProps> {
 export default Form.create()(BasicForm as any);
 ```
 
-未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
+### 全局配置
+
+表单全局配置可见 [`index.ts#12`](./src/index.ts#12) ，使用可参考 [`stories/FormMate.ts`](./stories/FormMate.ts)
+
+### 备注
+
+未尽事宜，可参考 [index.stories.tsx](./stories/index.stories.tsx) 。
 
 ## EditableTable
 
