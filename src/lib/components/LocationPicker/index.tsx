@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { Input, Modal, Icon } from "antd";
 import AMap, { ErrorType } from "../CustomAMap/index";
 import styles from './index.less';
-
-export type Position = {
-  longitude: number;
-  latitude: number;
-};
+import { Position } from '../CustomAMap/Props';
 
 export type Value = {
   position: Position | undefined,
@@ -51,12 +47,10 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
     if (map) this.map = map;
   };
 
-  handleMapClick = (longitude, latitude) => {
+  handleMapClick = (lng, lat) => {
+    console.log('handleMapClick', lng, lat)
     this.setState({
-      position: {
-        longitude,
-        latitude
-      }
+      position: { lng, lat },
     });
   };
 
@@ -130,8 +124,8 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
           readOnly
           suffix={
             <Icon
-            type="environment"
-            onClick={() => this.setState({ mapVisible: true })}
+              type="environment"
+              onClick={() => this.setState({ mapVisible: true })}
             />
           }
         />
