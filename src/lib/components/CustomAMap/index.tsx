@@ -5,6 +5,7 @@ import Geolocation from "react-amap-plugin-custom-geolocation";
 import PlaceSearch from "./PlaceSearch";
 import { mapLocale } from '../../../locale';
 import { mapConfig } from '../../../config';
+import { Position } from './Props';
 
 let geocoder = null;
 const defaultMapWrapperHeight = 400;
@@ -27,13 +28,13 @@ export const geoCode = (address, callback) => {
   // });
 };
 
-function isLocationPosition(locationPosition, position) {
+function isLocationPosition(locationPosition: Position, position: Position) {
   const {
-    longitude: locationLongitude,
-    latitude: locationLatitude
+    lng: locationLng,
+    lat: locationLat,
   } = locationPosition;
-  const { longitude, latitude } = position;
-  return locationLongitude === longitude && locationLatitude === latitude;
+  const { lng, lat } = position;
+  return locationLng === lng && locationLat === lat;
 }
 
 export type ErrorType = 'locationError' | 'getFormattedAddress';
@@ -53,23 +54,19 @@ export interface AddressInfo {
 
 export interface AMapProps {
   /** position of Marker */
-  position?: {
-    longitude: number,
-    latitude: number,
-  };
+  position?: Position;
   formattedAddress?: string;
   /** AMap wrapper style */
   wrapperStyle?: CSSProperties;
-  onClick?: (longitude: number, latitude: number) => void;
+  onClick?: (lng: number, lat: number) => void;
   /** get human-readable address */
   getFormattedAddress?: (formattedAddress: string | null, info?: AddressInfo) => void;
   onCreated?: (map: any) => void;
   mapProps?: MapProps;
-  children?: React.ReactChildren;
   onError?: (type: ErrorType, value: any) => void;
 }
 
-export function AMap({
+export const AMap: React.FC<AMapProps> = ({
   position,
   formattedAddress,
   wrapperStyle = {},
@@ -79,8 +76,8 @@ export function AMap({
   mapProps,
   children,
   onError = () => { },
-}: AMapProps) {
-  const [locationPosition, setLocationPosition] = useState({});
+}) => {
+  const [locationPosition, setLocationPosition] = useState<Position>({} as Position);
 
   const handleCreatedMap = map => {
     onCreated(map);
@@ -162,9 +159,7 @@ export function AMap({
           {...centerProp}
           {...mapProps}
         >
-          {position && !isLocationPosition(locationPosition, position) ? (
-            <Marker position={position} />
-          ) : null}
+          {position && !isLocationPosition(locationPosition, position) && <Marker position={{ longitude: position.lng, latitude: position.lat }} />}
           <Geolocation
             enableHighAccuracy
             timeout={5000}
@@ -174,8 +169,8 @@ export function AMap({
                 window.AMap.event.addListener(o, "complete", result => {
                   const { addressComponent, formattedAddress, position } = result;
                   setLocationPosition({
-                    longitude: result.position.lng,
-                    latitude: result.position.lat
+                    lng: result.position.lng,
+                    lat: result.position.lat,
                   });
                   onClick(result.position.lng, result.position.lat);
                   getFormattedAddress(formattedAddress, {

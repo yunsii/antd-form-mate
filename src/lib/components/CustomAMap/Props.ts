@@ -1,3 +1,8 @@
+export interface Position {
+  lng: number;
+  lat: number;
+}
+
 export interface Poi {
   adcode: string;
   address: string;
@@ -7,9 +12,7 @@ export interface Poi {
   location: {
     P: number,
     Q: number,
-    lat: number,
-    lng: number,
-  } | '';
+  } & Position | '';
   name: string;
   typecode: string;
 }
