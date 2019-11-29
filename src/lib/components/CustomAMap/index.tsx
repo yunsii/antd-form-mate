@@ -198,14 +198,17 @@ export function AMap({
           <PlaceSearch
             onPlaceSelect={poi => {
               console.log("PlaceSearch poi", poi);
-              onClick(poi.location.lng, poi.location.lat);
-              const address = `${poi.district}${poi.address}${poi.name}`
-              getFormattedAddress(address, {
-                lat: poi.location.lat,
-                lng: poi.location.lng,
-                adcode: poi.adcode,
-                district: poi.district,
-              });
+              const { location } = poi;
+              if (location) {
+                onClick(location.lng, location.lat);
+                const address = `${poi.district}${poi.address}${poi.name}`
+                getFormattedAddress(address, {
+                  lat: location.lat,
+                  lng: location.lng,
+                  adcode: poi.adcode,
+                  district: poi.district,
+                });
+              }
             }}
           />
           {children}
