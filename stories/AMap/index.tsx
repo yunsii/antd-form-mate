@@ -5,11 +5,16 @@ const { useState } = React;
 
 export default function () {
   const [position, setPosition] = useState();
+  const [formattedAddress, setFormattedAddress] = useState();
   return (
     <AMap
+      formattedAddress={formattedAddress}
       wrapperStyle={{ height: '100vh' }}
       position={position}
-      onClick={(longitude, latitude) => setPosition({ longitude, latitude })}
+      onClick={(lng, lat) => setPosition({ lng, lat })}
+      getFormattedAddress={(address) => {
+        setFormattedAddress(address);
+      }}
     />
   )
 }
