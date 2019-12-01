@@ -8,6 +8,7 @@ export default function () {
   const [formattedAddress, setFormattedAddress] = useState();
   return (
     <AMap
+      showAddress={false}
       formattedAddress={formattedAddress}
       wrapperStyle={{ height: '100vh' }}
       position={position}
