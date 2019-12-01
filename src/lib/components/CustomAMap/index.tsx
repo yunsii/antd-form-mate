@@ -123,7 +123,7 @@ export const AMap: React.FC<AMapProps> = ({
   const { height } = wrapperStyle;
   return (
     <Fragment>
-      <p style={{ margin: '8px 0' }}>{mapLocale.currentAddress}：{renderFormattedAddress}</p>
+      <p style={{ margin: '8px 0' }}>{mapLocale.currentAddress}{renderFormattedAddress}</p>
       <div
         style={
           Object.keys(wrapperStyle).length
