@@ -9,14 +9,11 @@ export const CurrentAddress: React.FC<CurrentAddressProps> = ({
   formattedAddress,
   children,
 }) => {
-  let renderFormattedAddress = mapLocale.addressPickPlaceholder;
-  if (formattedAddress) {
-    renderFormattedAddress = formattedAddress;
-  }
+  const setAddress = () => formattedAddress || mapLocale.addressPickPlaceholder;
 
   return (
     <div>
-      <p style={{ margin: '8px 0' }}>{mapLocale.currentAddress}{renderFormattedAddress}</p>
+      <p style={{ margin: '8px 0' }}>{mapLocale.currentAddress}{setAddress()}</p>
       {children}
     </div>
   );
