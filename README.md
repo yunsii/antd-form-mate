@@ -169,7 +169,7 @@ export default Form.create()(BasicForm as any);
 
 #### 关于 `key`
 
-内部使用自增变量作为每条记录的 `key` ，当删除一条记录时，也不会重用之前的 `key` 。
+内部使用自增变量作为每条记录的 `key` ，故反复删除添加仍能保证 `key` 的唯一性。
 
 ### 基础用法
 
