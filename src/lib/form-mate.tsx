@@ -1,5 +1,6 @@
 import * as React from "react";
 import _get from 'lodash/get';
+import _isFunction from 'lodash/isFunction';
 import { Form, Input, InputNumber, Slider } from "antd";
 import { WrappedFormUtils, ValidationRule } from "antd/lib/form/Form";
 import CustomDatePicker, { CustomRangePicker } from "./components/CustomDatePicker/index";
@@ -129,6 +130,11 @@ export const createFormItems = (form: WrappedFormUtils) => (
   itemsConfig: ItemConfig[],
   globalLayout?: Layout,
 ) => {
+  const { getFieldDecorator } = form || {};
+  if (!_isFunction(getFieldDecorator)) {
+    throw new Error('GetFieldDecorator is not function.');
+  }
+
   return itemsConfig.map(config => {
     const {
       type = "string",
@@ -141,7 +147,7 @@ export const createFormItems = (form: WrappedFormUtils) => (
     const { rules = [], initialValue, ...restFieldProps } = fieldProps;
 
     if (type === 'hidden') {
-      form.getFieldDecorator(field, { initialValue })
+      getFieldDecorator(field, { initialValue })
       return null;
     }
 
@@ -174,7 +180,7 @@ export const createFormItems = (form: WrappedFormUtils) => (
     }
 
     const setItemComponent = () => {
-      return type === 'plain' ? <span className="ant-form-text">{initialValue}</span> : form.getFieldDecorator(field, {
+      return type === 'plain' ? <span className="ant-form-text">{initialValue}</span> : getFieldDecorator(field, {
         initialValue,
         valuePropName: setValuePropName(type),
         rules: setDefaultTypeRules(type, rules),
