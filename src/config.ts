@@ -3,7 +3,7 @@ import { getBase64 } from './utils';
 
 export const commenStyle = { width: "100%" };
 
-export let commenProps: any = () => ({});
+export let commenProps: any = (type: ComponentType) => ({ style: type !== 'switch' ? commenStyle : {} });
 export function setCommenProps(setProps: (type: ComponentType) => any) {
   const defaultCommenProps = commenProps();
 
