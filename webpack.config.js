@@ -6,6 +6,7 @@ const moduleName = "index";
 
 const webpackConfig = {
   mode: "production",
+  devtool: "source-map",
   entry: "./src/index.ts",
   output: {
     filename: `${moduleName}.js`,

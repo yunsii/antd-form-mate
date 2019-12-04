@@ -17,6 +17,7 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "sourceMap": true,
     "emitDecoratorMetadata": true
   },
   "include": ["src/**/*", "stories/EditableTable"],
