@@ -1,10 +1,14 @@
+import _isFunction from 'lodash/isFunction';
 import { ComponentType } from './lib/props';
 import { getBase64 } from './utils';
 
 export const commenStyle = { width: "100%" };
 
 export let commenProps: any = (type: ComponentType) => ({ style: type !== 'switch' ? commenStyle : {} });
-export function setCommenProps(setProps: (type: ComponentType) => any) {
+export function setCommenProps(setProps: (type: ComponentType) => any = () => ({})) {
+  if (!_isFunction(setProps)) {
+    throw new Error('setProps is not a function.');
+  }
   const defaultCommenProps = commenProps();
 
   commenProps = (type: ComponentType, defaultStyle: any) => {
