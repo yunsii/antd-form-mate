@@ -9,11 +9,12 @@ import {
 
 export { createFormItems } from './lib/form-mate';
 
+export { ConfigProvider } from './ConfigContext';
+
 export const config = {
   setDefaultExtra,
   setDefaultTypeHint,
   setDefaultTypeRule,
-  setCommenProps: FormMateConfig.setCommenProps,
   setUploadConfig: FormMateConfig.setUploadConfig,
   setPictureConfig: FormMateConfig.setPictureConfig,
 };
