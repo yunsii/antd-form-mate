@@ -130,7 +130,7 @@ export const createFormItems = (form: WrappedFormUtils) => (
   itemsConfig: ItemConfig[],
   globalLayout?: Layout,
 ) => {
-  const { getFieldDecorator } = form || {};
+  const { getFieldDecorator } = form || {} as any;
   if (!_isFunction(getFieldDecorator)) {
     throw new Error('GetFieldDecorator is not function.');
   }
