@@ -3,8 +3,9 @@ import { action } from '@storybook/addon-actions';
 import moment, { Moment } from 'moment';
 import { Form, Button } from 'antd';
 import { createFormItems } from '../FormMate';
-import { ItemConfig } from '../../src/lib/props';
+import { ItemConfig, ComponentType } from '../../src/lib/props';
 import { FormProps } from '../interfaces';
+import { ConfigProvider } from '../../src';
 
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
@@ -336,20 +337,33 @@ class BasicForm extends React.Component<FormProps, null> {
   render() {
     const { form } = this.props;
     return (
-      <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
-        {createFormItems(form)(this.setFormItemsConfig({}))}
-        <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            onClick={action('click submit')}
-          >
-            提交
+      <ConfigProvider
+        value={{ setCommenProps, }}
+      >
+        <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
+          {createFormItems(form)(this.setFormItemsConfig({}))}
+          <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={action('click submit')}
+            >
+              提交
           </Button>
-        </Form.Item>
-      </Form>
+          </Form.Item>
+        </Form>
+      </ConfigProvider>
     )
   }
 }
+
+const setCommenProps = (type: ComponentType) => {
+  if (!(['check-group', 'textarea', 'switch'] as ComponentType[]).includes(type)) {
+    return {
+      allowClear: true,
+    }
+  }
+  return null;
+};
 
 export default Form.create()(BasicForm as any);
