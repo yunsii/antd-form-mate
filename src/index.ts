@@ -2,7 +2,6 @@ import * as FormMateConfig from './config';
 import * as FormMateLocale from './locale';
 import * as FormMateUtils from './utils';
 import {
-  setDefaultExtra,
   setDefaultTypeHint,
   setDefaultTypeRule,
 } from './lib/form-mate';
@@ -12,7 +11,6 @@ export { createFormItems } from './lib/form-mate';
 export { ConfigProvider } from './ConfigContext';
 
 export const config = {
-  setDefaultExtra,
   setDefaultTypeHint,
   setDefaultTypeRule,
   setUploadConfig: FormMateConfig.setUploadConfig,

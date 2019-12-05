@@ -4,6 +4,7 @@ import { Form, Button } from 'antd';
 import { createFormItems } from '../FormMate';
 import { ItemConfig } from '../../src/lib/props';
 import { FormProps } from '../interfaces';
+import { ConfigProvider } from '../../src';
 
 class AdvancedForm extends React.Component<FormProps, null> {
   setFormItemsConfig = (detail: any = {}, mode?: string): ItemConfig[] => {
@@ -83,18 +84,26 @@ class AdvancedForm extends React.Component<FormProps, null> {
   render() {
     const { form } = this.props;
     return (
-      <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
-        {createFormItems(form)(this.setFormItemsConfig({}))}
-        <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            onClick={action('click submit')}
-          >
-            提交
+      <ConfigProvider
+        value={{
+          commenExtra: {
+            picture: '自定义图片默认提示',
+          }
+        }}
+      >
+        <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
+          {createFormItems(form)(this.setFormItemsConfig({}))}
+          <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={action('click submit')}
+            >
+              提交
           </Button>
-        </Form.Item>
-      </Form>
+          </Form.Item>
+        </Form>
+      </ConfigProvider>
     )
   }
 }

@@ -54,10 +54,15 @@ function isUploadOk(response: any = {}) {
   return !!data;
 }
 
+export const defaultExtra = {
+  picture: "请上传图片",
+}
+
 export interface ConfigProviderProps {
-  setCommenProps?: (type: ComponentType) => any,
-  uploadFn?: (file: any, onProgress?: { percent: number; }) => Promise<{ data: { url: string; thumbUrl: string; } }>,
-  getUrl?: (response: any) => boolean,
+  setCommenProps?: (type: ComponentType) => any;
+  commenExtra?: { [k in ComponentType]?: any };
+  uploadFn?: (file: any, onProgress?: { percent: number; }) => Promise<{ data: { url: string; thumbUrl: string; } }>;
+  getUrl?: (response: any) => boolean;
   isUploadOk?: (response: any) => boolean;
   imageFormatLimit?: string;
   amapKey?: string;

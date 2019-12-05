@@ -39,10 +39,6 @@ export type ComponentType =
   | "email"
   | "string"
 
-export type DefaultExtraOptions = {
-  [key in ComponentType]?: any;
-}
-
 export type DefaultTypeHintOptions = {
   [key in ComponentType]?: any;
 }

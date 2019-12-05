@@ -16,23 +16,17 @@ import {
   CustomFormItemProps,
   ItemConfig,
   Layout,
-  DefaultExtraOptions,
   DefaultTypeHintOptions,
   DefaultTypeRulesOptions,
 } from "./props";
-import { ConfigContext, processSetCommenProps } from '../ConfigContext';
+import {
+  ConfigContext,
+  processSetCommenProps,
+  defaultExtra,
+} from '../ConfigContext';
 
 const { TextArea, Password } = Input;
 
-let defaultExtra = {
-  picture: "图片必须大于100*100像素",
-};
-export function setDefaultExtra(options: DefaultExtraOptions) {
-  defaultExtra = {
-    ...defaultExtra,
-    ...options,
-  }
-}
 
 let defaultTypeHint = {
   email: "请输入正确的邮箱格式",
@@ -70,13 +64,6 @@ const defaultLayout = {
   labelCol: { span: 7 },
   wrapperCol: { span: 12 }
 };
-
-function setExtra(extra: any, type: ComponentType) {
-  if (extra === false || extra === null) {
-    return undefined;
-  }
-  return extra || defaultExtra[type];
-}
 
 function setInputComponent(type: ComponentType) {
   switch (type) {
@@ -132,7 +119,7 @@ interface RenderFormItemProps {
   formLayout?: Layout,
 }
 function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
-  const { setCommenProps } = useContext(ConfigContext)
+  const { setCommenProps, commenExtra = {} } = useContext(ConfigContext)
   const { getFieldDecorator } = form;
   const {
     type = "string",
@@ -181,11 +168,18 @@ function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
     })(setComponent());
   }
 
+  function setExtra() {
+    if (extra === false || extra === null) {
+      return undefined;
+    }
+    return extra || { ...defaultExtra, ...commenExtra }[type];
+  }
+
   return (
     <Form.Item
       key={field}
       style={dense ? { marginBottom: 0, ...style } : style}
-      extra={setExtra(extra, type)}
+      extra={setExtra()}
       {...setLayout()}
       {...restFormItemProps}
     >
