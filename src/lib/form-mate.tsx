@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
 import { Form, Input, InputNumber, Slider } from "antd";
@@ -11,7 +11,6 @@ import PicturesWall from "./components/PicturesWall/index";
 import CustomDragger from "./components/CustomUpload/CustomDragger";
 import CustomCheckGroup from "./components/CustomCheckGroup/index";
 import CustomRadioGroup from "./components/CustomRadioGroup/index";
-import { commenProps } from "../config";
 import {
   ComponentType,
   CustomFormItemProps,
@@ -21,6 +20,7 @@ import {
   DefaultTypeHintOptions,
   DefaultTypeRulesOptions,
 } from "./props";
+import { ConfigContext, processSetCommenProps } from '../ConfigContext';
 
 const { TextArea, Password } = Input;
 
@@ -126,9 +126,77 @@ function setDefaultTypeRules(type: ComponentType, rules: ValidationRule[]) {
   return result;
 }
 
+interface RenderFormItemProps {
+  form: WrappedFormUtils,
+  config: ItemConfig,
+  formLayout?: Layout,
+}
+function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
+  const { setCommenProps } = useContext(ConfigContext)
+  const { getFieldDecorator } = form;
+  const {
+    type = "string",
+    field,
+    formItemProps = {} as CustomFormItemProps,
+    fieldProps = {},
+    componentProps = {},
+    component,
+  } = config;
+  const { rules = [], initialValue, ...restFieldProps } = fieldProps;
+
+  const {
+    style = {},
+    dense,
+    extra,
+    wrapperCol,
+    labelCol,
+    ...restFormItemProps
+  } = formItemProps;
+
+  const setLayout = () => {
+    const itemLayout = wrapperCol && labelCol ? { wrapperCol, labelCol } : null;
+    const layout = itemLayout || formLayout || defaultLayout;
+    const noLayoutAndLabel = !itemLayout && !formLayout && !restFormItemProps.label;
+    return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
+  }
+
+  const setComponent = () => {
+    return type === 'custom' ? component : (
+      React.cloneElement(
+        setInputComponent(type),
+        {
+          ...processSetCommenProps(setCommenProps)(type, _get(setInputComponent(type), 'props.style')),
+          ...componentProps as any,
+        }
+      )
+    )
+  }
+
+  const setItemComponent = () => {
+    return type === 'plain' ? <span className="ant-form-text">{initialValue}</span> : getFieldDecorator(field, {
+      initialValue,
+      valuePropName: setValuePropName(type),
+      rules: setDefaultTypeRules(type, rules),
+      ...restFieldProps,
+    })(setComponent());
+  }
+
+  return (
+    <Form.Item
+      key={field}
+      style={dense ? { marginBottom: 0, ...style } : style}
+      extra={setExtra(extra, type)}
+      {...setLayout()}
+      {...restFormItemProps}
+    >
+      {setItemComponent()}
+    </Form.Item>
+  );
+}
+
 export const createFormItems = (form: WrappedFormUtils) => (
   itemsConfig: ItemConfig[],
-  globalLayout?: Layout,
+  formLayout?: Layout,
 ) => {
   const { getFieldDecorator } = form || {} as any;
   if (!_isFunction(getFieldDecorator)) {
@@ -139,65 +207,15 @@ export const createFormItems = (form: WrappedFormUtils) => (
     const {
       type = "string",
       field,
-      formItemProps = {} as CustomFormItemProps,
       fieldProps = {},
-      componentProps = {},
-      component,
     } = config;
-    const { rules = [], initialValue, ...restFieldProps } = fieldProps;
+    const { initialValue } = fieldProps;
 
     if (type === 'hidden') {
       getFieldDecorator(field, { initialValue })
       return null;
     }
 
-    const {
-      style = {},
-      dense,
-      extra,
-      wrapperCol,
-      labelCol,
-      ...restFormItemProps
-    } = formItemProps;
-
-    const setLayout = () => {
-      const itemLayout = wrapperCol && labelCol ? { wrapperCol, labelCol } : null;
-      const layout = itemLayout || globalLayout || defaultLayout;
-      const noLayoutAndLabel = !itemLayout && !globalLayout && !restFormItemProps.label;
-      return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
-    }
-
-    const setComponent = () => {
-      return type === 'custom' ? component : (
-        React.cloneElement(
-          setInputComponent(type),
-          {
-            ...commenProps(type, _get(setInputComponent(type), 'props.style')),
-            ...componentProps as any,
-          }
-        )
-      )
-    }
-
-    const setItemComponent = () => {
-      return type === 'plain' ? <span className="ant-form-text">{initialValue}</span> : getFieldDecorator(field, {
-        initialValue,
-        valuePropName: setValuePropName(type),
-        rules: setDefaultTypeRules(type, rules),
-        ...restFieldProps,
-      })(setComponent());
-    }
-
-    return (
-      <Form.Item
-        key={field}
-        style={dense ? { marginBottom: 0, ...style } : style}
-        extra={setExtra(extra, type)}
-        {...setLayout()}
-        {...restFormItemProps}
-      >
-        {setItemComponent()}
-      </Form.Item>
-    );
+    return <RenderFormItem form={form} config={config} formLayout={formLayout} />
   }).filter(item => item) as JSX.Element[];
 };
