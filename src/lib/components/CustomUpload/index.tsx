@@ -4,7 +4,7 @@ import { UploadProps } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
-import { uploadFile, isUploadSuccess, getUrl } from '../../../config';
+import { useBase64, uploadFn as uploadFnGlobal, isUploadOk as isUploadOkGlobal, getUrl } from '../../../config';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
 import { CustomDraggerProps } from "./CustomDragger";
@@ -79,8 +79,8 @@ export function filterFileList(fileList: UploadFile[]) {
 }
 
 export const customRequest = (
-  uploadFunction?: (file: File, setProgress: (percent: number) => any) => Promise<any>,
-  isolatedIsUploadSuccess?: (response: any) => boolean
+  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>,
+  isUploadOk?: (response: any) => boolean
 ) => async ({
   file,
   onSuccess,
@@ -88,14 +88,18 @@ export const customRequest = (
   onProgress,
 }) => {
     let response: any;
-    if (uploadFunction) {
-      response = await uploadFunction(file, (percent) => onProgress({ percent }));
-    } else {
-      response = await uploadFile(file);
-    }
-    if (isolatedIsUploadSuccess && isolatedIsUploadSuccess(response)) {
+    if (uploadFn) {  // 组件自定义上传函数
+      response = await uploadFn(file, (percent) => onProgress({ percent }));
+    } else if (uploadFnGlobal) {  // 全局配置上传函数
+      response = await uploadFnGlobal(file);
+    } else {  // 包默认使用 base64
+      response = await useBase64(file);
       onSuccess(response, file);
-    } else if (isUploadSuccess(response)) {
+      return;
+    }
+    if (isUploadOk && isUploadOk(response)) {  // 组件自定义上传判断成功与否的函数
+      onSuccess(response, file);
+    } else if (isUploadOkGlobal(response)) {  // 包默认判断成功与否的函数
       onSuccess(response, file);
     } else {
       onError(response);
@@ -126,8 +130,8 @@ export function setFileList(props: CustomDraggerProps | PicturesWallProps): Uplo
 }
 
 export interface CustomUploadPorps extends UploadProps {
-  uploadFunction?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
-  isUploadSuccess?: (response: any) => boolean;
+  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
+  isUploadOk?: (response: any) => boolean;
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
   children?: React.ReactChildren | React.ReactNode;
   filesCountLimit?: number;
@@ -156,8 +160,8 @@ export default function CustomUpload(props: CustomUploadPorps) {
     countLimitHint,
     sizeLimitHint,
     imageLimitHint,
-    uploadFunction,
-    isUploadSuccess: isolatedIsUploadSuccess,
+    uploadFn,
+    isUploadOk,
     ...rest
   } = props;
 
@@ -165,7 +169,7 @@ export default function CustomUpload(props: CustomUploadPorps) {
     <Upload
       accept={accept}
       name="image"
-      customRequest={customRequest(uploadFunction, isolatedIsUploadSuccess)}
+      customRequest={customRequest(uploadFn, isUploadOk)}
       listType={listType || "text"}
       fileList={fileList}
       onChange={onChange}

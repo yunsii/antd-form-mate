@@ -26,7 +26,7 @@ export function setCommenProps(setProps: (type: ComponentType) => any = () => ({
   }
 }
 
-export let uploadFile = async (file, onProgress?: { percent: number }) => {
+export const useBase64 = async (file) => {
   const dataUrl = await getBase64(file);
   return {
     data: {
@@ -35,26 +35,27 @@ export let uploadFile = async (file, onProgress?: { percent: number }) => {
     }
   };
 };
+export let uploadFn: (file: any, onProgress?: { percent: number; }) => Promise<{ data: { url: string; thumbUrl: string; } }>;
 export let getUrl = (response: any = {}) => {
   const { data } = response;
   return data;
 };
-export let isUploadSuccess = (response = {} as any) => {
+export let isUploadOk = (response = {} as any) => {
   const { data } = response;
   return !!data;
 };
 
 export type UploadConfig = {
-  uploadFile?: (file: any, onProgress?: ({ percent: number })) => any;
-  isUploadSuccess?: (response: any) => boolean;
+  uploadFn?: (file: any, onProgress?: ({ percent: number })) => any;
+  isUploadOk?: (response: any) => boolean;
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
 }
 export function setUploadConfig(options: UploadConfig) {
-  if (options.uploadFile !== undefined) {
-    uploadFile = options.uploadFile;
+  if (options.uploadFn !== undefined) {
+    uploadFn = options.uploadFn;
   }
-  if (options.isUploadSuccess !== undefined) {
-    isUploadSuccess = options.isUploadSuccess;
+  if (options.isUploadOk !== undefined) {
+    isUploadOk = options.isUploadOk;
   }
   if (options.getUrl !== undefined) {
     getUrl = options.getUrl;

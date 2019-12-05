@@ -45,8 +45,8 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
 
   render() {
     const {
-      uploadFunction,
-      isUploadSuccess,
+      uploadFn,
+      isUploadOk,
       onChange,
       filesCountLimit,
       fileSizeLimit,
@@ -63,7 +63,7 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
       <Dragger
         name="file"
         // multiple: true
-        customRequest={customRequest(uploadFunction, isUploadSuccess)}
+        customRequest={customRequest(uploadFn, isUploadOk)}
         onChange={this.handleChange}
         fileList={fileList}
         beforeUpload={commonBeforeUpload({
