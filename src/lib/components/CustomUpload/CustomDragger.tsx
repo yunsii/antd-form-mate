@@ -13,6 +13,8 @@ import {
   commonBeforeUpload,
   customRequest,
 } from './index';
+import { uploadByBase64Default, isUploadOkDefault } from '../../../defaultConfig';
+import { withConfigContext } from '../../../utils';
 
 const { Dragger } = Upload as any;
 
@@ -24,6 +26,7 @@ export interface CustomDraggerState {
   fileList: UploadProps["fileList"];
 }
 
+@(withConfigContext(['uploadFn', 'isUploadOk']) as any)
 export default class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
   static getDerivedStateFromProps(props: CustomDraggerProps) {
     return {
@@ -59,11 +62,14 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
     } = this.props;
     const { fileList } = this.state;
 
+    const setUploadFn = () => uploadFn || uploadByBase64Default;
+    const setIsUploadOk = () => isUploadOk || isUploadOkDefault;
+
     return (
       <Dragger
         name="file"
         // multiple: true
-        customRequest={customRequest(uploadFn, isUploadOk)}
+        customRequest={customRequest(setUploadFn(), setIsUploadOk())}
         onChange={this.handleChange}
         fileList={fileList}
         beforeUpload={commonBeforeUpload({

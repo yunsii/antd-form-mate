@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Spin } from "antd";
 import { Map, Marker, MapProps } from "react-amap";
 import Geolocation from "react-amap-plugin-custom-geolocation";
 import CurrentAddress from "./CurrentAddress";
 import PlaceSearch from "./PlaceSearch";
-import { mapConfig } from '../../../config';
+import { amapKeyDefault } from '../../../defaultConfig';
+import { ConfigContext } from '../../../ConfigContext';
 import { Position } from './Props';
 
 const defaultPlugins = ["Scale"];
@@ -81,6 +82,7 @@ export const AMap: React.FC<AMapProps> = ({
   onError = () => { },
   showAddress = true,
 }) => {
+  const { amapKey } = useContext(ConfigContext);
   const [locationPosition, setLocationPosition] = useState<Position>({} as Position);
 
   const handleCreatedMap = map => {
@@ -130,7 +132,7 @@ export const AMap: React.FC<AMapProps> = ({
   const customMap = (
     <div style={{ ...wrapperStyle, height: setHeight() }}>
       <Map
-        amapkey={mapConfig.amapKey}
+        amapkey={amapKey || amapKeyDefault}
         plugins={defaultPlugins as any}
         events={{
           created: handleCreatedMap,

@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Upload, message } from "antd";
 import { UploadProps } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
-import { useBase64, uploadFn as uploadFnGlobal, isUploadOk as isUploadOkGlobal, getUrl } from '../../../config';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
 import { CustomDraggerProps } from "./CustomDragger";
 import { PicturesWallProps } from "../PicturesWall/index";
+import { uploadByBase64Default, isUploadOkDefault, getUrlDefault } from '../../../defaultConfig';
+import { ConfigContext } from '../../../ConfigContext';
 
 export const defaultFilesCountLimit = 1;
 export const defaultFileSizeLimit = 500 * 1024 * 1024;
@@ -79,27 +80,16 @@ export function filterFileList(fileList: UploadFile[]) {
 }
 
 export const customRequest = (
-  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>,
-  isUploadOk?: (response: any) => boolean
+  uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any>,
+  isUploadOk: (response: any) => boolean
 ) => async ({
   file,
   onSuccess,
   onError,
   onProgress,
 }) => {
-    let response: any;
-    if (uploadFn) {  // 组件自定义上传函数
-      response = await uploadFn(file, (percent) => onProgress({ percent }));
-    } else if (uploadFnGlobal) {  // 全局配置上传函数
-      response = await uploadFnGlobal(file);
-    } else {  // 包默认使用 base64
-      response = await useBase64(file);
-      onSuccess(response, file);
-      return;
-    }
-    if (isUploadOk && isUploadOk(response)) {  // 组件自定义上传判断成功与否的函数
-      onSuccess(response, file);
-    } else if (isUploadOkGlobal(response)) {  // 包默认判断成功与否的函数
+    const response = await uploadFn(file, (percent) => onProgress({ percent }));
+    if (isUploadOk(response)) {
       onSuccess(response, file);
     } else {
       onError(response);
@@ -112,7 +102,7 @@ function setFileNameByPath(path: string) {
 }
 
 export function setFileList(props: CustomDraggerProps | PicturesWallProps): UploadFile[] {
-  const { value, getUrl: isolatedGetUrl } = props;
+  const { value, getUrl = getUrlDefault } = props;
   let fileList: UploadFile[] = [];
   if (value && _isString(value)) {
     fileList = [{ uid: setFileNameByPath(value), url: value, name: setFileNameByPath(value), status: 'done' } as any];
@@ -121,7 +111,7 @@ export function setFileList(props: CustomDraggerProps | PicturesWallProps): Uplo
   } else if (value && _isArray(value)) {
     fileList = value.map(item => {
       if (item.response) {
-        return { ...item, ...isolatedGetUrl ? isolatedGetUrl(item.response) : getUrl(item.response) }
+        return { ...item, ...getUrl(item.response) }
       }
       return item;
     })
@@ -130,7 +120,7 @@ export function setFileList(props: CustomDraggerProps | PicturesWallProps): Uplo
 }
 
 export interface CustomUploadPorps extends UploadProps {
-  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
+  uploadFn?: (file: File, setProgress?: (percent: number) => any) => Promise<any>;
   isUploadOk?: (response: any) => boolean;
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
   children?: React.ReactChildren | React.ReactNode;
@@ -146,6 +136,7 @@ export interface CustomUploadPorps extends UploadProps {
 
 // https://github.com/react-component/upload/blob/master/examples/customRequest.js
 export default function CustomUpload(props: CustomUploadPorps) {
+  const { uploadFn: uploadFnGlobal, isUploadOk: isUploadOkGlobal } = useContext(ConfigContext);
   const {
     accept,
     listType,
@@ -164,12 +155,14 @@ export default function CustomUpload(props: CustomUploadPorps) {
     isUploadOk,
     ...rest
   } = props;
+  const setUploadFn = () => uploadFn || uploadFnGlobal || uploadByBase64Default;
+  const setIsUploadOk = () => isUploadOk || isUploadOkGlobal || isUploadOkDefault;
 
   return (
     <Upload
       accept={accept}
       name="image"
-      customRequest={customRequest(uploadFn, isUploadOk)}
+      customRequest={customRequest(setUploadFn(), setIsUploadOk())}
       listType={listType || "text"}
       fileList={fileList}
       onChange={onChange}
