@@ -1,13 +1,7 @@
-import * as FormMateLocale from './locale';
 import * as FormMateUtils from './utils';
 
 export { ConfigProvider } from './ConfigContext';
 export { createFormItems } from './lib/form-mate';
-
-export const locale = {
-  setPicturesWallLocale: FormMateLocale.setPicturesWallLocale,
-  setDraggerLocale: FormMateLocale.setDraggerLocale,
-};
 
 export const utils = {
   progressXhr: FormMateUtils.progressXhr,
