@@ -2,7 +2,7 @@ import React from 'react';
 import _isFunction from 'lodash/isFunction';
 import { ComponentType } from './lib/props';
 
-export interface SetLocal {
+export interface SetLocale {
   picturesWall?: {
     upload?: string;
   };
@@ -25,7 +25,7 @@ export interface ConfigContextProps {
   commenRules?: { [k in ComponentType]?: any[] };
   pictureFormatLimit?: string;
   amapKey?: string;
-  setLocal?: SetLocal;
+  setLocale?: SetLocale;
 }
 
 export const ConfigContext = React.createContext<ConfigContextProps>({})
