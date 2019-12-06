@@ -1,5 +1,4 @@
 import React from 'react';
-import _isFunction from 'lodash/isFunction';
 import { ComponentType } from './lib/props';
 
 export interface SetLocale {
