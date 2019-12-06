@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
 import { Form, Input, InputNumber, Slider } from "antd";
-import { WrappedFormUtils, ValidationRule } from "antd/lib/form/Form";
+import { WrappedFormUtils } from "antd/lib/form/Form";
 import CustomDatePicker, { CustomRangePicker } from "./components/CustomDatePicker/index";
 import CustomSwitch from "./components/CustomSwitch/index";
 import CustomSelect from "./components/CustomSelect/index";
@@ -16,42 +16,15 @@ import {
   CustomFormItemProps,
   ItemConfig,
   Layout,
-  DefaultTypeHintOptions,
-  DefaultTypeRulesOptions,
 } from "./props";
 import {
-  ConfigContext,
   processSetCommenProps,
   defaultExtra,
-} from '../ConfigContext';
+  defaultRules,
+} from '../defaultConfig';
+import { ConfigContext } from '../ConfigContext';
 
 const { TextArea, Password } = Input;
-
-
-let defaultTypeHint = {
-  email: "请输入正确的邮箱格式",
-};
-export function setDefaultTypeHint(options: DefaultTypeHintOptions) {
-  defaultTypeHint = {
-    ...defaultTypeHint,
-    ...options,
-  }
-}
-
-let defaultTypeRules = {
-  email: [
-    {
-      type: "email",
-      message: defaultTypeHint.email
-    },
-  ],
-};
-export function setDefaultTypeRule(options: DefaultTypeRulesOptions) {
-  defaultTypeRules = {
-    ...defaultTypeRules,
-    ...options,
-  }
-}
 
 const setValuePropName = (type: ComponentType) => {
   if (type === "switch") {
@@ -102,24 +75,17 @@ function setInputComponent(type: ComponentType) {
   }
 }
 
-function setDefaultTypeRules(type: ComponentType, rules: ValidationRule[]) {
-  let result = [...rules];
-  if (defaultTypeRules[type]) {
-    result = [
-      ...defaultTypeRules[type],
-      ...result,
-    ]
-  }
-  return result;
-}
-
 interface RenderFormItemProps {
   form: WrappedFormUtils,
   config: ItemConfig,
   formLayout?: Layout,
 }
 function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
-  const { setCommenProps, commenExtra = {} } = useContext(ConfigContext)
+  const {
+    setCommenProps,
+    commenExtra = {},
+    commenRules = {},
+  } = useContext(ConfigContext)
   const { getFieldDecorator } = form;
   const {
     type = "string",
@@ -159,11 +125,19 @@ function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
     )
   }
 
+  function setRules() {
+    const compositeRules = { ...defaultRules, ...commenRules, };
+    return [
+      ...compositeRules[type] || [],
+      ...rules,
+    ]
+  }
+
   const setItemComponent = () => {
     return type === 'plain' ? <span className="ant-form-text">{initialValue}</span> : getFieldDecorator(field, {
       initialValue,
       valuePropName: setValuePropName(type),
-      rules: setDefaultTypeRules(type, rules),
+      rules: setRules(),
       ...restFieldProps,
     })(setComponent());
   }
@@ -210,6 +184,6 @@ export const createFormItems = (form: WrappedFormUtils) => (
       return null;
     }
 
-    return <RenderFormItem form={form} config={config} formLayout={formLayout} />
+    return <RenderFormItem key={field} form={form} config={config} formLayout={formLayout} />
   }).filter(item => item) as JSX.Element[];
 };
