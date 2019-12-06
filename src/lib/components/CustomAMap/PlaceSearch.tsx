@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext, forwardRef } from "react";
 import _find from 'lodash/find';
-import { mapLocale } from '../../../locale';
+import _get from 'lodash/get';
 import { Poi } from './Props';
+import defaultLocal from '../../../defaultLocal';
+import ConfigContext from '../../../ConfigContext';
 
 export interface AutocompleteResult {
   count: number;
@@ -21,13 +23,14 @@ export interface PlaceSearchProps {
   __map__?: any;
   onPlaceSelect?: (poi: Poi) => void;
   style?: React.CSSProperties;
+  setLocale?: { placeholder: string };
 }
 
 interface PlaceSearchState {
   tips: Tip[],
 }
 
-export default class PlaceSearch extends React.Component<PlaceSearchProps, PlaceSearchState> {
+class PlaceSearch extends React.Component<PlaceSearchProps, PlaceSearchState> {
   constructor(props: PlaceSearchProps) {
     super(props);
     const { __map__: map } = props;
@@ -79,7 +82,8 @@ export default class PlaceSearch extends React.Component<PlaceSearchProps, Place
   }
 
   render() {
-    const { style: customStyle } = this.props;
+    const { style: customStyle, setLocale } = this.props;
+    const placeholder = _get(setLocale, 'placeholder') || defaultLocal.map.addressInputPlaceholder;
     const style = {
       position: "absolute",
       top: "10px",
@@ -89,6 +93,18 @@ export default class PlaceSearch extends React.Component<PlaceSearchProps, Place
       ...customStyle
     };
 
-    return <input id="placeSearch" style={style as any} placeholder={mapLocale.addressInputPlaceholder} />;
+    return <input id="placeSearch" style={style as any} placeholder={placeholder} />;
   }
 }
+
+export default forwardRef<React.ComponentClass, PlaceSearchProps>((props, ref) => {
+  const { setLocale } = useContext(ConfigContext);
+  const forwardProps = {
+    setLocale: {
+      placeholder: _get(setLocale, 'pictureWall.addressInputPlaceholder'),
+    },
+    ...props,
+    ref,
+  } as any
+  return <PlaceSearch {...forwardProps} />;
+})

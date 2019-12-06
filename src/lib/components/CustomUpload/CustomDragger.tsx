@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, forwardRef, useContext } from "react";
 import { Upload, Icon } from "antd";
 import { UploadProps } from 'antd/lib/upload';
-import { draggerLocale } from '../../../locale';
+import _get from "lodash/get";
 import {
   CustomUploadPorps,
 } from './index';
@@ -14,20 +14,21 @@ import {
   customRequest,
 } from './index';
 import { uploadByBase64Default, isUploadOkDefault } from '../../../defaultConfig';
-import { withConfigContext } from '../../../utils';
+import defaultLocal from '../../../defaultLocal';
+import ConfigContext from '../../../ConfigContext';
 
 const { Dragger } = Upload as any;
 
 export interface CustomDraggerProps extends CustomUploadPorps {
   value?: string | any[];
+  setLocale?: { upload: string };
 }
 
 export interface CustomDraggerState {
   fileList: UploadProps["fileList"];
 }
 
-@(withConfigContext(['uploadFn', 'isUploadOk']) as any)
-export default class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
+class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
   static getDerivedStateFromProps(props: CustomDraggerProps) {
     return {
       fileList: setFileList(props)
@@ -58,6 +59,7 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
       checkImage,
       countLimitHint,
       sizeLimitHint,
+      setLocale = {},
       ...rest
     } = this.props;
     const { fileList } = this.state;
@@ -89,7 +91,7 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
         <p className="ant-upload-drag-icon">
           <Icon type="inbox" />
         </p>
-        <p className="ant-upload-text">{draggerLocale.upload}</p>
+        <p className="ant-upload-text">{_get(setLocale, 'upload') || defaultLocal.dragger.upload}</p>
         {/* <p className="ant-upload-hint">
           Support for a single or bulk upload. Strictly prohibit from uploading company data or other
           band files
@@ -98,3 +100,17 @@ export default class CustomDragger extends Component<CustomDraggerProps, CustomD
     );
   }
 }
+
+export default forwardRef<React.ComponentClass, CustomDraggerProps>((props, ref) => {
+  const { uploadFn, isUploadOk, setLocale } = useContext(ConfigContext);
+  const forwardProps = {
+    uploadFn,
+    isUploadOk,
+    setLocale: {
+      upload: _get(setLocale, 'dragger.upload'),
+    },
+    ...props,
+    ref,
+  } as any
+  return <CustomDragger {...forwardProps} />;
+})

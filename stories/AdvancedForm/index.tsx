@@ -92,6 +92,11 @@ class AdvancedForm extends React.Component<FormProps, null> {
           getUrl: (response) => {
             console.log(response);
             return response.data;
+          },
+          setLocale: {
+            picturesWall: {
+              upload: 'upload',
+            },
           }
         }}
       >

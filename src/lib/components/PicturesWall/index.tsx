@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useContext, forwardRef } from "react";
 import { Icon, Modal } from "antd";
+import _pick from "lodash/pick";
 import _isArray from "lodash/isArray";
+import _get from "lodash/get";
 import { UploadFile } from 'antd/lib/upload/interface';
 import CustomUpload, {
   setFileList,
   CustomUploadPorps,
   filterFileList,
 } from "../CustomUpload/index";
-import { picturesWallLocale } from '../../../locale';
 import { pictureFormateLimitDefault } from '../../../defaultConfig';
-import { withConfigContext, getBase64, getImageDimension } from '../../../utils';
+import { getBase64, getImageDimension } from '../../../utils';
+import defaultLocal from '../../../defaultLocal';
+import ConfigContext from '../../../ConfigContext';
 import styles from "./index.less";
 
 export function getPicturesLink(fileList) {
@@ -25,6 +28,7 @@ export function getPicturesLink(fileList) {
 export interface PicturesWallProps extends CustomUploadPorps {
   value?: string | any[];
   pictureFormatLimit?: string;
+  setLocale?: { upload: string };
 }
 
 export interface PicturesWallState {
@@ -34,7 +38,6 @@ export interface PicturesWallState {
   previewWidth: number;
 }
 
-@(withConfigContext(["getUrl", "pictureFormatLimit"]) as any)
 class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState> {
   /** ref: https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops */
   static getDerivedStateFromProps(props: PicturesWallProps) {
@@ -85,12 +88,12 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   };
 
   render() {
-    const { pictureFormatLimit } = this.props;
+    const { pictureFormatLimit, setLocale } = this.props;
     const { previewVisible, previewImage, fileList, previewWidth } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text">{picturesWallLocale.upload}</div>
+        <div className="ant-upload-text">{_get(setLocale, 'upload') || defaultLocal.picturesWall.upload}</div>
       </div>
     );
     return (
@@ -118,4 +121,17 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   }
 }
 
-export default PicturesWall;
+export default forwardRef<React.ComponentClass, PicturesWallProps>((props, ref) => {
+  const { getUrl, pictureFormatLimit, setLocale } = useContext(ConfigContext);
+  const forwardProps = {
+    getUrl,
+    pictureFormatLimit,
+    setLocale: {
+      upload: _get(setLocale, 'picturesWall.upload'),
+    },
+    ...props,
+    ref,
+  } as any;
+  console.log(forwardProps);
+  return <PicturesWall {...forwardProps} />;
+})
