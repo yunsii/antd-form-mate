@@ -26,7 +26,7 @@ class AdvancedForm extends React.Component<FormProps, null> {
         },
         componentProps: {
           filesCountLimit: 2,
-          accept: 'image/*',
+          // accept: 'image/*',
           // dimensionLimit: '520*360',
           // dimensionLimit: '<520*360',
           // dimensionLimit: '>520*360',
@@ -88,6 +88,10 @@ class AdvancedForm extends React.Component<FormProps, null> {
         value={{
           commenExtra: {
             picture: '自定义图片默认提示',
+          },
+          getUrl: (response) => {
+            console.log(response);
+            return response.data;
           }
         }}
       >
