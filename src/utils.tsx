@@ -1,11 +1,9 @@
-import React, { forwardRef, useContext } from 'react';
-import hoistNonReactStatic from 'hoist-non-react-statics';
+import React from 'react';
 import { Divider } from 'antd';
 import _keys from "lodash/keys";
 import _cloneDeep from "lodash/cloneDeep";
 import _pick from "lodash/pick";
 import _flatten from "lodash/flatten";
-import { ConfigContext, ConfigContextProps } from './ConfigContext';
 
 export function isDevelopEnv() {
   return process.env.NODE_ENV === 'development';
@@ -125,36 +123,4 @@ export function addDivider(actions: React.ReactNode[]) {
       return [item];
     })
   );
-}
-
-export function withConfigContext(fields: (keyof ConfigContextProps)[]) {
-  function wrapper<T>(WrappedComponent: React.ComponentClass<T>): React.ComponentClass<T & ConfigContextProps> {
-    class WithConfigContext extends React.Component<any> {
-      static displayName: string;
-
-      render() {
-        const { forwardedRef, ...rest } = this.props;
-        // console.log(WithConfigContext.displayName, rest);
-        const forwardProps = {
-          ref: forwardedRef,
-          ...rest,
-        } as any;
-        return <WrappedComponent {...forwardProps} />;
-      }
-    }
-
-    hoistNonReactStatic(WithConfigContext, WrappedComponent);
-    WithConfigContext.displayName = `WithConfigContext(${getDisplayName(WrappedComponent)})`;
-
-    const forwardRefFC: any = forwardRef<React.ComponentClass, T>((props, ref) => {
-      const context = useContext(ConfigContext);
-      return <WithConfigContext {..._pick(context, fields)} {...props} forwardedRef={ref} />;
-    });
-    return forwardRefFC;
-  }
-  return wrapper;
-}
-
-function getDisplayName(WrappedComponent: React.ComponentClass | React.FC) {
-  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
