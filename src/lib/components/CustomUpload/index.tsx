@@ -120,7 +120,7 @@ export function setFileList(props: CustomDraggerProps | PicturesWallProps): Uplo
 }
 
 export interface CustomUploadPorps extends UploadProps {
-  uploadFn?: (file: File, setProgress?: (percent: number) => any) => Promise<any>;
+  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
   isUploadOk?: (response: any) => boolean;
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
   children?: React.ReactChildren | React.ReactNode;
