@@ -140,7 +140,7 @@ export default Form.create()(BasicForm as any);
 
 ### 全局配置
 
-表单全局配置可见 [`index.ts#12`](./src/index.ts#12) ，使用可参考 [`stories/FormMate.ts`](./stories/FormMate.ts)
+表单全局配置可见 [`ConfigProvider`](./src/ConfigContext.ts) ，使用可参考 [`stories/BasicForm/index.tsx`](./stories/BasicForm/index.tsx)
 
 ### 备注
 
