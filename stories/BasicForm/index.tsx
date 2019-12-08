@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import { Form, Button } from 'antd';
 import { createFormItems } from '../FormMate';
 import { ItemConfig, ComponentType } from '../../src/lib/props';
@@ -9,32 +9,6 @@ import { ConfigProvider } from '../../src';
 
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
-
-function extraDateFieldProps(initialValue, format = dateFormat) {
-  return {
-    initialValue,
-    normalize: (value, prevValue, allValues) => {
-      // console.log(value, prevValue, allValues);
-      if (value instanceof moment) {
-        return (value as any).format(format);
-      }
-      return value;
-    },
-  }
-}
-
-function extraDateRangeFieldProps(initialValue, format = dateFormat) {
-  return {
-    initialValue,
-    normalize: (value, prevValue, allValues) => {
-      // console.log(value, prevValue, allValues);
-      if (value && Array.isArray(value) && value[0] instanceof moment) {
-        return [(value[0] as Moment).format(format), value[1].format(format)];
-      }
-      return value;
-    },
-  }
-}
 
 class BasicForm extends React.Component<FormProps, null> {
   setFormItemsConfig = (detail: any = {}, mode?: string): ItemConfig[] => {
@@ -116,7 +90,7 @@ class BasicForm extends React.Component<FormProps, null> {
           label: '格式化日期',
         },
         fieldProps: {
-          ...extraDateFieldProps(moment().format(dateFormat))
+          initialValue: moment().format(dateFormat),
         },
         componentProps: {
           onChange: value => console.log(value),
@@ -169,7 +143,7 @@ class BasicForm extends React.Component<FormProps, null> {
           label: '日期时间',
         },
         fieldProps: {
-          ...extraDateFieldProps(moment().format(datetimeFormat), datetimeFormat)
+          initialValue: moment().format(datetimeFormat),
         },
         componentProps: {
           onlyAfterToday: true,
@@ -182,7 +156,7 @@ class BasicForm extends React.Component<FormProps, null> {
           label: '日期区间',
         },
         fieldProps: {
-          ...extraDateRangeFieldProps(['2019-01-01 12:00:00', '2019-08-07 10:00:00']),
+          initialValue: ['2019-01-01 12:00:00', '2019-08-07 10:00:00'],
         },
       },
       {
@@ -192,7 +166,7 @@ class BasicForm extends React.Component<FormProps, null> {
           label: '日期时间区间',
         },
         fieldProps: {
-          ...extraDateRangeFieldProps(['2019-01-01', '2019-08-07']),
+          initialValue: ['2019-01-01', '2019-08-07'],
         },
       },
       {

@@ -23,6 +23,7 @@ import {
   defaultRules,
 } from '../defaultConfig';
 import { ConfigContext } from '../ConfigContext';
+import setInitialValue from './setValue';
 
 const { TextArea, Password } = Input;
 
@@ -95,8 +96,7 @@ function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
     componentProps = {},
     component,
   } = config;
-  const { rules = [], initialValue, ...restFieldProps } = fieldProps;
-
+  const { rules = [], initialValue, normalize, ...restFieldProps } = fieldProps;
   const {
     style = {},
     dense,
@@ -135,7 +135,7 @@ function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
 
   const setItemComponent = () => {
     return type === 'plain' ? <span className="ant-form-text">{initialValue}</span> : getFieldDecorator(field, {
-      initialValue,
+      initialValue: setInitialValue(type, initialValue),
       valuePropName: setValuePropName(type),
       rules: setRules(),
       ...restFieldProps,
