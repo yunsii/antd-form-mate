@@ -8,7 +8,6 @@ import {
 import {
   defaultCountLimitHint,
   defaultSizeLimitHint,
-  setFileList,
   filterFileList,
   commonBeforeUpload,
   customRequest,
@@ -16,6 +15,7 @@ import {
 import { uploadByBase64Default, isUploadOkDefault } from '../../../defaultConfig';
 import defaultLocal from '../../../defaultLocal';
 import ConfigContext from '../../../ConfigContext';
+import { setFileList } from '../../setValue';
 
 const { Dragger } = Upload as any;
 

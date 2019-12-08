@@ -6,9 +6,7 @@ import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
-import { CustomDraggerProps } from "./CustomDragger";
-import { PicturesWallProps } from "../PicturesWall/index";
-import { uploadByBase64Default, isUploadOkDefault, getUrlDefault } from '../../../defaultConfig';
+import { uploadByBase64Default, isUploadOkDefault } from '../../../defaultConfig';
 import { ConfigContext } from '../../../ConfigContext';
 
 export const defaultFilesCountLimit = 1;
@@ -95,29 +93,6 @@ export const customRequest = (
       onError(response);
     }
   };
-
-function setFileNameByPath(path: string) {
-  const pathSegment = path.split(/\//g);
-  return pathSegment[pathSegment.length - 1];
-}
-
-export function setFileList(props: CustomDraggerProps | PicturesWallProps): UploadFile[] {
-  const { value, getUrl = getUrlDefault } = props;
-  let fileList: UploadFile[] = [];
-  if (value && _isString(value)) {
-    fileList = [{ uid: setFileNameByPath(value), url: value, name: setFileNameByPath(value), status: 'done' } as any];
-  } else if (value && _isArray(value) && _isString(value[0])) {
-    fileList = value.map((item, index) => ({ uid: setFileNameByPath(item), url: item, name: setFileNameByPath(item), status: 'done' } as any));
-  } else if (value && _isArray(value)) {
-    fileList = value.map(item => {
-      if (item.response) {
-        return { ...item, ...getUrl(item.response) }
-      }
-      return item;
-    })
-  }
-  return fileList;
-}
 
 export interface CustomUploadPorps extends UploadProps {
   uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;

@@ -5,7 +5,6 @@ import _isArray from "lodash/isArray";
 import _get from "lodash/get";
 import { UploadFile } from 'antd/lib/upload/interface';
 import CustomUpload, {
-  setFileList,
   CustomUploadPorps,
   filterFileList,
 } from "../CustomUpload/index";
@@ -13,6 +12,7 @@ import { pictureFormateLimitDefault } from '../../../defaultConfig';
 import { getBase64, getImageDimension } from '../../../utils';
 import defaultLocal from '../../../defaultLocal';
 import ConfigContext from '../../../ConfigContext';
+import { setFileList } from '../../setValue';
 import styles from "./index.less";
 
 export function getPicturesLink(fileList) {
