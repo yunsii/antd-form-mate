@@ -19,7 +19,7 @@ export function setInitialValue(type: ComponentType, value: any) {
     case 'file-dragger':
       return setFileList({ value });
     default:
-      return undefined;
+      return value;
   }
 }
 
