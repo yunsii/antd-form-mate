@@ -104,13 +104,6 @@ class BasicForm extends React.Component<FormProps, null> {
         },
         fieldProps: {
           initialValue: 1565151166,
-          normalize: (value, prevValue, allValues) => {
-            // console.log(value, prevValue, allValues);
-            if (value instanceof moment) {
-              return (value as any).unix();
-            }
-            return value;
-          },
         },
         componentProps: {
           onChange: value => console.log(value),
@@ -124,13 +117,6 @@ class BasicForm extends React.Component<FormProps, null> {
         },
         fieldProps: {
           initialValue: 1565151166124,
-          normalize: (value, prevValue, allValues) => {
-            // console.log(value, prevValue, allValues);
-            if (value instanceof moment) {
-              return (value as any).valueOf();
-            }
-            return value;
-          },
         },
         componentProps: {
           onChange: value => console.log(value),
@@ -260,7 +246,6 @@ class BasicForm extends React.Component<FormProps, null> {
         },
         fieldProps: {
           initialValue: 0,
-          normalize: value => value ? 1 : 0,
         },
       },
       {
