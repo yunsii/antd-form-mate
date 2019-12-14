@@ -7,7 +7,7 @@ import _isArray from "lodash/isArray";
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
 import { uploadByBase64Default, isUploadOkDefault } from '../../../defaultConfig';
-import { ConfigContext } from '../../../ConfigContext';
+import ConfigContext from '../../../config-provider/context';
 
 export const defaultFilesCountLimit = 1;
 export const defaultFileSizeLimit = 500 * 1024 * 1024;
@@ -78,8 +78,8 @@ export function filterFileList(fileList: UploadFile[]) {
 }
 
 export const customRequest = (
-  uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any>,
-  isUploadOk: (response: any) => boolean
+  uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any> = uploadByBase64Default,
+  isUploadOk: (response: any) => boolean = isUploadOkDefault,
 ) => async ({
   file,
   onSuccess,
@@ -130,8 +130,8 @@ export default function CustomUpload(props: CustomUploadPorps) {
     isUploadOk,
     ...rest
   } = props;
-  const setUploadFn = () => uploadFn || uploadFnGlobal || uploadByBase64Default;
-  const setIsUploadOk = () => isUploadOk || isUploadOkGlobal || isUploadOkDefault;
+  const setUploadFn = () => uploadFn || uploadFnGlobal;
+  const setIsUploadOk = () => isUploadOk || isUploadOkGlobal;
 
   return (
     <Upload

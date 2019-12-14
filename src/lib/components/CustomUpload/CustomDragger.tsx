@@ -12,9 +12,7 @@ import {
   commonBeforeUpload,
   customRequest,
 } from './index';
-import { uploadByBase64Default, isUploadOkDefault } from '../../../defaultConfig';
-import defaultLocal from '../../../defaultLocal';
-import ConfigContext from '../../../ConfigContext';
+import ConfigContext from '../../../config-provider/context';
 import { setFileList } from '../../setValue';
 
 const { Dragger } = Upload as any;
@@ -64,14 +62,11 @@ class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
     } = this.props;
     const { fileList } = this.state;
 
-    const setUploadFn = () => uploadFn || uploadByBase64Default;
-    const setIsUploadOk = () => isUploadOk || isUploadOkDefault;
-
     return (
       <Dragger
         name="file"
         // multiple: true
-        customRequest={customRequest(setUploadFn(), setIsUploadOk())}
+        customRequest={customRequest(uploadFn, isUploadOk)}
         onChange={this.handleChange}
         fileList={fileList}
         beforeUpload={commonBeforeUpload({
@@ -91,7 +86,7 @@ class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
         <p className="ant-upload-drag-icon">
           <Icon type="inbox" />
         </p>
-        <p className="ant-upload-text">{_get(setLocale, 'upload') || defaultLocal.dragger.upload}</p>
+        <p className="ant-upload-text">{_get(setLocale, 'upload')}</p>
         {/* <p className="ant-upload-hint">
           Support for a single or bulk upload. Strictly prohibit from uploading company data or other
           band files
@@ -102,12 +97,12 @@ class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
 }
 
 export default forwardRef<React.ComponentClass, CustomDraggerProps>((props, ref) => {
-  const { uploadFn, isUploadOk, setLocale } = useContext(ConfigContext);
+  const { uploadFn, isUploadOk, afmLocale: { dragger } } = useContext(ConfigContext);
   const forwardProps = {
     uploadFn,
     isUploadOk,
     setLocale: {
-      upload: _get(setLocale, 'dragger.upload'),
+      upload: dragger.upload,
     },
     ...props,
     ref,

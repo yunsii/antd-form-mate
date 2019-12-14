@@ -1,6 +1,6 @@
 import * as FormMateUtils from './utils';
 
-export { ConfigProvider } from './ConfigContext';
+export { ConfigProvider } from './config-provider';
 export { createFormItems } from './lib/form-mate';
 
 export const utils = {

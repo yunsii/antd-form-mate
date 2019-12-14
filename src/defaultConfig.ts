@@ -7,7 +7,7 @@ const setDefaultCommenStyle = (type: ComponentType) => {
   return type !== 'switch' ? commenStyle : {}
 };
 
-export function processSetCommenProps(setCommenProps: (type: ComponentType) => any = () => ({})) {
+export function processSetCommenProps(setCommenProps: (type: ComponentType, defaultStyle: any) => any = () => ({})) {
   if (!_isFunction(setCommenProps)) {
     throw new Error('setCommenProps is not a function.');
   }

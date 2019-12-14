@@ -5,7 +5,7 @@ import Geolocation from "react-amap-plugin-custom-geolocation";
 import CurrentAddress from "./CurrentAddress";
 import PlaceSearch from "./PlaceSearch";
 import { amapKeyDefault } from '../../../defaultConfig';
-import { ConfigContext } from '../../../ConfigContext';
+import { ConfigContext } from '../../../config-provider/context';
 import { Position } from './Props';
 
 const defaultPlugins = ["Scale"];

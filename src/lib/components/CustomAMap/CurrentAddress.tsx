@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import _get from 'lodash/get';
-import ConfigContext from '../../../ConfigContext';
-import defaultLocal from '../../../defaultLocal';
+import ConfigContext from '../../../config-provider/context';
 
 export interface CurrentAddressProps {
   formattedAddress?: string;
@@ -11,14 +10,12 @@ export const CurrentAddress: React.FC<CurrentAddressProps> = ({
   formattedAddress,
   children,
 }) => {
-  const { setLocale } = useContext(ConfigContext);
-  const placeholder = _get(setLocale, 'map.addressPickPlaceholder') || defaultLocal.map.addressPickPlaceholder;
-  const currentAddress = _get(setLocale, 'map.currentAddress') || defaultLocal.map.currentAddress;
-  const setAddress = () => formattedAddress || placeholder;
+  const { afmLocale: { map } } = useContext(ConfigContext);
+  const setAddress = () => formattedAddress || map.addressPickPlaceholder;
 
   return (
     <div>
-      <p style={{ margin: '8px 0' }}>{currentAddress}{setAddress()}</p>
+      <p style={{ margin: '8px 0' }}>{map.currentAddress}{setAddress()}</p>
       {children}
     </div>
   );

@@ -17,12 +17,7 @@ import {
   ItemConfig,
   Layout,
 } from "./props";
-import {
-  processSetCommenProps,
-  defaultExtra,
-  defaultRules,
-} from '../defaultConfig';
-import { ConfigContext } from '../ConfigContext';
+import { ConfigContext } from '../config-provider/context';
 import setInitialValue from './setValue';
 
 const { TextArea, Password } = Input;
@@ -84,8 +79,8 @@ interface RenderFormItemProps {
 function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
   const {
     setCommenProps,
-    commenExtra = {},
-    commenRules = {},
+    commenExtra,
+    commenRules,
   } = useContext(ConfigContext)
   const { getFieldDecorator } = form;
   const {
@@ -118,7 +113,7 @@ function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
       React.cloneElement(
         setInputComponent(type),
         {
-          ...processSetCommenProps(setCommenProps)(type, _get(setInputComponent(type), 'props.style')),
+          ...setCommenProps(type, _get(setInputComponent(type), 'props.style')),
           ...componentProps as any,
         }
       )
@@ -126,9 +121,8 @@ function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
   }
 
   function setRules() {
-    const compositeRules = { ...defaultRules, ...commenRules, };
     return [
-      ...compositeRules[type] || [],
+      ...commenRules[type] || [],
       ...rules,
     ]
   }
@@ -146,7 +140,7 @@ function RenderFormItem({ form, config, formLayout }: RenderFormItemProps) {
     if (extra === false || extra === null) {
       return undefined;
     }
-    return extra || { ...defaultExtra, ...commenExtra }[type];
+    return extra || commenExtra[type];
   }
 
   return (

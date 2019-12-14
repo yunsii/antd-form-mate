@@ -85,19 +85,17 @@ class AdvancedForm extends React.Component<FormProps, null> {
     const { form } = this.props;
     return (
       <ConfigProvider
-        value={{
-          commenExtra: {
-            picture: '自定义图片默认提示',
+        commenExtra={{
+          picture: '自定义图片默认提示',
+        }}
+        getUrl={(response) => {
+          console.log(response);
+          return response.data;
+        }}
+        afmLocale={{
+          picturesWall: {
+            upload: 'upload',
           },
-          getUrl: (response) => {
-            console.log(response);
-            return response.data;
-          },
-          setLocale: {
-            picturesWall: {
-              upload: 'upload',
-            },
-          }
         }}
       >
         <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>

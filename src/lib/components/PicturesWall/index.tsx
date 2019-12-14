@@ -10,8 +10,7 @@ import CustomUpload, {
 } from "../CustomUpload/index";
 import { pictureFormateLimitDefault } from '../../../defaultConfig';
 import { getBase64, getImageDimension } from '../../../utils';
-import defaultLocal from '../../../defaultLocal';
-import ConfigContext from '../../../ConfigContext';
+import ConfigContext from '../../../config-provider/context';
 import { setFileList } from '../../setValue';
 import styles from "./index.less";
 
@@ -93,7 +92,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text">{_get(setLocale, 'upload') || defaultLocal.picturesWall.upload}</div>
+        <div className="ant-upload-text">{_get(setLocale, 'upload')}</div>
       </div>
     );
     return (
@@ -122,12 +121,12 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
 }
 
 export default forwardRef<React.ComponentClass, PicturesWallProps>((props, ref) => {
-  const { getUrl, pictureFormatLimit, setLocale } = useContext(ConfigContext);
+  const { getUrl, pictureFormatLimit, afmLocale: { picturesWall } } = useContext(ConfigContext);
   const forwardProps = {
     getUrl,
     pictureFormatLimit,
     setLocale: {
-      upload: _get(setLocale, 'picturesWall.upload'),
+      upload: picturesWall.upload,
     },
     ...props,
     ref,

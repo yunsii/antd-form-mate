@@ -297,11 +297,9 @@ class BasicForm extends React.Component<FormProps, null> {
     const { form } = this.props;
     return (
       <ConfigProvider
-        value={{
-          setCommenProps,
-          commenExtra: {
-            string: 'commen extra of string',
-          }
+        setCommenProps={setCommenProps}
+        commenExtra={{
+          string: 'commen extra of string',
         }}
       >
         <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
