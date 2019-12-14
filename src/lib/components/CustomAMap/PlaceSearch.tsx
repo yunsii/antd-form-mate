@@ -2,8 +2,7 @@ import React, { useContext, forwardRef } from "react";
 import _find from 'lodash/find';
 import _get from 'lodash/get';
 import { Poi } from './Props';
-import defaultLocal from '../../../defaultLocal';
-import ConfigContext from '../../../ConfigContext';
+import ConfigContext from '../../../config-provider/context';
 
 export interface AutocompleteResult {
   count: number;
@@ -20,18 +19,21 @@ export interface SelectItem {
 export interface Tip extends Poi { }
 
 export interface PlaceSearchProps {
-  __map__?: any;
   onPlaceSelect?: (poi: Poi) => void;
   style?: React.CSSProperties;
-  setLocale?: { placeholder: string };
 }
 
-interface PlaceSearchState {
+export interface InternalPlaceSearchProps extends PlaceSearchProps {
+  __map__: any;
+  setLocale: { placeholder: string };
+}
+
+interface InternalPlaceSearchState {
   tips: Tip[],
 }
 
-class PlaceSearch extends React.Component<PlaceSearchProps, PlaceSearchState> {
-  constructor(props: PlaceSearchProps) {
+class InternalPlaceSearch extends React.Component<InternalPlaceSearchProps, InternalPlaceSearchState> {
+  constructor(props: InternalPlaceSearchProps) {
     super(props);
     const { __map__: map } = props;
     if (!map) {
@@ -83,7 +85,7 @@ class PlaceSearch extends React.Component<PlaceSearchProps, PlaceSearchState> {
 
   render() {
     const { style: customStyle, setLocale } = this.props;
-    const placeholder = _get(setLocale, 'placeholder') || defaultLocal.map.addressInputPlaceholder;
+    const placeholder = _get(setLocale, 'placeholder');
     const style = {
       position: "absolute",
       top: "10px",
@@ -98,13 +100,13 @@ class PlaceSearch extends React.Component<PlaceSearchProps, PlaceSearchState> {
 }
 
 export default forwardRef<React.ComponentClass, PlaceSearchProps>((props, ref) => {
-  const { setLocale } = useContext(ConfigContext);
+  const { afmLocale: { map } } = useContext(ConfigContext);
   const forwardProps = {
     setLocale: {
-      placeholder: _get(setLocale, 'pictureWall.addressInputPlaceholder'),
+      placeholder: map.addressInputPlaceholder,
     },
     ...props,
     ref,
-  } as any
-  return <PlaceSearch {...forwardProps} />;
+  } as any;
+  return <InternalPlaceSearch {...forwardProps} />;
 })
