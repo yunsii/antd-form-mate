@@ -1,11 +1,11 @@
 import moment, { Moment } from 'moment';
 import _isArray from "lodash/isArray";
 import _isString from "lodash/isString";
-import { CustomDraggerProps } from './components/CustomUpload/CustomDragger';
-import { PicturesWallProps } from './components/PicturesWall';
+import { CustomDraggerProps } from './item-components/CustomDragger';
+import { PicturesWallProps } from './item-components/PicturesWall';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { ComponentType } from "./props";
-import { getUrlDefault } from '../defaultConfig';
+import { getUrl as getUrlDefault } from '../defaultConfig';
 
 export function setInitialValue(type: ComponentType, value: any) {
   switch (type) {
