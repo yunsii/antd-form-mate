@@ -42,48 +42,51 @@ export interface ConfigProviderProps {
   afmLocale?: AFMLocaleProps;
 }
 
-export class ConfigProvider extends React.Component<ConfigProviderProps> {
-  renderProvider = () => {
-    const {
-      setCommenProps,
-      uploadFn,
-      getUrl,
-      isUploadOk,
-      commenExtra,
-      commenRules,
-      pictureFormateLimit,
-      amapKey,
-      afmLocale,
 
-      children,
-    } = this.props;
+function initState(props: ConfigProviderProps) {
+  const {
+    setCommenProps,
+    uploadFn,
+    getUrl,
+    isUploadOk,
+    commenExtra,
+    commenRules,
+    pictureFormateLimit,
+    amapKey,
+    afmLocale,
+  } = props;
 
-    const config: ConfigConsumerProps = {
-      setCommenProps: processSetCommenProps(setCommenProps),
-      uploadFn: uploadFn || uploadByBase64Default,
-      getUrl: getUrl || getUrlDefault,
-      isUploadOk: isUploadOk || isUploadOkDefault,
-      commenExtra: {
-        ...defaultExtra,
-        ...commenExtra,
-      },
-      commenRules: {
-        ...defaultRules,
-        ...commenRules,
-      },
-      pictureFormateLimit: pictureFormateLimit || pictureFormateLimitDefault,
-      amapKey: amapKey || amapKeyDefault,
-      afmLocale: _merge(defaultLocale, afmLocale),
-    }
-
-    return (
-      <ConfigContext.Provider value={config}>
-        {children}
-      </ConfigContext.Provider>
-    )
+  const config: ConfigConsumerProps = {
+    setCommenProps: processSetCommenProps(setCommenProps),
+    uploadFn: uploadFn || uploadByBase64Default,
+    getUrl: getUrl || getUrlDefault,
+    isUploadOk: isUploadOk || isUploadOkDefault,
+    commenExtra: {
+      ...defaultExtra,
+      ...commenExtra,
+    },
+    commenRules: {
+      ...defaultRules,
+      ...commenRules,
+    },
+    pictureFormateLimit: pictureFormateLimit || pictureFormateLimitDefault,
+    amapKey: amapKey || amapKeyDefault,
+    afmLocale: _merge(defaultLocale, afmLocale),
   }
 
+  return config;
+}
+
+export class ConfigProvider extends React.Component<ConfigProviderProps> {
+
+  state = initState(this.props);
+
   render() {
-    return this.renderProvider();
+    const { children } = this.props;
+    return (
+      <ConfigContext.Provider value={this.state}>
+        {children}
+      </ConfigContext.Provider>
+    );
   }
 }
