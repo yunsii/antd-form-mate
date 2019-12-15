@@ -2,6 +2,11 @@ import _isFunction from 'lodash/isFunction';
 import { ComponentType } from './lib/props';
 import { getBase64 } from './utils';
 
+export const defaultLayout = {
+  labelCol: { span: 7 },
+  wrapperCol: { span: 12 }
+};
+
 const commenStyle = { width: "100%" };
 const setDefaultCommenStyle = (type: ComponentType) => {
   return type !== 'switch' ? commenStyle : {}
@@ -39,7 +44,7 @@ export const defaultRules = {
   ],
 };
 
-export async function uploadByBase64Default(file: File) {
+export async function uploadByBase64(file: File) {
   const dataUrl = await getBase64(file);
   return {
     data: {
@@ -49,16 +54,16 @@ export async function uploadByBase64Default(file: File) {
   };
 }
 
-export function getUrlDefault(response: any = {}) {
+export function getUrl(response: any = {}) {
   const { data } = response;
   return data;
 }
 
-export function isUploadOkDefault(response: any = {}) {
+export function isUploadOk(response: any = {}) {
   const { data } = response;
   return !!data;
 }
 
-export const pictureFormateLimitDefault = '.jpg,.jpeg,.bmp,.png,.gif';
+export const pictureFormateLimit = '.jpg,.jpeg,.bmp,.png,.gif';
 
-export const amapKeyDefault = '1460ee2529622747f8faacac3e860bd6';
+export const amapKey = '1460ee2529622747f8faacac3e860bd6';
