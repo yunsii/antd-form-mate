@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import { Input, Modal, Icon } from "antd";
-import AMap, { ErrorType } from "../CustomAMap/index";
+import AMap, { ErrorType } from "../../components/CustomAMap";
+import { Position } from '../../components/CustomAMap/Props';
 import styles from './index.less';
-import { Position } from '../CustomAMap/Props';
 
 export type Value = {
   position: Position | undefined,
   formattedAddress: string;
 };
-
-export type ErrorType = 'getFormattedAddress'
 
 export interface LocationPickerProps {
   value?: Value;

@@ -6,7 +6,7 @@ import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
-import { uploadByBase64Default, isUploadOkDefault } from '../../../defaultConfig';
+import { uploadByBase64 as uploadByBase64Default, isUploadOk as isUploadOkDefault } from '../../../defaultConfig';
 import ConfigContext from '../../../config-provider/context';
 
 export const defaultFilesCountLimit = 1;

@@ -7,39 +7,31 @@ import { UploadFile } from 'antd/lib/upload/interface';
 import CustomUpload, {
   CustomUploadPorps,
   filterFileList,
-} from "../CustomUpload/index";
-import { pictureFormateLimitDefault } from '../../../defaultConfig';
+} from "../../components/CustomUpload/index";
 import { getBase64, getImageDimension } from '../../../utils';
 import ConfigContext from '../../../config-provider/context';
 import { setFileList } from '../../setValue';
 import styles from "./index.less";
 
-export function getPicturesLink(fileList) {
-  if (_isArray(fileList) && fileList.length === 1) {
-    return fileList[0].url;
-  }
-  if (_isArray(fileList)) {
-    return fileList.map(item => item.url);
-  }
-  return fileList;
-}
-
 export interface PicturesWallProps extends CustomUploadPorps {
   value?: string | any[];
-  pictureFormatLimit?: string;
-  setLocale?: { upload: string };
 }
 
-export interface PicturesWallState {
+export interface InternalPicturesWallProps extends PicturesWallProps {
+  setLocale: { upload: string };
+  pictureFormateLimit: string;
+}
+
+export interface InternalPicturesWallState {
   previewVisible: boolean;
   previewImage: string;
   fileList: any[];
   previewWidth: number;
 }
 
-class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState> {
+class InternalPicturesWall extends React.Component<InternalPicturesWallProps, InternalPicturesWallState> {
   /** ref: https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops */
-  static getDerivedStateFromProps(props: PicturesWallProps) {
+  static getDerivedStateFromProps(props: InternalPicturesWallProps) {
     return {
       fileList: setFileList(props),
     };
@@ -87,7 +79,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
   };
 
   render() {
-    const { pictureFormatLimit, setLocale } = this.props;
+    const { pictureFormateLimit, setLocale } = this.props;
     const { previewVisible, previewImage, fileList, previewWidth } = this.state;
     const uploadButton = (
       <div>
@@ -98,7 +90,7 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
     return (
       <div className={`${styles.pictureWall} clearfix`}>
         <CustomUpload
-          accept={pictureFormatLimit || pictureFormateLimitDefault}
+          accept={pictureFormateLimit}
           {...this.props}
           fileList={fileList}
           onPreview={this.handlePreview}
@@ -121,10 +113,10 @@ class PicturesWall extends React.Component<PicturesWallProps, PicturesWallState>
 }
 
 export default forwardRef<React.ComponentClass, PicturesWallProps>((props, ref) => {
-  const { getUrl, pictureFormatLimit, afmLocale: { picturesWall } } = useContext(ConfigContext);
+  const { getUrl, pictureFormateLimit, afmLocale: { picturesWall } } = useContext(ConfigContext);
   const forwardProps = {
     getUrl,
-    pictureFormatLimit,
+    pictureFormateLimit,
     setLocale: {
       upload: picturesWall.upload,
     },
@@ -132,5 +124,5 @@ export default forwardRef<React.ComponentClass, PicturesWallProps>((props, ref) 
     ref,
   } as any;
   console.log(forwardProps);
-  return <PicturesWall {...forwardProps} />;
+  return <InternalPicturesWall {...forwardProps} />;
 })

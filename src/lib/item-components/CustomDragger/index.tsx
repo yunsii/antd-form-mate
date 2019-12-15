@@ -4,14 +4,14 @@ import { UploadProps } from 'antd/lib/upload';
 import _get from "lodash/get";
 import {
   CustomUploadPorps,
-} from './index';
+} from '../../components/CustomUpload/index';
 import {
   defaultCountLimitHint,
   defaultSizeLimitHint,
   filterFileList,
   commonBeforeUpload,
   customRequest,
-} from './index';
+} from '../../components/CustomUpload/index';
 import ConfigContext from '../../../config-provider/context';
 import { setFileList } from '../../setValue';
 
