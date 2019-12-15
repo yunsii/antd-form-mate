@@ -5,14 +5,14 @@ import { SliderProps } from "antd/lib/slider";
 import {
   CustomDatePickerProps,
   CustomRangePickerProps,
-} from "./components/CustomDatePicker/index";
-import { CustomSwitchProps } from "./components/CustomSwitch/index";
-import { CustomSelectProps } from "./components/CustomSelect/index";
-import { LocationPickerProps } from "./components/LocationPicker/index";
-import { PicturesWallProps } from "./components/PicturesWall/index";
-import { CustomDraggerProps } from "./components/CustomUpload/CustomDragger";
-import { CustomCheckGroupProps } from "./components/CustomCheckGroup/index";
-import { CustomRadioGroupProps } from "./components/CustomRadioGroup/index";
+} from "./item-components/CustomDatePicker/index";
+import { CustomSwitchProps } from "./item-components/CustomSwitch/index";
+import { CustomSelectProps } from "./item-components/CustomSelect/index";
+import { LocationPickerProps } from "./item-components/LocationPicker/index";
+import { PicturesWallProps } from "./item-components/PicturesWall/index";
+import { CustomDraggerProps } from "./item-components/CustomDragger";
+import { CustomCheckGroupProps } from "./item-components/CustomCheckGroup/index";
+import { CustomRadioGroupProps } from "./item-components/CustomRadioGroup/index";
 import { GetFieldDecoratorOptions } from "antd/lib/form/Form";
 import { ColProps } from "antd/lib/col";
 
