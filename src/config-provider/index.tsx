@@ -2,11 +2,11 @@ import React from 'react';
 import _merge from 'lodash/merge';
 import { ComponentType } from '../lib/props';
 import {
-  uploadByBase64Default,
-  getUrlDefault,
-  isUploadOkDefault,
-  pictureFormateLimitDefault,
-  amapKeyDefault,
+  uploadByBase64 as uploadByBase64Default,
+  getUrl as getUrlDefault,
+  isUploadOk as isUploadOkDefault,
+  pictureFormateLimit as pictureFormateLimitDefault,
+  amapKey as amapKeyDefault,
 
   defaultExtra,
   defaultRules,
@@ -37,7 +37,7 @@ export interface ConfigProviderProps {
   isUploadOk?: (response: any) => boolean;
   commenExtra?: { [k in ComponentType]?: any };
   commenRules?: { [k in ComponentType]?: any[] };
-  pictureFormatLimit?: string;
+  pictureFormateLimit?: string;
   amapKey?: string;
   afmLocale?: AFMLocaleProps;
 }
@@ -51,7 +51,7 @@ export class ConfigProvider extends React.Component<ConfigProviderProps> {
       isUploadOk,
       commenExtra,
       commenRules,
-      pictureFormatLimit,
+      pictureFormateLimit,
       amapKey,
       afmLocale,
 
@@ -71,7 +71,7 @@ export class ConfigProvider extends React.Component<ConfigProviderProps> {
         ...defaultRules,
         ...commenRules,
       },
-      pictureFormatLimit: pictureFormatLimit || pictureFormateLimitDefault,
+      pictureFormateLimit: pictureFormateLimit || pictureFormateLimitDefault,
       amapKey: amapKey || amapKeyDefault,
       afmLocale: _merge(defaultLocale, afmLocale),
     }

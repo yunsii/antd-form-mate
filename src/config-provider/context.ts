@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComponentType } from '../lib/props';
 import {
-  uploadByBase64Default,
-  getUrlDefault,
-  isUploadOkDefault,
-  pictureFormateLimitDefault,
-  amapKeyDefault,
+  uploadByBase64,
+  getUrl,
+  isUploadOk,
+  pictureFormateLimit,
+  amapKey,
 
   defaultExtra,
   defaultRules,
@@ -21,20 +21,20 @@ export interface ConfigConsumerProps {
   isUploadOk: (response: any) => boolean;
   commenExtra: { [k in ComponentType]?: any };
   commenRules: { [k in ComponentType]?: any[] };
-  pictureFormatLimit: string;
+  pictureFormateLimit: string;
   amapKey: string;
   afmLocale: typeof defaultLocal;
 }
 
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
   setCommenProps: processSetCommenProps(),
-  uploadFn: uploadByBase64Default,
-  getUrl: getUrlDefault,
-  isUploadOk: isUploadOkDefault,
+  uploadFn: uploadByBase64,
+  getUrl,
+  isUploadOk,
   commenExtra: defaultExtra,
   commenRules: defaultRules,
-  pictureFormatLimit: pictureFormateLimitDefault,
-  amapKey: amapKeyDefault,
+  pictureFormateLimit,
+  amapKey,
   afmLocale: defaultLocal,
 });
 
