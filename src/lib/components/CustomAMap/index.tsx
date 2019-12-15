@@ -4,7 +4,6 @@ import { Map, Marker, MapProps } from "react-amap";
 import Geolocation from "react-amap-plugin-custom-geolocation";
 import CurrentAddress from "./CurrentAddress";
 import PlaceSearch from "./PlaceSearch";
-import { amapKeyDefault } from '../../../defaultConfig';
 import { ConfigContext } from '../../../config-provider/context';
 import { Position } from './Props';
 
@@ -132,7 +131,7 @@ export const AMap: React.FC<AMapProps> = ({
   const customMap = (
     <div style={{ ...wrapperStyle, height: setHeight() }}>
       <Map
-        amapkey={amapKey || amapKeyDefault}
+        amapkey={amapKey}
         plugins={defaultPlugins as any}
         events={{
           created: handleCreatedMap,
