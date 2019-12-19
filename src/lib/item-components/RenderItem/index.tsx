@@ -14,6 +14,7 @@ import CustomCheckGroup from "../CustomCheckGroup/index";
 import CustomRadioGroup from "../CustomRadioGroup/index";
 import {
   ComponentType,
+  ComponentProps,
   CustomFormItemProps,
   ItemConfig,
   Layout,
@@ -24,42 +25,90 @@ import { setValuePropName } from './utils';
 
 const { TextArea, Password } = Input;
 
-function setInputComponent(type: ComponentType) {
-  switch (type) {
-    case "date":
-      return <CustomDatePicker />;
-    case "datetime":
-      return <CustomDatePicker style={{ minWidth: "unset" }} format="YYYY-MM-DD HH:mm:ss" showTime />;
-    case "datetime-range":
-      return <CustomRangePicker format="YYYY-MM-DD HH:mm:ss" showTime />;
-    case "date-range":
-      return <CustomRangePicker format="YYYY-MM-DD" />;
-    case "number":
-      return <InputNumber placeholder="请输入" />;
-    case "select":
-      return <CustomSelect />;
-    case "textarea":
-      return <TextArea placeholder="请输入" />;
-    case "password":
-      return <Password placeholder="请输入密码" />;
-    case "picture":
-      return <PicturesWall />;
-    case "switch":
-      return <CustomSwitch />;
-    case "slider":
-      return <Slider />;
-    case "file-dragger":
-      return <CustomDragger />;
-    case "location":
-      return <LocationPicker />;
-    case "check-group":
-      return <CustomCheckGroup />;
-    case "radio-group":
-      return <CustomRadioGroup />;
-    default:
-      return <Input placeholder="请输入" />;
-  }
+const componentMap: { [k in ComponentType | "default"]?: [React.ComponentClass | React.FC, ComponentProps] } = {
+  date: [
+    CustomDatePicker,
+    {},
+  ],
+  datetime: [
+    CustomDatePicker,
+    {
+      style: { minWidth: "unset" },
+      format: "YYYY-MM-DD HH:mm:ss",
+      showTime: true,
+    },
+  ],
+  "datetime-range": [
+    CustomRangePicker,
+    {
+      format: "YYYY-MM-DD HH:mm:ss",
+      showTime: true,
+    },
+  ],
+  "date-range": [
+    CustomRangePicker,
+    {
+      format: "YYYY-MM-DD",
+    },
+  ],
+  number: [
+    InputNumber,
+    {
+      placeholder: "请输入",
+    },
+  ],
+  select: [
+    CustomSelect,
+    {},
+  ],
+  textarea: [
+    TextArea,
+    {
+      placeholder: "请输入",
+    },
+  ],
+  password: [
+    Password,
+    {
+      placeholder: "请输入密码",
+    },
+  ],
+  picture: [
+    PicturesWall,
+    {},
+  ],
+  switch: [
+    CustomSwitch,
+    {},
+  ],
+  slider: [
+    Slider,
+    {},
+  ],
+  "file-dragger": [
+    CustomDragger,
+    {},
+  ],
+  location: [
+    LocationPicker,
+    {},
+  ],
+  "check-group": [
+    CustomCheckGroup,
+    {},
+  ],
+  "radio-group": [
+    CustomRadioGroup,
+    {},
+  ],
+  default: [
+    Input,
+    {
+      placeholder: "请输入",
+    },
+  ],
 }
+
 
 interface RenderItemProps {
   form: WrappedFormUtils,
@@ -98,23 +147,22 @@ export default function RenderItem({ form, config, formLayout }: RenderItemProps
     return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
   }
 
+  const [Component, props] = (componentMap[type] || componentMap.default)!;
+
   const setComponent = () => {
     return type === 'custom' ? component : (
-      React.cloneElement(
-        setInputComponent(type),
-        {
-          ...setCommenProps(type, _get(setInputComponent(type), 'props.style')),
-          ...componentProps as any,
-        }
-      )
-    )
+      React.createElement(Component, {
+        ...props,
+        ...setCommenProps(type, _get(props, 'style')),
+        ...componentProps,
+      }));
   }
 
   function setRules() {
     return [
       ...commenRules[type] || [],
       ...rules,
-    ]
+    ];
   }
 
   const setItemComponent = () => {
