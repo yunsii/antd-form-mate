@@ -16,5 +16,5 @@ storiesOf('custom components', module)
   .add('EditableTable', () => <EditableTable />)
   .add('AMap', () => <AMap />);
 
-storiesOf('antd official components', module)
+storiesOf('antd official demo', module)
   .add('PictureWall', () => <PicturesWall />);
