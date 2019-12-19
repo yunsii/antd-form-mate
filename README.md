@@ -11,12 +11,14 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/theprimone/antd-form-mate.svg)](https://github.com/theprimone/antd-form-mate/commits/master)
 
 </div>
-
-![basic.png](https://s2.ax1x.com/2019/08/05/eRsRjH.png)
+![antd-form-mate-basic.png](https://i.loli.net/2019/12/19/B6mUZEedoihkGfM.png)
 <p align="center">基础表单项</p>
 
-![advanced.png](https://s2.ax1x.com/2019/08/05/eRs2ge.png)
+![antd-form-mate-advanced.png](https://i.loli.net/2019/12/19/kbOIxvgc8DY16NM.png)
 <p align="center">高级表单项</p>
+
+![antd-form-mate-editable-table.png](https://i.loli.net/2019/12/19/64AhTNnwqMIWOyR.png)
+<p align="center">可编辑表格</p>
 
 ## 安装
 
