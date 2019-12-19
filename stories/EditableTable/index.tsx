@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'antd';
+import { Form, Button, Divider } from 'antd';
 import moment from 'moment';
 import EditableTable from '../../src/lib/components/EditableTable';
 
@@ -18,8 +18,7 @@ export default Form.create()((props) => {
   const { form } = props;
   const [tableRef, setTableRef] = useState();
   return (
-    <>
-      <Button type='primary' onClick={() => { alert(tableRef && tableRef.state.editingKey) }}>editingKey</Button>
+    <div style={{ width: 900, margin: '48px auto 0' }}>
       <EditableTable
         form={form}
         columns={[
@@ -96,6 +95,13 @@ export default Form.create()((props) => {
         }}
         ref={(ref) => { setTableRef(ref) }}
       />
-    </>
+      <Divider />
+      <Button
+        type='primary'
+        onClick={() => { alert(tableRef && tableRef.state.editingKey) }}
+      >
+        Alert editingKey
+      </Button>
+    </div>
   )
 })
