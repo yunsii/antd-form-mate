@@ -9,7 +9,7 @@ export const defaultLayout = {
 
 const commenStyle = { width: "100%" };
 const setDefaultCommenStyle = (type: ComponentType) => {
-  return type !== 'switch' ? commenStyle : {}
+  return type !== 'switch' ? commenStyle : {};
 };
 
 export function processSetCommenProps(setCommenProps: (type: ComponentType, defaultStyle: any) => any = () => ({})) {
