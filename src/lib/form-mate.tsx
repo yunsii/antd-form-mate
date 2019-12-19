@@ -9,19 +9,18 @@ export const createFormItems = (form: WrappedFormUtils) => (
   itemsConfig: ItemConfig[],
   formLayout?: Layout,
 ) => {
-  const { getFieldDecorator } = form || {} as any;
-  if (!_isFunction(getFieldDecorator)) { throw new TypeError('GetFieldDecorator is not function.'); }
+  if (!_isFunction(_get(form, 'getFieldDecorator'))) { throw new TypeError('GetFieldDecorator is not function.'); }
+  const { getFieldDecorator } = form;
 
   return itemsConfig.map(config => {
     const {
       type = "string",
       field,
-      fieldProps = {},
+      fieldProps,
     } = config;
-    const { initialValue } = fieldProps;
 
     if (type === 'hidden') {
-      getFieldDecorator(field, { initialValue });
+      getFieldDecorator(field, { initialValue: _get(fieldProps, 'initialValue') });
       return null;
     }
 
