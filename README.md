@@ -68,11 +68,11 @@ $ npm start
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `type` | 上述类型 | [`ComponentType`](./src/lib/props.d.ts#L199) | `'string'` |
+| `type` | 上述类型 | [`ComponentType`](/src/lib/props.d.ts#L199) | `'string'` |
 | `field` | 字段名 | `string` | - |
 | `formItemProps` | Form.Item 支持的配置，新增 `dense` 属性配置 Form.Item `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
 | `fieldProps` | 字段值配置  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
-| `componentProps` | 额外的组件配置 | [`ComponentProps`](./src/lib/props.d.ts#L222) | - |
+| `componentProps` | 额外的组件配置 | [`ComponentProps`](/src/lib/props.d.ts#L222) | - |
 | `component` | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | `JSX.Element` | - |
 
 ### 基础用法
@@ -145,11 +145,11 @@ export default Form.create()(BasicForm as any);
 
 ### 全局配置
 
-表单全局配置可见 [`ConfigProvider`](./src/ConfigContext.ts) ，使用可参考 [`stories/BasicForm/index.tsx`](./stories/BasicForm/index.tsx)
+表单全局配置可见 [`ConfigProvider`](/src/config-provider/index.tsx#L33) ，使用可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#299)
 
 ### 备注
 
-未尽事宜，可参考 [index.stories.tsx](./stories/index.stories.tsx) 。
+未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
 
 ## EditableTable
 
@@ -160,7 +160,7 @@ export default Form.create()(BasicForm as any);
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `form` | `Form.create()` 注入的表单对象 | WrappedFormUtils | - |
-| `columns` | 扩展列模型 | [`EditableColumnProps`](./src/lib/components/EditableTable/index.tsx#L24) | - |
+| `columns` | 扩展列模型 | [`EditableColumnProps`](/src/lib/components/EditableTable/index.tsx#L24) | - |
 | `initialData` | 表格初始化数据 | `T[]` | - |
 | `onCreate` | 点击保存后该记录无 `id` 触发该事件  | `(fieldsValue: T & { key: number }) => Promise<boolean \| void>` | - |
 | `onUpdate` | 点击保存后该记录有 `id` 触发该事件 | `(fieldsValue: T & { key: number }) => Promise<boolean \| void>` | - |
