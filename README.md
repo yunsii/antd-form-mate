@@ -70,9 +70,9 @@ $ npm start
 | --- | --- | --- | --- |
 | `type` | 上述类型 | [`ComponentType`](/src/lib/props.d.ts#L199) | `'string'` |
 | `field` | 字段名 | `string` | - |
-| `formItemProps` | Form.Item 支持的配置，新增 `dense` 属性配置 Form.Item `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
-| `fieldProps` | 字段值配置  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
-| `componentProps` | 额外的组件配置 | [`ComponentProps`](/src/lib/props.d.ts#L222) | - |
+| `formItemProps` | Form.Item 支持的属性，新增 `dense` 属性使得 Form.Item 的 `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
+| `fieldProps` | 字段值属性  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
+| `componentProps` | 额外的组件属性 | [`ComponentProps`](/src/lib/props.d.ts#L222) | - |
 | `component` | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | `JSX.Element` | - |
 
 ### 基础用法
