@@ -169,7 +169,6 @@ export default Form.create()(BasicForm as any);
 | `onCancel` | 取消编辑点击事件 | `(prevRecord: T & { key: number }, record: T & { key: number }) => void` | - |
 | `onRecordAdd` | 当添加一条记录时，需要写入额外的默认值时可调用该方法 | `(initialRecord: T, prevData: T[]) => T` | - |
 | `editingKey` | 获取正在编辑的 `key` | `React.ElementType` | - |
-| `ref` | 组件引用 | `EditableTable` | - |
 | `loading` | 加载中状态 | `boolean` | - |
 
 #### 关于 `key`
