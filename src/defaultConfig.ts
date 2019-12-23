@@ -1,4 +1,5 @@
 import _isFunction from 'lodash/isFunction';
+import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { ComponentType } from './lib/props';
 import { getBase64 } from './utils';
 
@@ -67,3 +68,10 @@ export function isUploadOk(response: any = {}) {
 export const pictureFormateLimit = '.jpg,.jpeg,.bmp,.png,.gif';
 
 export const amapKey = '1460ee2529622747f8faacac3e860bd6';
+
+export const defaultViewerProps: ViewerProps = {
+  rotatable: false,
+  noImgDetails: true,
+  scalable: false,
+  zoomable: false,
+};

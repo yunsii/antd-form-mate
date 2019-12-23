@@ -1,5 +1,6 @@
 import React from 'react';
 import { ComponentType } from '../lib/props';
+import ViewerProps from 'react-viewer/lib/ViewerProps';
 import {
   uploadByBase64,
   getUrl,
@@ -11,6 +12,7 @@ import {
   defaultRules,
 
   processSetCommenProps,
+  defaultViewerProps,
 } from '../defaultConfig';
 import defaultLocal from '../defaultLocale';
 
@@ -24,6 +26,7 @@ export interface ConfigConsumerProps {
   pictureFormateLimit: string;
   amapKey: string;
   afmLocale: typeof defaultLocal;
+  viewerProps: ViewerProps;
 }
 
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
@@ -36,6 +39,7 @@ export const ConfigContext = React.createContext<ConfigConsumerProps>({
   pictureFormateLimit,
   amapKey,
   afmLocale: defaultLocal,
+  viewerProps: defaultViewerProps,
 });
 
 ConfigContext.displayName = 'antd-form-mate\'s ConfigContext';

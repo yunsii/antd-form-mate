@@ -1,5 +1,6 @@
 import React from 'react';
 import _merge from 'lodash/merge';
+import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { ComponentType } from '../lib/props';
 import {
   uploadByBase64 as uploadByBase64Default,
@@ -12,6 +13,7 @@ import {
   defaultRules,
 
   processSetCommenProps,
+  defaultViewerProps,
 } from '../defaultConfig';
 import defaultLocale from '../defaultLocale';
 import ConfigContext, { ConfigConsumerProps } from './context';
@@ -40,8 +42,8 @@ export interface ConfigProviderProps {
   pictureFormateLimit?: string;
   amapKey?: string;
   afmLocale?: AFMLocaleProps;
+  viewerProps?: ViewerProps;
 }
-
 
 function initState(props: ConfigProviderProps) {
   const {
@@ -54,6 +56,7 @@ function initState(props: ConfigProviderProps) {
     pictureFormateLimit,
     amapKey,
     afmLocale,
+    viewerProps,
   } = props;
 
   const config: ConfigConsumerProps = {
@@ -72,6 +75,10 @@ function initState(props: ConfigProviderProps) {
     pictureFormateLimit: pictureFormateLimit || pictureFormateLimitDefault,
     amapKey: amapKey || amapKeyDefault,
     afmLocale: _merge(defaultLocale, afmLocale),
+    viewerProps: {
+      ...defaultViewerProps,
+      ...viewerProps,
+    },
   }
 
   return config;
