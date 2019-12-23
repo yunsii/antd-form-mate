@@ -46,8 +46,6 @@ class InternalPicturesWall extends React.Component<InternalPicturesWallProps, In
     fileList: [] as UploadFile[],
   };
 
-  handleCancel = () => this.setState({ previewVisible: false });
-
   handlePreview = async (file: UploadFile) => {
     const { fileList } = this.state;
     console.log(fileList, file);
