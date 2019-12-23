@@ -3,6 +3,7 @@ export { createFormItems } from './lib/form-mate';
 
 export { default as Upload } from './lib/components/CustomUpload';
 export { default as EditableTable } from './lib/components/EditableTable';
+export { default as ImagesViewer } from './lib/components/ImagesViewer';
 
 export { default as CheckGroup } from './lib/item-components/CustomCheckGroup';
 export { default as DatePicker } from './lib/item-components/CustomDatePicker';
