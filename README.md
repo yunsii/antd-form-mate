@@ -149,6 +149,8 @@ export default Form.create()(BasicForm as any);
 
 ### 备注
 
+另，内部使用的[部分组件和函数](/src/index.ts)已导出。
+
 未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
 
 ## EditableTable
