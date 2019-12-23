@@ -1,20 +1,24 @@
 import React, { useContext, forwardRef } from "react";
-import { Icon, Modal } from "antd";
+import { Icon } from "antd";
 import _pick from "lodash/pick";
 import _isArray from "lodash/isArray";
+import _findIndex from "lodash/findIndex";
 import _get from "lodash/get";
+import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { UploadFile } from 'antd/lib/upload/interface';
+import ImagesViewer from '../../components/ImagesViewer';
 import CustomUpload, {
   CustomUploadPorps,
   filterFileList,
 } from "../../components/CustomUpload/index";
-import { getBase64, getImageDimension } from '../../../utils';
+// import { getBase64 } from '../../../utils';
 import ConfigContext from '../../../config-provider/context';
 import { setFileList } from '../../setValue';
 import styles from "./index.less";
 
 export interface PicturesWallProps extends CustomUploadPorps {
   value?: string | any[];
+  viewerProps?: ViewerProps;
 }
 
 export interface InternalPicturesWallProps extends PicturesWallProps {
@@ -24,9 +28,8 @@ export interface InternalPicturesWallProps extends PicturesWallProps {
 
 export interface InternalPicturesWallState {
   previewVisible: boolean;
-  previewImage: string;
-  fileList: any[];
-  previewWidth: number;
+  activeIndex: number;
+  fileList: UploadFile[];
 }
 
 class InternalPicturesWall extends React.Component<InternalPicturesWallProps, InternalPicturesWallState> {
@@ -39,36 +42,21 @@ class InternalPicturesWall extends React.Component<InternalPicturesWallProps, In
 
   state = {
     previewVisible: false,
-    previewImage: "",
-    fileList: [],
-    previewWidth: 600,
+    activeIndex: 0,
+    fileList: [] as UploadFile[],
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
 
-  handlePreview = async (file: any) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    const url = file.url || file.preview;
-
+  handlePreview = async (file: UploadFile) => {
+    const { fileList } = this.state;
+    console.log(fileList, file);
+    console.log(_findIndex(fileList, { uid: file.uid }));
     this.setState({
-      previewWidth: await this.setPreviewWidth(url),
-      previewImage: url,
+      activeIndex: _findIndex(fileList, { uid: file.uid }),
       previewVisible: true,
     });
   };
-
-  setPreviewWidth = async (url: string) => {
-    const { width } = await getImageDimension(url);
-    const innerWidth = window.innerWidth;
-    if (width <= innerWidth) {
-      return width <= 800 ? width : 1000;
-    } else {
-      return innerWidth * 0.6;
-    }
-  }
 
   handleChange = ({ fileList }: { fileList: UploadFile[] }) => {
     console.log(fileList);
@@ -79,8 +67,8 @@ class InternalPicturesWall extends React.Component<InternalPicturesWallProps, In
   };
 
   render() {
-    const { pictureFormateLimit, setLocale } = this.props;
-    const { previewVisible, previewImage, fileList, previewWidth } = this.state;
+    const { pictureFormateLimit, setLocale, viewerProps } = this.props;
+    const { previewVisible, fileList, activeIndex } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -99,14 +87,13 @@ class InternalPicturesWall extends React.Component<InternalPicturesWallProps, In
         >
           {fileList.length >= (this.props.filesCountLimit || 1) ? null : uploadButton}
         </CustomUpload>
-        <Modal
+        <ImagesViewer
           visible={previewVisible}
-          footer={null}
-          onCancel={this.handleCancel}
-          width={previewWidth}
-        >
-          <img alt="example" style={{ width: "100%" }} src={previewImage} />
-        </Modal>
+          images={fileList.map(item => ({ src: item.url!, alt: item.fileName }))}
+          onClose={() => this.setState({ previewVisible: false })}
+          activeIndex={activeIndex}
+          {...viewerProps}
+        />
       </div>
     );
   }
