@@ -22,10 +22,10 @@ class AdvancedForm extends React.Component<FormProps, null> {
         },
         fieldProps: {
           // initialValue: detail.picture,
-          initialValue: 'https://s2.ax1x.com/2019/09/25/uEvPxI.png',
+          initialValue: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
         },
         componentProps: {
-          filesCountLimit: 2,
+          filesCountLimit: 4,
           // accept: 'image/*',
           // dimensionLimit: '520*360',
           // dimensionLimit: '<520*360',
@@ -51,7 +51,7 @@ class AdvancedForm extends React.Component<FormProps, null> {
         },
         fieldProps: {
           // initialValue: detail.file,
-          initialValue: 'https://s2.ax1x.com/2019/09/25/uEvPxI.png',
+          initialValue: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
         },
         componentProps: {
           accept: 'image/*',
