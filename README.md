@@ -13,13 +13,8 @@
 </div>
 
 ![antd-form-mate-basic.png](https://i.loli.net/2019/12/19/B6mUZEedoihkGfM.png)
-<p align="center">基础表单项</p>
 
-![antd-form-mate-advanced.png](https://i.loli.net/2019/12/19/kbOIxvgc8DY16NM.png)
-<p align="center">高级表单项</p>
-
-![antd-form-mate-editable-table.png](https://i.loli.net/2019/12/19/64AhTNnwqMIWOyR.png)
-<p align="center">可编辑表格</p>
+**[在线预览 ->](http://theprimone.github.io/antd-form-mate)**
 
 ## 安装
 
