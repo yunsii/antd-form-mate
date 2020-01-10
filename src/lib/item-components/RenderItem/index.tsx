@@ -10,27 +10,24 @@ import setInitialValue from '../../setValue';
 import componentMap from './map';
 import { setValuePropName } from './utils';
 
-interface RenderItemProps {
+interface RenderItemProps extends ItemConfig {
   form: WrappedFormUtils,
-  config: ItemConfig,
   formLayout?: Layout,
 }
-export default function RenderItem({ form, config, formLayout }: RenderItemProps) {
-  const {
-    setCommenProps,
-    commenExtra,
-    commenRules,
-  } = useContext(ConfigContext);
+export default function RenderItem({
+  form,
+  formLayout,
   
+  type = "string",
+  field,
+  formItemProps = {} as CustomFormItemProps,
+  fieldProps = {},
+  componentProps,
+  component,
+}: RenderItemProps) {
+  const { setCommenProps, commenExtra, commenRules } = useContext(ConfigContext);
+
   const { getFieldDecorator } = form;
-  const {
-    type = "string",
-    field,
-    formItemProps = {} as CustomFormItemProps,
-    fieldProps = {},
-    componentProps,
-    component,
-  } = config;
   const {
     rules = [],
     initialValue,

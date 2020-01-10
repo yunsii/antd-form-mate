@@ -28,8 +28,8 @@ export const createFormItems = (form: WrappedFormUtils) => (
       <RenderItem
         key={field}
         form={form}
-        config={config}
         formLayout={formLayout}
+        {...config}
       />
     )
   }).filter(item => item) as JSX.Element[];
