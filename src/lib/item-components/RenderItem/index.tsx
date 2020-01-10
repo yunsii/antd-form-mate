@@ -20,7 +20,8 @@ export default function RenderItem({ form, config, formLayout }: RenderItemProps
     setCommenProps,
     commenExtra,
     commenRules,
-  } = useContext(ConfigContext)
+  } = useContext(ConfigContext);
+  
   const { getFieldDecorator } = form;
   const {
     type = "string",
@@ -61,12 +62,12 @@ export default function RenderItem({ form, config, formLayout }: RenderItemProps
     return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
   }
 
-  const [Component, props] = (componentMap[type] || componentMap.default)!;
+  const [itemComponent, props] = (componentMap[type] || componentMap.default)!;
 
-  function createComponent() {
+  function createElement() {
     if (type === 'custom') { return component; }
     return (
-      React.createElement(Component, {
+      React.createElement(itemComponent, {
         ...props,
         ...setCommenProps(type, _get(props, 'style')),
         ...componentProps,
@@ -88,7 +89,7 @@ export default function RenderItem({ form, config, formLayout }: RenderItemProps
       valuePropName: setValuePropName(type),
       rules: setRules(),
       ...restFieldProps,
-    })(createComponent());
+    })(createElement());
   }
 
   return (
