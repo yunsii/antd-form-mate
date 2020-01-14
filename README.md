@@ -38,24 +38,26 @@ $ npm start
 
 ### 可配置类型
 
-1. `custom` 自定义组件类型
-2. `date` 日期
-3. `datetime` 日期时间
-3. `date-range` 日期范围
-4. `datetime-range` 日期时间范围
-5. `number`
-6. `select`
-7. `textarea`
-8. `password`
-9. `picture`
-10. `switch`
-11. `slider` 滑动输入
-12. `file-dragger`
-13. `string` **默认类型**
-14. `location` 地址录入，基于高德地图
-15. `check-group` 多选框
-16. `radio-group` 单选框
-17. `hidden` 隐藏字段
+|    | 类型               | 备注          |
+|----|--------------------|--------------|
+| 1  | `custom`          | 自定义组件类型      |
+| 2  | `date`            |              |
+| 3  | `datetime`        |              |
+| 4  | `date-range`     | 日期范围         |
+| 5  | `datetime-range` | 日期时间范围       |
+| 6  | `number`          |              |
+| 7  | `select`          |              |
+| 8  | `textarea`        |              |
+| 9  | `password`        |              |
+| 10 | `picture`         |              |
+| 11 | `switch`          |              |
+| 12 | `slider`          | 滑动输入         |
+| 13 | `file-dragger`   |              |
+| 14 | `string`          | **默认类型** |
+| 15 | `location`        | 地址录入，基于高德地图  |
+| 16 | `check-group`    | 多选框          |
+| 17 | `radio-group`    | 单选框          |
+| 18 | `hidden`          | 隐藏字段         |
 
 ### API
 
@@ -73,6 +75,7 @@ $ npm start
 ### 基础用法
 
 ```tsx
+import * as React from 'react';
 import { Form, Button } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { createFormItems } from 'antd-form-mate';
@@ -82,8 +85,8 @@ export interface FormProps {
   form: WrappedFormUtils;
 }
 
-class BasicForm extends React.Component<FormProps> {
-  setFormItemsConfig = (detail: any = {}): ItemConfig[] => {
+const BasicForm: React.FC<FormProps> = (props) => {
+  const getFormItems = (detail: any = {}): ItemConfig[] => {
     return [
       {
         type: 'hidden',
@@ -106,9 +109,9 @@ class BasicForm extends React.Component<FormProps> {
     ];
   }
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const { form } = this.props;
+    const { form } = props;
     form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
@@ -117,15 +120,14 @@ class BasicForm extends React.Component<FormProps> {
   }
 
   render() {
-    const { form } = this.props;
+    const { form } = props;
     return (
-      <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
-        {createFormItems(form)(this.setFormItemsConfig({}))}
+      <Form style={{ marginTop: 20 }}>
+        {createFormItems(form)(getFormItems())}
         <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
           <Button
             type="primary"
-            htmlType="submit"
-            onClick={action('click submit')}
+            onClick={handleSubmit}
           >
             提交
           </Button>
