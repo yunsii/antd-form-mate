@@ -14,17 +14,17 @@ interface RenderItemProps extends ItemConfig {
   form: WrappedFormUtils,
   formLayout?: Layout,
 }
-export default function RenderItem({
+export default ({
   form,
   formLayout,
-  
+
   type = "string",
   field,
   formItemProps = {} as CustomFormItemProps,
   fieldProps = {},
   componentProps,
   component,
-}: RenderItemProps) {
+}: RenderItemProps) => {
   const { setCommenProps, commenExtra, commenRules } = useContext(ConfigContext);
 
   const { getFieldDecorator } = form;
