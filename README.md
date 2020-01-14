@@ -86,6 +86,8 @@ export interface FormProps {
 }
 
 const BasicForm: React.FC<FormProps> = (props) => {
+  const { form } = props;
+  
   const getFormItems = (detail: any = {}): ItemConfig[] => {
     return [
       {
@@ -119,22 +121,19 @@ const BasicForm: React.FC<FormProps> = (props) => {
     });
   }
 
-  render() {
-    const { form } = props;
-    return (
-      <Form style={{ marginTop: 20 }}>
-        {createFormItems(form)(getFormItems())}
-        <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
-          <Button
-            type="primary"
-            onClick={handleSubmit}
-          >
-            提交
-          </Button>
-        </Form.Item>
-      </Form>
-    )
-  }
+  return (
+    <Form style={{ marginTop: 20 }}>
+      {createFormItems(form)(getFormItems())}
+      <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+        <Button
+          type="primary"
+          onClick={handleSubmit}
+        >
+          提交
+        </Button>
+      </Form.Item>
+    </Form>
+  )
 }
 
 export default Form.create()(BasicForm as any);
