@@ -7,11 +7,25 @@ import { ItemConfig, ComponentType } from '../../src/lib/props';
 import { FormProps } from '../interfaces';
 import { ConfigProvider } from '../../src';
 
+const { useState, useEffect } = React;
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-class BasicForm extends React.Component<FormProps, null> {
-  setFormItemsConfig = (detail: any = {}, mode?: string): ItemConfig[] => {
+const BasicForm: React.FC<FormProps> = (props) => {
+  const { form } = props;
+
+  const getFormItems = (detail: any = {}): ItemConfig[] => {
+    const { form } = props;
+
+    const [text, setText] = useState<string>();
+
+    useEffect(() => {
+      form.setFieldsValue({
+        name: text,
+        textarea: text,
+      })
+    }, [text]);
+
     return [
       {
         type: 'hidden',
@@ -50,9 +64,6 @@ class BasicForm extends React.Component<FormProps, null> {
               value: 'galaxy',
             },
           ],
-          onChange: (value) => {
-            console.log(value);
-          },
           cols: 3,
         },
       },
@@ -220,12 +231,14 @@ class BasicForm extends React.Component<FormProps, null> {
         field: 'textarea',
         formItemProps: {
           label: '文本框',
+          extra: '与`姓名`字段联动',
         },
         fieldProps: {
           initialValue: detail.textarea,
         },
         componentProps: {
           autosize: { minRows: 2, maxRows: 6 },
+          onChange: (event: any) => setText(event.target.value),
         },
       },
       {
@@ -279,13 +292,17 @@ class BasicForm extends React.Component<FormProps, null> {
           initialValue: detail.name,
           rules: [{ required: true, message: '请输入姓名！' }],
         },
+        componentProps: {
+          onChange: (event: any) => setText(event.target.value),
+        },
       },
     ];
   }
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const { form } = this.props;
+    action('click submit');
+    const { form } = props;
     form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
@@ -293,30 +310,26 @@ class BasicForm extends React.Component<FormProps, null> {
     });
   }
 
-  render() {
-    const { form } = this.props;
-    return (
-      <ConfigProvider
-        setCommenProps={setCommenProps}
-        commenExtra={{
-          string: 'commen extra of string',
-        }}
-      >
-        <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
-          {createFormItems(form)(this.setFormItemsConfig({}))}
-          <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              onClick={action('click submit')}
-            >
-              提交
+  return (
+    <ConfigProvider
+      setCommenProps={setCommenProps}
+      commenExtra={{
+        string: 'commen extra of string',
+      }}
+    >
+      <Form style={{ marginTop: 20 }}>
+        {createFormItems(form)(getFormItems())}
+        <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+          <Button
+            type="primary"
+            onClick={handleSubmit}
+          >
+            提交
           </Button>
-          </Form.Item>
-        </Form>
-      </ConfigProvider>
-    )
-  }
+        </Form.Item>
+      </Form>
+    </ConfigProvider>
+  )
 }
 
 const setCommenProps = (type: ComponentType) => {
