@@ -18,7 +18,7 @@ import {
 const { TextArea, Password } = Input;
 
 export type ComponentMap = {
-  [key in ComponentType | "default"]?: [React.ComponentClass | React.FC, ComponentProps?]
+  [key in ComponentType | "default"]?: [React.ComponentClass | React.FC | React.ExoticComponent, ComponentProps?]
 }
 
 const componentMap: ComponentMap = {
