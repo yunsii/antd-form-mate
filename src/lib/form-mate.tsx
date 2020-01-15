@@ -5,7 +5,7 @@ import { WrappedFormUtils } from "antd/lib/form/Form";
 import RenderItem from "./item-components/RenderItem";
 import { ItemConfig, Layout } from "./props";
 
-export const createFormItems = (form: WrappedFormUtils) => (
+export default (form: WrappedFormUtils) => (
   itemsConfig: ItemConfig[],
   formLayout?: Layout,
 ) => {
