@@ -6,7 +6,7 @@ import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import _cloneDeep from 'lodash/cloneDeep';
 import _findIndex from 'lodash/findIndex';
-import { createFormItems } from '../../form-mate';
+import { createFormItems } from '../../../index';
 import { ItemConfig } from '../../props';
 import { EditableTableContext } from './FormContext';
 
