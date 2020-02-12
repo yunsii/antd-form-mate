@@ -31,7 +31,7 @@ export default class CustomRadioGroup extends React.Component<CustomRadioGroupPr
     const span = 24 / cols;
     return (
       <Radio.Group {...rest}>
-        <Row type="flex">
+        <Row>
           {options && (options as Option[]).map((item) => {
             const { value, ...rest } = item;
             return (

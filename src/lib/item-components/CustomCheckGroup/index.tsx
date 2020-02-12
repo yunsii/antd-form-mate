@@ -27,7 +27,7 @@ export default class CustomCheckGroup extends React.Component<CustomCheckGroupPr
     const span = 24 / cols;
     return (
       <Checkbox.Group {...rest}>
-        <Row type="flex">
+        <Row>
           {options && (options as Option[]).map((item) => {
             const { value, ...rest } = item;
             return (
