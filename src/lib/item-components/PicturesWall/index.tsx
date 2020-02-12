@@ -1,5 +1,5 @@
 import React, { useContext, forwardRef } from "react";
-import { Icon } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import _pick from "lodash/pick";
 import _isArray from "lodash/isArray";
 import _findIndex from "lodash/findIndex";
@@ -69,7 +69,7 @@ class InternalPicturesWall extends React.Component<InternalPicturesWallProps, In
     const { previewVisible, fileList, activeIndex } = this.state;
     const uploadButton = (
       <div>
-        <Icon type="plus" />
+        <PlusOutlined />
         <div className="ant-upload-text">{_get(setLocale, 'upload')}</div>
       </div>
     );
