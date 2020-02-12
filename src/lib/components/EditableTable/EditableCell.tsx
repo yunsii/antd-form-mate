@@ -1,18 +1,18 @@
 /* eslint-disable react/no-multi-comp */
-import React, { useContext } from 'react';
+import React from 'react';
 import { Form } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnType } from 'antd/lib/table';
 import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import _cloneDeep from 'lodash/cloneDeep';
 import _findIndex from 'lodash/findIndex';
 import { createFormItems } from '../../../index';
 import { ItemConfig } from '../../props';
-import { EditableTableContext } from './FormContext';
+// import { EditableTableContext } from './FormContext';
 
-export type FormItemConfig = Pick<ItemConfig, "type" | "fieldProps" | "componentProps" | "component">
+export type FormItemConfig = Pick<ItemConfig, "type" | "componentProps" | "component">
 
-export interface EditableColumnProps<T> extends ColumnProps<T> {
+export interface EditableColumnProps<T> extends ColumnType<T> {
   formItemConfig?: FormItemConfig;
 }
 
@@ -26,7 +26,7 @@ export interface EditableCellProps<T> {
 }
 
 export default function EditableCell<T>(props: EditableCellProps<T>) {
-  const form = useContext(EditableTableContext);
+  // const form = useContext(EditableTableContext);
   const renderCell = () => {
     const {
       editing,
@@ -37,19 +37,14 @@ export default function EditableCell<T>(props: EditableCellProps<T>) {
       children,
       ...restProps
     } = props;
-    const { fieldProps, ...restFormItemConfig } = formItemConfig;
     return (
       <td {...restProps}>
         {editing && dataIndex ? (
           <Form.Item style={{ margin: 0 }}>
-            {createFormItems(form)([
+            {createFormItems([
               {
-                ...restFormItemConfig,
+                ...formItemConfig,
                 field: dataIndex,
-                fieldProps: {
-                  ...fieldProps,
-                  initialValue: record[dataIndex],
-                },
                 formItemProps: {
                   dense: true,
                 }

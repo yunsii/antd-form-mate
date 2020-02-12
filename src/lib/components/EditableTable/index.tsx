@@ -1,8 +1,8 @@
 /* eslint-disable react/no-multi-comp */
 import React, { PureComponent } from 'react';
 import { Table, Spin, Button, Popconfirm } from 'antd';
-import { WrappedFormUtils } from 'antd/lib/form/Form';
-import { TableProps, ColumnProps } from 'antd/lib/table';
+import { FormInstance } from 'antd/lib/form/Form';
+import { TableProps, ColumnType } from 'antd/lib/table';
 import _get from 'lodash/get';
 import _cloneDeep from 'lodash/cloneDeep';
 import _findIndex from 'lodash/findIndex';
@@ -17,16 +17,16 @@ import EditableCell from './EditableCell';
 
 const EditableTableProvider = EditableTableContext.Provider;
 
-export type FormItemConfig = Pick<ItemConfig, "type" | "fieldProps" | "componentProps" | "component">
+export type FormItemConfig = Pick<ItemConfig, "type" | "componentProps" | "component">
 
 export interface DefaultRecordParams { id: number | string }
 
-export interface EditableColumnProps<T> extends ColumnProps<T> {
+export interface EditableColumnProps<T> extends ColumnType<T> {
   formItemConfig?: FormItemConfig;
 }
 
 export interface EditableTableProps<T> extends TableProps<T> {
-  form: WrappedFormUtils;
+  form: FormInstance;
   columns: EditableColumnProps<T>[];
   initialData: T[];
   onCreate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
@@ -53,7 +53,7 @@ function setEditInitialValues<T>(columns: EditableColumnProps<T>[]) {
   columns.forEach(element => {
     const initialValue = _get(element, 'formItemConfig.fieldProps.initialValue');
     if (element.dataIndex && initialValue) {
-      result[element.dataIndex] = initialValue;
+      result[element.dataIndex as string] = initialValue;
     }
   });
   return result as T;
@@ -196,7 +196,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     let result: any = {};
     columns.forEach((element) => {
       if (element.dataIndex) {
-        result[element.dataIndex] = fieldsValue[element.dataIndex];
+        result[element.dataIndex as string] = fieldsValue[element.dataIndex as string];
       }
     });
     return result;
@@ -204,8 +204,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
 
   handleSave = (key: number) => {
     const { form, onCreate, onUpdate } = this.props;
-    form.validateFields(async (error, fieldsValue) => {
-      if (error) return;
+    form.validateFields().then(async (fieldsValue) => {
       console.log(fieldsValue);
       const filteredValue = this.getColumnsValue(fieldsValue);
       const { data } = this.state;
@@ -352,7 +351,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
             components={components}
             bordered
             dataSource={data}
-            columns={this.parseColumns(this.renderColumns())}
+            columns={this.parseColumns(this.renderColumns()) as any}
             pagination={false}
           />
         </EditableTableProvider>
