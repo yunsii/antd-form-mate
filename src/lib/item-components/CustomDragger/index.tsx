@@ -1,5 +1,6 @@
 import React, { Component, forwardRef, useContext } from "react";
-import { Upload, Icon } from "antd";
+import { Upload } from "antd";
+import { InboxOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload';
 import _get from "lodash/get";
 import {
@@ -84,7 +85,7 @@ class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
         {...rest}
       >
         <p className="ant-upload-drag-icon">
-          <Icon type="inbox" />
+          <InboxOutlined />
         </p>
         <p className="ant-upload-text">{_get(setLocale, 'upload')}</p>
         {/* <p className="ant-upload-hint">
