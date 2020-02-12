@@ -13,7 +13,6 @@ import { PicturesWallProps } from "./item-components/PicturesWall/index";
 import { CustomDraggerProps } from "./item-components/CustomDragger";
 import { CustomCheckGroupProps } from "./item-components/CustomCheckGroup/index";
 import { CustomRadioGroupProps } from "./item-components/CustomRadioGroup/index";
-import { GetFieldDecoratorOptions } from "antd/lib/form/Form";
 import { ColProps } from "antd/lib/col";
 
 export type ComponentType =
@@ -65,7 +64,7 @@ export type ComponentProps =
   | InputProps
 
 
-export interface CustomFormItemProps extends FormItemProps {
+export interface CustomFormItemProps extends Omit<FormItemProps, 'children'> {
   dense?: boolean;
 }
 
@@ -73,7 +72,6 @@ export interface ItemConfig {
   type?: ComponentType;
   field: string;
   formItemProps?: CustomFormItemProps;
-  fieldProps?: GetFieldDecoratorOptions;
   componentProps?: ComponentProps;
   component?: JSX.Element;
 }
