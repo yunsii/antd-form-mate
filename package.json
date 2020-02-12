@@ -4,7 +4,8 @@
   "version": "3.0.3",
   "main": "./dist/index.js",
   "dependencies": {
-    "antd": "^3.23.6",
+    "@ant-design/icons": "^4.0.0-rc.0",
+    "antd": "^4.0.0-rc.4",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-amap": "^1.2.8",
