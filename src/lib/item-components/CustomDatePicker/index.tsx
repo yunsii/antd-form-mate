@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import _isArray from "lodash/isArray";
 import { DatePicker } from "antd";
-import { RangePickerProps, DatePickerProps } from 'antd/lib/date-picker/interface';
+import { RangePickerProps, DatePickerProps } from 'antd/lib/date-picker';
 import { setDatetimeValue, setDatetimeRangeValue } from '../../setValue';
 
 const { RangePicker } = DatePicker;
@@ -28,10 +28,11 @@ function setDisabledDate(todayAndBefore, onlyAfterToday) {
   return disabledDate;
 }
 
-export interface CustomRangePickerProps extends RangePickerProps {
+interface ExtendsRangePickerProps {
   onlyAfterToday?: boolean;
   todayAndBefore?: boolean;
 }
+export type CustomRangePickerProps = RangePickerProps & ExtendsRangePickerProps;
 export class CustomRangePicker extends Component<CustomRangePickerProps> {
   render() {
     const { onlyAfterToday, todayAndBefore, value, ...rest } = this.props;
@@ -45,10 +46,11 @@ export class CustomRangePicker extends Component<CustomRangePickerProps> {
   }
 }
 
-export interface CustomDatePickerProps extends DatePickerProps {
+export interface ExtendsDatePickerProps  {
   onlyAfterToday?: boolean;
   todayAndBefore?: boolean;
 }
+export type CustomDatePickerProps = DatePickerProps & ExtendsDatePickerProps;
 export default class CustomDatePicker extends Component<CustomDatePickerProps> {
   render() {
     const { onlyAfterToday, todayAndBefore, value, ...rest } = this.props;
