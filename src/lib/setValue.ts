@@ -46,12 +46,12 @@ export function setDatetimeValue(value: undefined | null | number | Moment): Dat
   return undefined;
 }
 
-type DatetimeRangeValue = [undefined, undefined] | [Moment, Moment];
+type DatetimeRangeValue = [null, null] | [Moment, Moment];
 export function setDatetimeRangeValue(value): DatetimeRangeValue {
   if (_isArray(value) && value.length >= 2) {
     return [setDatetimeValue(value[0]), setDatetimeValue(value[1])] as DatetimeRangeValue;
   }
-  return [undefined, undefined];
+  return [null, null];
 }
 
 function setFileNameByPath(path: string) {
