@@ -1,25 +1,28 @@
-import React, { useState } from 'react';
-import { Form, Button, Divider } from 'antd';
-import moment from 'moment';
-import EditableTable from '../../src/lib/components/EditableTable';
+import React from 'react';
+import { Button, Divider } from 'antd';
+// import moment from 'moment';
+// import EditableTable from '../../src/lib/components/EditableTable';
 
-const genderOptions = [
-  {
-    text: '男',
-    value: 1,
-  },
-  {
-    text: '女',
-    value: 2,
-  },
-];
+// const genderOptions = [
+//   {
+//     text: '男',
+//     value: 1,
+//   },
+//   {
+//     text: '女',
+//     value: 2,
+//   },
+// ];
 
-export default Form.create()((props) => {
-  const { form } = props;
-  const [tableRef, setTableRef] = useState();
+export default (props) => {
+  // const [form] = Form.useForm();
+  // const [
+  //   tableRef,
+  //   setTableRef
+  // ] = useState();
   return (
     <div style={{ width: 900, margin: '48px auto 0' }}>
-      <EditableTable
+      {/* <EditableTable
         form={form}
         columns={[
           {
@@ -27,9 +30,9 @@ export default Form.create()((props) => {
             dataIndex: 'name',
             formItemConfig: {
               type: 'string',
-              fieldProps: {
-                initialValue: "xxx",
-              }
+              // fieldProps: {
+              //   initialValue: "xxx",
+              // }
             },
           },
           {
@@ -37,9 +40,9 @@ export default Form.create()((props) => {
             dataIndex: 'gender',
             formItemConfig: {
               type: 'select',
-              fieldProps: {
-                initialValue: 1,
-              },
+              // fieldProps: {
+              //   initialValue: 1,
+              // },
               componentProps: {
                 options: genderOptions,
               },
@@ -56,11 +59,9 @@ export default Form.create()((props) => {
             },
             formItemConfig: {
               type: 'date',
-              fieldProps: {
-                rules: [
-                  { required: true },
-                ],
-              },
+              rules: [
+                { required: true },
+              ],
             },
           },
         ]}
@@ -94,14 +95,14 @@ export default Form.create()((props) => {
           console.log(prevRecord, record);
         }}
         ref={(ref) => { setTableRef(ref) }}
-      />
+      /> */}
       <Divider />
       <Button
         type='primary'
-        onClick={() => { alert(tableRef && tableRef.state.editingKey) }}
+        // onClick={() => { alert(tableRef && tableRef.state.editingKey) }}
       >
         Alert editingKey
       </Button>
     </div>
   )
-})
+}
