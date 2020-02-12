@@ -3,10 +3,15 @@ import { action } from '@storybook/addon-actions';
 import { Form, Button } from 'antd';
 import { createFormItems } from '../FormMate';
 import { ItemConfig } from '../../src/lib/props';
-import { FormProps } from '../interfaces';
 import { ConfigProvider } from '../../src';
 
-class AdvancedForm extends React.Component<FormProps, null> {
+const initialValues = {
+  picture: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
+  file: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
+  location: { position: { longitude: 114.104624, latitude: 22.554863 }, formattedAddress: "广东省深圳市罗湖区桂园街道红岭2118号大院建设集团大厦" },
+};
+
+class AdvancedForm extends React.Component {
   setFormItemsConfig = (detail: any = {}, mode?: string): ItemConfig[] => {
     return [
       {
@@ -19,10 +24,6 @@ class AdvancedForm extends React.Component<FormProps, null> {
           // extra: '图片像素不小于520*360',
           // extra: '图片像素不小于520*360，且不大于1920*1080',
           // extra: false,
-        },
-        fieldProps: {
-          // initialValue: detail.picture,
-          initialValue: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
         },
         componentProps: {
           filesCountLimit: 4,
@@ -49,10 +50,6 @@ class AdvancedForm extends React.Component<FormProps, null> {
         formItemProps: {
           label: '文件',
         },
-        fieldProps: {
-          // initialValue: detail.file,
-          initialValue: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
-        },
         componentProps: {
           accept: 'image/*',
           filesCountLimit: 2,
@@ -64,25 +61,19 @@ class AdvancedForm extends React.Component<FormProps, null> {
         formItemProps: {
           label: '地址',
         },
-        fieldProps: {
-          initialValue: { position: { longitude: 114.104624, latitude: 22.554863 }, formattedAddress: "广东省深圳市罗湖区桂园街道红岭2118号大院建设集团大厦" },
-        },
       },
     ];
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { form } = this.props;
-    form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
+  handleFinish = (values) => {
+    console.log('Received values of form: ', values);
+  }
+
+  handleFinishFailed = (errors) => {
+    console.log('Errors:', errors);
   }
 
   render() {
-    const { form } = this.props;
     return (
       <ConfigProvider
         commenExtra={{
@@ -98,8 +89,13 @@ class AdvancedForm extends React.Component<FormProps, null> {
           },
         }}
       >
-        <Form onSubmit={this.handleSubmit} style={{ marginTop: 20 }}>
-          {createFormItems(form)(this.setFormItemsConfig({}))}
+        <Form
+          style={{ marginTop: 20 }}
+          onFinish={this.handleFinish}
+          onFinishFailed={this.handleFinishFailed}
+          initialValues={initialValues}
+        >
+          {createFormItems(this.setFormItemsConfig({}))}
           <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
             <Button
               type="primary"
@@ -115,6 +111,6 @@ class AdvancedForm extends React.Component<FormProps, null> {
   }
 }
 
-export default Form.create()(AdvancedForm as any);
+export default AdvancedForm;
 
 
