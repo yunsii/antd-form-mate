@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Input, Modal, Icon } from "antd";
+import { Input, Modal } from "antd";
+import { EnvironmentOutlined } from "@ant-design/icons"
 import AMap, { ErrorType } from "../../components/CustomAMap";
 import { Position } from '../../components/CustomAMap/Props';
 import styles from './index.less';
@@ -121,8 +122,7 @@ export default class LocationPicker extends Component<LocationPickerProps, Locat
           unselectable="on"
           readOnly
           suffix={
-            <Icon
-              type="environment"
+            <EnvironmentOutlined
               onClick={() => this.setState({ mapVisible: true })}
             />
           }
