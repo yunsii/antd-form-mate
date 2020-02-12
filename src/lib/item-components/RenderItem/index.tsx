@@ -2,44 +2,34 @@ import React, { useContext } from "react";
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
 import { Form } from "antd";
-import { WrappedFormUtils } from "antd/lib/form/Form";
 import { CustomFormItemProps, ItemConfig, Layout } from "../../props";
 import { defaultLayout } from '../../../defaultConfig';
 import { ConfigContext } from '../../../config-provider/context';
-import setInitialValue from '../../setValue';
+// import setInitialValue from '../../setValue';
 import componentMap from './map';
 import { setValuePropName } from './utils';
 
 interface RenderItemProps extends ItemConfig {
-  form: WrappedFormUtils,
   formLayout?: Layout,
 }
 export default ({
-  form,
   formLayout,
 
   type = "string",
   field,
   formItemProps = {} as CustomFormItemProps,
-  fieldProps = {},
   componentProps,
   component,
 }: RenderItemProps) => {
   const { setCommenProps, commenExtra, commenRules } = useContext(ConfigContext);
 
-  const { getFieldDecorator } = form;
-  const {
-    rules = [],
-    initialValue,
-    normalize,
-    ...restFieldProps
-  } = fieldProps;
   const {
     style,
     dense,
     extra,
     wrapperCol,
     labelCol,
+    rules,
     ...restFormItemProps
   } = formItemProps;
 
@@ -59,6 +49,27 @@ export default ({
     return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
   }
 
+  if (type === 'plain') {
+    return (
+      <Form.Item
+        style={{ marginBottom: 0 }}
+        shouldUpdate={(prevValues, currentValues) => prevValues[field] !== currentValues[field]}
+      >
+        {({ getFieldValue }) => (
+          <Form.Item
+            name={field}
+            style={setStyle()}
+            extra={setExtra()}
+            {...setLayout()}
+            {...restFormItemProps}
+          >
+            <div className="ant-form-text">{getFieldValue(field)}</div>
+          </Form.Item>
+        )}
+      </Form.Item>
+    )
+  }
+
   const [itemComponent, props] = (componentMap[type] || componentMap.default)!;
 
   function createElement() {
@@ -75,29 +86,27 @@ export default ({
   function setRules() {
     return [
       ...commenRules[type] || [],
-      ...rules,
+      ...rules || [],
     ];
   }
 
   function createInputItem() {
-    if (type === 'plain') { return <span className="ant-form-text">{initialValue}</span>; }
-    return getFieldDecorator(field, {
-      initialValue: setInitialValue(type, initialValue),
-      valuePropName: setValuePropName(type),
-      rules: setRules(),
-      ...restFieldProps,
-    })(createElement());
+    if (type === 'hidden') return <div>隐藏字段</div>;
+    return createElement();
   }
 
   return (
     <Form.Item
       key={field}
+      name={field}
       style={setStyle()}
       extra={setExtra()}
       {...setLayout()}
       {...restFormItemProps}
+      valuePropName={setValuePropName(type)}
+      rules={setRules()}
     >
-      {createInputItem()}
+      {createInputItem()!}
     </Form.Item>
   );
 }
