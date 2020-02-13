@@ -16,7 +16,7 @@ class AdvancedForm extends React.Component {
     return [
       {
         type: 'picture',
-        field: 'picture',
+        name: 'picture',
         formItemProps: {
           label: '图片',
           // extra: '图片像素仅限520*360',
@@ -46,7 +46,7 @@ class AdvancedForm extends React.Component {
       },
       {
         type: 'file-dragger',
-        field: 'file',
+        name: 'file',
         formItemProps: {
           label: '文件',
         },
@@ -57,7 +57,7 @@ class AdvancedForm extends React.Component {
       },
       {
         type: 'location',
-        field: 'location',
+        name: 'location',
         formItemProps: {
           label: '地址',
         },

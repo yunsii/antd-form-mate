@@ -41,14 +41,14 @@ const BasicForm: React.FC = () => {
     return [
       {
         type: 'plain',
-        field: 'plain',
+        name: 'plain',
         formItemProps: {
           label: '纯文本',
         },
       },
       {
         type: 'check-group',
-        field: 'checks',
+        name: 'checks',
         formItemProps: {
           label: '多选',
         },
@@ -68,7 +68,7 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'radio-group',
-        field: 'radio',
+        name: 'radio',
         formItemProps: {
           label: '单选',
         },
@@ -92,7 +92,7 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'date',
-        field: 'formatDate',
+        name: 'formatDate',
         formItemProps: {
           label: '格式化日期',
         },
@@ -102,7 +102,7 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'date',
-        field: 'unix',
+        name: 'unix',
         formItemProps: {
           label: 'unix 时间戳',
         },
@@ -112,7 +112,7 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'date',
-        field: 'ms',
+        name: 'ms',
         formItemProps: {
           label: '毫秒时间戳',
         },
@@ -122,7 +122,7 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'datetime',
-        field: 'datetime',
+        name: 'datetime',
         formItemProps: {
           label: '日期时间',
         },
@@ -132,28 +132,28 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'date-range',
-        field: 'date-period',
+        name: 'date-period',
         formItemProps: {
           label: '日期区间',
         },
       },
       {
         type: 'datetime-range',
-        field: 'datetime-period',
+        name: 'datetime-period',
         formItemProps: {
           label: '日期时间区间',
         },
       },
       {
         type: 'number',
-        field: 'number',
+        name: 'number',
         formItemProps: {
           label: '数字',
         },
       },
       {
         type: 'select',
-        field: 'select',
+        name: 'select',
         formItemProps: {
           label: '选择',
         },
@@ -200,7 +200,7 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'textarea',
-        field: 'textarea',
+        name: 'textarea',
         formItemProps: {
           label: '文本框',
           extra: '与`姓名`字段联动',
@@ -212,28 +212,28 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'password',
-        field: 'password',
+        name: 'password',
         formItemProps: {
           label: '密码',
         },
       },
       {
         type: 'switch',
-        field: 'switch',
+        name: 'switch',
         formItemProps: {
           label: '开关',
         },
       },
       {
         type: 'slider',
-        field: 'slider',
+        name: 'slider',
         formItemProps: {
           label: '滑动输入条',
         },
       },
       {
         type: 'email',
-        field: 'email',
+        name: 'email',
         formItemProps: {
           label: '邮箱',
           rules: [{ required: true, message: '请输入邮箱！' }],
@@ -241,13 +241,31 @@ const BasicForm: React.FC = () => {
       },
       {
         type: 'string',
-        field: 'name',
+        name: 'name',
         formItemProps: {
           label: '姓名',
           rules: [{ required: true, message: '请输入姓名！' }],
         },
         componentProps: {
           onChange: (event: any) => setText(event.target.value),
+        },
+      },
+      {
+        type: 'dynamic',
+        name: 'dynamic',
+        formItemProps: {
+          shouldUpdate: true,
+        },
+        generateFn: ({ getFieldValue }) => {
+          if (getFieldValue('name') === 'form') {
+            return {
+              type: 'date',
+              formItemProps: {
+                label: 'dynamic',
+              },
+            }
+          }
+          return null;
         },
       },
     ];
