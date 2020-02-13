@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
 import { Form } from "antd";
+import { FormInstance } from "antd/lib/form";
 import { CustomFormItemProps, ItemConfig, Layout } from "../../props";
 import { defaultLayout } from '../../../defaultConfig';
 import { ConfigContext } from '../../../config-provider/context';
@@ -12,15 +13,16 @@ import { setValuePropName } from './utils';
 interface RenderItemProps extends ItemConfig {
   formLayout?: Layout,
 }
-export default ({
+const RenderItem: React.FC<RenderItemProps> = ({
   formLayout,
 
   type = "string",
-  field,
   formItemProps = {} as CustomFormItemProps,
   componentProps,
   component,
-}: RenderItemProps) => {
+  generateFn,
+  name,
+}) => {
   const { setCommenProps, commenExtra, commenRules } = useContext(ConfigContext);
 
   const {
@@ -49,23 +51,47 @@ export default ({
     return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
   }
 
+  if (type === 'dynamic') {
+    return (
+      <Form.Item
+        noStyle
+        shouldUpdate={restFormItemProps.shouldUpdate}
+      >
+        {generateFn ?
+          ((form: FormInstance) => {
+            const generateConfig = generateFn(form);
+            if (!generateConfig) { return null; }
+            return (
+              <RenderItem
+                {...generateConfig}
+                name={name}
+                formLayout={formLayout}
+              />
+            );
+          }) as any : component!}
+      </Form.Item>
+    )
+  }
+
   if (type === 'plain') {
     return (
       <Form.Item
         noStyle
-        shouldUpdate={(prevValues, currentValues) => prevValues[field] !== currentValues[field]}
+        shouldUpdate={(prevValues, currentValues) => _get(prevValues, name!) !== _get(currentValues, name!)}
       >
-        {({ getFieldValue }) => (
-          <Form.Item
-            name={field}
-            style={setStyle()}
-            extra={setExtra()}
-            {...setLayout()}
-            {...restFormItemProps}
-          >
-            <div className="ant-form-text">{getFieldValue(field)}</div>
-          </Form.Item>
-        )}
+        {({ getFieldValue }: FormInstance) => {
+          return (
+            <Form.Item
+              name={name}
+              style={setStyle()}
+              extra={setExtra()}
+              {...setLayout()}
+              {...restFormItemProps}
+            >
+              <div className="ant-form-text">{getFieldValue(name!)}</div>
+            </Form.Item>
+          )
+        }}
       </Form.Item>
     )
   }
@@ -92,8 +118,7 @@ export default ({
 
   return (
     <Form.Item
-      key={field}
-      name={field}
+      name={name}
       style={setStyle()}
       extra={setExtra()}
       {...setLayout()}
@@ -105,3 +130,5 @@ export default ({
     </Form.Item>
   );
 }
+
+export default RenderItem;
