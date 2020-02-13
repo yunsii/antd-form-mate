@@ -52,7 +52,7 @@ export default ({
   if (type === 'plain') {
     return (
       <Form.Item
-        style={{ marginBottom: 0 }}
+        noStyle
         shouldUpdate={(prevValues, currentValues) => prevValues[field] !== currentValues[field]}
       >
         {({ getFieldValue }) => (
@@ -90,11 +90,6 @@ export default ({
     ];
   }
 
-  function createInputItem() {
-    if (type === 'hidden') return <div>隐藏字段</div>;
-    return createElement();
-  }
-
   return (
     <Form.Item
       key={field}
@@ -106,7 +101,7 @@ export default ({
       valuePropName={setValuePropName(type)}
       rules={setRules()}
     >
-      {createInputItem()!}
+      {createElement()!}
     </Form.Item>
   );
 }
