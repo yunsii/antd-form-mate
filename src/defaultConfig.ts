@@ -4,7 +4,7 @@ import { ComponentType } from './lib/props';
 import { getBase64 } from './utils';
 
 export const defaultLayout = {
-  labelCol: { span: 7 },
+  labelCol: { span: 8 },
   wrapperCol: { span: 12 }
 };
 
