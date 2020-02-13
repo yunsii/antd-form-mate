@@ -1,7 +1,7 @@
 {
   "name": "antd-form-mate",
   "description": "基于 ant design 的表单组件",
-  "version": "3.0.3",
+  "version": "4.0.0-0",
   "main": "./dist/index.js",
   "dependencies": {
     "@ant-design/icons": "^4.0.0-rc.0",
