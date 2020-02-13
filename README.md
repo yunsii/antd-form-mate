@@ -57,7 +57,7 @@ $ npm start
 | 15 | `location`        | 地址录入，基于高德地图  |
 | 16 | `check-group`    | 多选框          |
 | 17 | `radio-group`    | 单选框          |
-| 18 | `hidden`          | 隐藏字段         |
+| 18 | `dynamic`          | 条件渲染         |
 
 ### API
 
@@ -66,11 +66,11 @@ $ npm start
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `type` | 上述类型 | [`ComponentType`](/src/lib/props.ts#L19) | `'string'` |
-| `field` | 字段名 | `string` | - |
+| `name` | 字段名 | [`NamePath`](https://next.ant.design/components/form-cn/#NamePath) | - |
 | `formItemProps` | Form.Item 支持的属性，新增 `dense` 属性使得 Form.Item 的 `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
-| `fieldProps` | 字段值属性  | [GetFieldDecoratorOptions](https://ant.design/components/form-cn/#getFieldDecorator(id,-options)-%E5%8F%82%E6%95%B0) | - |
 | `componentProps` | 额外的组件属性 | [`ComponentProps`](/src/lib/props.ts#L50) | - |
-| `component` | 自定义的组件，仅当 `type` 为 `'custom'` 时可用 | `JSX.Element` | - |
+| `component` | 自定义的组件，仅当 `type` 为 `'custom' | 'dynamic'` 时可用 | FormItemProps['children'] | - |
+| `generateFn` | 自定义的组件，仅当 `type` 为 `'dynamic'` 时可用 | `(form: FormInstance) => GenerateItemConfig \| null` | - |
 
 此外，每个表单项都有[默认布局](/src/defaultConfig.ts#L6)，如果没有 `label` 属性，输入部分会撑满容器。
 
@@ -79,57 +79,51 @@ $ npm start
 ```tsx
 import * as React from 'react';
 import { Form, Button } from 'antd';
-import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { createFormItems } from 'antd-form-mate';
 import { ItemConfig } from 'antd-form-mate/dist/lib/form-mate';
 
-export interface FormProps {
-  form: WrappedFormUtils;
-}
 
-const BasicForm: React.FC<FormProps> = (props) => {
-  const { form } = props;
+const BasicForm: React.FC = (props) => {
+  const [form] = Form.useForm();
+
+  const initialValues = {
+    'hidden': 1,
+  }
   
-  const getFormItems = (detail: any = {}): ItemConfig[] => {
+  const getFormItems = (): ItemConfig[] => {
     return [
       {
-        type: 'hidden',
-        field: 'hidden',
-        fieldProps: {
-          initialValue: 1,
-        },
-      },
-      {
         type: 'string',
-        field: 'name',
+        name: 'name',
         formItemProps: {
           label: '姓名',
-        },
-        fieldProps: {
-          initialValue: detail.name,
           rules: [{ required: true, message: '请输入姓名！' }],
         },
       },
     ];
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const { form } = props;
-    form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
+  const handleFinish = (values) => {
+    console.log('Received values of form: ', values);
+  }
+
+  const handleFinishFailed = (errors) => {
+    console.log('Errors:', errors);
   }
 
   return (
-    <Form style={{ marginTop: 20 }}>
-      {createFormItems(form)(getFormItems())}
+    <Form 
+      style={{ marginTop: 20 }}
+      form={form}
+      onFinish={handleFinish}
+      onFinishFailed={handleFinishFailed}
+      initialValues={initialValues}
+    >
+      {createFormItems(getFormItems())}
       <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
         <Button
           type="primary"
-          onClick={handleSubmit}
+          htmlType="submit"
         >
           提交
         </Button>
@@ -138,12 +132,12 @@ const BasicForm: React.FC<FormProps> = (props) => {
   )
 }
 
-export default Form.create()(BasicForm as any);
+export default BasicForm;
 ```
 
 ### 全局配置
 
-表单全局配置可见 [`ConfigProvider`](/src/config-provider/index.tsx#L33) ，使用可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#299)
+表单全局配置可见 [`ConfigProvider`](/src/config-provider/index.tsx#L35) ，使用可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L283)
 
 ### 备注
 
@@ -159,8 +153,8 @@ export default Form.create()(BasicForm as any);
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `form` | `Form.create()` 注入的表单对象 | WrappedFormUtils | - |
-| `columns` | 扩展列模型 | [`EditableColumnProps`](/src/lib/components/EditableTable/index.tsx#L24) | - |
+| `form` | `FormInstance` 注入的表单实例 | FormInstance | - |
+| `columns` | 扩展列模型 | [`EditableColumnProps`](/src/lib/components/EditableTable/index.tsx#L22) | - |
 | `initialData` | 表格初始化数据 | `T[]` | - |
 | `onCreate` | 点击保存后该记录无 `id` 触发该事件  | `(fieldsValue: T & { key: number }) => Promise<boolean \| void>` | - |
 | `onUpdate` | 点击保存后该记录有 `id` 触发该事件 | `(fieldsValue: T & { key: number }) => Promise<boolean \| void>` | - |
@@ -178,3 +172,12 @@ export default Form.create()(BasicForm as any);
 ### 基础用法
 
 参考 [EditableTable/index.tsx](/stories/EditableTable/index.tsx) 。
+
+## 升级
+
+### 从 v3 到 v4
+
+根据官方的表单升级说明——[从 v3 到 v4](https://next.ant.design/components/form/v3-cn)，也对本组件进行了相应的重构，v3 版本时，可不使用 `Form` 组件包裹生成的表单项，新版本充分利用了 `Form` 组件管理数据。下面总结几点本组件从 v3 到 v4 的注意事项：
+
+1. 移除 `hidden` 类型，新版表单组件通过 `initialValues` 统一配置初始值，当需要隐藏类型的字段时，直接添加到 `initialValues` 即可
+2. 新增 `dynamic` 类型，可根据条件动态渲染某个字段。结合 `generateFn` 属性，可以快速实现本组件支持的其他类型组件的动态渲染。具体可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L253)
