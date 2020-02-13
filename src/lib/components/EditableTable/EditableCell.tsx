@@ -42,7 +42,7 @@ export default function EditableCell<T>(props: EditableCellProps<T>) {
             {createFormItems([
               {
                 ...formItemConfig,
-                field: dataIndex,
+                name: dataIndex,
                 formItemProps: {
                   dense: true,
                 }

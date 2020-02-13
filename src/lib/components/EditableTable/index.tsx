@@ -1,10 +1,11 @@
 /* eslint-disable react/no-multi-comp */
-import React, { PureComponent } from 'react';
-import { Table, Spin, Button, Popconfirm } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Table, Spin, Button, Popconfirm, Form } from 'antd';
 import { FormInstance } from 'antd/lib/form/Form';
 import { TableProps, ColumnType } from 'antd/lib/table';
 import _get from 'lodash/get';
 import _cloneDeep from 'lodash/cloneDeep';
+import _find from 'lodash/find';
 import _findIndex from 'lodash/findIndex';
 import _isFunction from 'lodash/isFunction';
 import _isEqual from 'lodash/isEqual';
@@ -12,23 +13,21 @@ import { ItemConfig } from '../../props';
 import { addDivider } from '../../../utils';
 import { setRenderForColumn } from './utils';
 import styles from './index.less';
-import { EditableTableContext } from './FormContext';
 import EditableCell from './EditableCell';
 
-const EditableTableProvider = EditableTableContext.Provider;
-
-export type FormItemConfig = Pick<ItemConfig, "type" | "componentProps" | "component">
+export type FormItemConfig = Pick<ItemConfig, "type" | "componentProps" | "formItemProps" | "component">
 
 export interface DefaultRecordParams { id: number | string }
 
-export interface EditableColumnProps<T> extends ColumnType<T> {
-  formItemConfig?: FormItemConfig;
+export interface EditableColumnProps<T = any> extends ColumnType<T> {
+  editConfig?: FormItemConfig;
 }
 
-export interface EditableTableProps<T> extends TableProps<T> {
+export interface EditableTableProps<T = any> extends TableProps<T> {
   form: FormInstance;
   columns: EditableColumnProps<T>[];
   initialData: T[];
+  initialValues?: Partial<T>,
   onCreate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
   onUpdate: (fieldsValue: T & { key: number }) => Promise<boolean | void>;
   onDelete: (record: T & { key: number }) => Promise<boolean | void>;
@@ -48,17 +47,6 @@ export interface EditableTableState<T> {
   tableLoading: boolean;
 }
 
-function setEditInitialValues<T>(columns: EditableColumnProps<T>[]) {
-  const result = {};
-  columns.forEach(element => {
-    const initialValue = _get(element, 'formItemConfig.fieldProps.initialValue');
-    if (element.dataIndex && initialValue) {
-      result[element.dataIndex as string] = initialValue;
-    }
-  });
-  return result as T;
-}
-
 function setInitialData<T>(initialData: T[]) {
   return initialData.map((item, index) => {
     return {
@@ -68,131 +56,98 @@ function setInitialData<T>(initialData: T[]) {
   })
 }
 
-function initialState<T>(props: EditableTableProps<T>) {
-  const { initialData = [], columns } = props;
-  return {
-    initialData: setInitialData(initialData),
-    data: setInitialData(initialData),
-    count: initialData.length,
-    editingKey: null,
-    initialRecordValues: setEditInitialValues(columns),
-    tableLoading: false,
-  }
+export interface EditableTableHandles {
+  isEditing: () => boolean;
 }
 
-export default class EditableTable<T extends DefaultRecordParams> extends PureComponent<EditableTableProps<T>, EditableTableState<T>> {
-  static defaultProps = {
-    loading: false,
-    onCreate: () => true,
-    onUpdate: () => true,
-    onDelete: () => true,
-    onDataChange: () => null,
-  }
+const InternalEditableTable: React.RefForwardingComponent<EditableTableHandles, EditableTableProps> = (props, ref) => {
+  const {
+    columns,
+    initialData,
+    initialValues = {},
+    form,
+    loading = false,
+    onCreate = () => true,
+    onUpdate = () => true,
+    onDelete = () => true,
+    // onDataChange = () => null,
+    onRecordAdd,
+  } = props;
 
-  static getDerivedStateFromProps<T extends DefaultRecordParams>(props: EditableTableProps<T>, state: EditableTableState<T>) {
-    const { initialData } = props;
-    const { initialData: initialDataInState } = state;
-    if (!_isEqual(initialData, initialDataInState)) {
-      return {
-        initialData,
-        data: setInitialData(initialData),
-        count: setInitialData(initialData).length,
-        editingKey: null,
-      }
+  const [wrapForm] = Form.useForm(form);
+
+  const [internalData, setInternalData] = useState(setInitialData(initialData) || []);
+  const [count, setCount] = useState<number>(initialData?.length || 0);
+  const [editingKey, setEditingKey] = useState<number | null>(null);
+  const [tableLoading, setTableLoading] = useState<boolean>(false);
+
+  React.useImperativeHandle(ref, () => ({
+    isEditing: () => !!editingKey,
+  }));
+
+  useEffect(() => {
+    if (props.editingKey) {
+      props.editingKey(editingKey);
     }
-    return null;
-  }
-
-  state = initialState(this.props);
-
-  componentDidMount() {
-    const { onDataChange } = this.props;
-    const { data } = this.state;
-    onDataChange(data);
-  }
-
-  componentDidUpdate(prevProps, prevState: EditableTableState<T>, snapshot) {
-    const { data: prevData, editingKey: prevEditingKey } = prevState;
-    const { data: thisData, editingKey: thisEditingKey } = this.state;
-    const { onDataChange, editingKey } = this.props;
-    if (!_isEqual(prevData, thisData)) {
-      onDataChange(thisData);
+    if (editingKey) {
+      wrapForm.setFieldsValue({
+        ..._find(internalData, { key: editingKey as any }),
+      });
+    } else {
+      wrapForm.resetFields();
     }
-    if (!_isEqual(prevEditingKey, thisEditingKey) && editingKey) {
-      editingKey(thisEditingKey);
-    }
-  }
+  }, [editingKey])
 
-  handleLoading = async (func: () => Promise<boolean | void>) => {
-    this.setState({
-      tableLoading: true,
-    });
+  const handleLoading = async (func: () => Promise<boolean | void>) => {
+    setTableLoading(true);
     const result = await func();
-    this.setState({
-      tableLoading: false,
-    });
+    setTableLoading(false);
     return result;
   }
 
-  handleAdd = () => {
-    const { onRecordAdd } = this.props;
-    const { data, count, initialRecordValues } = this.state;
-    console.log(initialRecordValues);
-    let newRecord: T = { ...initialRecordValues };
+  const handleAdd = () => {
+    let newRecord = { ...initialValues };
     if (onRecordAdd) {
-      newRecord = { ...newRecord, ...onRecordAdd(newRecord, data) };
+      newRecord = { ...newRecord, ...onRecordAdd(newRecord, internalData) };
     }
 
-    this.setState({
-      data: [
-        ...data,
-        {
-          ...newRecord,
-          key: count + 1,
-        },
-      ],
-      editingKey: count + 1,
-      count: count + 1,
-    });
+    setInternalData([
+      ...internalData,
+      {
+        ...newRecord,
+        key: count + 1,
+      },
+    ]);
+    setEditingKey(count + 1);
+    setCount(count + 1);
   };
 
-  handleDelete = async (record: T & { key: number }) => {
-    const { onDelete } = this.props;
-    const { data } = this.state;
-
+  const handleDelete = async (record) => {
     let isOk: boolean | void;
     if (!record.id) {
       isOk = true;
     } else {
-      isOk = await this.handleLoading(async () => await onDelete(record));
+      isOk = await handleLoading(async () => await onDelete(record));
     }
     if (isOk !== false) {
-      this.setState({
-        data: data.filter(item => item.key !== record.key),
-      });
+      setInternalData(internalData.filter(item => item.key !== record.key));
     }
   };
 
-  public isEditing = (record: T & { key: number }) => !!this.state.editingKey;
+  const isEditingRecord = (record) => record.key === editingKey;
 
-  isEditingRecord = (record: T & { key: number }) => record.key === this.state.editingKey;
-
-  handleCancel = (prevRecord) => {
-    const { onCancel, form } = this.props;
-    if (_isFunction(onCancel)) { onCancel(prevRecord, { ...prevRecord, ...this.getColumnsValue(form.getFieldsValue()) }) }
+  const handleCancel = (prevRecord) => {
+    const { onCancel } = props;
+    if (_isFunction(onCancel)) { onCancel(prevRecord, { ...prevRecord, ...getColumnsValue(wrapForm.getFieldsValue()) }) }
     if (!prevRecord.id) {
-      const { data } = this.state;
-      this.setState({
-        data: data.filter(item => item.id),
-        editingKey: null,
-      });
+      setInternalData(internalData.filter(item => item.id));
+      setEditingKey(null);
       return;
     }
-    this.setState({ editingKey: null });
+    setEditingKey(null);
   };
 
-  getColumnsValue = (fieldsValue) => {
-    const { columns } = this.props;
+  const getColumnsValue = (fieldsValue) => {
     let result: any = {};
     columns.forEach((element) => {
       if (element.dataIndex) {
@@ -202,13 +157,11 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     return result;
   }
 
-  handleSave = (key: number) => {
-    const { form, onCreate, onUpdate } = this.props;
-    form.validateFields().then(async (fieldsValue) => {
+  const handleSave = (key: number) => {
+    wrapForm.validateFields().then(async (fieldsValue) => {
       console.log(fieldsValue);
-      const filteredValue = this.getColumnsValue(fieldsValue);
-      const { data } = this.state;
-      const newData = _cloneDeep(data);
+      const filteredValue = getColumnsValue(fieldsValue);
+      const newData = _cloneDeep(internalData);
       const targetIndex = _findIndex(newData, item => item.key === key);
       const newRecord = {
         ...newData[targetIndex],
@@ -217,44 +170,38 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
       const { id } = newRecord;
       let isOk: boolean | void = true;
       if (id !== undefined) {
-        isOk = await this.handleLoading(async () => await onUpdate(newRecord));
+        isOk = await handleLoading(async () => await onUpdate(newRecord));
       } else {
-        isOk = await this.handleLoading(async () => await onCreate(newRecord));
+        isOk = await handleLoading(async () => await onCreate(newRecord));
       }
 
       if (isOk !== false) {
         newData.splice(targetIndex, 1, newRecord);
-        this.setState({ data: newData, editingKey: null });
+        setInternalData(newData);
+        setEditingKey(null);
       }
     });
   }
 
-  edit(key: number) {
-    this.setState({ editingKey: key });
-  }
-
-  parseColumns = (columns: EditableColumnProps<T>[]) => {
+  const parseColumns = (columns: EditableColumnProps[]) => {
     return columns.map(col => {
-      if (!col.formItemConfig) {
+      if (!col.editConfig) {
         return col;
       }
       return {
         ...col,
         onCell: record => ({
           record,
-          formItemConfig: col.formItemConfig,
+          formItemConfig: col.editConfig,
           dataIndex: col.dataIndex,
           title: col.title,
-          editing: this.isEditingRecord(record),
+          editing: isEditingRecord(record),
         }),
       };
     });
   }
 
-  renderColumns = () => {
-    const { columns } = this.props;
-    const { editingKey } = this.state;
-
+  const renderColumns = () => {
     const renderOption = ({ text, onClick }: { text: string, onClick: any }) => {
       if (!onClick) {
         return <span key={text} className={styles.notAllow}>{text}</span>
@@ -275,15 +222,15 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
       )
     }
 
-    const setInitOptionsConfig = (record: T & { key: number }) => {
+    const setInitOptionsConfig = (record) => {
       let result: { text: string; onClick: (() => void) | undefined }[] = [
         {
           text: '编辑',
-          onClick: () => { this.setState({ editingKey: record.key }) },
+          onClick: () => { setEditingKey(record.key) },
         },
         {
           text: '删除',
-          onClick: () => { this.handleDelete(record) },
+          onClick: () => { handleDelete(record) },
         },
       ];
       if (editingKey && editingKey !== record.key) {
@@ -292,15 +239,15 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
       return result;
     }
 
-    const setEditOptionsConfig = (record: T & { key: number }) => {
+    const setEditOptionsConfig = (record) => {
       return [
         {
           text: '保存',
-          onClick: () => { this.handleSave(record.key) },
+          onClick: () => { handleSave(record.key) },
         },
         {
           text: '取消',
-          onClick: () => { this.handleCancel(record) },
+          onClick: () => { handleCancel(record) },
         },
       ];
     }
@@ -309,7 +256,7 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
       ...columns.map(setRenderForColumn),
       {
         title: '操作',
-        render: (_: void, record: T & { key: number }) => {
+        render: (_: void, record) => {
           if (editingKey === null || editingKey !== record.key) {
             return addDivider(setInitOptionsConfig(record).map(renderOption));
           }
@@ -319,43 +266,42 @@ export default class EditableTable<T extends DefaultRecordParams> extends PureCo
     ]
   }
 
-  render() {
-    const { form, loading } = this.props;
-    const { data, editingKey, tableLoading } = this.state;
+  const components = {
+    body: {
+      cell: EditableCell,
+    },
+  };
 
-    const components = {
-      body: {
-        cell: EditableCell,
-      },
-    };
-
-    return (
-      <Spin spinning={loading || tableLoading}>
-        <EditableTableProvider value={form}>
-          <Button
-            type='primary'
-            style={{ margin: '12px 0' }}
-            onClick={this.handleAdd}
-            disabled={!!editingKey}
-          >
-            新建
-          </Button>
-          <Table
-            rowKey='key'
-            rowClassName={(_, index) => {
-              if (index % 2) {
-                return 'table-row';
-              }
-              return '';
-            }}
-            components={components}
-            bordered
-            dataSource={data}
-            columns={this.parseColumns(this.renderColumns()) as any}
-            pagination={false}
-          />
-        </EditableTableProvider>
-      </Spin>
-    );
-  }
+  return (
+    <Spin spinning={loading || tableLoading}>
+      <Form form={wrapForm}>
+        <Button
+          type='primary'
+          style={{ margin: '12px 0' }}
+          onClick={handleAdd}
+          disabled={!!editingKey}
+        >
+          新建
+        </Button>
+        <Table
+          rowKey='key'
+          rowClassName={(_, index) => {
+            if (index % 2) {
+              return 'table-row';
+            }
+            return '';
+          }}
+          components={components}
+          bordered
+          dataSource={internalData}
+          columns={parseColumns(renderColumns()) as any}
+          pagination={false}
+        />
+      </Form>
+    </Spin>
+  );
 }
+
+const EditableTable = React.forwardRef(InternalEditableTable);
+
+export default EditableTable;
