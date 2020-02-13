@@ -10,9 +10,10 @@ const { useState, useEffect } = React;
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-const BasicForm: React.FC = (props) => {
+const BasicForm: React.FC = () => {
   const [form] = Form.useForm();
   const initialValues = {
+    hidden: 1,
     plain: 'plain',
     checks: ['earth'],
     radio: 'earth',
@@ -26,24 +27,18 @@ const BasicForm: React.FC = (props) => {
     switch: 0,
   };
 
-  const getFormItems = (detail: any = {}): ItemConfig[] => {
+  const getFormItems = (): ItemConfig[] => {
     const [text, setText] = useState<string>();
 
     useEffect(() => {
       form.setFieldsValue({
         name: text,
         textarea: text,
+        hidden: text,
       })
     }, [text]);
 
     return [
-      // {
-      //   type: 'hidden',
-      //   field: 'hidden',
-      //   // fieldProps: {
-      //   //   initialValue: 1,
-      //   // },
-      // },
       {
         type: 'plain',
         field: 'plain',
@@ -211,7 +206,7 @@ const BasicForm: React.FC = (props) => {
           extra: '与`姓名`字段联动',
         },
         componentProps: {
-          autoSize: { minRows: 2, maxRows: 6 },
+          autoSize: { minRows: 1, maxRows: 6 },
           onChange: (event: any) => setText(event.target.value),
         },
       },
