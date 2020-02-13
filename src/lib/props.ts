@@ -32,7 +32,6 @@ export type ComponentType =
   | "location"
   | "check-group"
   | "radio-group"
-  | "hidden"
   /** string input, no whitespace */
   | "textarea"
   | "email"
