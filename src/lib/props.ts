@@ -1,7 +1,8 @@
-import { FormItemProps } from "antd/lib/form";
+import { FormItemProps, FormInstance } from "antd/lib/form";
 import { InputNumberProps } from "antd/lib/input-number";
 import { PasswordProps, TextAreaProps, InputProps } from "antd/lib/input";
 import { SliderProps } from "antd/lib/slider";
+import { NamePath } from 'rc-field-form/lib/interface';
 import {
   CustomDatePickerProps,
   CustomRangePickerProps,
@@ -16,6 +17,7 @@ import { CustomRadioGroupProps } from "./item-components/CustomRadioGroup/index"
 import { ColProps } from "antd/lib/col";
 
 export type ComponentType =
+  | "dynamic"
   | "plain"
   | "custom"
   | "date"
@@ -63,16 +65,22 @@ export type ComponentProps =
   | InputProps
 
 
-export interface CustomFormItemProps extends Omit<FormItemProps, 'children'> {
+export interface CustomFormItemProps extends Omit<FormItemProps, 'name' | 'children'> {
   dense?: boolean;
 }
 
+export type GenerateItemConfig = Omit<ItemConfig, 'name' | 'component' | 'generateFn'>;
+
 export interface ItemConfig {
   type?: ComponentType;
-  field: string;
+  name: NamePath;
   formItemProps?: CustomFormItemProps;
   componentProps?: ComponentProps;
-  component?: JSX.Element;
+
+  // usable with `custom` and `dynamic` type.
+  component?: FormItemProps['children'];
+  // usable with `dynamic` type.
+  generateFn?: (form: FormInstance) => GenerateItemConfig | null;
 }
 
 export interface Layout {
