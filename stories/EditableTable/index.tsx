@@ -1,29 +1,33 @@
-import React from 'react';
-import { Button, Divider } from 'antd';
-// import moment from 'moment';
-// import EditableTable from '../../src/lib/components/EditableTable';
+import React, { useState } from 'react';
+import { Button, Divider, Form } from 'antd';
+import moment from 'moment';
+import EditableTable from '../../src/lib/components/EditableTable';
 
-// const genderOptions = [
-//   {
-//     text: '男',
-//     value: 1,
-//   },
-//   {
-//     text: '女',
-//     value: 2,
-//   },
-// ];
+const genderOptions = [
+  {
+    text: '男',
+    value: 1,
+  },
+  {
+    text: '女',
+    value: 2,
+  },
+];
 
-export default (props) => {
-  // const [form] = Form.useForm();
-  // const [
-  //   tableRef,
-  //   setTableRef
-  // ] = useState();
+export default () => {
+  const [form] = Form.useForm();
+  const [
+    editingKey,
+    setEditingKey,
+  ] = useState();
   return (
     <div style={{ width: 900, margin: '48px auto 0' }}>
-      {/* <EditableTable
+      <EditableTable
         form={form}
+        initialValues={{
+          name: "xxx",
+          gender: 1
+        }}
         columns={[
           {
             title: '姓名',
@@ -59,9 +63,11 @@ export default (props) => {
             },
             formItemConfig: {
               type: 'date',
-              rules: [
-                { required: true },
-              ],
+              formItemProps: {
+                rules: [
+                  { required: true },
+                ],
+              }
             },
           },
         ]}
@@ -94,12 +100,12 @@ export default (props) => {
         onCancel={(prevRecord, record) => {
           console.log(prevRecord, record);
         }}
-        ref={(ref) => { setTableRef(ref) }}
-      /> */}
+        editingKey={setEditingKey}
+      />
       <Divider />
       <Button
         type='primary'
-        // onClick={() => { alert(tableRef && tableRef.state.editingKey) }}
+        onClick={() => alert(`editingKey: ${editingKey}`)}
       >
         Alert editingKey
       </Button>
