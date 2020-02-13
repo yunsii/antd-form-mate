@@ -8,7 +8,6 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _findIndex from 'lodash/findIndex';
 import { createFormItems } from '../../../index';
 import { ItemConfig } from '../../props';
-// import { EditableTableContext } from './FormContext';
 
 export type FormItemConfig = Pick<ItemConfig, "type" | "componentProps" | "component">
 
@@ -26,7 +25,6 @@ export interface EditableCellProps<T> {
 }
 
 export default function EditableCell<T>(props: EditableCellProps<T>) {
-  // const form = useContext(EditableTableContext);
   const renderCell = () => {
     const {
       editing,
