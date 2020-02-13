@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Divider, Form } from 'antd';
 import moment from 'moment';
-import EditableTable from '../../src/lib/components/EditableTable';
+import EditableTable, { EditableTableHandles } from '../../src/lib/components/EditableTable';
 
 const genderOptions = [
   {
@@ -15,6 +15,7 @@ const genderOptions = [
 ];
 
 export default () => {
+  const tableRef = React.createRef<EditableTableHandles>();
   const [form] = Form.useForm();
   const [
     editingKey,
@@ -32,21 +33,15 @@ export default () => {
           {
             title: '姓名',
             dataIndex: 'name',
-            formItemConfig: {
+            editConfig: {
               type: 'string',
-              // fieldProps: {
-              //   initialValue: "xxx",
-              // }
             },
           },
           {
             title: '性别',
             dataIndex: 'gender',
-            formItemConfig: {
+            editConfig: {
               type: 'select',
-              // fieldProps: {
-              //   initialValue: 1,
-              // },
               componentProps: {
                 options: genderOptions,
               },
@@ -61,7 +56,7 @@ export default () => {
               }
               return '-';
             },
-            formItemConfig: {
+            editConfig: {
               type: 'date',
               formItemProps: {
                 rules: [
@@ -101,6 +96,7 @@ export default () => {
           console.log(prevRecord, record);
         }}
         editingKey={setEditingKey}
+        ref={tableRef}
       />
       <Divider />
       <Button
@@ -108,6 +104,17 @@ export default () => {
         onClick={() => alert(`editingKey: ${editingKey}`)}
       >
         Alert editingKey
+      </Button>
+      <Button
+        type='primary'
+        style={{ marginLeft: 12 }}
+        onClick={() => {
+          if (tableRef?.current) {
+            alert(`isEditing: ${tableRef.current.isEditing()}`)
+          }
+        }}
+      >
+        Alert isEditing
       </Button>
     </div>
   )
