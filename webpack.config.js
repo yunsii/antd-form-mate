@@ -84,7 +84,7 @@ const webpackConfig = {
   optimization: {
     minimizer: [
       new TerserPlugin({
-        sourceMap: true, // Must be set to true if using source-maps in production
+        sourceMap: false, // Must be set to true if using source-maps in production
         terserOptions: {
           compress: {
             drop_console: true,
