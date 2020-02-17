@@ -137,7 +137,7 @@ export default BasicForm;
 
 ### 全局配置
 
-表单全局配置可见 [`ConfigProvider`](/src/config-provider/index.tsx#L35) ，使用可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L283)
+表单全局配置可见 [`ConfigProvider`](/src/config-context/index.tsx#L20) ，使用可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L285)
 
 ### 备注
 
@@ -181,3 +181,7 @@ export default BasicForm;
 
 1. 移除 `hidden` 类型，新版表单组件通过 `initialValues` 统一配置初始值，当需要隐藏类型的字段时，直接添加到 `initialValues` 即可
 2. 新增 `dynamic` 类型，可根据条件动态渲染某个字段。结合 `generateFn` 属性，可以快速实现本组件支持的其他类型组件的动态渲染。具体可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L253)
+3. 移除 `afmLocale` 属性，通过 `IntlProvider` 配置国际化
+4. 移除扩展 `DatePicker` 中的 `onlyAfterToday` 和 `todayAndBefore` 属性，使用 `disabledPastDays` 和 `disabledFutureDays` 代替
+5. 重命名 `pictureFormateLimit` 属性为 `pictureAccept` ，并将默认值设为 `'image/*'`
+6. 移除默认文件大小为 500M 的限制
