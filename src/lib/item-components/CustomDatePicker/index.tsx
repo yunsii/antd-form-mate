@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from "react";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import _isArray from "lodash/isArray";
 import { DatePicker } from "antd";
 import { RangePickerProps, DatePickerProps } from 'antd/lib/date-picker';
@@ -8,37 +8,40 @@ import { setDatetimeValue, setDatetimeRangeValue } from '../../setValue';
 
 const { RangePicker } = DatePicker;
 
-function disabledLessThanOrEqualTodayDate(current) {
+function disabledLessThanOrEqualTodayDate(current: Moment) {
   return current && current < moment().endOf('day');
 }
 
-function disabledAfterTodayDate(current) {
+function disabledAfterTodayDate(current: Moment) {
   return !disabledLessThanOrEqualTodayDate(current);
 }
 
-function setDisabledDate(todayAndBefore, onlyAfterToday) {
+function setDisabledDate(disabledFutureDays?: boolean, disabledPastDays?: boolean) {
   let disabledDate: any = null;
-  if (todayAndBefore && onlyAfterToday) {
+  if (disabledFutureDays && disabledPastDays) {
     disabledDate = null;
-  } else if (onlyAfterToday) {
-    disabledDate = disabledLessThanOrEqualTodayDate;
-  } else if (todayAndBefore) {
+  } else if (disabledFutureDays) {
     disabledDate = disabledAfterTodayDate;
+  } else if (disabledPastDays) {
+    disabledDate = disabledLessThanOrEqualTodayDate;
   }
   return disabledDate;
 }
 
-interface ExtendsRangePickerProps {
-  onlyAfterToday?: boolean;
-  todayAndBefore?: boolean;
+interface QuickDisabledProps {
+  // 禁用过去的日期，包含今天
+  disabledPastDays?: boolean;
+  // 禁用未来的日期
+  disabledFutureDays?: boolean;
 }
-export type CustomRangePickerProps = RangePickerProps & ExtendsRangePickerProps;
+
+export type CustomRangePickerProps = RangePickerProps & QuickDisabledProps;
 export class CustomRangePicker extends Component<CustomRangePickerProps> {
   render() {
-    const { onlyAfterToday, todayAndBefore, value, ...rest } = this.props;
+    const { disabledPastDays, disabledFutureDays, value, ...rest } = this.props;
     return (
       <RangePicker
-        disabledDate={setDisabledDate(todayAndBefore, onlyAfterToday)}
+        disabledDate={setDisabledDate(disabledFutureDays, disabledPastDays)}
         {...rest}
         value={setDatetimeRangeValue(value)}
       />
@@ -46,17 +49,13 @@ export class CustomRangePicker extends Component<CustomRangePickerProps> {
   }
 }
 
-export interface ExtendsDatePickerProps  {
-  onlyAfterToday?: boolean;
-  todayAndBefore?: boolean;
-}
-export type CustomDatePickerProps = DatePickerProps & ExtendsDatePickerProps;
+export type CustomDatePickerProps = DatePickerProps & QuickDisabledProps;
 export default class CustomDatePicker extends Component<CustomDatePickerProps> {
   render() {
-    const { onlyAfterToday, todayAndBefore, value, ...rest } = this.props;
+    const { disabledPastDays, disabledFutureDays, value, ...rest } = this.props;
     return (
       <DatePicker
-        disabledDate={setDisabledDate(todayAndBefore, onlyAfterToday)}
+        disabledDate={setDisabledDate(disabledFutureDays, disabledPastDays)}
         {...rest}
         value={setDatetimeValue(value)}
       />
