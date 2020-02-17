@@ -185,3 +185,4 @@ export default BasicForm;
 4. 移除扩展 `DatePicker` 中的 `onlyAfterToday` 和 `todayAndBefore` 属性，使用 `disabledPastDays` 和 `disabledFutureDays` 代替
 5. 重命名 `pictureFormateLimit` 属性为 `pictureAccept` ，并将默认值设为 `'image/*'`
 6. 移除默认文件大小为 500M 的限制
+7. 修正笔误，配置全局属性中的 `commen` 改为 `common`
