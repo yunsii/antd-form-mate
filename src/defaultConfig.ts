@@ -13,13 +13,13 @@ const setDefaultCommenStyle = (type: ComponentType) => {
   return type !== 'switch' ? commenStyle : {};
 };
 
-export function processSetCommenProps(setCommenProps: (type: ComponentType, defaultStyle: any) => any = () => ({})) {
-  if (!_isFunction(setCommenProps)) {
-    throw new Error('setCommenProps is not a function.');
+export function processSetCommonProps(setCommonProps: (type: ComponentType, defaultStyle: any) => any = () => ({})) {
+  if (!_isFunction(setCommonProps)) {
+    throw new Error('setCommonProps is not a function.');
   }
 
   return (type: ComponentType, defaultStyle: any) => {
-    const { style = {}, ...rest } = setCommenProps(type) || {};
+    const { style = {}, ...rest } = setCommonProps(type) || {};
     // console.log(type, rest);
     return {
       ...rest,

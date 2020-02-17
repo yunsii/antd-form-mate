@@ -77,7 +77,7 @@ class AdvancedForm extends React.Component {
     return (
       <IntlProvider value={enUSIntl}>
         <ConfigProvider
-          commenExtra={{
+          commonExtra={{
             picture: '自定义图片默认提示',
           }}
           getUrl={(response) => {

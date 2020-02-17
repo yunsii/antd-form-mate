@@ -8,22 +8,21 @@ import {
   isUploadOk as defaultIsUploadOk,
   pictureAccept as defaultPictureAccept,
   amapKey as defaultAmapKey,
-
   defaultExtra,
   defaultRules,
 
-  processSetCommenProps,
+  processSetCommonProps,
   defaultViewerProps,
 } from '../defaultConfig';
 import ConfigContext, { ConfigConsumerProps } from './context';
 
 export interface ConfigProviderProps {
-  setCommenProps?: (type: ComponentType, defaultStyle: any) => any;
+  setCommonProps?: (type: ComponentType, defaultStyle: any) => any;
   uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
   isUploadOk?: (response: any) => boolean;
-  commenExtra?: { [k in ComponentType]?: any };
-  commenRules?: { [k in ComponentType]?: any[] };
+  commonExtra?: { [k in ComponentType]?: any };
+  commonRules?: { [k in ComponentType]?: any[] };
   pictureAccept?: string;
   amapKey?: string;
   viewerProps?: ViewerProps;
@@ -31,29 +30,29 @@ export interface ConfigProviderProps {
 
 function initState(props: ConfigProviderProps) {
   const {
-    setCommenProps,
+    setCommonProps,
     uploadFn,
     getUrl,
     isUploadOk,
-    commenExtra,
-    commenRules,
+    commonExtra,
+    commonRules,
     pictureAccept,
     amapKey,
     viewerProps,
   } = props;
 
   const config: ConfigConsumerProps = {
-    setCommenProps: processSetCommenProps(setCommenProps),
+    setCommonProps: processSetCommonProps(setCommonProps),
     uploadFn: uploadFn || defaultUploadByBase64,
     getUrl: getUrl || defaultGetUrl,
     isUploadOk: isUploadOk || defaultIsUploadOk,
-    commenExtra: {
+    commonExtra: {
       ...defaultExtra,
-      ...commenExtra,
+      ...commonExtra,
     },
-    commenRules: {
+    commonRules: {
       ...defaultRules,
-      ...commenRules,
+      ...commonRules,
     },
     pictureAccept: pictureAccept || defaultPictureAccept,
     amapKey: amapKey || defaultAmapKey,

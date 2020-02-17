@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Form, Button } from 'antd';
 import { createFormItems } from '../FormMate';
 import { ItemConfig, ComponentType } from '../../src/lib/props';
-import { ConfigProvider } from '../../src';
+import { ConfigProvider, IntlProvider, enUSIntl } from '../../src';
 
 const { useState, useEffect } = React;
 const dateFormat = 'YYYY-MM-DD';
@@ -282,34 +282,36 @@ const BasicForm: React.FC = () => {
   }
 
   return (
-    <ConfigProvider
-      setCommenProps={setCommenProps}
-      commenExtra={{
-        string: 'commen extra of string',
-      }}
-    >
-      <Form
-        style={{ marginTop: 20 }}
-        form={form}
-        onFinish={handleFinish}
-        onFinishFailed={handleFinishFailed}
-        initialValues={initialValues}
+    <IntlProvider value={enUSIntl}>
+      <ConfigProvider
+        setCommonProps={setCommonProps}
+        commonExtra={{
+          string: 'commen extra of string',
+        }}
       >
-        {createFormItems(getFormItems())}
-        <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-          >
-            提交
+        <Form
+          style={{ marginTop: 20 }}
+          form={form}
+          onFinish={handleFinish}
+          onFinishFailed={handleFinishFailed}
+          initialValues={initialValues}
+        >
+          {createFormItems(getFormItems())}
+          <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+            >
+              提交
           </Button>
-        </Form.Item>
-      </Form>
-    </ConfigProvider>
+          </Form.Item>
+        </Form>
+      </ConfigProvider>
+    </IntlProvider>
   )
 }
 
-const setCommenProps = (type: ComponentType) => {
+const setCommonProps = (type: ComponentType) => {
   if (!(['check-group', 'textarea', 'switch'] as ComponentType[]).includes(type)) {
     return {
       allowClear: true,

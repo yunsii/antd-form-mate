@@ -11,29 +11,29 @@ import {
   defaultExtra,
   defaultRules,
 
-  processSetCommenProps,
+  processSetCommonProps,
   defaultViewerProps,
 } from '../defaultConfig';
 
 export interface ConfigConsumerProps {
-  setCommenProps: (type: ComponentType, defaultStyle: any) => any;
+  setCommonProps: (type: ComponentType, defaultStyle: any) => any;
   uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any>;
   getUrl: (response: any) => { url: string, thumbUrl?: string };
   isUploadOk: (response: any) => boolean;
-  commenExtra: { [k in ComponentType]?: any };
-  commenRules: { [k in ComponentType]?: any[] };
+  commonExtra: { [k in ComponentType]?: any };
+  commonRules: { [k in ComponentType]?: any[] };
   pictureAccept: string;
   amapKey: string;
   viewerProps: ViewerProps;
 }
 
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
-  setCommenProps: processSetCommenProps(),
+  setCommonProps: processSetCommonProps(),
   uploadFn: uploadByBase64,
   getUrl,
   isUploadOk,
-  commenExtra: defaultExtra,
-  commenRules: defaultRules,
+  commonExtra: defaultExtra,
+  commonRules: defaultRules,
   pictureAccept,
   amapKey,
   viewerProps: defaultViewerProps,
