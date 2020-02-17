@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import _get from 'lodash/get';
-import ConfigContext from '../../../config-provider/context';
+
+import { useIntl } from "../../../intl-context";
 
 export interface CurrentAddressProps {
   formattedAddress?: string;
@@ -10,12 +11,13 @@ export const CurrentAddress: React.FC<CurrentAddressProps> = ({
   formattedAddress,
   children,
 }) => {
-  const { afmLocale: { map } } = useContext(ConfigContext);
-  const setAddress = () => formattedAddress || map.addressPickPlaceholder;
+  const intl = useIntl();
+
+  const setAddress = () => formattedAddress || intl.getMessage('map.addressPickPlaceholder', '请选择地址');
 
   return (
     <div>
-      <p style={{ margin: '8px 0' }}>{map.currentAddress}{setAddress()}</p>
+      <p style={{ margin: '8px 0' }}>{intl.getMessage('map.currentAddress', '当前地址：')}{setAddress()}</p>
       {children}
     </div>
   );

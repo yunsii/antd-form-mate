@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Form, Button } from 'antd';
 import { createFormItems } from '../FormMate';
 import { ItemConfig } from '../../src/lib/props';
-import { ConfigProvider } from '../../src';
+import { ConfigProvider, IntlProvider, enUSIntl } from '../../src';
 
 const initialValues = {
   picture: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
@@ -75,38 +75,35 @@ class AdvancedForm extends React.Component {
 
   render() {
     return (
-      <ConfigProvider
-        commenExtra={{
-          picture: '自定义图片默认提示',
-        }}
-        getUrl={(response) => {
-          console.log(response);
-          return response.data;
-        }}
-        afmLocale={{
-          picturesWall: {
-            upload: 'upload',
-          },
-        }}
-      >
-        <Form
-          style={{ marginTop: 20 }}
-          onFinish={this.handleFinish}
-          onFinishFailed={this.handleFinishFailed}
-          initialValues={initialValues}
+      <IntlProvider value={enUSIntl}>
+        <ConfigProvider
+          commenExtra={{
+            picture: '自定义图片默认提示',
+          }}
+          getUrl={(response) => {
+            console.log(response);
+            return response.data;
+          }}
         >
-          {createFormItems(this.setFormItemsConfig({}))}
-          <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              onClick={action('click submit')}
-            >
-              提交
+          <Form
+            style={{ marginTop: 20 }}
+            onFinish={this.handleFinish}
+            onFinishFailed={this.handleFinishFailed}
+            initialValues={initialValues}
+          >
+            {createFormItems(this.setFormItemsConfig({}))}
+            <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={action('click submit')}
+              >
+                提交
           </Button>
-          </Form.Item>
-        </Form>
-      </ConfigProvider>
+            </Form.Item>
+          </Form>
+        </ConfigProvider>
+      </IntlProvider>
     )
   }
 }

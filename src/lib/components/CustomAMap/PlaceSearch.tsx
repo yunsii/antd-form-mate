@@ -1,8 +1,8 @@
-import React, { useContext, forwardRef } from "react";
+import React, { useState, useEffect } from "react";
 import _find from 'lodash/find';
 import _get from 'lodash/get';
 import { Poi } from './Props';
-import ConfigContext from '../../../config-provider/context';
+import { useIntl } from "../../../intl-context";
 
 export interface AutocompleteResult {
   count: number;
@@ -21,53 +21,26 @@ export interface Tip extends Poi { }
 export interface PlaceSearchProps {
   onPlaceSelect?: (poi: Poi) => void;
   style?: React.CSSProperties;
+  __map__?: any;
 }
 
-export interface InternalPlaceSearchProps extends PlaceSearchProps {
-  __map__: any;
-  setLocale: { placeholder: string };
-}
+const PlaceSearch: React.FC<PlaceSearchProps> = (props) => {
+  const {
+    __map__: map,
+    onPlaceSelect = () => { },
+    style: customStyle,
+  } = props;
 
-interface InternalPlaceSearchState {
-  tips: Tip[],
-}
-
-class InternalPlaceSearch extends React.Component<InternalPlaceSearchProps, InternalPlaceSearchState> {
-  constructor(props: InternalPlaceSearchProps) {
-    super(props);
-    const { __map__: map } = props;
-    if (!map) {
-      throw new Error("PlaceSearch has to be a child of Map component");
-    }
-    this.state = { tips: [] };
+  if (!map) {
+    throw new Error("PlaceSearch has to be a child of Map component");
   }
 
-  componentDidMount() {
-    const { __map__: map } = this.props;
-    if (!map) return;
+  const intl = useIntl();
+  const [tips, setTips] = useState<Tip[]>([]);
 
-    const auto = new window.AMap.Autocomplete({
-      input: "placeSearch",
-    });
-    // const placeSearch = new window.AMap.PlaceSearch({
-    //   map
-    // });  // 构造地点查询类
-    // placeSearch.search(e.poi.name);  // 关键字查询查询
-    // placeSearch.setCity(e.poi.adcode);
-
-    window.AMap.event.addListener(auto, "select", this.select); // 注册监听，当选中某条记录时会触发
-    window.AMap.event.addListener(auto, "complete", (res: AutocompleteResult) => {
-      console.log(res);
-      this.setState({ tips: res.tips });
-    }); // 注册监听，当查询完成时触发
-  }
-
-  select = (e: SelectItem) => {
-    const { __map__: map, onPlaceSelect = () => { } } = this.props;
-
+  const select = (e: SelectItem) => {
     const setCenterAndPoi: () => [any, Poi] | [] = () => {
       if (!e.poi.location) {
-        const { tips } = this.state;
         const item = _find(tips, 'location');
         const { location } = item || {};
         return item && location ? [{ lng: location.lng, lat: location.lat, }, item] : [];
@@ -83,30 +56,35 @@ class InternalPlaceSearch extends React.Component<InternalPlaceSearchProps, Inte
     }
   }
 
-  render() {
-    const { style: customStyle, setLocale } = this.props;
-    const placeholder = _get(setLocale, 'placeholder');
-    const style = {
-      position: "absolute",
-      top: "10px",
-      left: "10px",
-      background: "#fff",
-      width: 210,
-      ...customStyle
-    };
+  useEffect(() => {
+    if (!map) return;
 
-    return <input id="placeSearch" style={style as any} placeholder={placeholder} />;
-  }
+    const auto = new window.AMap.Autocomplete({
+      input: "placeSearch",
+    });
+    // const placeSearch = new window.AMap.PlaceSearch({
+    //   map
+    // });  // 构造地点查询类
+    // placeSearch.search(e.poi.name);  // 关键字查询查询
+    // placeSearch.setCity(e.poi.adcode);
+
+    window.AMap.event.addListener(auto, "select", select); // 注册监听，当选中某条记录时会触发
+    window.AMap.event.addListener(auto, "complete", (res: AutocompleteResult) => {
+      console.log(res);
+      setTips(res.tips);
+    }); // 注册监听，当查询完成时触发
+  }, []);
+
+  const style = {
+    position: "absolute",
+    top: "10px",
+    left: "10px",
+    background: "#fff",
+    width: 210,
+    ...customStyle
+  };
+
+  return <input id="placeSearch" style={style as any} placeholder={intl.getMessage('map.addressInputPlaceholder', '请输入地址')} />;
 }
 
-export default forwardRef<React.ComponentClass, PlaceSearchProps>((props, ref) => {
-  const { afmLocale: { map } } = useContext(ConfigContext);
-  const forwardProps = {
-    setLocale: {
-      placeholder: map.addressInputPlaceholder,
-    },
-    ...props,
-    ref,
-  } as any;
-  return <InternalPlaceSearch {...forwardProps} />;
-})
+export default PlaceSearch;

@@ -1,4 +1,4 @@
-import React, { Component, forwardRef, useContext } from "react";
+import React, { useContext } from "react";
 import { Upload } from "antd";
 import { InboxOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload';
@@ -13,100 +13,84 @@ import {
   commonBeforeUpload,
   customRequest,
 } from '../../components/CustomUpload/index';
-import ConfigContext from '../../../config-provider/context';
+import ConfigContext from '../../../config-context/context';
 import { setFileList } from '../../setValue';
+import { useIntl } from "../../../intl-context";
 
 const { Dragger } = Upload as any;
 
 export interface CustomDraggerProps extends CustomUploadPorps {
   value?: string | any[];
-  setLocale?: { upload: string };
 }
 
 export interface CustomDraggerState {
   fileList: UploadProps["fileList"];
 }
 
-class CustomDragger extends Component<CustomDraggerProps, CustomDraggerState> {
-  static getDerivedStateFromProps(props: CustomDraggerProps) {
-    return {
-      fileList: setFileList(props)
-    };
-  }
+const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
+  const {
+    getUrl: defaultGetUrl,
+    uploadFn: defaultUploadFn,
+    isUploadOk: defaultIsUploadOk,
+  } = useContext(ConfigContext);
+  const intl = useIntl();
 
-  state = {
-    fileList: [],
-  };
+  const {
+    getUrl = defaultGetUrl,
+    uploadFn = defaultUploadFn,
+    isUploadOk = defaultIsUploadOk,
+    onChange,
+    filesCountLimit,
+    fileSizeLimit,
+    dimensionLimit,
+    accept,
+    checkImage,
+    countLimitHint,
+    sizeLimitHint,
+    ...rest
+  } = props;
 
-  handleChange = ({ fileList }) => {
+  const files = setFileList({ value: rest.value, getUrl });
+
+  const handleChange = ({ fileList }) => {
     console.log(fileList);
-    const { onChange } = this.props;
+    const { onChange } = props;
     if (onChange) {
       onChange(filterFileList(fileList) as any);
     }
   };
 
-  render() {
-    const {
-      uploadFn,
-      isUploadOk,
-      onChange,
-      filesCountLimit,
-      fileSizeLimit,
-      dimensionLimit,
-      accept,
-      checkImage,
-      countLimitHint,
-      sizeLimitHint,
-      setLocale = {},
-      ...rest
-    } = this.props;
-    const { fileList } = this.state;
+  return (
+    <Dragger
+      name="file"
+      // multiple: true
+      customRequest={customRequest(uploadFn, isUploadOk)}
+      onChange={handleChange}
+      fileList={files}
+      beforeUpload={commonBeforeUpload({
+        filesCountLimit,
+        fileSizeLimit,
+        dimensionLimit,
+        accept,
+        checkImage,
+        countLimitHint: countLimitHint || defaultCountLimitHint,
+        sizeLimitHint: sizeLimitHint || defaultSizeLimitHint,
 
-    return (
-      <Dragger
-        name="file"
-        // multiple: true
-        customRequest={customRequest(uploadFn, isUploadOk)}
-        onChange={this.handleChange}
-        fileList={fileList}
-        beforeUpload={commonBeforeUpload({
-          filesCountLimit,
-          fileSizeLimit,
-          dimensionLimit,
-          accept,
-          checkImage,
-          countLimitHint: countLimitHint || defaultCountLimitHint,
-          sizeLimitHint: sizeLimitHint || defaultSizeLimitHint,
-
-          fileList,
-        })}
-        accept={accept}
-        {...rest}
-      >
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">{_get(setLocale, 'upload')}</p>
-        {/* <p className="ant-upload-hint">
+        fileList: files,
+      })}
+      accept={accept}
+      {...rest}
+    >
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined />
+      </p>
+      <p className="ant-upload-text">{intl.getMessage('dragger.upload', '点击或拖拽文件到此处上传')}</p>
+      {/* <p className="ant-upload-hint">
           Support for a single or bulk upload. Strictly prohibit from uploading company data or other
           band files
         </p> */}
-      </Dragger>
-    );
-  }
+    </Dragger>
+  );
 }
 
-export default forwardRef<React.ComponentClass, CustomDraggerProps>((props, ref) => {
-  const { uploadFn, isUploadOk, afmLocale: { dragger } } = useContext(ConfigContext);
-  const forwardProps = {
-    uploadFn,
-    isUploadOk,
-    setLocale: {
-      upload: dragger.upload,
-    },
-    ...props,
-    ref,
-  } as any
-  return <CustomDragger {...forwardProps} />;
-})
+export default CustomDragger;
