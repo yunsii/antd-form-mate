@@ -7,7 +7,7 @@ import { CustomFormItemProps, ItemConfig, Layout } from "../../props";
 import { defaultLayout } from '../../../defaultConfig';
 import { ConfigContext } from '../../../config-context/context';
 // import setInitialValue from '../../setValue';
-import componentMap from './map';
+import getComponent from './map';
 import { setValuePropName } from './utils';
 
 interface RenderItemProps extends ItemConfig {
@@ -23,7 +23,7 @@ const RenderItem: React.FC<RenderItemProps> = ({
   generateFn,
   name,
 }) => {
-  const { setCommenProps, commenExtra, commenRules } = useContext(ConfigContext);
+  const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
 
   const {
     style,
@@ -41,7 +41,7 @@ const RenderItem: React.FC<RenderItemProps> = ({
 
   function setExtra() {
     if (extra === false || extra === null) { return undefined; }
-    return extra || commenExtra[type];
+    return extra || commonExtra[type];
   }
 
   function setLayout() {
@@ -96,14 +96,13 @@ const RenderItem: React.FC<RenderItemProps> = ({
     )
   }
 
-  const [itemComponent, props] = (componentMap[type] || componentMap.default)!;
+  const typedComponent = getComponent(type);
 
   function createElement() {
     if (type === 'custom') { return component; }
     return (
-      React.createElement(itemComponent, {
-        ...props,
-        ...setCommenProps(type, _get(props, 'style')),
+      React.cloneElement(typedComponent, {
+        ...setCommonProps(type, _get(typedComponent.props, 'style')),
         ...componentProps,
       })
     );
@@ -111,7 +110,7 @@ const RenderItem: React.FC<RenderItemProps> = ({
 
   function setRules() {
     return [
-      ...commenRules[type] || [],
+      ...commonRules[type] || [],
       ...rules || [],
     ];
   }
