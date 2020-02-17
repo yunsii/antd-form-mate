@@ -65,7 +65,7 @@ export function isUploadOk(response: any = {}) {
   return !!data;
 }
 
-export const pictureFormateLimit = '.jpg,.jpeg,.bmp,.png,.gif';
+export const pictureFormateLimit = 'image/*';
 
 export const amapKey = '1460ee2529622747f8faacac3e860bd6';
 
