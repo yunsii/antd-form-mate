@@ -20,7 +20,7 @@ import { useIntl } from "../../../intl-context";
 export interface PicturesWallProps extends CustomUploadPorps {
   value?: string | any[];
   viewerProps?: ViewerProps;
-  pictureAccept: string;
+  pictureAccept?: string;
 }
 
 const PicturesWall: React.FC<PicturesWallProps> = (props) => {
