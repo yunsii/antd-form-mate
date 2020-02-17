@@ -5,7 +5,7 @@ import {
   uploadByBase64,
   getUrl,
   isUploadOk,
-  pictureFormateLimit,
+  pictureAccept,
   amapKey,
 
   defaultExtra,
@@ -22,7 +22,7 @@ export interface ConfigConsumerProps {
   isUploadOk: (response: any) => boolean;
   commenExtra: { [k in ComponentType]?: any };
   commenRules: { [k in ComponentType]?: any[] };
-  pictureFormateLimit: string;
+  pictureAccept: string;
   amapKey: string;
   viewerProps: ViewerProps;
 }
@@ -34,7 +34,7 @@ export const ConfigContext = React.createContext<ConfigConsumerProps>({
   isUploadOk,
   commenExtra: defaultExtra,
   commenRules: defaultRules,
-  pictureFormateLimit,
+  pictureAccept,
   amapKey,
   viewerProps: defaultViewerProps,
 });
