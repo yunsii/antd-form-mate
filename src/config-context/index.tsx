@@ -3,11 +3,11 @@ import _merge from 'lodash/merge';
 import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { ComponentType } from '../lib/props';
 import {
-  uploadByBase64 as uploadByBase64Default,
-  getUrl as getUrlDefault,
-  isUploadOk as isUploadOkDefault,
-  pictureFormateLimit as pictureFormateLimitDefault,
-  amapKey as amapKeyDefault,
+  uploadByBase64 as defaultUploadByBase64,
+  getUrl as defaultGetUrl,
+  isUploadOk as defaultIsUploadOk,
+  pictureFormateLimit as defaultPictureFormateLimit,
+  amapKey as defaultAmapKey,
 
   defaultExtra,
   defaultRules,
@@ -15,22 +15,7 @@ import {
   processSetCommenProps,
   defaultViewerProps,
 } from '../defaultConfig';
-import defaultLocale from '../defaultLocale';
 import ConfigContext, { ConfigConsumerProps } from './context';
-
-export interface AFMLocaleProps {
-  picturesWall?: {
-    upload?: string;
-  };
-  dragger?: {
-    upload?: string;
-  };
-  map?: {
-    currentAddress?: string;
-    addressPickPlaceholder?: string;
-    addressInputPlaceholder?: string;
-  };
-}
 
 export interface ConfigProviderProps {
   setCommenProps?: (type: ComponentType, defaultStyle: any) => any;
@@ -41,7 +26,6 @@ export interface ConfigProviderProps {
   commenRules?: { [k in ComponentType]?: any[] };
   pictureFormateLimit?: string;
   amapKey?: string;
-  afmLocale?: AFMLocaleProps;
   viewerProps?: ViewerProps;
 }
 
@@ -55,15 +39,14 @@ function initState(props: ConfigProviderProps) {
     commenRules,
     pictureFormateLimit,
     amapKey,
-    afmLocale,
     viewerProps,
   } = props;
 
   const config: ConfigConsumerProps = {
     setCommenProps: processSetCommenProps(setCommenProps),
-    uploadFn: uploadFn || uploadByBase64Default,
-    getUrl: getUrl || getUrlDefault,
-    isUploadOk: isUploadOk || isUploadOkDefault,
+    uploadFn: uploadFn || defaultUploadByBase64,
+    getUrl: getUrl || defaultGetUrl,
+    isUploadOk: isUploadOk || defaultIsUploadOk,
     commenExtra: {
       ...defaultExtra,
       ...commenExtra,
@@ -72,9 +55,8 @@ function initState(props: ConfigProviderProps) {
       ...defaultRules,
       ...commenRules,
     },
-    pictureFormateLimit: pictureFormateLimit || pictureFormateLimitDefault,
-    amapKey: amapKey || amapKeyDefault,
-    afmLocale: _merge(defaultLocale, afmLocale),
+    pictureFormateLimit: pictureFormateLimit || defaultPictureFormateLimit,
+    amapKey: amapKey || defaultAmapKey,
     viewerProps: {
       ...defaultViewerProps,
       ...viewerProps,

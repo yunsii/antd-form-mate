@@ -7,7 +7,7 @@ import _isArray from "lodash/isArray";
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils';
 import { processDimensionLimit, isLimitDimension } from './utils';
 import { uploadByBase64 as uploadByBase64Default, isUploadOk as isUploadOkDefault } from '../../../defaultConfig';
-import ConfigContext from '../../../config-provider/context';
+import ConfigContext from '../../../config-context/context';
 
 export const defaultFilesCountLimit = 1;
 export const defaultFileSizeLimit = 500 * 1024 * 1024;

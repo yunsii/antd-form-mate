@@ -5,7 +5,7 @@ import { Form } from "antd";
 import { FormInstance } from "antd/lib/form";
 import { CustomFormItemProps, ItemConfig, Layout } from "../../props";
 import { defaultLayout } from '../../../defaultConfig';
-import { ConfigContext } from '../../../config-provider/context';
+import { ConfigContext } from '../../../config-context/context';
 // import setInitialValue from '../../setValue';
 import componentMap from './map';
 import { setValuePropName } from './utils';
