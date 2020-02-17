@@ -10,7 +10,7 @@ import { uploadByBase64 as uploadByBase64Default, isUploadOk as isUploadOkDefaul
 import ConfigContext from '../../../config-context/context';
 
 export const defaultFilesCountLimit = 1;
-export const defaultFileSizeLimit = 500 * 1024 * 1024;
+export const defaultFileSizeLimit = Infinity;
 
 export const defaultMimeLimitHint = (accept: string) => `上传文件类型错误，仅限 ${accept}`;
 export const defaultCountLimitHint = (countLimit: number) => `仅限上传 ${countLimit} 个文件`;
@@ -111,7 +111,7 @@ export interface CustomUploadPorps extends UploadProps {
 
 // https://github.com/react-component/upload/blob/master/examples/customRequest.js
 export default function CustomUpload(props: CustomUploadPorps) {
-  const { uploadFn: uploadFnGlobal, isUploadOk: isUploadOkGlobal } = useContext(ConfigContext);
+  const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk } = useContext(ConfigContext);
   const {
     accept,
     listType,
@@ -126,18 +126,16 @@ export default function CustomUpload(props: CustomUploadPorps) {
     countLimitHint,
     sizeLimitHint,
     imageLimitHint,
-    uploadFn,
-    isUploadOk,
+    uploadFn = defaultUploadFn,
+    isUploadOk = defaultIsUploadOk,
     ...rest
   } = props;
-  const setUploadFn = () => uploadFn || uploadFnGlobal;
-  const setIsUploadOk = () => isUploadOk || isUploadOkGlobal;
 
   return (
     <Upload
       accept={accept}
       name="image"
-      customRequest={customRequest(setUploadFn(), setIsUploadOk())}
+      customRequest={customRequest(uploadFn, isUploadOk)}
       listType={listType || "text"}
       fileList={fileList}
       onChange={onChange}
