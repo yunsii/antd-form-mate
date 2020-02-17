@@ -1,4 +1,12 @@
-export { ConfigProvider } from './config-provider';
+export { ConfigProvider } from './config-context';
+export {
+  IntlProvider,
+  IntlConsumer,
+  createIntl,
+  IntlType,
+  zhCNIntl,
+  enUSIntl,
+} from './intl-context';
 export { default as createFormItems } from './lib/form-mate';
 
 export { default as Upload } from './lib/components/CustomUpload';
