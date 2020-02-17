@@ -127,7 +127,7 @@ const BasicForm: React.FC = () => {
           label: '日期时间',
         },
         componentProps: {
-          onlyAfterToday: true,
+          disabledPastDays: true,
         }
       },
       {
