@@ -271,7 +271,9 @@ const BasicForm: React.FC = () => {
     ];
   }
 
-  const handleFinish = (values) => {
+  const handleFinish = () => {
+    // 过滤，得到当前显示组件的字段值
+    const values = form.getFieldsValue(undefined, () => true);
     console.log('Received values of form: ', values);
   }
 
