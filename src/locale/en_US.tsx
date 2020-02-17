@@ -1,4 +1,10 @@
 export default {
+  placeholder: {
+    number: 'Enter...',
+    string: 'Enter...',
+    textarea: 'Enter...',
+    password: 'Enter password',
+  },
   picturesWall: {
     upload: 'Upload',
   },
@@ -8,6 +14,6 @@ export default {
   map: {
     currentAddress: 'Current Address: ',
     addressPickPlaceholder: 'Pick somewhere',
-    addressInputPlaceholder: 'Input ...',
+    addressInputPlaceholder: 'Enter...',
   },
 }

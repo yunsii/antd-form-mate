@@ -1,4 +1,10 @@
 export default {
+  placeholder: {
+    number: '请输入',
+    string: '请输入',
+    textarea: '请输入',
+    password: '请输入密码',
+  },
   picturesWall: {
     upload: '上传',
   },
