@@ -5,7 +5,7 @@ import _findIndex from "lodash/findIndex";
 import _get from "lodash/get";
 import Viewer from 'react-viewer';
 import ViewerProps from 'react-viewer/lib/ViewerProps';
-import ConfigContext from '../../../config-provider/context';
+import ConfigContext from '../../../config-context/context';
 
 const ImagesViewer: React.FC<ViewerProps> = (props) => {
   const { viewerProps } = useContext(ConfigContext);

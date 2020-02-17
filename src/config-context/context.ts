@@ -14,7 +14,6 @@ import {
   processSetCommenProps,
   defaultViewerProps,
 } from '../defaultConfig';
-import defaultLocal from '../defaultLocale';
 
 export interface ConfigConsumerProps {
   setCommenProps: (type: ComponentType, defaultStyle: any) => any;
@@ -25,7 +24,6 @@ export interface ConfigConsumerProps {
   commenRules: { [k in ComponentType]?: any[] };
   pictureFormateLimit: string;
   amapKey: string;
-  afmLocale: typeof defaultLocal;
   viewerProps: ViewerProps;
 }
 
@@ -38,7 +36,6 @@ export const ConfigContext = React.createContext<ConfigConsumerProps>({
   commenRules: defaultRules,
   pictureFormateLimit,
   amapKey,
-  afmLocale: defaultLocal,
   viewerProps: defaultViewerProps,
 });
 
