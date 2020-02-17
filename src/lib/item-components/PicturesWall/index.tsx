@@ -20,17 +20,17 @@ import { useIntl } from "../../../intl-context";
 export interface PicturesWallProps extends CustomUploadPorps {
   value?: string | any[];
   viewerProps?: ViewerProps;
-  pictureFormateLimit: string;
+  pictureAccept: string;
 }
 
 const PicturesWall: React.FC<PicturesWallProps> = (props) => {
-  const { getUrl: defaultGetUrl, pictureFormateLimit: defaultPictureFormateLimit } = useContext(ConfigContext);
+  const { getUrl: defaultGetUrl, pictureAccept: defaultPictureAccept } = useContext(ConfigContext);
   const intl = useIntl();
 
   const {
     value,
     getUrl = defaultGetUrl,
-    pictureFormateLimit = defaultPictureFormateLimit,
+    pictureAccept = defaultPictureAccept,
     viewerProps,
   } = props;
 
@@ -64,7 +64,7 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
   return (
     <div className={`${styles.pictureWall} clearfix`}>
       <CustomUpload
-        accept={pictureFormateLimit}
+        accept={pictureAccept}
         {...props}
         fileList={files}
         onPreview={handlePreview}

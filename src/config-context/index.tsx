@@ -6,7 +6,7 @@ import {
   uploadByBase64 as defaultUploadByBase64,
   getUrl as defaultGetUrl,
   isUploadOk as defaultIsUploadOk,
-  pictureFormateLimit as defaultPictureFormateLimit,
+  pictureAccept as defaultPictureAccept,
   amapKey as defaultAmapKey,
 
   defaultExtra,
@@ -24,7 +24,7 @@ export interface ConfigProviderProps {
   isUploadOk?: (response: any) => boolean;
   commenExtra?: { [k in ComponentType]?: any };
   commenRules?: { [k in ComponentType]?: any[] };
-  pictureFormateLimit?: string;
+  pictureAccept?: string;
   amapKey?: string;
   viewerProps?: ViewerProps;
 }
@@ -37,7 +37,7 @@ function initState(props: ConfigProviderProps) {
     isUploadOk,
     commenExtra,
     commenRules,
-    pictureFormateLimit,
+    pictureAccept,
     amapKey,
     viewerProps,
   } = props;
@@ -55,7 +55,7 @@ function initState(props: ConfigProviderProps) {
       ...defaultRules,
       ...commenRules,
     },
-    pictureFormateLimit: pictureFormateLimit || defaultPictureFormateLimit,
+    pictureAccept: pictureAccept || defaultPictureAccept,
     amapKey: amapKey || defaultAmapKey,
     viewerProps: {
       ...defaultViewerProps,
