@@ -69,8 +69,8 @@ $ npm start
 | `name` | 字段名 | [`NamePath`](https://next.ant.design/components/form-cn/#NamePath) | - |
 | `formItemProps` | Form.Item 支持的属性，新增 `dense` 属性使得 Form.Item 的 `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
 | `componentProps` | 额外的组件属性 | [`ComponentProps`](/src/lib/props.ts#L50) | - |
-| `component` | 自定义的组件，仅当 `type` 为 `'custom' | 'dynamic'` 时可用 | FormItemProps['children'] | - |
-| `generateFn` | 自定义的组件，仅当 `type` 为 `'dynamic'` 时可用 | `(form: FormInstance) => GenerateItemConfig \| null` | - |
+| `component` | 自定义的组件，仅当 `type` 为 `'custom' \| 'dynamic'` 时可用 | FormItemProps['children'] | - |
+| `generateFn` | 自定义的组件，仅当 `type` 为 `'dynamic'` 时可用，快速实现本组件支持的其他类型组件的动态渲染 | `(form: FormInstance) => GenerateItemConfig \| null` | - |
 
 此外，每个表单项都有[默认布局](/src/defaultConfig.ts#L6)，如果没有 `label` 属性，输入部分会撑满容器。
 
