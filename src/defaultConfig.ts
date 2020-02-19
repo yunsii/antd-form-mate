@@ -1,7 +1,9 @@
 import _isFunction from 'lodash/isFunction';
+import { Rule } from 'rc-field-form/lib/interface';
 import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { ComponentType } from './lib/props';
 import { getBase64 } from './utils';
+import { IntlType, zhCNIntl } from './intl-context';
 
 export const defaultLayout = {
   labelCol: { span: 8 },
@@ -32,17 +34,15 @@ export function processSetCommonProps(setCommonProps: (type: ComponentType, defa
   }
 }
 
-export const defaultExtra = {
-  picture: "请上传图片",
-};
-
-export const defaultRules = {
-  email: [
-    {
-      type: "email",
-      message: "请输入正确的邮箱格式",
-    },
-  ],
+export const setDefaultRules: (intl?: IntlType) => { [k in ComponentType]?: Rule[] } = (intl) => {
+  return {
+    email: [
+      {
+        type: "email",
+        message: (intl || zhCNIntl).getMessage("message.email", "请输入正确的邮箱格式"),
+      },
+    ],
+  }
 };
 
 export async function uploadByBase64(file: File) {
