@@ -19,7 +19,7 @@
     "lint": "tslint --project tsconfig.json",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -s public",
-    "release": "release-it --npm.tag=next"
+    "release": "release-it --npm.tag=next --verbose"
   },
   "eslintConfig": {
     "extends": "react-app"
