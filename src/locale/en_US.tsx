@@ -14,9 +14,4 @@ export default {
   dragger: {
     upload: 'Click or drag file to this area to upload',
   },
-  map: {
-    currentAddress: 'Current Address: ',
-    addressPickPlaceholder: 'Pick somewhere',
-    addressInputPlaceholder: 'Enter...',
-  },
 }

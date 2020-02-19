@@ -8,7 +8,6 @@ import {
   getUrl as defaultGetUrl,
   isUploadOk as defaultIsUploadOk,
   pictureAccept as defaultPictureAccept,
-  amapKey as defaultAmapKey,
 
   setDefaultRules,
 
@@ -26,7 +25,6 @@ export interface ConfigProviderProps {
   commonExtra?: { [k in ComponentType]?: any };
   commonRules?: { [k in ComponentType]?: Rule[] };
   pictureAccept?: string;
-  amapKey?: string;
   viewerProps?: ViewerProps;
 }
 
@@ -40,7 +38,6 @@ function initConfig(props: ConfigProviderProps) {
     commonExtra,
     commonRules,
     pictureAccept,
-    amapKey,
     viewerProps,
   } = props;
 
@@ -57,7 +54,6 @@ function initConfig(props: ConfigProviderProps) {
       ...commonRules,
     },
     pictureAccept: pictureAccept || defaultPictureAccept,
-    amapKey: amapKey || defaultAmapKey,
     viewerProps: {
       ...defaultViewerProps,
       ...viewerProps,

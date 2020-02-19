@@ -67,8 +67,6 @@ export function isUploadOk(response: any = {}) {
 
 export const pictureAccept = 'image/*';
 
-export const amapKey = '1460ee2529622747f8faacac3e860bd6';
-
 export const defaultViewerProps: ViewerProps = {
   rotatable: false,
   noImgDetails: true,

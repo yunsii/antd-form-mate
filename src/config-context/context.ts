@@ -7,7 +7,6 @@ import {
   getUrl,
   isUploadOk,
   pictureAccept,
-  amapKey,
 
   setDefaultRules,
 
@@ -23,7 +22,6 @@ export interface ConfigConsumerProps {
   commonExtra: { [k in ComponentType]?: any };
   commonRules: { [k in ComponentType]?: Rule[] };
   pictureAccept: string;
-  amapKey: string;
   viewerProps: ViewerProps;
 }
 
@@ -35,7 +33,6 @@ export const ConfigContext = React.createContext<ConfigConsumerProps>({
   commonExtra: {},
   commonRules: setDefaultRules(),
   pictureAccept,
-  amapKey,
   viewerProps: defaultViewerProps,
 });
 
