@@ -29,9 +29,9 @@ registerComponent('date-range', <CustomRangePicker format='YYYY-MM-DD' />);
 registerComponent('datetime-range', <CustomRangePicker format='YYYY-MM-DD HH:mm:ss' showTime />);
 registerComponent('number', (
   <InjectIntl
-    name='placeholder'
-    id='placeholder.number'
-    defaultMessage='请输入'
+    propName='placeholder'
+    intlPath='placeholder.number'
+    intlDefaultMessage='请输入'
   >
     <InputNumber />
   </InjectIntl>
@@ -39,18 +39,18 @@ registerComponent('number', (
 registerComponent('select', <CustomSelect />);
 registerComponent('textarea', (
   <InjectIntl
-    name='placeholder'
-    id='placeholder.textarea'
-    defaultMessage='请输入'
+    propName='placeholder'
+    intlPath='placeholder.textarea'
+    intlDefaultMessage='请输入'
   >
     <Input.TextArea />
   </InjectIntl>
 ));
 registerComponent('password', (
   <InjectIntl
-    name='placeholder'
-    id='placeholder.password'
-    defaultMessage='请输入密码'
+    propName='placeholder'
+    intlPath='placeholder.password'
+    intlDefaultMessage='请输入密码'
   >
     <Input.Password />
   </InjectIntl>
@@ -65,9 +65,9 @@ registerComponent('radio-group', <CustomRadioGroup />);
 registerComponent('picture', <PicturesWall />);
 registerComponent('string', (
   <InjectIntl
-    name='placeholder'
-    id='placeholder.string'
-    defaultMessage='请输入'
+    propName='placeholder'
+    intlPath='placeholder.string'
+    intlDefaultMessage='请输入'
   >
     <Input />
   </InjectIntl>
