@@ -192,3 +192,5 @@ export const defaultExtra = {
   picture: "请上传图片",
 };
 ```
+
+9. 新增 `registerComponent` 功能，可通过注册组件实现类型扩展或重写已有类型的组件
