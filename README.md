@@ -36,11 +36,11 @@ $ npm start
 
 由于没有打包发布的经验，所以在 3.0.0 之前的版本除了一些未知的 bug 外，可能会存在一些兼容性问题。此次重构到 3.0.0 后，后续发包当慎重起见。
 
-### 可配置类型
+### 内建类型
 
 |    | 类型               | 备注          |
 |----|--------------------|--------------|
-| 1  | `custom`          | 自定义组件类型      |
+| 1  | `custom`          | 自定义组件类型，通过 `component` 属性传入组件 |
 | 2  | `date`            |              |
 | 3  | `datetime`        |              |
 | 4  | `date-range`     | 日期范围         |
@@ -54,9 +54,11 @@ $ npm start
 | 12 | `slider`          | 滑动输入         |
 | 13 | `file-dragger`   |              |
 | 14 | `string`          | **默认类型** |
-| 16 | `check-group`    | 多选框          |
-| 17 | `radio-group`    | 单选框          |
-| 18 | `dynamic`          | 条件渲染         |
+| 15 | `check-group`    | 多选框          |
+| 16 | `radio-group`    | 单选框          |
+| 17 | `dynamic`          | 条件渲染         |
+
+除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 和 `dynamic` 类型外的组件。
 
 ### API
 
