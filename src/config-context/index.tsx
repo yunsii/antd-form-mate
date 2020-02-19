@@ -14,7 +14,7 @@ import {
 
   processSetCommonProps,
   defaultViewerProps,
-} from '../defaultConfig';
+} from '../default-config';
 import ConfigContext, { ConfigConsumerProps } from './context';
 import { useIntl } from '../intl-context';
 

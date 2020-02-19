@@ -13,7 +13,7 @@ import {
 
   processSetCommonProps,
   defaultViewerProps,
-} from '../defaultConfig';
+} from '../default-config';
 
 export interface ConfigConsumerProps {
   setCommonProps: (type: ComponentType, defaultStyle: any) => any;

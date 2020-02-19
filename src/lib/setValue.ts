@@ -5,7 +5,7 @@ import { CustomDraggerProps } from './item-components/CustomDragger';
 import { PicturesWallProps } from './item-components/PicturesWall';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { ComponentType } from "./props";
-import { getUrl as getUrlDefault } from '../defaultConfig';
+import { getUrl as getUrlDefault } from '../default-config';
 
 export function setInitialValue(type: ComponentType, value: any) {
   switch (type) {
