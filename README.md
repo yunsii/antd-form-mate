@@ -195,4 +195,4 @@ export const defaultExtra = {
 };
 ```
 
-9. 新增 `registerComponent` 功能，可通过注册组件实现类型扩展或重写已有类型的组件
+9. 新增 `registerComponent` 功能，可通过注册组件实现类型扩展或重写已有类型的组件。此外通过这种方式将 `location` 类型组件剥离到 [antd-form-mate-location](https://github.com/theprimone/antd-form-mate-location) ，可单独安装使用。
