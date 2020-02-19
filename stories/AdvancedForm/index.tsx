@@ -55,13 +55,6 @@ class AdvancedForm extends React.Component {
           filesCountLimit: 2,
         }
       },
-      {
-        type: 'location',
-        name: 'location',
-        formItemProps: {
-          label: '地址',
-        },
-      },
     ];
   }
 
@@ -92,14 +85,14 @@ class AdvancedForm extends React.Component {
             initialValues={initialValues}
           >
             {createFormItems(this.setFormItemsConfig({}))}
-            <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+            <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
               <Button
                 type="primary"
                 htmlType="submit"
                 onClick={action('click submit')}
               >
                 提交
-          </Button>
+              </Button>
             </Form.Item>
           </Form>
         </ConfigProvider>
