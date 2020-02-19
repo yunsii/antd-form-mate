@@ -44,6 +44,7 @@ const BasicForm: React.FC = () => {
         name: 'plain',
         formItemProps: {
           label: '纯文本',
+          required: true,
         },
       },
       {
@@ -236,7 +237,13 @@ const BasicForm: React.FC = () => {
         name: 'email',
         formItemProps: {
           label: '邮箱',
-          rules: [{ required: true, message: '请输入邮箱！' }],
+          // required: true,
+          rules: [
+            {
+              required: true,
+              message: '这是必填的',
+            },
+          ]
         },
       },
       {
@@ -244,7 +251,7 @@ const BasicForm: React.FC = () => {
         name: 'name',
         formItemProps: {
           label: '姓名',
-          rules: [{ required: true, message: '请输入姓名！' }],
+          required: true,
         },
         componentProps: {
           onChange: (event: any) => setText(event.target.value),
