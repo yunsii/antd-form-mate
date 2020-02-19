@@ -5,6 +5,9 @@ export default {
     textarea: 'Enter...',
     password: 'Enter password',
   },
+  message: {
+    email: 'Enter the correct email format',
+  },
   picturesWall: {
     upload: 'Upload',
   },

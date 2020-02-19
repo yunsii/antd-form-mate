@@ -5,6 +5,9 @@ export default {
     textarea: '请输入',
     password: '请输入密码',
   },
+  message: {
+    email: '请输入正确的邮箱格式',
+  },
   picturesWall: {
     upload: '上传',
   },
