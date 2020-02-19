@@ -1,6 +1,4 @@
 import React from "react";
-import _get from 'lodash/get';
-import _isFunction from 'lodash/isFunction';
 import { useIntl } from '../intl-context';
 
 export interface InjectIntlProps {
