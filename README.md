@@ -54,7 +54,6 @@ $ npm start
 | 12 | `slider`          | 滑动输入         |
 | 13 | `file-dragger`   |              |
 | 14 | `string`          | **默认类型** |
-| 15 | `location`        | 地址录入，基于高德地图  |
 | 16 | `check-group`    | 多选框          |
 | 17 | `radio-group`    | 单选框          |
 | 18 | `dynamic`          | 条件渲染         |
