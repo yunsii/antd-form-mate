@@ -1,6 +1,7 @@
 import React from 'react';
-import { ComponentType } from '../lib/props';
+import { Rule } from 'rc-field-form/lib/interface';
 import ViewerProps from 'react-viewer/lib/ViewerProps';
+import { ComponentType } from '../lib/props';
 import {
   uploadByBase64,
   getUrl,
@@ -8,8 +9,7 @@ import {
   pictureAccept,
   amapKey,
 
-  defaultExtra,
-  defaultRules,
+  setDefaultRules,
 
   processSetCommonProps,
   defaultViewerProps,
@@ -21,7 +21,7 @@ export interface ConfigConsumerProps {
   getUrl: (response: any) => { url: string, thumbUrl?: string };
   isUploadOk: (response: any) => boolean;
   commonExtra: { [k in ComponentType]?: any };
-  commonRules: { [k in ComponentType]?: any[] };
+  commonRules: { [k in ComponentType]?: Rule[] };
   pictureAccept: string;
   amapKey: string;
   viewerProps: ViewerProps;
@@ -32,8 +32,8 @@ export const ConfigContext = React.createContext<ConfigConsumerProps>({
   uploadFn: uploadByBase64,
   getUrl,
   isUploadOk,
-  commonExtra: defaultExtra,
-  commonRules: defaultRules,
+  commonExtra: {},
+  commonRules: setDefaultRules(),
   pictureAccept,
   amapKey,
   viewerProps: defaultViewerProps,

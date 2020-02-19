@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _merge from 'lodash/merge';
+import { Rule } from 'rc-field-form/lib/interface';
 import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { ComponentType } from '../lib/props';
 import {
@@ -8,13 +9,14 @@ import {
   isUploadOk as defaultIsUploadOk,
   pictureAccept as defaultPictureAccept,
   amapKey as defaultAmapKey,
-  defaultExtra,
-  defaultRules,
+
+  setDefaultRules,
 
   processSetCommonProps,
   defaultViewerProps,
 } from '../defaultConfig';
 import ConfigContext, { ConfigConsumerProps } from './context';
+import { useIntl } from '../intl-context';
 
 export interface ConfigProviderProps {
   setCommonProps?: (type: ComponentType, defaultStyle: any) => any;
@@ -22,13 +24,14 @@ export interface ConfigProviderProps {
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
   isUploadOk?: (response: any) => boolean;
   commonExtra?: { [k in ComponentType]?: any };
-  commonRules?: { [k in ComponentType]?: any[] };
+  commonRules?: { [k in ComponentType]?: Rule[] };
   pictureAccept?: string;
   amapKey?: string;
   viewerProps?: ViewerProps;
 }
 
-function initState(props: ConfigProviderProps) {
+function initConfig(props: ConfigProviderProps) {
+  const intl = useIntl();
   const {
     setCommonProps,
     uploadFn,
@@ -47,11 +50,10 @@ function initState(props: ConfigProviderProps) {
     getUrl: getUrl || defaultGetUrl,
     isUploadOk: isUploadOk || defaultIsUploadOk,
     commonExtra: {
-      ...defaultExtra,
       ...commonExtra,
     },
     commonRules: {
-      ...defaultRules,
+      ...setDefaultRules(intl),
       ...commonRules,
     },
     pictureAccept: pictureAccept || defaultPictureAccept,
@@ -65,16 +67,14 @@ function initState(props: ConfigProviderProps) {
   return config;
 }
 
-export class ConfigProvider extends React.Component<ConfigProviderProps> {
+export const ConfigProvider: React.FC<ConfigProviderProps> = (props) => {
+  const { children } = props;
 
-  state = initState(this.props);
+  const [config] = useState(initConfig(props));
 
-  render() {
-    const { children } = this.props;
-    return (
-      <ConfigContext.Provider value={this.state}>
-        {children}
-      </ConfigContext.Provider>
-    );
-  }
+  return (
+    <ConfigContext.Provider value={config}>
+      {children}
+    </ConfigContext.Provider>
+  );
 }
