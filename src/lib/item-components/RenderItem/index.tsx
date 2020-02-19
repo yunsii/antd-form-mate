@@ -4,10 +4,10 @@ import _isFunction from 'lodash/isFunction';
 import { Form } from "antd";
 import { FormInstance } from "antd/lib/form";
 import { CustomFormItemProps, ItemConfig, Layout } from "../../props";
-import { defaultLayout } from '../../../defaultConfig';
+import { defaultLayout } from '../../../default-config';
 import { ConfigContext } from '../../../config-context/context';
 // import setInitialValue from '../../setValue';
-import getComponent from './map';
+import getComponent from '../../map';
 import { setValuePropName } from './utils';
 
 interface RenderItemProps extends ItemConfig {
