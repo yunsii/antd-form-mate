@@ -186,3 +186,10 @@ export default BasicForm;
 5. 重命名 `pictureFormateLimit` 属性为 `pictureAccept` ，并将默认值设为 `'image/*'`
 6. 移除默认文件大小为 500M 的限制
 7. 修正笔误，配置全局属性中的 `commen` 改为 `common`
+8. 移除默认的 `extra` 属性：
+
+```js
+export const defaultExtra = {
+  picture: "请上传图片",
+};
+```
