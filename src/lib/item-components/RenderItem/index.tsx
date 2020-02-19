@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
+import _find from 'lodash/find';
 import { Form } from "antd";
 import { FormInstance } from "antd/lib/form";
 import { CustomFormItemProps, ItemConfig, Layout } from "../../props";
@@ -9,6 +10,7 @@ import { ConfigContext } from '../../../config-context/context';
 // import setInitialValue from '../../setValue';
 import getComponent from '../../map';
 import { setValuePropName } from './utils';
+import { useIntl } from '../../../intl-context';
 
 interface RenderItemProps extends ItemConfig {
   formLayout?: Layout,
@@ -23,6 +25,7 @@ const RenderItem: React.FC<RenderItemProps> = ({
   generateFn,
   name,
 }) => {
+  const intl = useIntl();
   const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
 
   const {
@@ -109,10 +112,22 @@ const RenderItem: React.FC<RenderItemProps> = ({
   }
 
   function setRules() {
-    return [
+    let result = [
       ...commonRules[type] || [],
       ...rules || [],
-    ];
+    ]
+
+    if (restFormItemProps.required && !_find(result, { required: true })) {
+      result = [
+        {
+          required: true,
+          message: `${restFormItemProps.label} ${intl.getMessage('message.isRequired', '必填')}`,
+        },
+        ...result,
+      ]
+    }
+
+    return result;
   }
 
   return (

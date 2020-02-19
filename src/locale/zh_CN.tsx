@@ -6,6 +6,7 @@ export default {
     password: '请输入密码',
   },
   message: {
+    isRequired: '必填',
     email: '请输入正确的邮箱格式',
   },
   picturesWall: {

@@ -6,6 +6,7 @@ export default {
     password: 'Enter password',
   },
   message: {
+    isRequired: 'is required',
     email: 'Enter the correct email format',
   },
   picturesWall: {
