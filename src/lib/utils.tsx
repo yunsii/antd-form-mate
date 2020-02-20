@@ -1,5 +1,8 @@
 import React from "react";
+import { Col } from 'antd';
+import _isFunction from 'lodash/isFunction';
 import { useIntl } from '../intl-context';
+import { WithCol, ItemConfig } from "./props";
 
 export interface InjectIntlProps {
   propName: string;
@@ -15,4 +18,19 @@ export const InjectIntl: React.FC<InjectIntlProps> = ({ propName, intlPath, intl
     [propName]: intl.getMessage(intlPath, intlDefaultMessage),
     ...rest,
   });
+}
+
+export const renderCol = (config: ItemConfig, withCol?: WithCol) => (formItem: JSX.Element) => {
+  if (withCol && config.type !== 'dynamic') {
+    const colProps = _isFunction(withCol) ? withCol(config) : withCol;
+    return (
+      <Col
+        key={`${config.name}`}
+        {...colProps}
+      >
+        {formItem}
+      </Col>
+    );
+  }
+  return formItem;
 }
