@@ -9,6 +9,7 @@ export {
 } from './intl-context';
 export { default as createFormItems } from './lib/form-mate';
 export { registerComponent } from './lib/map';
+export { defaultItemLayout } from './default-config';
 
 export { default as Upload } from './lib/components/CustomUpload';
 export { default as EditableTable } from './lib/components/EditableTable';

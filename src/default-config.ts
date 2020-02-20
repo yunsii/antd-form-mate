@@ -5,7 +5,7 @@ import { ComponentType } from './lib/props';
 import { getBase64 } from './utils';
 import { IntlType, zhCNIntl } from './intl-context';
 
-export const defaultLayout = {
+export const defaultItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 12 }
 };
