@@ -84,3 +84,5 @@ export interface Layout {
   labelCol?: ColProps;
   wrapperCol?: ColProps;
 }
+
+export type WithCol = ColProps | ((config: ItemConfig) => ColProps);

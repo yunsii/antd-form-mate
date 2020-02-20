@@ -4,26 +4,31 @@ import _isFunction from 'lodash/isFunction';
 import _find from 'lodash/find';
 import { Form } from "antd";
 import { FormInstance } from "antd/lib/form";
-import { CustomFormItemProps, ItemConfig, Layout } from "../../props";
-import { defaultLayout } from '../../../default-config';
+import { CustomFormItemProps, ItemConfig, Layout, WithCol } from "../../props";
+import { defaultItemLayout } from '../../../default-config';
 import { ConfigContext } from '../../../config-context/context';
 // import setInitialValue from '../../setValue';
 import getComponent from '../../map';
 import { setValuePropName } from './utils';
+import { renderCol } from '../../utils';
 import { useIntl } from '../../../intl-context';
 
-interface RenderItemProps extends ItemConfig {
-  formLayout?: Layout,
+interface RenderItemProps {
+  config: ItemConfig;
+  formLayout?: Layout;
+  withCol?: WithCol;
 }
 const RenderItem: React.FC<RenderItemProps> = ({
+  config: {
+    type = "string",
+    formItemProps = {} as CustomFormItemProps,
+    componentProps,
+    component,
+    generateFn,
+    name,
+  },
   formLayout,
-
-  type = "string",
-  formItemProps = {} as CustomFormItemProps,
-  componentProps,
-  component,
-  generateFn,
-  name,
+  withCol,
 }) => {
   const intl = useIntl();
   const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
@@ -49,7 +54,7 @@ const RenderItem: React.FC<RenderItemProps> = ({
 
   function setLayout() {
     const itemLayout = wrapperCol && labelCol ? { wrapperCol, labelCol } : null;
-    const layout = itemLayout || formLayout || defaultLayout;
+    const layout = itemLayout || formLayout || defaultItemLayout;
     const noLayoutAndLabel = !itemLayout && !formLayout && !restFormItemProps.label;
     return noLayoutAndLabel ? { wrapperCol: { span: 24 } } : layout;
   }
@@ -64,13 +69,18 @@ const RenderItem: React.FC<RenderItemProps> = ({
           ((form: FormInstance) => {
             const generateConfig = generateFn(form);
             if (!generateConfig) { return null; }
-            return (
+
+            const wrapperConfig = {
+              name,
+              ...generateConfig
+            }
+            const formItem = (
               <RenderItem
-                {...generateConfig}
-                name={name}
+                config={wrapperConfig}
                 formLayout={formLayout}
               />
             );
+            return renderCol(wrapperConfig, withCol)(formItem);
           }) as any : component!}
       </Form.Item>
     )
