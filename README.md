@@ -184,12 +184,12 @@ export default BasicForm;
 
 根据官方的表单升级说明——[从 v3 到 v4](https://next.ant.design/components/form/v3-cn)，也对本组件进行了相应的重构，v3 版本时，可不使用 `Form` 组件包裹生成的表单项，新版本充分利用了 `Form` 组件管理数据。下面总结几点本组件从 v3 到 v4 的注意事项：
 
-1. 移除 `hidden` 类型，新版表单组件通过 `initialValues` 统一配置初始值，当需要隐藏类型的字段时，直接添加到 `initialValues` 即可
-2. 新增 `dynamic` 类型，可根据条件动态渲染某个字段。结合 `generateFn` 属性，可以快速实现本组件支持的其他类型组件的动态渲染。具体可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L253)
-3. 移除 `afmLocale` 属性，通过 `IntlProvider` 配置国际化
-4. 移除扩展 `DatePicker` 中的 `onlyAfterToday` 和 `todayAndBefore` 属性，使用 `disabledPastDays` 和 `disabledFutureDays` 代替
-5. 重命名 `pictureFormateLimit` 属性为 `pictureAccept` ，并将默认值设为 `'image/*'`
-6. 移除默认文件大小为 500M 的限制
+1. 移除 `hidden` 类型，新版表单组件通过 `initialValues` 统一配置初始值，当需要隐藏类型的字段时，直接添加到 `initialValues` 即可。
+2. 新增 `dynamic` 类型，可根据条件动态渲染某个字段。结合 `generateFn` 属性，可以快速实现本组件支持的其他类型组件的动态渲染。具体可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L253) 。
+3. 移除 `afmLocale` 属性，通过 `IntlProvider` 配置国际化。
+4. 移除扩展 `DatePicker` 中的 `onlyAfterToday` 和 `todayAndBefore` 属性，使用 `disabledPastDays` 和 `disabledFutureDays` 代替。
+5. 重命名 `pictureFormateLimit` 属性为 `pictureAccept` ，并将默认值设为 `'image/*'` 。
+6. 移除默认文件大小为 500M 的限制。
 7. 修正笔误，配置全局属性中的 `commen` 改为 `common`
 8. 移除默认的 `extra` 属性：
 
@@ -200,3 +200,8 @@ export const defaultExtra = {
 ```
 
 9. 新增 `registerComponent` 功能，可通过注册组件实现类型扩展或重写已有类型的组件。此外通过这种方式将 `location` 类型组件剥离到 [antd-form-mate-location](https://github.com/theprimone/antd-form-mate-location) ，可单独安装使用。
+10. 新增 `withCol` 属性，可直接让每个组件被 `Col` 组件包裹。特别的，当同时使用了 `withCol` 功能 、 `dynamic` 类型和 `component` 字段时，切记返回组件时一定要使用 `Col` 组件包裹，因此，该场景下尽可能的使用 `generateFn` 即可避免这样繁琐的问题（如果内建组件没有需要的组件，可以试试 `registerComponent` ）。之所以这样是由于该函数由 `Form` 组件去执行，当主动去调用时，`form` 的实例还没与 `Form` 绑定，会报警告：
+
+```
+Warning: Instance created by `useForm` is not connect to any Form element. Forget to pass `form` prop?
+```
