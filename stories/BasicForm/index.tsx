@@ -1,6 +1,7 @@
 import * as React from 'react';
 // import { action } from '@storybook/addon-actions';
 import moment from 'moment';
+// import { Form, Button } from 'antd';
 import { Form, Button, Row, Col } from 'antd';
 import { createFormItems } from '../FormMate';
 import { ItemConfig, ComponentType } from '../../src/lib/props';
@@ -267,6 +268,7 @@ const BasicForm: React.FC = () => {
             type: 'date',
             formItemProps: {
               label: 'dynamic',
+              required: true,
             },
           }
         }
@@ -306,19 +308,22 @@ const BasicForm: React.FC = () => {
           console.log(changedValues, allValues);
         }}
       >
+        {/* {createFormItems(formItems)}
+        <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+          >
+            提交
+          </Button>
+        </Form.Item> */}
         <Row>
-          {createFormItems(formItems).map((item, index) => {
-            if (formItems[index].type === 'dynamic' && !formItems[index].generateFn!(form)) { return item; }
-            return (
-              <Col
-                key={`${formItems[index].name}`}
-                sm={24}
-                md={12}
-                lg={8}
-              >
-                {item}
-              </Col>
-            )
+          {createFormItems(formItems, undefined, {
+            sm: 24,
+            md: 12,
+            lg: 8,
+          }).map(item => {
+            return item;
           })}
           <Col
             sm={24}
