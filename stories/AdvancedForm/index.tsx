@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Form, Button } from 'antd';
 import { createFormItems } from '../FormMate';
 import { ItemConfig } from '../../src/lib/props';
-import { ConfigProvider, IntlProvider, enUSIntl } from '../../src';
+import { ConfigProvider } from '../../src';
 
 const initialValues = {
   picture: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
@@ -68,7 +68,6 @@ class AdvancedForm extends React.Component {
 
   render() {
     return (
-      <IntlProvider value={enUSIntl}>
         <ConfigProvider
           commonExtra={{
             picture: '自定义图片默认提示',
@@ -79,7 +78,7 @@ class AdvancedForm extends React.Component {
           }}
         >
           <Form
-            style={{ marginTop: 20 }}
+            style={{ paddingTop: 20 }}
             onFinish={this.handleFinish}
             onFinishFailed={this.handleFinishFailed}
             initialValues={initialValues}
@@ -96,7 +95,6 @@ class AdvancedForm extends React.Component {
             </Form.Item>
           </Form>
         </ConfigProvider>
-      </IntlProvider>
     )
   }
 }
