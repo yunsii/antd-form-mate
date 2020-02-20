@@ -4,6 +4,7 @@ export default {
     string: '请输入',
     textarea: '请输入',
     password: '请输入密码',
+    select: '请选择',
   },
   message: {
     isRequired: '必填',

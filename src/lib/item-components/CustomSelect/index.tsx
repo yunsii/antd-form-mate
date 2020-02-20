@@ -20,6 +20,7 @@ export interface CustomSelectProps {
   disabledStyle?: React.CSSProperties;
   loading?: boolean;
   style?: React.CSSProperties;
+  placeholder?: string;
 }
 
 export default forwardRef<Select, CustomSelectProps>((props, ref) => {
@@ -47,7 +48,6 @@ export default forwardRef<Select, CustomSelectProps>((props, ref) => {
   return (
     <Spin spinning={loading || false}>
       <Select
-        placeholder="请选择"
         {...rest}
         ref={ref}
       >

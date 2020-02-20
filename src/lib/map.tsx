@@ -35,7 +35,15 @@ registerComponent('number', (
     <InputNumber />
   </InjectIntl>
 ));
-registerComponent('select', <CustomSelect />);
+registerComponent('select', (
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.select'
+    intlDefaultMessage='请选择'
+  >
+    <CustomSelect />
+  </InjectIntl>
+));
 registerComponent('textarea', (
   <InjectIntl
     propName='placeholder'

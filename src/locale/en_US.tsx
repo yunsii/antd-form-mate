@@ -4,6 +4,7 @@ export default {
     string: 'Enter...',
     textarea: 'Enter...',
     password: 'Enter password',
+    select: 'Select...',
   },
   message: {
     isRequired: 'is required',
