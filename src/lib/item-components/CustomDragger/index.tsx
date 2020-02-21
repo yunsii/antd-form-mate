@@ -5,14 +5,17 @@ import { UploadProps } from 'antd/lib/upload';
 import _get from "lodash/get";
 import {
   CustomUploadPorps,
-} from '../../components/CustomUpload/index';
-import {
-  defaultCountLimitHint,
-  defaultSizeLimitHint,
+  
+  // defaultCountLimitHint,
+  // defaultSizeLimitHint,
   filterFileList,
   commonBeforeUpload,
   customRequest,
 } from '../../components/CustomUpload/index';
+import {
+  setCountLimitHint,
+  setSizeLimitHint,
+} from '../../components/CustomUpload/utils';
 import ConfigContext from '../../../config-context/context';
 import { setFileList } from '../../setValue';
 import { useIntl } from "../../../intl-context";
@@ -45,8 +48,8 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
     dimensionLimit,
     accept,
     checkImage,
-    countLimitHint,
-    sizeLimitHint,
+    // countLimitHint,
+    // sizeLimitHint,
     ...rest
   } = props;
 
@@ -73,8 +76,10 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
         dimensionLimit,
         accept,
         checkImage,
-        countLimitHint: countLimitHint || defaultCountLimitHint,
-        sizeLimitHint: sizeLimitHint || defaultSizeLimitHint,
+        // countLimitHint: countLimitHint || defaultCountLimitHint,
+        // sizeLimitHint: sizeLimitHint || defaultSizeLimitHint,
+        countLimitHint: setCountLimitHint(intl),
+        sizeLimitHint: setSizeLimitHint(intl),
 
         fileList: files,
       })}
