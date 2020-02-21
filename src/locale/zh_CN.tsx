@@ -16,4 +16,10 @@ export default {
   dragger: {
     upload: '点击或拖拽文件到此处上传',
   },
+  hint: {
+    mimeLimitTplt: '文件类型限制：${limit}',
+    countLimitTplt: '文件个数限制：${limit}',
+    pictureLimitTplt: '图片像素限制：${limit}',
+    sizeLimitTplt: '文件大小限制：${limit}',
+  },
 }
