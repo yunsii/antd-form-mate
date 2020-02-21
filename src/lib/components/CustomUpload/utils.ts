@@ -1,3 +1,7 @@
+import _template from 'lodash/template';
+
+import { IntlType } from '../../../intl-context';
+
 export function processDimensionLimit(dimensionLimit: string) {
   let result: any[] = [false, false];
   const getWidthAndHeight = (item: string) => item.split('*').map(item => parseInt(item, 10));
@@ -44,4 +48,41 @@ export function isLimitDimension(limits: any[], dimension: { width: number, heig
     return isMoreOrEqual(limits[0]);
   }
   return isMoreOrEqual(limits[0]) && isLessOrEqual(limits[1]);
+}
+
+export const setMimeLimitHint = (intl: IntlType) => (accept: string) => {
+  console.log(intl.getMessage('hint.mimeLimitTplt', '文件类型限制：${ limit }'));
+  return _template(intl.getMessage('hint.mimeLimitTplt', '文件类型限制：${ limit }'))({ limit: accept });
+}
+
+export const setCountLimitHint = (intl: IntlType) => (countLimit: number) => {
+  return _template(intl.getMessage('hint.countLimitTplt', '文件个数限制：${ limit }'))({ limit: countLimit });
+}
+
+export const setSizeLimitHint = (intl: IntlType) => (sizeLimit: number) => {
+  let limit = `${sizeLimit} B`;
+  function setUnit(power: number) {
+    switch(power) {
+      case 3:
+        return 'GB';
+      case 2:
+        return 'MB';
+      case 1:
+        return 'KB';
+      default:
+        return 'B';
+    }
+  }
+  for (let i = 3; i > 0; i--) {
+    const number = sizeLimit / Math.pow(1024, i);
+    if (number >= 1) {
+      limit = `${number.toFixed(2)} ${setUnit(i)}`;
+      break;
+    }
+  }
+  return _template(intl.getMessage('hint.sizeLimitTplt', '文件大小限制：${ limit }'))({ limit });
+}
+
+export const setDimensionLimitHint = (intl: IntlType) => (dimensionLimit: string) => {
+  return _template(intl.getMessage('hint.dimensionLimitTplt', '图片像素限制：${ limit }'))({ limit: dimensionLimit });
 }
