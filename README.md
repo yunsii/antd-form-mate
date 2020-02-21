@@ -205,3 +205,5 @@ export const defaultExtra = {
 ```
 Warning: Instance created by `useForm` is not connect to any Form element. Forget to pass `form` prop?
 ```
+
+11. 移除上传组件的 `countLimitHint` ，`sizeLimitHint` 和 `imageLimitHint` ，使用国际化的 `hint` 字段实现。
