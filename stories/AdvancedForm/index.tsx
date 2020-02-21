@@ -27,17 +27,19 @@ class AdvancedForm extends React.Component {
         },
         componentProps: {
           filesCountLimit: 4,
+          fileSizeLimit: 500 * 1024,
           // accept: 'image/*',
           // dimensionLimit: '520*360',
           // dimensionLimit: '<520*360',
           // dimensionLimit: '>520*360',
           // dimensionLimit: '520*360,1920*1080',
-          // checkImage: ({ name }) => {
-          //   if (/[A-Za-z0-9]*/.test(name.split('.')[0])) {
-          //     return '文件名称仅限字母数字';
-          //   }
-          //   return;
-          // },
+          checkImage: ({ name }) => {
+            console.log(name);
+            if (/[A-Za-z0-9]*/.test(name.split('.')[0])) {
+              return '文件名称仅限字母数字';
+            }
+            return;
+          },
 
           onChange: (file) => {
             console.log(file);
