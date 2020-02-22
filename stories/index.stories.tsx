@@ -3,16 +3,12 @@ import { storiesOf } from '@storybook/react';
 import PicturesWall from './PictureWall';
 import BasicForm from './BasicForm';
 import AdvancedForm from './AdvancedForm';
-import EditableTable from './EditableTable';
 
 storiesOf('ant-form-mate', module)
   .add('Basic', () => <BasicForm />);
 
 storiesOf('ant-form-mate', module)
   .add('Advanced', () => <AdvancedForm />);
-
-storiesOf('custom components', module)
-  .add('EditableTable', () => <EditableTable />);
 
 storiesOf('antd official demo', module)
   .add('PictureWall', () => <PicturesWall />);
