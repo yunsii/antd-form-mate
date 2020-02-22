@@ -174,6 +174,24 @@ export default BasicForm;
 
 参考 [EditableTable/index.tsx](/stories/EditableTable/index.tsx) 。
 
+## 模块
+
+### 组件
+
+将注册新类型的模块称为组件。
+
+|    | 仓库 | 说明 |
+| -- | ---- | ---- |
+| 1  | [antd-form-mate-location](https://github.com/theprimone/antd-form-mate-location) | 高德地图地理位置录入 |
+
+## 扩展
+
+将基于本组件实现的新功能的模块称为扩展。
+
+|    | 仓库 | 说明 |
+| -- | ---- | ---- |
+| 1  | [antd-form-mate-editable](https://github.com/theprimone/antd-form-mate-editable) | 可编辑表格 |
+
 ## To Do
 
 [antd-form-mate-v4](https://github.com/theprimone/antd-form-mate/projects/1)
@@ -207,3 +225,4 @@ Warning: Instance created by `useForm` is not connect to any Form element. Forge
 ```
 
 11. 移除上传组件的 `countLimitHint` ，`sizeLimitHint` 和 `imageLimitHint` ，使用国际化的 `hint` 字段实现。
+12. 移除 `EditableTable` 组件和 `addDivider` 工具方法。剥离到 [antd-form-mate-editable](https://github.com/theprimone/antd-form-mate-editable) ，单独安装使用。
