@@ -146,34 +146,6 @@ export default BasicForm;
 
 未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
 
-## EditableTable
-
-结合前一节配置化表单实现的可编辑表格
-
-### API
-
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `form` | `FormInstance` 注入的表单实例 | FormInstance | - |
-| `columns` | 扩展列模型 | [`EditableColumnProps`](/src/lib/components/EditableTable/index.tsx#L22) | - |
-| `initialData` | 表格初始化数据 | `T[]` | - |
-| `onCreate` | 点击保存后该记录无 `id` 触发该事件  | `(fieldsValue: T & { key: number }) => Promise<boolean \| void>` | - |
-| `onUpdate` | 点击保存后该记录有 `id` 触发该事件 | `(fieldsValue: T & { key: number }) => Promise<boolean \| void>` | - |
-| `onDelete` | 删除点击事件，仅当该记录有 `id` 时触发 | `(record: T & { key: number }) => Promise<boolean \| void>` | - |
-| `onDataChange` | 表格数据更新事件，切忌用于更新同一数据源的 `initialData` ，否者会导致表格无法正常编辑。更新 `initialData` 应只用于不同对象之间。 | `(data: T[]) => void` | - |
-| `onCancel` | 取消编辑点击事件 | `(prevRecord: T & { key: number }, record: T & { key: number }) => void` | - |
-| `onRecordAdd` | 当添加一条记录时，需要写入额外的默认值时可调用该方法 | `(initialRecord: T, prevData: T[]) => T` | - |
-| `editingKey` | 获取正在编辑的 `key` | `React.ElementType` | - |
-| `loading` | 加载中状态 | `boolean` | - |
-
-#### 关于 `key`
-
-内部使用自增变量作为每条记录的 `key` ，故反复删除添加仍能保证 `key` 的唯一性。
-
-### 基础用法
-
-参考 [EditableTable/index.tsx](/stories/EditableTable/index.tsx) 。
-
 ## 模块
 
 ### 组件
