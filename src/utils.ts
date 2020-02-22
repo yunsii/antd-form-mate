@@ -1,5 +1,3 @@
-import React from 'react';
-import { Divider } from 'antd';
 import _keys from "lodash/keys";
 import _cloneDeep from "lodash/cloneDeep";
 import _pick from "lodash/pick";
@@ -112,15 +110,4 @@ export const progressXhr: (url: string, data: ProgressEventData, events: Progres
     });
     xhr.send(data);
   })
-}
-
-export function addDivider(actions: React.ReactNode[]) {
-  return _flatten(
-    actions.map((item, index) => {
-      if (index + 1 < actions.length) {
-        return [item, <Divider key={`${index}_divider`} type="vertical" />];
-      }
-      return [item];
-    })
-  );
 }
