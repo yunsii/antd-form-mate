@@ -1,22 +1,11 @@
 import React, { forwardRef } from "react";
 import { Select, Spin } from "antd";
-
-const { Option } = Select;
-
-export type Option = {
-  text: any;
-  value: any;
-  disabled?: boolean;
-}
-
-export type GroupOption = {
-  text: any;
-  options: Option[],
-}
+import { OptionProps } from 'rc-select/lib/Option';
+import { OptGroupProps } from 'rc-select/lib/OptGroup';
 
 export interface CustomSelectProps {
-  groupOptions?: GroupOption[];
-  options?: Option[];
+  groupOptions?: OptGroupProps[];
+  options?: OptionProps[];
   disabledStyle?: React.CSSProperties;
   loading?: boolean;
   style?: React.CSSProperties;
@@ -32,16 +21,16 @@ export default forwardRef<Select, CustomSelectProps>((props, ref) => {
     ...rest
   } = props;
 
-  const renderOptions = (items: Option[]) => (
+  const renderOptions = (items: OptionProps[]) => (
     items.map(item => (
-      <Option
+      <Select.Option
         key={item.value}
         value={item.value}
         disabled={item.disabled}
         style={item.disabled ? disabledStyle : {}}
       >
-        {item.text}
-      </Option>
+        {item.label}
+      </Select.Option>
     ))
   )
 
@@ -53,7 +42,7 @@ export default forwardRef<Select, CustomSelectProps>((props, ref) => {
       >
         {groupOptions && groupOptions.map(item => {
           return (
-            <Select.OptGroup label={item.text} key={item.text}>
+            <Select.OptGroup label={item.label} key={item.label}>
               {renderOptions(item.options)}
             </Select.OptGroup>
           )
