@@ -1,13 +1,7 @@
 import React from 'react';
 import { Radio, Row, Col } from 'antd';
 import { RadioGroupProps } from 'antd/lib/radio';
-import { CheckboxOptionType } from 'antd/lib/checkbox';
-
-export interface Option extends CheckboxOptionType {
-  key?: any;
-  label: never
-  text: string;
-}
+import _isString from 'lodash/isString';
 
 export interface CustomRadioGroupProps extends RadioGroupProps {
   cols?: 1 | 2 | 3 | 4 | 6 | 8 | 12 | 24;
@@ -18,25 +12,25 @@ export default class CustomRadioGroup extends React.Component<CustomRadioGroupPr
     const { cols, options = [], ...rest } = this.props;
     if (!cols) {
       return (
-        <Radio.Group {...rest}>
-          {options && (options as Option[]).map((item) => {
-            const { value, ...rest } = item;
-            return (
-              <Radio key={item.value} value={item.value} {...rest}>{item.text}</Radio>
-            )
-          })}
-        </Radio.Group>
+        <Radio.Group options={options} {...rest} />
       )
     }
     const span = 24 / cols;
     return (
       <Radio.Group {...rest}>
         <Row>
-          {options && (options as Option[]).map((item) => {
+          {options && options.map((item) => {
+            if (_isString(item)) {
+              return (
+                <Col>
+                  <Radio value={item}>{item}</Radio>
+                </Col>
+              );
+            }
             const { value, ...rest } = item;
             return (
               <Col key={`${item.value}`} span={span}>
-                <Radio value={item.value} {...rest}>{item.text}</Radio>
+                <Radio value={item.value} {...rest}>{item.label}</Radio>
               </Col>
             )
           })}
