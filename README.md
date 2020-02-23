@@ -198,3 +198,4 @@ Warning: Instance created by `useForm` is not connect to any Form element. Forge
 
 11. 移除上传组件的 `countLimitHint` ，`sizeLimitHint` 和 `imageLimitHint` ，使用国际化的 `hint` 字段实现。
 12. 移除 `EditableTable` 组件和 `addDivider` 工具方法。剥离到 [antd-form-mate-editable](https://github.com/theprimone/antd-form-mate-editable) ，单独安装使用。
+13. 替换 `select` ， `check-group` 和 `radio-group` 中的 `text` 字段，使用默认的 `label` 字段。
