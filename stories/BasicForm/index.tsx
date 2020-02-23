@@ -55,11 +55,11 @@ const BasicForm: React.FC = () => {
       componentProps: {
         options: [
           {
-            text: '地球',
+            label: '地球',
             value: 'earth',
           },
           {
-            text: '银河',
+            label: '银河',
             value: 'galaxy',
           },
         ],
@@ -75,15 +75,14 @@ const BasicForm: React.FC = () => {
       componentProps: {
         options: [
           {
-            text: '地球',
+            label: '地球',
             value: 'earth',
           },
           {
-            text: '银河',
+            label: '银河',
             value: 'galaxy',
           },
         ],
-        disabled: true,
         onChange: (value) => {
           console.log(value);
         },
@@ -160,27 +159,27 @@ const BasicForm: React.FC = () => {
       componentProps: {
         groupOptions: [
           {
-            text: '星系',
+            label: '星系',
             options: [
               {
-                text: '地球',
+                label: '地球',
                 value: 'earth',
               },
               {
-                text: '银河',
+                label: '银河',
                 value: 'galaxy',
               },
             ],
           },
           {
-            text: '水果',
+            label: '水果',
             options: [
               {
-                text: '香蕉',
+                label: '香蕉',
                 value: 'banana',
               },
               {
-                text: '苹果',
+                label: '苹果',
                 value: 'apple',
               },
             ],
@@ -188,11 +187,11 @@ const BasicForm: React.FC = () => {
         ],
         // options: [
         //   {
-        //     text: '地球',
+        //     label: '地球',
         //     value: 'earth',
         //   },
         //   {
-        //     text: '银河',
+        //     label: '银河',
         //     value: 'galaxy',
         //   },
         // ],
