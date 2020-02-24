@@ -4,11 +4,11 @@
 
 基于 ant design 的表单组件，配置化实现表单功能。
 
-[![GitHub license](https://img.shields.io/github/license/theprimone/antd-form-mate.svg)](https://github.com/theprimone/antd-form-mate/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/zpr1g/antd-form-mate.svg)](https://github.com/zpr1g/antd-form-mate/blob/master/LICENSE)
 [![npm Version](https://img.shields.io/npm/v/antd-form-mate.svg)](https://www.npmjs.com/package/antd-form-mate)
-[![GitHub stars](https://img.shields.io/github/stars/theprimone/antd-form-mate.svg)](https://github.com/theprimone/antd-form-mate/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/theprimone/antd-form-mate.svg)](https://github.com/theprimone/antd-form-mate/issues)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/theprimone/antd-form-mate.svg)](https://github.com/theprimone/antd-form-mate/commits/master)
+[![GitHub stars](https://img.shields.io/github/stars/zpr1g/antd-form-mate.svg)](https://github.com/zpr1g/antd-form-mate/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/zpr1g/antd-form-mate.svg)](https://github.com/zpr1g/antd-form-mate/issues)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/zpr1g/antd-form-mate.svg)](https://github.com/zpr1g/antd-form-mate/commits/master)
 
 </div>
 
@@ -27,7 +27,7 @@ npm i -S antd-form-mate
 基于 [Storybook](https://storybook.js.org/docs/guides/guide-react/) 开发调试。
 
 ```shell
-$ git clone https://github.com/theprimone/antd-form-mate.git
+$ git clone https://github.com/zpr1g/antd-form-mate.git
 $ cd antd-form-mate
 $ npm install
 $ npm start
@@ -154,7 +154,7 @@ export default BasicForm;
 
 |    | 仓库 | 说明 |
 | -- | ---- | ---- |
-| 1  | [antd-form-mate-location](https://github.com/theprimone/antd-form-mate-location) | 高德地图地理位置录入 |
+| 1  | [antd-form-mate-location](https://github.com/zpr1g/antd-form-mate-location) | 高德地图地理位置录入 |
 
 ## 扩展
 
@@ -162,11 +162,11 @@ export default BasicForm;
 
 |    | 仓库 | 说明 |
 | -- | ---- | ---- |
-| 1  | [antd-form-mate-editable](https://github.com/theprimone/antd-form-mate-editable) | 可编辑表格 |
+| 1  | [antd-form-mate-editable](https://github.com/zpr1g/antd-form-mate-editable) | 可编辑表格 |
 
 ## To Do
 
-[antd-form-mate-v4](https://github.com/theprimone/antd-form-mate/projects/1)
+[antd-form-mate-v4](https://github.com/zpr1g/antd-form-mate/projects/1)
 
 ## 升级
 
@@ -189,7 +189,7 @@ export const defaultExtra = {
 };
 ```
 
-9. 新增 `registerComponent` 功能，可通过注册组件实现类型扩展或重写已有类型的组件。此外通过这种方式将 `location` 类型组件剥离到 [antd-form-mate-location](https://github.com/theprimone/antd-form-mate-location) ，可单独安装使用。
+9. 新增 `registerComponent` 功能，可通过注册组件实现类型扩展或重写已有类型的组件。此外通过这种方式将 `location` 类型组件剥离到 [antd-form-mate-location](https://github.com/zpr1g/antd-form-mate-location) ，可单独安装使用。
 10. 新增 `withCol` 属性，可直接让每个组件被 `Col` 组件包裹。特别的，当同时使用了 `withCol` 功能 、 `dynamic` 类型和 `component` 字段时，切记返回组件时一定要使用 `Col` 组件包裹，因此，该场景下尽可能的使用 `generateFn` 即可避免这样繁琐的问题（如果内建组件没有需要的组件，可以试试 `registerComponent` ）。之所以这样是由于该函数由 `Form` 组件去执行，当主动去调用时，`form` 的实例还没与 `Form` 绑定，会报警告：
 
 ```
@@ -197,5 +197,5 @@ Warning: Instance created by `useForm` is not connect to any Form element. Forge
 ```
 
 11. 移除上传组件的 `countLimitHint` ，`sizeLimitHint` 和 `imageLimitHint` ，使用国际化的 `hint` 字段实现。
-12. 移除 `EditableTable` 组件和 `addDivider` 工具方法。剥离到 [antd-form-mate-editable](https://github.com/theprimone/antd-form-mate-editable) ，单独安装使用。
+12. 移除 `EditableTable` 组件和 `addDivider` 工具方法。剥离到 [antd-form-mate-editable](https://github.com/zpr1g/antd-form-mate-editable) ，单独安装使用。
 13. 替换 `select` ， `check-group` 和 `radio-group` 中的 `text` 字段，使用默认的 `label` 字段。
