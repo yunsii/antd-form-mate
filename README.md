@@ -14,7 +14,7 @@
 
 ![antd-form-mate-basic.png](https://i.loli.net/2020/02/20/lOFpTMW75JukNZC.png)
 
-**[在线预览 ->](http://theprimone.github.io/antd-form-mate)**
+**[在线预览 ->](http://zpr1g.github.io/antd-form-mate)**
 
 ## 安装
 
