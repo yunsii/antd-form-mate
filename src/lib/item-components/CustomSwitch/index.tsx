@@ -1,15 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import { Switch } from "antd";
+import { SwitchProps } from 'antd/lib/switch';
+
 import { setSwitchValue } from "../../setValue";
 
-export interface CustomSwitchProps {
+export interface CustomSwitchProps extends Omit<SwitchProps, 'checked'> {
   checked?: boolean | number;
 }
 
-export default class CustomSwitch extends Component<CustomSwitchProps> {
-
-  render() {
-    const { checked, ...rest } = this.props;
+const CustomSwitch: React.FC<CustomSwitchProps> = (props) => {
+    const { checked, ...rest } = props;
     return <Switch {...rest} checked={setSwitchValue(checked)} />;
-  }
 }
+
+export default CustomSwitch;
