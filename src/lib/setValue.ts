@@ -18,6 +18,8 @@ export function setInitialValue(type: ComponentType, value: any) {
     case 'picture':
     case 'file-dragger':
       return setFileList({ value });
+    case 'switch':
+      return setSwitchValue(value);
     default:
       return value;
   }
@@ -73,4 +75,8 @@ export function setFileList(props: CustomDraggerProps | PicturesWallProps): Uplo
     })
   }
   return fileList;
+}
+
+export function setSwitchValue(value?: boolean | number) {
+  return !!value;
 }
