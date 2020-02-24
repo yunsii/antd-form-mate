@@ -18,7 +18,6 @@ export { default as CheckGroup } from './lib/item-components/CustomCheckGroup';
 export { default as DatePicker } from './lib/item-components/CustomDatePicker';
 export { default as RadioGroup } from './lib/item-components/CustomRadioGroup';
 export { default as Select } from './lib/item-components/CustomSelect';
-export { default as Switch } from './lib/item-components/CustomSwitch';
 export { default as Dragger } from './lib/item-components/CustomDragger';
 export { default as PicturesWall } from './lib/item-components/PicturesWall';
 

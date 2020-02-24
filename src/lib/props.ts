@@ -2,12 +2,13 @@ import { FormItemProps, FormInstance } from "antd/lib/form";
 import { InputNumberProps } from "antd/lib/input-number";
 import { PasswordProps, TextAreaProps, InputProps } from "antd/lib/input";
 import { SliderProps } from "antd/lib/slider";
+import { SwitchProps } from "antd/lib/switch";
 import { NamePath } from 'rc-field-form/lib/interface';
+
 import {
   CustomDatePickerProps,
   CustomRangePickerProps,
 } from "./item-components/CustomDatePicker/index";
-import { CustomSwitchProps } from "./item-components/CustomSwitch/index";
 import { CustomSelectProps } from "./item-components/CustomSelect/index";
 import { PicturesWallProps } from "./item-components/PicturesWall/index";
 import { CustomDraggerProps } from "./item-components/CustomDragger";
@@ -52,7 +53,7 @@ export type ComponentProps =
   | CustomSelectProps
   | PasswordProps
   | PicturesWallProps
-  | CustomSwitchProps
+  | SwitchProps
   | SliderProps
   | CustomDraggerProps
   | CustomCheckGroupProps
