@@ -6,6 +6,7 @@ import _findIndex from "lodash/findIndex";
 import _get from "lodash/get";
 import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { UploadFile } from 'antd/lib/upload/interface';
+
 import ImagesViewer from '../../components/ImagesViewer';
 import CustomUpload, {
   CustomUploadPorps,

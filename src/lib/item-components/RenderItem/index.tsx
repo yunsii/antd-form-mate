@@ -4,10 +4,10 @@ import _isFunction from 'lodash/isFunction';
 import _find from 'lodash/find';
 import { Form } from "antd";
 import { FormInstance } from "antd/lib/form";
+
 import { CustomFormItemProps, ItemConfig, Layout, WithCol } from "../../props";
 import { defaultItemLayout } from '../../../default-config';
 import { ConfigContext } from '../../../config-context/context';
-// import setInitialValue from '../../setValue';
 import getComponent from '../../map';
 import { setValuePropName } from './utils';
 import { renderCol } from '../../utils';
