@@ -83,14 +83,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theprimone/antd-form-mate.git"
+    "url": "git+https://github.com/zpr1g/antd-form-mate.git"
   },
   "bugs": {
-    "url": "https://github.com/theprimone/antd-form-mate/issues"
+    "url": "https://github.com/zpr1g/antd-form-mate/issues"
   },
-  "homepage": "https://github.com/theprimone/antd-form-mate#readme",
+  "homepage": "https://github.com/zpr1g/antd-form-mate#readme",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
-  "author": "theprimone <yuns.xie@qq.com> (https://theprimone.top/)",
+  "author": "zpr1g <yuns.xie@qq.com> (https://theprimone.top/)",
   "license": "MIT"
 }
