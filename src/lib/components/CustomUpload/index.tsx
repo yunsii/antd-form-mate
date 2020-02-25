@@ -62,13 +62,13 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
       if (dimensionLimit) {
         const limits = processDimensionLimit(dimensionLimit);
         console.log(limits);
-        if (isLimitDimension(limits, dimension)) {
-          return resolve();
+        if (!isLimitDimension(limits, dimension)) {
+          message.error(dimensionLimitHint(dimensionLimit));
+          return reject();
         }
       }
 
-      message.error(dimensionLimitHint(dimensionLimit));
-      return reject();
+      return resolve();
     }
 
     const isLtCount = uploadedFileList.length < filesCountLimit;
