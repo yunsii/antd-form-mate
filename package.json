@@ -1,7 +1,7 @@
 {
   "name": "antd-form-mate",
   "description": "基于 ant design 的表单组件",
-  "version": "4.0.0-rc.6",
+  "version": "4.0.0-rc.7",
   "main": "./dist/index.js",
   "dependencies": {
     "@ant-design/icons": "^4.0.0-rc.0",
@@ -19,7 +19,8 @@
     "lint": "tslint --project tsconfig.json",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -s public",
-    "release": "release-it --npm.tag=next --verbose"
+    "release": "release-it --npm.tag=next --verbose",
+    "publish-next": "npm publish --tag next"
   },
   "eslintConfig": {
     "extends": "react-app"
