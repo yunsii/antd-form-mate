@@ -6,10 +6,9 @@
   "dependencies": {
     "@ant-design/icons": "^4.0.2",
     "antd": "^4.0.0",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "react": "^16.8.6",
-    "react-amap": "^1.2.8",
-    "react-amap-plugin-custom-geolocation": "^1.0.1",
     "react-viewer": "^3.1.0"
   },
   "scripts": {
