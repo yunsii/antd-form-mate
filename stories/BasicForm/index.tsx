@@ -157,7 +157,7 @@ const BasicForm: React.FC = () => {
         label: '选择',
       },
       componentProps: {
-        groupOptions: [
+        options: [
           {
             label: '星系',
             options: [
