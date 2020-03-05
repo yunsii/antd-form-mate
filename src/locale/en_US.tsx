@@ -1,10 +1,10 @@
 export default {
   placeholder: {
-    number: 'Enter...',
-    string: 'Enter...',
-    textarea: 'Enter...',
+    number: 'Please enter',
+    string: 'Please enter',
+    textarea: 'Please enter',
     password: 'Enter password',
-    select: 'Select...',
+    select: 'Please select',
   },
   message: {
     isRequired: 'is required',
