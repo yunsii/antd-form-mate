@@ -13,6 +13,7 @@ import { PicturesWallProps } from "./item-components/PicturesWall/index";
 import { CustomDraggerProps } from "./item-components/CustomDragger";
 import { CustomCheckGroupProps } from "./item-components/CustomCheckGroup/index";
 import { CustomRadioGroupProps } from "./item-components/CustomRadioGroup/index";
+import { InputNumberRangeProps } from "./item-components/InputNumberRange/index";
 import { ColProps } from "antd/lib/col";
 
 export type ComponentType =
@@ -24,6 +25,7 @@ export type ComponentType =
   | "date-range"
   | "datetime-range"
   | "number"
+  | "number-range"
   | "select"
   | "password"
   | "picture"
@@ -49,6 +51,7 @@ export type ComponentProps =
   | CustomDatePickerProps
   | CustomRangePickerProps
   | InputNumberProps
+  | InputNumberRangeProps
   | CustomSelectProps
   | PasswordProps
   | PicturesWallProps

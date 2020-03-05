@@ -9,6 +9,7 @@ import PicturesWall from "./item-components/PicturesWall/index";
 import CustomDragger from "./item-components/CustomDragger";
 import CustomCheckGroup from "./item-components/CustomCheckGroup/index";
 import CustomRadioGroup from "./item-components/CustomRadioGroup/index";
+import InputNumberRange from './item-components/InputNumberRange';
 import {
   ComponentType,
   ComponentProps,
@@ -35,6 +36,7 @@ registerComponent('number', (
     <InputNumber />
   </InjectIntl>
 ));
+registerComponent('number-range', <InputNumberRange />);
 registerComponent('select', (
   <InjectIntl
     propName='placeholder'

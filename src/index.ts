@@ -21,6 +21,7 @@ export { default as Select } from './lib/item-components/CustomSelect';
 export { default as Switch } from './lib/item-components/CustomSwitch';
 export { default as Dragger } from './lib/item-components/CustomDragger';
 export { default as PicturesWall } from './lib/item-components/PicturesWall';
+export { default as InputNumberRange } from './lib/item-components/InputNumberRange';
 
 export {
   getBase64,
