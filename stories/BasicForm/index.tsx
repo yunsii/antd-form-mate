@@ -151,6 +151,13 @@ const BasicForm: React.FC = () => {
       },
     },
     {
+      type: 'number-range',
+      name: 'number-range',
+      formItemProps: {
+        label: '数字区间',
+      },
+    },
+    {
       type: 'select',
       name: 'select',
       formItemProps: {
@@ -304,7 +311,7 @@ const BasicForm: React.FC = () => {
         onFinishFailed={handleFinishFailed}
         initialValues={initialValues}
         onValuesChange={(changedValues, allValues) => {
-          console.log(changedValues, allValues);
+          console.log('onValuesChange', changedValues, allValues);
         }}
       >
         {/* {createFormItems(formItems)}
