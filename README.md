@@ -57,6 +57,7 @@ $ npm start
 | 15 | `check-group`    | 多选框          |
 | 16 | `radio-group`    | 单选框          |
 | 17 | `dynamic`          | 条件渲染         |
+| 18 | `number-range`     | 数字区间         |
 
 除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 和 `dynamic` 类型外的组件。
 
