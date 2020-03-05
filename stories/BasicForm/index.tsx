@@ -26,6 +26,7 @@ const BasicForm: React.FC = () => {
     'datetime-period': ['2019-01-01', '2019-08-07'],
     select: 'earth',
     switch: 0,
+    'number-range': [0, 4],
   };
   const [text, setText] = useState<string>();
 
@@ -342,6 +343,16 @@ const BasicForm: React.FC = () => {
                 htmlType="submit"
               >
                 提交
+              </Button>
+              <Button
+                style={{ marginLeft: 8 }}
+                onClick={() => {
+                  form.setFieldsValue({
+                    "number-range": [4, 6.4],
+                  });
+                }}
+              >
+                其他
               </Button>
             </Form.Item>
           </Col>
