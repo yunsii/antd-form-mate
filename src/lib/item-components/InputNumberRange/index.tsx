@@ -6,6 +6,7 @@ import _isNumber from 'lodash/isNumber';
 
 import { useUpdateEffect } from '../../hooks'
 import { useIntl } from '../../../intl-context';
+import styles from './index.less';
 
 export type CustomInputNumberProps = Omit<InputNumberProps, "style" | "value" | "onChange">
 
@@ -64,12 +65,9 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
       <Input
         style={{
           width: separatorWidth,
-          borderLeft: 0,
-          pointerEvents: 'none',
-          backgroundColor: '#fff',
         }}
+        className={styles.separator}
         placeholder={separator || "~"}
-        disabled
       />
       <InputNumber
         placeholder={intl.getMessage("placeholder.number", "请输入")}
