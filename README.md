@@ -167,7 +167,7 @@ export default BasicForm;
 
 ## To Do
 
-[antd-form-mate-v4](https://github.com/zpr1g/antd-form-mate/projects/1)
+- [x] [antd-form-mate-v4](https://github.com/zpr1g/antd-form-mate/projects/1)
 
 ## 升级
 
