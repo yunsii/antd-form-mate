@@ -206,6 +206,45 @@ const BasicForm: React.FC = () => {
       },
     },
     {
+      type: 'cascader',
+      name: 'cascader',
+      formItemProps: {
+        label: '级联',
+      },
+      componentProps: {
+        options: [
+          {
+            label: '蔬菜',
+            value: 'vegetable',
+            children: [
+              {
+                label: '土豆',
+                value: 'potato',
+              },
+              {
+                label: '白菜',
+                value: 'cabbage',
+              },
+            ],
+          },
+          {
+            label: '水果',
+            value: 'fruit',
+            children: [
+              {
+                label: '香蕉',
+                value: 'banana',
+              },
+              {
+                label: '苹果',
+                value: 'apple',
+              },
+            ],
+          },
+        ]
+      }
+    },
+    {
       type: 'textarea',
       name: 'textarea',
       formItemProps: {
