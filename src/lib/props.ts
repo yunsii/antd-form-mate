@@ -2,6 +2,7 @@ import { FormItemProps, FormInstance } from "antd/lib/form";
 import { InputNumberProps } from "antd/lib/input-number";
 import { PasswordProps, TextAreaProps, InputProps } from "antd/lib/input";
 import { SliderProps } from "antd/lib/slider";
+import { CascaderProps } from "antd/lib/cascader";
 import { NamePath } from 'rc-field-form/lib/interface';
 import {
   CustomDatePickerProps,
@@ -27,6 +28,7 @@ export type ComponentType =
   | "number"
   | "number-range"
   | "select"
+  | "cascader"
   | "password"
   | "picture"
   | "switch"
@@ -53,6 +55,7 @@ export type ComponentProps =
   | InputNumberProps
   | InputNumberRangeProps
   | CustomSelectProps
+  | CascaderProps
   | PasswordProps
   | PicturesWallProps
   | CustomSwitchProps

@@ -1,7 +1,7 @@
 import React from "react";
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
-import { Input, InputNumber, Slider } from "antd";
+import { Input, InputNumber, Slider, Cascader } from "antd";
 import CustomDatePicker, { CustomRangePicker } from "./item-components/CustomDatePicker/index";
 import CustomSwitch from "./item-components/CustomSwitch/index";
 import CustomSelect from "./item-components/CustomSelect/index";
@@ -78,6 +78,15 @@ registerComponent('string', (
     intlDefaultMessage='请输入'
   >
     <Input />
+  </InjectIntl>
+));
+registerComponent('cascader', (
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.select'
+    intlDefaultMessage='请选择'
+  >
+    <Cascader />
   </InjectIntl>
 ));
 
