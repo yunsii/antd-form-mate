@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Input, InputNumber } from 'antd';
 import { InputNumberProps } from 'antd/lib/input-number';
 import _get from 'lodash/get';
 import _isNumber from 'lodash/isNumber';
 
-import { useUpdateEffect } from '../../hooks'
 import { useIntl } from '../../../intl-context';
 import styles from './index.less';
 
@@ -30,25 +29,17 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   const getValue1 = () => _get(value, "[0]");
   const getValue2 = () => _get(value, "[1]");
 
-  const [value1, setValue1] = useState<number | undefined>(getValue1());
-  const [value2, setValue2] = useState<number | undefined>(getValue2());
-
-  // 与外部数据同步，当 value 为受控状态时，同步到内部状态中
-  useUpdateEffect(() => {
-    if (_isNumber(getValue1()) && _isNumber(getValue2())) {
-      setValue1(getValue1());
-      setValue2(getValue2());
+  const setValue1 = (v1) => {
+    if (_isNumber(v1)) {
+      onChange?.([v1, getValue2()]);
     }
-  }, [value]);
+  }
 
-  // 内部数据同步，当两个值有变化时，如果两个值都有效，触发 `onChange` ，返回数组；否则返回 undefined
-  useUpdateEffect(() => {
-    if (_isNumber(value1) && _isNumber(value2)) {
-      onChange?.([value1, value2]);
-    } else {
-      onChange?.();
+  const setValue2 = (v2) => {
+    if (_isNumber(v2)) {
+      onChange?.([getValue1(), v2]);
     }
-  }, [value1, value2]);
+  }
 
   return (
     <Input.Group compact>
@@ -57,14 +48,14 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
         {...number1Props}
         style={{
           width: inputWidth,
-          textAlign: 'center',
         }}
-        value={value1}
+        value={getValue1()}
         onChange={_value => { setValue1(_value) }}
       />
       <Input
         style={{
           width: separatorWidth,
+          zIndex: -1,
         }}
         className={styles.separator}
         placeholder={separator || "~"}
@@ -74,10 +65,8 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
         {...number2Props}
         style={{
           width: inputWidth,
-          textAlign: 'center',
-          borderLeft: 0,
         }}
-        value={value2}
+        value={getValue2()}
         onChange={_value => { setValue2(_value) }}
       />
     </Input.Group>
