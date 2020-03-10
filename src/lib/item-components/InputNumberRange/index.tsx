@@ -55,7 +55,6 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
       <Input
         style={{
           width: separatorWidth,
-          zIndex: -1,
         }}
         className={styles.separator}
         placeholder={separator || "~"}
