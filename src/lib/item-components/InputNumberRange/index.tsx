@@ -9,7 +9,7 @@ import styles from './index.less';
 
 export type CustomInputNumberProps = Omit<InputNumberProps, "style" | "value" | "onChange">
 
-const separatorWidth = 32;
+const separatorWidth = 36;
 const inputWidth = `calc(50% - ${separatorWidth / 2}px)`;
 
 export type NumberRangeValue = undefined | [number, number];
@@ -52,7 +52,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
         value={getValue1()}
         onChange={_value => { setValue1(_value) }}
       />
-      <Input
+      <InputNumber
         style={{
           width: separatorWidth,
         }}
