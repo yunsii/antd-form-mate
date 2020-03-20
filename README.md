@@ -62,6 +62,10 @@ $ npm start
 
 除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 和 `dynamic` 类型外的组件。
 
+#### 表单实战总结
+
+1. 对于**特殊类型**的字段值在设置初始值时可构造为组件内部的所需的值类型，以便后续表单值的统一处理，避免一些繁琐的判断。特殊类型像日期时间（ `moment` ）、选择（ `(string | number)[]` ）、文件（ `{ uid: string, name: string url: string, status: "done" }[]` ）、开关（ `boolean` ）等，
+
 ### API
 
 #### 表单项
