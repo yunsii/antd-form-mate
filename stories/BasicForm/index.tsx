@@ -4,7 +4,7 @@ import moment from 'moment';
 // import { Form, Button } from 'antd';
 import { Form, Button, Row, Col } from 'antd';
 import { createFormItems } from '../FormMate';
-import { ItemConfig, ComponentType } from '../../src/lib/props';
+import { ItemConfig, ComponentType } from '../../src/interfaces';
 import { ConfigProvider } from '../../src';
 
 const { useState, useEffect } = React;

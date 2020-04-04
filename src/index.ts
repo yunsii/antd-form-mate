@@ -1,4 +1,4 @@
-export { ConfigProvider } from './config-context';
+export { ConfigProvider } from './contexts/ConfigContext';
 export {
   IntlProvider,
   IntlConsumer,
@@ -6,25 +6,25 @@ export {
   IntlType,
   zhCNIntl,
   enUSIntl,
-} from './intl-context';
-export { default as createFormItems } from './lib/form-mate';
-export { registerComponent } from './lib/map';
-export { defaultItemLayout } from './default-config';
+} from './contexts/Intlcontext';
+export { default as createFormItems } from './components/FormMate';
+export { registerComponent } from './map';
+export { defaultItemLayout } from './defaultConfig';
 
-export { default as Upload } from './lib/components/CustomUpload';
-export { default as ImagesViewer } from './lib/components/ImagesViewer';
+export { default as Upload } from './components/commons/CustomUpload';
+export { default as ImagesViewer } from './components/commons/ImagesViewer';
 
-export { default as CheckGroup } from './lib/item-components/CustomCheckGroup';
-export { default as DatePicker } from './lib/item-components/CustomDatePicker';
-export { default as RadioGroup } from './lib/item-components/CustomRadioGroup';
-export { default as Select } from './lib/item-components/CustomSelect';
-export { default as Switch } from './lib/item-components/CustomSwitch';
-export { default as Dragger } from './lib/item-components/CustomDragger';
-export { default as PicturesWall } from './lib/item-components/PicturesWall';
-export { default as InputNumberRange } from './lib/item-components/InputNumberRange';
+export { default as CheckGroup } from './components/CustomCheckGroup';
+export { default as DatePicker } from './components/CustomDatePicker';
+export { default as RadioGroup } from './components/CustomRadioGroup';
+export { default as Select } from './components/CustomSelect';
+export { default as Switch } from './components/CustomSwitch';
+export { default as Dragger } from './components/CustomDragger';
+export { default as PicturesWall } from './components/PicturesWall';
+export { default as InputNumberRange } from './components/InputNumberRange';
 
 export {
   getBase64,
   getImageDimension,
   progressXhr,
-} from './utils';
+} from './utils/commons';
