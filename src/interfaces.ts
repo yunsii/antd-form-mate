@@ -86,6 +86,17 @@ export interface ItemConfig {
   generateFn?: (form: FormInstance) => GenerateItemConfig | null;
 }
 
+/**
+ * `children` prop is usable with `custom` and `dynamic` type.
+ */
+export interface FormMateItemProps extends CustomFormItemProps {
+  type?: ComponentType;
+  name: NamePath;
+  componentProps?: ComponentProps;
+  // usable with `dynamic` type.
+  generateFn?: (form: FormInstance) => GenerateItemConfig | null;
+}
+
 export interface Layout {
   labelCol?: ColProps;
   wrapperCol?: ColProps;
