@@ -2,10 +2,10 @@ import * as React from 'react';
 // import { action } from '@storybook/addon-actions';
 import moment from 'moment';
 // import { Form, Button } from 'antd';
-import { Form, Button, Row, Col } from 'antd';
+import { Form, Button, Row, Col, Input } from 'antd';
 import { createFormItems } from '../FormMate';
 import { ItemConfig, ComponentType } from '../../src/interfaces';
-import { ConfigProvider } from '../../src';
+import { ConfigProvider, FormMate } from '../../src';
 
 const { useState, useEffect } = React;
 const dateFormat = 'YYYY-MM-DD';
@@ -397,6 +397,49 @@ const BasicForm: React.FC = () => {
           </Col>
         </Row>
       </Form>
+      <FormMate
+        initialValues={{
+          haha: [1, 3],
+        }}
+        // layout='vertical'
+        labelCol={{
+          span: 8,
+        }}
+        wrapperCol={{
+          span: 12,
+        }}
+        renderChildren={(children) => {
+          return (
+            <Row>
+              {children}
+            </Row>
+          );
+        }}
+        renderItem={(item) => {
+          return (
+            <Col
+              sm={24}
+              md={12}
+              lg={8}
+            >
+              {item}
+            </Col>
+          );
+        }}
+      >
+        <FormMate.Item
+          type='number-range'
+          name='haha'
+          label='haha'
+        />
+        <FormMate.Item
+          name='str'
+          label='str'
+        />
+        <Form.Item label='23'>
+          <Input />
+        </Form.Item>
+      </FormMate>
     </ConfigProvider>
   )
 }
