@@ -7,7 +7,7 @@ import { FormProps } from 'antd/lib/form';
 
 import RenderItem from "../RenderItem";
 import FormMateItem from './FormMateItem';
-import { ItemConfig, Layout, WithCol } from "../../interfaces";
+import { ItemConfig, Layout, WithCol, ComponentType } from "../../interfaces";
 import { renderCol } from './utils';
 // import { setInitialValue } from './setValue';
 
@@ -41,7 +41,7 @@ function getChildName(child: React.ReactNode) {
   return null;
 }
 
-function getChildType(child: React.ReactNode) {
+function getChildType(child: React.ReactNode): ComponentType | null {
   if (React.isValidElement(child) && !_isString(child)) {
     return child.props.type;
   }
