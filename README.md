@@ -205,3 +205,10 @@ Warning: Instance created by `useForm` is not connect to any Form element. Forge
 11. 移除上传组件的 `countLimitHint` ，`sizeLimitHint` 和 `imageLimitHint` ，使用国际化的 `hint` 字段实现。
 12. 移除 `EditableTable` 组件和 `addDivider` 工具方法。剥离到 [antd-form-mate-editable](https://github.com/zpr1g/antd-form-mate-editable) ，单独安装使用。
 13. 替换 `select` ， `check-group` 和 `radio-group` 中选项的 `text` 字段，使用默认的 `label` 字段。
+
+### 从 v4 到 v5
+
+升级到 4.0 后，由于 `initialValues` 提升到 `Form` 组件中统一配置，且由于之前组件对并没有对 `Form` 组件进行封装，导致了一些使用上的不便，故再次重构，让整个组件的结构和使用更优雅。下面总结 v4 到 v5 的变更：
+
+1. 基于 `Form` 封装 `FormMate` 组件
+2. 重构表单项创建方式，使用 `FormMate.Item` 组件创建
