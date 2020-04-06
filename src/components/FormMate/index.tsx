@@ -41,6 +41,13 @@ function getChildName(child: React.ReactNode) {
   return null;
 }
 
+function getChildType(child: React.ReactNode) {
+  if (React.isValidElement(child) && !_isString(child)) {
+    return child.props.type;
+  }
+  return null;
+}
+
 export interface FormMateProps extends FormProps {
   // items: ItemConfig[];
   // itemsLayout?: Layout;
@@ -62,6 +69,10 @@ export const FormMate = (props: FormMateProps) => {
   } = props;
 
   const renderItems = React.Children.map(children, (child) => {
+    // TODO: 动态展示的字段需要在显示的时候调用 renderItem ，初步估计通过 Context 实现
+    if (getChildType(child) === 'dynamic') {
+      return child;
+    }
     return renderItem ? renderItem(child, getChildName(child)) : child;
   });
 
