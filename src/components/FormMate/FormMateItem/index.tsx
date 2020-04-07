@@ -7,10 +7,12 @@ import { FormInstance } from "antd/lib/form";
 
 import { FormMateItemProps } from "../../../interfaces";
 import { ConfigContext } from '../../../contexts/ConfigContext/context';
-import getComponent from '../../../map';
-// import { renderCol } from '../../FormMate/utils';
 import { useIntl } from '../../../contexts/Intlcontext';
+import FormMateContext from '../../../contexts/FormMateContext';
+// import { renderCol } from '../../FormMate/utils';
+import getComponent from '../../../map';
 import { setValuePropName } from './utils';
+import { getChildName } from '../utils';
 
 const FormMateItem: React.FC<FormMateItemProps> = ({
   type = "string",
@@ -22,6 +24,7 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
 }) => {
   const intl = useIntl();
   const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
+  const { renderItem } = useContext(FormMateContext);
 
   const {
     style,
@@ -62,7 +65,7 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
                 {...wrapperConfig}
               />
             );
-            return formItem;
+            return renderItem ? renderItem(formItem, getChildName(formItem)) : formItem;
           }) as any : children!}
       </Form.Item>
     )
