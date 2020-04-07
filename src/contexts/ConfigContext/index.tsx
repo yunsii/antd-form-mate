@@ -19,12 +19,17 @@ import { useIntl } from '../Intlcontext';
 
 export interface ConfigProviderProps {
   setCommonProps?: (type: ComponentType, defaultStyle: any) => any;
+  /** 默认统一使用 base64 编码预览，如果配置则直接上传，可配置第二个参数设置上传进度 */
   uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
-  getUrl?: (response: any) => { url: string, thumbUrl?: string };
+  /** 判断是否上传成功 */
   isUploadOk?: (response: any) => boolean;
+  /** 配置上传组件如何获取文件链接 */
+  getUrl?: (response: any) => { url: string, thumbUrl?: string };
   commonExtra?: { [k in ComponentType]?: any };
   commonRules?: { [k in ComponentType]?: Rule[] };
+  /** 配置可上传的图片类型 */
   pictureAccept?: string;
+  /** 配置图片预览组件 */
   viewerProps?: ViewerProps;
 }
 
