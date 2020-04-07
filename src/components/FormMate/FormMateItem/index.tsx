@@ -8,23 +8,20 @@ import { FormInstance } from "antd/lib/form";
 import { FormMateItemProps } from "../../../interfaces";
 import { ConfigContext } from '../../../contexts/ConfigContext/context';
 import { useIntl } from '../../../contexts/Intlcontext';
-import FormMateContext from '../../../contexts/FormMateContext';
 // import { renderCol } from '../../FormMate/utils';
 import getComponent from '../../../map';
+import { FormMateItemDisplayName } from '../../../constants/components';
 import { setValuePropName } from './utils';
-import { getChildName } from '../utils';
 
 const FormMateItem: React.FC<FormMateItemProps> = ({
   type = "string",
   name,
   componentProps,
-  generateFn,
   children,
   ...restFormItemProps
 }) => {
   const intl = useIntl();
   const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
-  const { renderItem } = useContext(FormMateContext);
 
   const {
     style,
@@ -43,32 +40,6 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
   function setExtra() {
     if (extra === false || extra === null) { return undefined; }
     return extra || commonExtra[type];
-  }
-
-  if (type === 'dynamic') {
-    return (
-      <Form.Item
-        noStyle
-        shouldUpdate={rest.shouldUpdate}
-      >
-        {generateFn ?
-          ((form: FormInstance) => {
-            const generateConfig = generateFn(form);
-            if (!generateConfig) { return null; }
-
-            const wrapperConfig = {
-              name,
-              ...generateConfig
-            }
-            const formItem = (
-              <FormMateItem
-                {...wrapperConfig}
-              />
-            );
-            return renderItem ? renderItem(formItem, getChildName(formItem)) : formItem;
-          }) as any : children!}
-      </Form.Item>
-    )
   }
 
   if (type === 'plain') {
@@ -138,6 +109,6 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
   );
 }
 
-FormMateItem.displayName = 'FormMateItem';
+FormMateItem.displayName = FormMateItemDisplayName;
 
 export default FormMateItem;
