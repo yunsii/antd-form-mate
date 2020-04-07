@@ -183,8 +183,12 @@ export default BasicForm;
 
 1. 文件结构调整
 2. 基于 `Form` 封装 `FormMate` 组件
-3. 重构表单项创建方式，使用 `FormMate.Item` 组件创建
-4. 移除不必要的默认配置，如 `defaultItemLayout` 等，完全可以在使用时再自定义配置即可
+3. 在 `FormMate` 中处理表单初始值，统一字段值类型
+  * `switch` -> `boolean`
+  * `date` 相关 -> `Moment`
+  * 文件相关 -> `UploadFile[]`
+4. 重构表单项创建方式，使用 `FormMate.Item` 组件创建
+5. 移除不必要的默认配置，如 `defaultItemLayout` 等，完全可以在使用时再自定义配置即可
 
 ### 从 v3 到 v4
 
