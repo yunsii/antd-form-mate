@@ -1,11 +1,9 @@
 import moment, { Moment } from 'moment';
-import _isArray from "lodash/isArray";
-import _isString from "lodash/isString";
-import { CustomDraggerProps } from '../components/CustomDragger';
-import { PicturesWallProps } from '../components/PicturesWall';
+import _isArray from 'lodash/isArray';
+import _isString from 'lodash/isString';
+
 import { UploadFile } from 'antd/lib/upload/interface';
-import { ComponentType } from "../interfaces";
-import { getUrl as getUrlDefault } from '../defaultConfig';
+import { ComponentType } from '../interfaces';
 
 export function setInitialValue(type: ComponentType, value: any) {
   switch (type) {
@@ -17,7 +15,7 @@ export function setInitialValue(type: ComponentType, value: any) {
       return setDatetimeRangeValue(value);
     case 'picture':
     case 'file-dragger':
-      return setFileList({ value });
+      return setFileList(value);
     case 'switch':
       return setSwitchValue(value);
     default:
@@ -32,7 +30,7 @@ export function setDatetimeValue(value: undefined | null | number | Moment): Dat
   if (value instanceof moment) {
     return value as Moment;
   }
-  if (typeof value === "number") {
+  if (typeof value === 'number') {
     const currentMs = moment().valueOf();
     const currentMsLength = `${currentMs}`.length;
     if (currentMsLength === `${value}`.length) {
@@ -40,7 +38,7 @@ export function setDatetimeValue(value: undefined | null | number | Moment): Dat
     }
     return moment.unix(value);
   }
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return moment(value);
   }
   return undefined;
@@ -59,20 +57,15 @@ function setFileNameByPath(path: string) {
   return pathSegment[pathSegment.length - 1];
 }
 
-export function setFileList(props: CustomDraggerProps | PicturesWallProps): UploadFile[] {
-  const { value, getUrl = getUrlDefault } = props;
+export function setFileList(value?: string | any[]): UploadFile[] {
   let fileList: UploadFile[] = [];
   if (value && _isString(value)) {
     fileList = [{ uid: setFileNameByPath(value), url: value, name: setFileNameByPath(value), status: 'done' } as any];
   } else if (value && _isArray(value) && _isString(value[0])) {
-    fileList = value.map((item, index) => ({ uid: setFileNameByPath(item), url: item, name: setFileNameByPath(item), status: 'done' } as any));
-  } else if (value && _isArray(value)) {
-    fileList = value.map(item => {
-      if (item.response) {
-        return { ...item, ...getUrl(item.response) }
-      }
-      return item;
-    })
+    fileList = value.map(
+      (item, index) =>
+        ({ uid: setFileNameByPath(item), url: item, name: setFileNameByPath(item), status: 'done' } as any)
+    );
   }
   return fileList;
 }
