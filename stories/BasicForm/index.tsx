@@ -69,12 +69,8 @@ const BasicForm: React.FC = () => {
           paddingTop: 20,
         }}
         // layout='vertical'
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 12,
-        }}
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
         renderChildren={(children) => {
           return <Row>{children}</Row>;
         }}
@@ -297,7 +293,7 @@ const BasicForm: React.FC = () => {
           type='string'
           name='name'
           label='姓名'
-          required
+          rules={[{ required: true, message: '请输入姓名！' }]}
           componentProps={{
             onChange: (event: any) => setText(event.target.value),
           }}
