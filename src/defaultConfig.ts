@@ -5,11 +5,6 @@ import { ComponentType } from './interfaces';
 import { getBase64 } from './utils/commons';
 import { IntlType, zhCNIntl } from './contexts/Intlcontext';
 
-export const defaultItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 12 }
-};
-
 const commenStyle = { width: "100%" };
 const setDefaultCommenStyle = (type: ComponentType) => {
   return type !== 'switch' ? commenStyle : {};
