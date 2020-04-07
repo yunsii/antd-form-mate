@@ -177,6 +177,15 @@ export default BasicForm;
 
 ## 升级
 
+### 从 v4 到 v5
+
+表单组件升级到 4.0 后，由于 `initialValues` 提升到 `Form` 组件中统一配置，且由于之前组件对并没有对 `Form` 组件进行封装，导致了一些使用上的不便，故再次重构，旨在让整个组件的结构和使用更优雅。下面总结 v4 到 v5 的变更：
+
+1. 文件结构调整
+2. 基于 `Form` 封装 `FormMate` 组件
+3. 重构表单项创建方式，使用 `FormMate.Item` 组件创建
+4. 移除不必要的默认配置，如 `defaultItemLayout` 等，完全可以在使用时再自定义配置即可
+
 ### 从 v3 到 v4
 
 根据官方的表单升级说明——[从 v3 到 v4](https://next.ant.design/components/form/v3-cn)，也对本组件进行了相应的重构，v3 版本时，可不使用 `Form` 组件包裹生成的表单项，新版本充分利用了 `Form` 组件管理数据。下面总结几点本组件从 v3 到 v4 的注意事项：
@@ -206,10 +215,3 @@ Warning: Instance created by `useForm` is not connect to any Form element. Forge
 11. 移除上传组件的 `countLimitHint` ，`sizeLimitHint` 和 `imageLimitHint` ，使用国际化的 `hint` 字段实现。
 12. 移除 `EditableTable` 组件和 `addDivider` 工具方法。剥离到 [antd-form-mate-editable](https://github.com/zpr1g/antd-form-mate-editable) ，单独安装使用。
 13. 替换 `select` ， `check-group` 和 `radio-group` 中选项的 `text` 字段，使用默认的 `label` 字段。
-
-### 从 v4 到 v5
-
-升级到 4.0 后，由于 `initialValues` 提升到 `Form` 组件中统一配置，且由于之前组件对并没有对 `Form` 组件进行封装，导致了一些使用上的不便，故再次重构，让整个组件的结构和使用更优雅。下面总结 v4 到 v5 的变更：
-
-1. 基于 `Form` 封装 `FormMate` 组件
-2. 重构表单项创建方式，使用 `FormMate.Item` 组件创建
