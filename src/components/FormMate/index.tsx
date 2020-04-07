@@ -1,48 +1,28 @@
-import React from "react";
-import _get from 'lodash/get';
-import _isFunction from 'lodash/isFunction';
-import { Form } from 'antd';
-import { FormProps } from 'antd/lib/form';
+import { Form } from "antd";
+import FormMateItem from "./FormMateItem";
+import FormMateDynamic from "./FormMateDynamic";
 
-import FormMateContext from '../../contexts/FormMateContext';
-import { getChildName, getChildType } from './utils';
-// import { setInitialValue } from './setValue';
+import { FormMate as InternalForm } from "./FormMate";
 
-export interface FormMateProps extends FormProps {
-  renderChildren?: (children: React.ReactNode) => React.ReactNode;
-  /** item: 渲染子节点，name: 子节点组件名称，通常为 `FormMateItem` */
-  renderItem?: (item: React.ReactNode, name: string | null) => React.ReactNode;
+type InternalForm = typeof InternalForm;
+interface FormMate extends InternalForm {
+  useForm: typeof Form.useForm;
+  Item: typeof FormMateItem;
+  Dynamic: typeof FormMateDynamic;
+  List: typeof Form.List;
+  Provider: typeof Form.Provider;
+
+  /** @deprecated Only for warning usage. Do not use. */
+  create: () => void;
 }
 
-export const FormMate = (props: FormMateProps) => {
-  const {
-    initialValues,
-    renderChildren,
-    renderItem,
-    children,
-    ...rest
-  } = props;
+const FormMate: FormMate = InternalForm as FormMate;
 
-  const renderItems = React.Children.map(children, (child) => {
-    // 如果为动态类型字段，默认隐藏，显示的时候再调用 `renderItem` ，通过 `FormMateContext` 实现
-    if (getChildType(child) === 'dynamic') {
-      return child;
-    }
-    return renderItem ? renderItem(child, getChildName(child)) : child;
-  });
+FormMate.useForm = Form.useForm;
+FormMate.Item = FormMateItem;
+FormMate.Dynamic = FormMateDynamic;
+FormMate.List = Form.List;
+FormMate.Provider = Form.Provider;
+FormMate.create = Form.create;
 
-  return (
-    <FormMateContext.Provider
-      value={{
-        renderItem,
-      }}
-    >
-      <Form
-        initialValues={initialValues}  // TODO: setInitialValue
-        {...rest}
-      >
-        {renderChildren ? renderChildren(renderItems) : children}
-      </Form>
-    </FormMateContext.Provider>
-  )
-}
+export default FormMate;

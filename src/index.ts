@@ -1,6 +1,3 @@
-import { Form } from "antd";
-import FormMateItem from "./components/FormMate/FormMateItem";
-
 export { ConfigProvider } from "./contexts/ConfigContext";
 export {
   IntlProvider,
@@ -11,27 +8,7 @@ export {
   enUSIntl,
 } from "./contexts/Intlcontext";
 
-import { FormMate as InternalForm } from "./components/FormMate";
-
-type InternalForm = typeof InternalForm;
-interface FormMate extends InternalForm {
-  useForm: typeof Form.useForm;
-  Item: typeof FormMateItem;
-  List: typeof Form.List;
-  Provider: typeof Form.Provider;
-
-  /** @deprecated Only for warning usage. Do not use. */
-  create: () => void;
-}
-
-const FormMate: FormMate = InternalForm as FormMate;
-
-FormMate.useForm = Form.useForm;
-FormMate.Item = FormMateItem;
-FormMate.List = Form.List;
-FormMate.Provider = Form.Provider;
-FormMate.create = Form.create;
-
+import FormMate from "./components/FormMate";
 export default FormMate;
 
 export { registerComponent } from "./map";
