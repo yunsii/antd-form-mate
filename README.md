@@ -56,60 +56,45 @@ $ npm start
 | 14 | `string`          | **默认类型** |
 | 15 | `check-group`    | 多选框          |
 | 16 | `radio-group`    | 单选框          |
-| 17 | `dynamic`          | 条件渲染         |
-| 18 | `number-range`     | 数字区间         |
-| 19 | `cascader`       | 级联选择         |
+| 17 | `number-range`     | 数字区间         |
+| 18 | `cascader`       | 级联选择         |
 
-除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 和 `dynamic` 类型外的组件。
+除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 类型外的组件。
 
 #### 表单实战总结
 
-1. 对于**特殊类型**的字段值在设置初始值时可构造为组件内部的所需的值类型，以便后续表单值的统一处理，避免一些繁琐的判断。特殊类型像日期时间（ `moment` ）、选择（ `(string | number)[]` ）、文件（ `{ uid: string, name: string url: string, status: "done" }[]` ）、开关（ `boolean` ）等，
+1. 对于**特殊类型**的字段值在设置初始值时可构造为组件内部的所需的值类型，以便后续表单值的统一处理，避免一些繁琐的判断。特殊类型像日期时间（ `moment` ）、文件（ `{ uid: string; name: string; url: string; status: "done"; }[]` ）、开关（ `boolean` ）等，已通过 `FormMate` 组件实现统一处理。
 
 ### API
 
-#### 表单项
+#### `FormMate.Item` 表单项
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `type` | 上述类型 | [`ComponentType`](/src/lib/props.ts#L19) | `'string'` |
+| `type` | 上述类型 | [`ComponentType`](/src/interfaces.ts#L16) | `string` |
 | `name` | 字段名 | [`NamePath`](https://next.ant.design/components/form-cn/#NamePath) | - |
-| `formItemProps` | Form.Item 支持的属性，新增 `dense` 属性使得 Form.Item 的 `marginBottom` 为 0 | 扩展 [FormItemProps](https://ant.design/components/form-cn/#Form.Item) | - |
-| `componentProps` | 额外的组件属性 | [`ComponentProps`](/src/lib/props.ts#L50) | - |
-| `component` | 自定义的组件，仅当 `type` 为 `'custom' \| 'dynamic'` 时可用 | FormItemProps['children'] | - |
-| `generateFn` | 自定义的组件，仅当 `type` 为 `'dynamic'` 时可用，快速实现本组件支持的其他类型组件的动态渲染 | `(form: FormInstance) => GenerateItemConfig \| null` | - |
+| `dense` | 使得 Form.Item 的 `marginBottom` 为 0 | `boolean` | `false` |
+| `componentProps` | 额外的组件属性 | [`ComponentProps`](/src/interfaces.ts#L47) | - |
 
-此外，每个表单项都有[默认布局](/src/defaultConfig.ts#L6)，如果没有 `label` 属性，输入部分会撑满容器。
+其他属性可参考 [`Form.Item`](https://ant.design/components/form-cn/#Form.Item) 组件属性，特别的 `children` 属性仅当类型为 `custom` 时可用。
+
+#### `FormMate.Dynamics` 动态表单项
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `render` | 判断是否渲染 | `(form: FormInstance) => boolean \| null \| undefined` | - |
+
+其他属性可参考 [`FormMate.Item`](#FormMate.Item-表单项) 组件属性，可配置 `children` 。
 
 ### 基础用法
 
 ```tsx
 import * as React from 'react';
 import { Form, Button } from 'antd';
-import { createFormItems } from 'antd-form-mate';
-import { ItemConfig } from 'antd-form-mate/dist/lib/form-mate';
+import FormMate from 'antd-form-mate';
 
 
 const BasicForm: React.FC = (props) => {
-  const [form] = Form.useForm();
-
-  const initialValues = {
-    'hidden': 1,
-  }
-  
-  const getFormItems = (): ItemConfig[] => {
-    return [
-      {
-        type: 'string',
-        name: 'name',
-        formItemProps: {
-          label: '姓名',
-          rules: [{ required: true, message: '请输入姓名！' }],
-        },
-      },
-    ];
-  }
-
   const handleFinish = (values) => {
     console.log('Received values of form: ', values);
   }
@@ -119,15 +104,32 @@ const BasicForm: React.FC = (props) => {
   }
 
   return (
-    <Form 
-      style={{ marginTop: 20 }}
-      form={form}
+    <FormMate
+      style={{
+        maxWidth: 1200,
+        margin: '0 auto',
+        paddingTop: 20,
+      }}
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 12 }}
       onFinish={handleFinish}
       onFinishFailed={handleFinishFailed}
-      initialValues={initialValues}
     >
-      {createFormItems(getFormItems())}
-      <Form.Item wrapperCol={{ span: 12, offset: 7 }}>
+      <FormMate.Item
+        type='date'
+        name='name'
+        label='姓名'
+        rules={[{ required: true, message: '请输入姓名！' }]}
+      />
+      <FormMate.Dynamic
+        type='string'
+        name='dynamic'
+        label='动态字段'
+        render={({ getFieldValue }) => {
+          return (getFieldValue('name') === 'form');
+        }}
+      />
+      <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
         <Button
           type="primary"
           htmlType="submit"
@@ -144,7 +146,7 @@ export default BasicForm;
 
 ### 全局配置
 
-表单全局配置可见 [`ConfigProvider`](/src/config-context/index.tsx#L20) ，使用可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L285)
+表单全局配置可见 [`ConfigProvider`](/src/contexts/ConfigContext/index.tsx#L20) ，使用可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L52)
 
 ### 备注
 
