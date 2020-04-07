@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Upload } from "antd";
 import { InboxOutlined } from '@ant-design/icons';
-import { UploadProps } from 'antd/lib/upload';
 import _get from "lodash/get";
 import {
   CustomUploadPorps,
@@ -17,17 +16,11 @@ import {
   setSizeLimitHint,
 } from '../commons/CustomUpload/utils';
 import ConfigContext from '../../contexts/ConfigContext/context';
-import { setFileList } from '../../utils/setValue';
 import { useIntl } from "../../contexts/Intlcontext";
 
 const { Dragger } = Upload as any;
 
 export interface CustomDraggerProps extends CustomUploadPorps {
-  value?: string | any[];
-}
-
-export interface CustomDraggerState {
-  fileList: UploadProps["fileList"];
 }
 
 const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
@@ -48,12 +41,11 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
     dimensionLimit,
     accept,
     checkImage,
+    fileList,
     // countLimitHint,
     // sizeLimitHint,
     ...rest
   } = props;
-
-  const files = setFileList({ value: rest.value, getUrl });
 
   const handleChange = ({ fileList }) => {
     console.log(fileList);
@@ -69,7 +61,7 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
       // multiple: true
       customRequest={customRequest(uploadFn, isUploadOk)}
       onChange={handleChange}
-      fileList={files}
+      fileList={fileList}
       beforeUpload={commonBeforeUpload({
         filesCountLimit,
         fileSizeLimit,
@@ -81,7 +73,7 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
         countLimitHint: setCountLimitHint(intl),
         sizeLimitHint: setSizeLimitHint(intl),
 
-        fileList: files,
+        fileList: fileList,
       })}
       accept={accept}
       {...rest}

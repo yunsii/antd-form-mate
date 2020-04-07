@@ -6,8 +6,8 @@ import _isString from "lodash/isString";
 import _isArray from "lodash/isArray";
 import _template from 'lodash/template';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils/commons';
-import { 
-  processDimensionLimit, 
+import {
+  processDimensionLimit,
   isLimitDimension,
   setMimeLimitHint,
   setCountLimitHint,
@@ -52,7 +52,7 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
       const dataUrl: any = await getBase64(file);
       const dimension: any = await getImageDimension(dataUrl);
       console.log(dimension);
-      
+
       const customHint = checkImage({ dimension, type, name, size: sizeOfFile(file) });
       if (customHint) {
         message.error(customHint);
@@ -107,6 +107,7 @@ export const customRequest = (
     }
   };
 
+
 export interface CustomUploadPorps extends UploadProps {
   uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
   isUploadOk?: (response: any) => boolean;
@@ -124,9 +125,6 @@ export interface CustomUploadPorps extends UploadProps {
 
 // https://github.com/react-component/upload/blob/master/examples/customRequest.js
 export default function CustomUpload(props: CustomUploadPorps) {
-  const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk } = useContext(ConfigContext);
-  const intl = useIntl();
-
   const {
     accept,
     listType,
@@ -141,18 +139,29 @@ export default function CustomUpload(props: CustomUploadPorps) {
     // countLimitHint,
     // sizeLimitHint,
     // imageLimitHint,
-    uploadFn = defaultUploadFn,
-    isUploadOk = defaultIsUploadOk,
+    getUrl,
+    uploadFn,
+    isUploadOk,
     ...rest
   } = props;
+
+  const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk, getUrl: defaultGetUrl } = useContext(ConfigContext);
+  const intl = useIntl();
+
+  const processFileList = fileList?.map(item => {
+    if (item.response) {
+      return { ...item, ...defaultGetUrl(item.response) };
+    }
+    return item;
+  }) || [];
 
   return (
     <Upload
       accept={accept}
       name="image"
-      customRequest={customRequest(uploadFn, isUploadOk)}
+      customRequest={customRequest(uploadFn || defaultUploadFn, isUploadOk || defaultIsUploadOk)}
       listType={listType || "text"}
-      fileList={fileList}
+      fileList={processFileList}
       onChange={onChange}
       beforeUpload={commonBeforeUpload({
         accept,

@@ -14,36 +14,31 @@ import CustomUpload, {
 } from "../commons/CustomUpload/index";
 // import { getBase64 } from '../../../utils';
 import ConfigContext from '../../contexts/ConfigContext/context';
-import { setFileList } from '../../utils/setValue';
 import styles from "./index.less";
 import { useIntl } from "../../contexts/Intlcontext";
 
 export interface PicturesWallProps extends CustomUploadPorps {
-  value?: string | any[];
   viewerProps?: ViewerProps;
   pictureAccept?: string;
 }
 
 const PicturesWall: React.FC<PicturesWallProps> = (props) => {
-  const { getUrl: defaultGetUrl, pictureAccept: defaultPictureAccept } = useContext(ConfigContext);
+  const { pictureAccept: defaultPictureAccept } = useContext(ConfigContext);
   const intl = useIntl();
 
   const {
-    value,
-    getUrl = defaultGetUrl,
+    fileList = [],
     pictureAccept = defaultPictureAccept,
     viewerProps,
   } = props;
-
-  const files = setFileList({ value, getUrl });
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handlePreview = async (file: UploadFile) => {
-    console.log(files, file);
-    console.log(_findIndex(files, { uid: file.uid }));
-    setActiveIndex(_findIndex(files, { uid: file.uid }));
+    console.log(fileList, file);
+    console.log(_findIndex(fileList, { uid: file.uid }));
+    setActiveIndex(_findIndex(fileList, { uid: file.uid }));
     setPreviewVisible(true);
   };
 
@@ -67,16 +62,16 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
       <CustomUpload
         accept={pictureAccept}
         {...props}
-        fileList={files}
+        fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
         listType="picture-card"
       >
-        {files.length >= (props.filesCountLimit || 1) ? null : uploadButton}
+        {fileList.length >= (props.filesCountLimit || 1) ? null : uploadButton}
       </CustomUpload>
       <ImagesViewer
         visible={previewVisible}
-        images={files.map(item => ({ src: item.url!, alt: item.fileName }))}
+        images={fileList.map(item => ({ src: item.url!, alt: item.fileName }))}
         onClose={() => setPreviewVisible(false)}
         activeIndex={activeIndex}
         {...viewerProps}
