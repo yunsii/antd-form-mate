@@ -26,6 +26,7 @@ const BasicForm: React.FC = () => {
     select: 'earth',
     switch: 0,
     'number-range': [0, 4],
+    dynamic: '2020-04-07',
   };
   const [text, setText] = useState<string>();
 
@@ -301,19 +302,14 @@ const BasicForm: React.FC = () => {
             onChange: (event: any) => setText(event.target.value),
           }}
         />
-        <FormMate.Item
-          type='dynamic'
+        <FormMate.Dynamic
+          type='date'
           name='dynamic'
+          label='dynamic'
+          required
           shouldUpdate
-          generateFn={({ getFieldValue }) => {
-            if (getFieldValue('name') === 'form') {
-              return {
-                type: 'date',
-                label: 'dynamic',
-                required: true,
-              }
-            }
-            return null;
+          render={({ getFieldValue }) => {
+            return (getFieldValue('name') === 'form');
           }}
         />
         <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
@@ -332,7 +328,7 @@ const BasicForm: React.FC = () => {
             }}
           >
             其他
-              </Button>
+          </Button>
         </Form.Item>
       </FormMate>
     </ConfigProvider>

@@ -35,6 +35,12 @@ class AdvancedForm extends React.Component {
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           initialValues={initialValues}
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 12,
+          }}
         >
           <FormMate.Item
             type='picture'
