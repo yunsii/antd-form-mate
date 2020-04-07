@@ -2,9 +2,9 @@ import * as React from 'react';
 // import { action } from '@storybook/addon-actions';
 import moment from 'moment';
 // import { Form, Button } from 'antd';
-import { Form, Button, Row, Col, Input } from 'antd';
+import { Form, Button, Row, Col } from 'antd';
 import { ComponentType } from '../../src/interfaces';
-import { ConfigProvider, FormMate } from '../../src';
+import FormMate, { ConfigProvider } from '../../src';
 
 const { useState, useEffect } = React;
 const dateFormat = 'YYYY-MM-DD';
@@ -75,14 +75,10 @@ const BasicForm: React.FC = () => {
           span: 12,
         }}
         renderChildren={(children) => {
-          return (
-            <Row>
-              {children}
-            </Row>
-          );
+          return <Row>{children}</Row>;
         }}
-        renderItem={(item, name) => {
-          console.log(name, item);
+        renderItem={(item) => {
+          // console.log(name, item);
           return (
             <Col
               sm={24}
@@ -320,16 +316,13 @@ const BasicForm: React.FC = () => {
             return null;
           }}
         />
-        <Form.Item label='23'>
-          <Input />
-        </Form.Item>
         <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
           <Button
             type="primary"
             htmlType="submit"
           >
             提交
-              </Button>
+          </Button>
           <Button
             style={{ marginLeft: 8 }}
             onClick={() => {

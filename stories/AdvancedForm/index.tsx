@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Form, Button } from 'antd';
-import { createFormItems } from '../FormMate';
-import { ItemConfig } from '../../src/interfaces';
+import FormMate from '../../src';
 import { ConfigProvider } from '../../src';
 
 const initialValues = {
@@ -12,54 +11,6 @@ const initialValues = {
 };
 
 class AdvancedForm extends React.Component {
-  setFormItemsConfig = (detail: any = {}, mode?: string): ItemConfig[] => {
-    return [
-      {
-        type: 'picture',
-        name: 'picture',
-        formItemProps: {
-          label: '图片',
-          // extra: '图片像素仅限520*360',
-          // extra: '图片像素不大于520*360',
-          // extra: '图片像素不小于520*360',
-          // extra: '图片像素不小于520*360，且不大于1920*1080',
-          // extra: false,
-        },
-        componentProps: {
-          filesCountLimit: 4,
-          fileSizeLimit: 500 * 1024,
-          // accept: 'image/*',
-          // dimensionLimit: '520*360',
-          // dimensionLimit: '<520*360',
-          // dimensionLimit: '>520*360',
-          // dimensionLimit: '520*360,1920*1080',
-          // checkImage: ({ name }) => {
-          //   console.log(name);
-          //   if (/[A-Za-z0-9]*/.test(name.split('.')[0])) {
-          //     return '文件名称仅限字母数字';
-          //   }
-          //   return;
-          // },
-
-          onChange: (file) => {
-            console.log(file);
-          }
-        },
-      },
-      {
-        type: 'file-dragger',
-        name: 'file',
-        formItemProps: {
-          label: '文件',
-        },
-        componentProps: {
-          accept: 'image/*',
-          filesCountLimit: 2,
-        }
-      },
-    ];
-  }
-
   handleFinish = (values) => {
     console.log('Received values of form: ', values);
   }
@@ -70,33 +21,66 @@ class AdvancedForm extends React.Component {
 
   render() {
     return (
-        <ConfigProvider
-          commonExtra={{
-            picture: '自定义图片默认提示',
-          }}
-          getUrl={(response) => {
-            console.log(response);
-            return response.data;
-          }}
+      <ConfigProvider
+        commonExtra={{
+          picture: '自定义图片默认提示',
+        }}
+        getUrl={(response) => {
+          console.log(response);
+          return response.data;
+        }}
+      >
+        <FormMate
+          style={{ paddingTop: 20 }}
+          onFinish={this.handleFinish}
+          onFinishFailed={this.handleFinishFailed}
+          initialValues={initialValues}
         >
-          <Form
-            style={{ paddingTop: 20 }}
-            onFinish={this.handleFinish}
-            onFinishFailed={this.handleFinishFailed}
-            initialValues={initialValues}
-          >
-            {createFormItems(this.setFormItemsConfig({}))}
-            <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={action('click submit')}
-              >
-                提交
+          <FormMate.Item
+            type='picture'
+            name='picture'
+            label='图片'
+            componentProps={{
+              filesCountLimit: 4,
+              fileSizeLimit: 500 * 1024,
+              // accept: 'image/*',
+              // dimensionLimit: '520*360',
+              // dimensionLimit: '<520*360',
+              // dimensionLimit: '>520*360',
+              // dimensionLimit: '520*360,1920*1080',
+              // checkImage: ({ name }) => {
+              //   console.log(name);
+              //   if (/[A-Za-z0-9]*/.test(name.split('.')[0])) {
+              //     return '文件名称仅限字母数字';
+              //   }
+              //   return;
+              // },
+
+              onChange: (file) => {
+                console.log(file);
+              }
+            }}
+          />
+          <FormMate.Item
+            type='file-dragger'
+            name='file'
+            label='文件'
+            componentProps={{
+              accept: 'image/*',
+              filesCountLimit: 2,
+            }}
+          />
+          <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={action('click submit')}
+            >
+              提交
               </Button>
-            </Form.Item>
-          </Form>
-        </ConfigProvider>
+          </Form.Item>
+        </FormMate>
+      </ConfigProvider>
     )
   }
 }
