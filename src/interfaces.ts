@@ -3,7 +3,7 @@ import { InputNumberProps } from "antd/lib/input-number";
 import { PasswordProps, TextAreaProps, InputProps } from "antd/lib/input";
 import { SliderProps } from "antd/lib/slider";
 import { CascaderProps } from "antd/lib/cascader";
-import { NamePath } from 'rc-field-form/lib/interface';
+import { NamePath } from "rc-field-form/lib/interface";
 import {
   CustomDatePickerProps,
   CustomRangePickerProps,
@@ -15,7 +15,6 @@ import { CustomDraggerProps } from "./components/CustomDragger";
 import { CustomCheckGroupProps } from "./components/CustomCheckGroup/index";
 import { CustomRadioGroupProps } from "./components/CustomRadioGroup/index";
 import { InputNumberRangeProps } from "./components/InputNumberRange/index";
-import { ColProps } from "antd/lib/col";
 
 export type ComponentType =
   | "dynamic"
@@ -39,15 +38,15 @@ export type ComponentType =
   /** string input, no whitespace */
   | "textarea"
   | "email"
-  | "string"
+  | "string";
 
 export type DefaultTypeHintOptions = {
   [key in ComponentType]?: any;
-}
+};
 
 export type DefaultTypeRulesOptions = {
   [key in ComponentType]?: any;
-}
+};
 
 export type ComponentProps =
   | CustomDatePickerProps
@@ -65,25 +64,11 @@ export type ComponentProps =
   | CustomRadioGroupProps
   /** string input, no whitespace */
   | TextAreaProps
-  | InputProps
+  | InputProps;
 
-
-export interface CustomFormItemProps extends Omit<FormItemProps, 'name' | 'children'> {
+export interface CustomFormItemProps
+  extends Omit<FormItemProps, "name" | "children"> {
   dense?: boolean;
-}
-
-export type GenerateItemConfig = Omit<ItemConfig, 'name' | 'component' | 'generateFn'>;
-
-export interface ItemConfig {
-  type?: ComponentType;
-  name: NamePath;
-  formItemProps?: CustomFormItemProps;
-  componentProps?: ComponentProps;
-
-  // usable with `custom` and `dynamic` type.
-  component?: FormItemProps['children'];
-  // usable with `dynamic` type.
-  generateFn?: (form: FormInstance) => GenerateItemConfig | null;
 }
 
 /**
@@ -94,12 +79,7 @@ export interface FormMateItemProps extends CustomFormItemProps {
   name: NamePath;
   componentProps?: ComponentProps;
   // usable with `dynamic` type.
-  generateFn?: (form: FormInstance) => GenerateItemConfig | null;
+  generateFn?: (
+    form: FormInstance
+  ) => Omit<FormMateItemProps, "name" | "children" | "generateFn"> | null;
 }
-
-export interface Layout {
-  labelCol?: ColProps;
-  wrapperCol?: ColProps;
-}
-
-export type WithCol = ColProps | ((config: ItemConfig) => ColProps);
