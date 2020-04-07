@@ -21,7 +21,7 @@ export interface ConfigProviderProps {
   setCommonProps?: (type: ComponentType, defaultStyle: any) => any;
   /** 默认统一使用 base64 编码预览，如果配置则直接上传，可配置第二个参数设置上传进度 */
   uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
-  /** 判断是否上传成功 */
+  /** 判断通过 `uploadFn` 上传是否成功 */
   isUploadOk?: (response: any) => boolean;
   /** 配置上传组件如何获取文件链接 */
   getUrl?: (response: any) => { url: string, thumbUrl?: string };
