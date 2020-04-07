@@ -1,8 +1,9 @@
 import React from "react";
-import { Col } from 'antd';
 import _isFunction from 'lodash/isFunction';
+import _isString from 'lodash/isString';
+
 import { useIntl } from '../../contexts/Intlcontext';
-import { WithCol, ItemConfig } from "../../interfaces";
+import { ComponentType } from "../../interfaces";
 
 export interface InjectIntlProps {
   propName: string;
@@ -20,17 +21,18 @@ export const InjectIntl: React.FC<InjectIntlProps> = ({ propName, intlPath, intl
   });
 }
 
-export const renderCol = (config: ItemConfig, withCol?: WithCol) => (formItem: JSX.Element) => {
-  if (withCol && config.type !== 'dynamic') {
-    const colProps = _isFunction(withCol) ? withCol(config) : withCol;
-    return (
-      <Col
-        key={`${config.name}`}
-        {...colProps}
-      >
-        {formItem}
-      </Col>
-    );
+export function getChildName(child: React.ReactNode) {
+  if (React.isValidElement(child) && !_isString(child)) {
+    if (_isString(child.type)) { return child.type; }
+
+    return child.type.name;
   }
-  return formItem;
+  return null;
+}
+
+export function getChildType(child: React.ReactNode): ComponentType | null {
+  if (React.isValidElement(child) && !_isString(child)) {
+    return child.props.type;
+  }
+  return null;
 }
