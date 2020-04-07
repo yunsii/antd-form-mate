@@ -78,7 +78,7 @@ $ npm start
 
 其他属性可参考 [`Form.Item`](https://ant.design/components/form-cn/#Form.Item) 组件属性，特别的 `children` 属性仅当类型为 `custom` 时可用。
 
-#### `FormMate.Dynamics` 动态表单项
+#### `FormMate.Dynamic` 动态表单项
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
