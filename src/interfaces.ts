@@ -73,6 +73,7 @@ export interface FormMateItemProps<T = ComponentType, P = ComponentProps> extend
   type?: T;
   name: NamePath;
   componentProps?: P;
+  children?: React.ReactNode;
 }
 
 export interface FormMateDynamicProps<T = ComponentType, P = ComponentProps> extends FormMateItemProps<T, P> {

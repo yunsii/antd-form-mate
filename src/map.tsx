@@ -17,7 +17,7 @@ import {
 
 import { InjectIntl } from './components/FormMate/utils';
 
-const registeredComponents = new Map();
+const registeredComponents = new Map<any, React.ReactNode>();
 
 export function registerComponent(type: string, component: JSX.Element) {
   registeredComponents.set(type, component);
@@ -94,7 +94,7 @@ export type ComponentMap = {
   [key in ComponentType]?: [React.ComponentClass | React.FC | React.ExoticComponent, ComponentProps?]
 }
 
-const getComponent = (type: ComponentType) => {
+const getComponent = <T extends ComponentType[keyof ComponentType]>(type: T) => {
   const result = registeredComponents.get(type);
   return result || registeredComponents.get('string');
 }
