@@ -35,18 +35,18 @@ const BasicForm: React.FC = () => {
       name: text,
       textarea: text,
       hidden: text,
-    })
+    });
   }, [text]);
 
   const handleFinish = () => {
     // 过滤，得到当前显示组件的字段值
     const values = form.getFieldsValue(undefined, () => true);
     console.log('Received values of form: ', values);
-  }
+  };
 
   const handleFinishFailed = (errors) => {
     console.log('Errors:', errors);
-  }
+  };
 
   return (
     <ConfigProvider
@@ -77,22 +77,13 @@ const BasicForm: React.FC = () => {
         renderItem={(item) => {
           // console.log(name, item);
           return (
-            <Col
-              sm={24}
-              md={12}
-              lg={8}
-            >
+            <Col sm={24} md={12} lg={8}>
               {item}
             </Col>
           );
         }}
       >
-        <FormMate.Item
-          type='plain'
-          name='plain'
-          label='纯文本'
-          required
-        />
+        <FormMate.Item type='plain' name='plain' label='纯文本' required />
         <FormMate.Item
           type='check-group'
           name='checks'
@@ -132,21 +123,9 @@ const BasicForm: React.FC = () => {
             cols: 2,
           }}
         />
-        <FormMate.Item
-          type='date'
-          name='formateDate'
-          label='格式化日期'
-        />
-        <FormMate.Item
-          type='date'
-          name='unix'
-          label='unix 时间戳'
-        />
-        <FormMate.Item
-          type='date'
-          name='ms'
-          label='毫秒时间戳'
-        />
+        <FormMate.Item type='date' name='formateDate' label='格式化日期' />
+        <FormMate.Item type='date' name='unix' label='unix 时间戳' />
+        <FormMate.Item type='date' name='ms' label='毫秒时间戳' />
         <FormMate.Item
           type='datetime'
           name='datetime'
@@ -155,26 +134,10 @@ const BasicForm: React.FC = () => {
             disabledPastDays: true,
           }}
         />
-        <FormMate.Item
-          type='date-range'
-          name='date-period'
-          label='日期区间'
-        />
-        <FormMate.Item
-          type='datetime-range'
-          name='datetime-period'
-          label='日期时间区间'
-        />
-        <FormMate.Item
-          type='number'
-          name='number'
-          label='数字'
-        />
-        <FormMate.Item
-          type='number-range'
-          name='number-range'
-          label='数字区间'
-        />
+        <FormMate.Item type='date-range' name='date-period' label='日期区间' />
+        <FormMate.Item type='datetime-range' name='datetime-period' label='日期时间区间' />
+        <FormMate.Item type='number' name='number' label='数字' />
+        <FormMate.Item type='number-range' name='number-range' label='数字区间' />
         <FormMate.Item
           type='select'
           name='select'
@@ -254,30 +217,13 @@ const BasicForm: React.FC = () => {
                   },
                 ],
               },
-            ]
+            ],
           }}
         />
-        <FormMate.Item
-          type='textarea'
-          name='textarea'
-          label='文本框'
-          extra='与`姓名`字段联动'
-        />
-        <FormMate.Item
-          type='password'
-          name='password'
-          label='密码'
-        />
-        <FormMate.Item
-          type='switch'
-          name='switch'
-          label='开关'
-        />
-        <FormMate.Item
-          type='slider'
-          name='slider'
-          label='滑动输入条'
-        />
+        <FormMate.Item type='textarea' name='textarea' label='文本框' extra='与`姓名`字段联动' />
+        <FormMate.Item type='password' name='password' label='密码' />
+        <FormMate.Item type='switch' name='switch' label='开关' />
+        <FormMate.Item type='slider' name='slider' label='滑动输入条' />
         <FormMate.Item
           type='email'
           name='email'
@@ -286,7 +232,7 @@ const BasicForm: React.FC = () => {
             {
               required: true,
               message: '这是必填的',
-            }
+            },
           ]}
         />
         <FormMate.Item
@@ -305,21 +251,18 @@ const BasicForm: React.FC = () => {
           required
           shouldUpdate
           render={({ getFieldValue }) => {
-            return (getFieldValue('name') === 'form');
+            return getFieldValue('name') === 'form';
           }}
         />
         <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-          >
+          <Button type='primary' htmlType='submit'>
             提交
           </Button>
           <Button
             style={{ marginLeft: 8 }}
             onClick={() => {
               form.setFieldsValue({
-                "number-range": [4, 6.4],
+                'number-range': [4, 6.4],
               });
             }}
           >
@@ -328,14 +271,14 @@ const BasicForm: React.FC = () => {
         </Form.Item>
       </FormMate>
     </ConfigProvider>
-  )
-}
+  );
+};
 
 const setCommonProps = (type: ComponentType) => {
   if (!(['check-group', 'textarea', 'switch'] as ComponentType[]).includes(type)) {
     return {
       allowClear: true,
-    }
+    };
   }
   return null;
 };

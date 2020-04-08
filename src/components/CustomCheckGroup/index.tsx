@@ -11,31 +11,32 @@ export default class CustomCheckGroup extends React.Component<CustomCheckGroupPr
   render() {
     const { cols, options = [], ...rest } = this.props;
     if (!cols) {
-      return (
-        <Checkbox.Group options={options} {...rest} />
-      )
+      return <Checkbox.Group options={options} {...rest} />;
     }
     const span = 24 / cols;
     return (
       <Checkbox.Group {...rest}>
         <Row>
-          {options && options.map((item) => {
-            if (_isString(item)) {
+          {options &&
+            options.map((item) => {
+              if (_isString(item)) {
+                return (
+                  <Col>
+                    <Checkbox value={item}>{item}</Checkbox>
+                  </Col>
+                );
+              }
+              const { value, ...rest } = item;
               return (
-                <Col>
-                  <Checkbox value={item}>{item}</Checkbox>
+                <Col key={`${item.value}`} span={span}>
+                  <Checkbox value={item.value} {...rest}>
+                    {item.label}
+                  </Checkbox>
                 </Col>
               );
-            }
-            const { value, ...rest } = item;
-            return (
-              <Col key={`${item.value}`} span={span}>
-                <Checkbox value={item.value} {...rest}>{item.label}</Checkbox>
-              </Col>
-            )
-          })}
+            })}
         </Row>
       </Checkbox.Group>
-    )
+    );
   }
 }

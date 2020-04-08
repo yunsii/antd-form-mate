@@ -1,34 +1,27 @@
-import React, { useContext } from "react";
-import { Upload } from "antd";
+import React, { useContext } from 'react';
+import { Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import _get from "lodash/get";
+import _get from 'lodash/get';
+
 import {
   CustomUploadPorps,
-  
+
   // defaultCountLimitHint,
   // defaultSizeLimitHint,
   filterFileList,
   commonBeforeUpload,
   customRequest,
 } from '../commons/CustomUpload/index';
-import {
-  setCountLimitHint,
-  setSizeLimitHint,
-} from '../commons/CustomUpload/utils';
+import { setCountLimitHint, setSizeLimitHint } from '../commons/CustomUpload/utils';
 import ConfigContext from '../../contexts/ConfigContext/context';
-import { useIntl } from "../../contexts/Intlcontext";
+import { useIntl } from '../../contexts/Intlcontext';
 
 const { Dragger } = Upload as any;
 
-export interface CustomDraggerProps extends CustomUploadPorps {
-}
+export interface CustomDraggerProps extends CustomUploadPorps {}
 
 const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
-  const {
-    getUrl: defaultGetUrl,
-    uploadFn: defaultUploadFn,
-    isUploadOk: defaultIsUploadOk,
-  } = useContext(ConfigContext);
+  const { getUrl: defaultGetUrl, uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk } = useContext(ConfigContext);
   const intl = useIntl();
 
   const {
@@ -57,7 +50,7 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
 
   return (
     <Dragger
-      name="file"
+      name='file'
       // multiple: true
       customRequest={customRequest(uploadFn, isUploadOk)}
       onChange={handleChange}
@@ -78,16 +71,16 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
       accept={accept}
       {...rest}
     >
-      <p className="ant-upload-drag-icon">
+      <p className='ant-upload-drag-icon'>
         <InboxOutlined />
       </p>
-      <p className="ant-upload-text">{intl.getMessage('dragger.upload', '点击或拖拽文件到此处上传')}</p>
+      <p className='ant-upload-text'>{intl.getMessage('dragger.upload', '点击或拖拽文件到此处上传')}</p>
       {/* <p className="ant-upload-hint">
           Support for a single or bulk upload. Strictly prohibit from uploading company data or other
           band files
         </p> */}
     </Dragger>
   );
-}
+};
 
 export default CustomDragger;

@@ -1,7 +1,7 @@
-import _keys from "lodash/keys";
-import _cloneDeep from "lodash/cloneDeep";
-import _pick from "lodash/pick";
-import _flatten from "lodash/flatten";
+import _keys from 'lodash/keys';
+import _cloneDeep from 'lodash/cloneDeep';
+import _pick from 'lodash/pick';
+import _flatten from 'lodash/flatten';
 
 export function isDevelopEnv() {
   return process.env.NODE_ENV === 'development';
@@ -12,11 +12,11 @@ export function getBase64(file: File): Promise<any> {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
+    reader.onerror = (error) => reject(error);
   });
 }
 
-export function getImageDimension(imageUrl: string): Promise<{ width: number, height: number }> {
+export function getImageDimension(imageUrl: string): Promise<{ width: number; height: number }> {
   const img = new Image();
   img.src = imageUrl;
   return new Promise((resolve, reject) => {
@@ -66,48 +66,44 @@ export type ProgressEventData = {
     [k: string]: any;
   };
   withCredentials?: boolean;
-}
+};
 export type ProgressEventEvents = {
-  onProgress: OnEvent,
-  onTimeout?: OnEvent,
-}
+  onProgress: OnEvent;
+  onTimeout?: OnEvent;
+};
 export const progressXhr: (url: string, data: ProgressEventData, events: ProgressEventEvents) => Promise<any> = (
   url,
-  {
-    method,
-    data,
-    headers,
-    withCredentials = true,
-  },
-  {
-    onProgress = () => { },
-    onTimeout = () => { },
-  },
+  { method, data, headers, withCredentials = true },
+  { onProgress = () => {}, onTimeout = () => {} }
 ) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
     if (headers) {
-      _keys(headers).forEach(item => {
+      _keys(headers).forEach((item) => {
         xhr.setRequestHeader(item, headers[item]);
-      })
+      });
     } else {
       xhr.setRequestHeader('Accept', 'application/json');
     }
     xhr.withCredentials = withCredentials;
     xhr.addEventListener('load', (ev) => {
-      resolve(setResponse(xhr.response))
+      resolve(setResponse(xhr.response));
     });
-    xhr.upload.addEventListener("progress", (ev) => {
-      onProgress(xhr, ev);
-    }, false);
+    xhr.upload.addEventListener(
+      'progress',
+      (ev) => {
+        onProgress(xhr, ev);
+      },
+      false
+    );
     xhr.addEventListener('error', (ev) => {
       reject({ type: 'error', xhr, progressEvent: ev });
     });
     xhr.addEventListener('timeout', (ev) => {
       onTimeout(xhr, ev);
-      reject({ type: 'timeout', xhr, progressEvent: ev })
+      reject({ type: 'timeout', xhr, progressEvent: ev });
     });
     xhr.send(data);
-  })
-}
+  });
+};

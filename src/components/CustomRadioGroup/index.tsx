@@ -11,31 +11,32 @@ export default class CustomRadioGroup extends React.Component<CustomRadioGroupPr
   render() {
     const { cols, options = [], ...rest } = this.props;
     if (!cols) {
-      return (
-        <Radio.Group options={options} {...rest} />
-      )
+      return <Radio.Group options={options} {...rest} />;
     }
     const span = 24 / cols;
     return (
       <Radio.Group {...rest}>
         <Row>
-          {options && options.map((item) => {
-            if (_isString(item)) {
+          {options &&
+            options.map((item) => {
+              if (_isString(item)) {
+                return (
+                  <Col>
+                    <Radio value={item}>{item}</Radio>
+                  </Col>
+                );
+              }
+              const { value, ...rest } = item;
               return (
-                <Col>
-                  <Radio value={item}>{item}</Radio>
+                <Col key={`${item.value}`} span={span}>
+                  <Radio value={item.value} {...rest}>
+                    {item.label}
+                  </Radio>
                 </Col>
               );
-            }
-            const { value, ...rest } = item;
-            return (
-              <Col key={`${item.value}`} span={span}>
-                <Radio value={item.value} {...rest}>{item.label}</Radio>
-              </Col>
-            )
-          })}
+            })}
         </Row>
       </Radio.Group>
-    )
+    );
   }
 }

@@ -1,9 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { Component } from "react";
-import moment, { Moment } from "moment";
-import _isArray from "lodash/isArray";
-import { DatePicker } from "antd";
+import React, { Component } from 'react';
+import moment, { Moment } from 'moment';
+import _isArray from 'lodash/isArray';
+import { DatePicker } from 'antd';
 import { RangePickerProps, DatePickerProps } from 'antd/lib/date-picker';
+
 import { setDatetimeValue, setDatetimeRangeValue } from '../../utils/setValue';
 
 const { RangePicker } = DatePicker;

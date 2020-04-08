@@ -29,8 +29,7 @@ function get(source: object, path: string, defaultValue?: string): string | unde
  * @param localeMap
  */
 const createIntl = (locale: string, localeMap: { [key: string]: any }): IntlType => ({
-  getMessage: (id: string, defaultMessage: string) =>
-    get(localeMap, id, defaultMessage) || defaultMessage,
+  getMessage: (id: string, defaultMessage: string) => get(localeMap, id, defaultMessage) || defaultMessage,
   locale,
 });
 

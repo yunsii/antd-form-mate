@@ -22,4 +22,4 @@ export default {
     pictureLimitTplt: '图片像素限制：${limit}',
     sizeLimitTplt: '文件大小限制：${limit}',
   },
-}
+};

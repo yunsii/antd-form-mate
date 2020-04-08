@@ -22,4 +22,4 @@ export default {
     dimensionLimitTplt: 'Dimension limit: ${limit}',
     sizeLimitTplt: 'Size limit: ${limit}',
   },
-}
+};

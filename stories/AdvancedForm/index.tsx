@@ -5,19 +5,28 @@ import FormMate from '../../src';
 import { ConfigProvider } from '../../src';
 
 const initialValues = {
-  picture: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
-  file: ['https://s2.ax1x.com/2019/09/25/uEvPxI.png', 'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg'],
-  location: { position: { longitude: 114.104624, latitude: 22.554863 }, formattedAddress: "广东省深圳市罗湖区桂园街道红岭2118号大院建设集团大厦" },
+  picture: [
+    'https://s2.ax1x.com/2019/09/25/uEvPxI.png',
+    'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg',
+  ],
+  file: [
+    'https://s2.ax1x.com/2019/09/25/uEvPxI.png',
+    'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg',
+  ],
+  location: {
+    position: { longitude: 114.104624, latitude: 22.554863 },
+    formattedAddress: '广东省深圳市罗湖区桂园街道红岭2118号大院建设集团大厦',
+  },
 };
 
 class AdvancedForm extends React.Component {
   handleFinish = (values) => {
     console.log('Received values of form: ', values);
-  }
+  };
 
   handleFinishFailed = (errors) => {
     console.log('Errors:', errors);
-  }
+  };
 
   render() {
     return (
@@ -64,7 +73,7 @@ class AdvancedForm extends React.Component {
 
               onChange: (file) => {
                 console.log(file);
-              }
+              },
             }}
           />
           <FormMate.Item
@@ -77,20 +86,14 @@ class AdvancedForm extends React.Component {
             }}
           />
           <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              onClick={action('click submit')}
-            >
+            <Button type='primary' htmlType='submit' onClick={action('click submit')}>
               提交
-              </Button>
+            </Button>
           </Form.Item>
         </FormMate>
       </ConfigProvider>
-    )
+    );
   }
 }
 
 export default AdvancedForm;
-
-

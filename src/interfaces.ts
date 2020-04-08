@@ -69,13 +69,13 @@ export interface CustomFormItemProps extends Omit<FormItemProps, 'name' | 'child
 /**
  * `children` prop is usable with `custom` type.
  */
-export interface FormMateItemProps<T = ComponentType, P = ComponentProps> extends CustomFormItemProps {
-  type?: T;
+export interface FormMateItemProps<T = never, P = never> extends CustomFormItemProps {
+  type?: ComponentType | T;
   name: NamePath;
-  componentProps?: P;
+  componentProps?: ComponentProps | P;
   children?: React.ReactNode;
 }
 
-export interface FormMateDynamicProps<T = ComponentType, P = ComponentProps> extends FormMateItemProps<T, P> {
+export interface FormMateDynamicProps<T = never, P = never> extends FormMateItemProps<T, P> {
   render?: (form: FormInstance) => boolean | null | undefined;
 }

@@ -1,21 +1,18 @@
-import React, { useContext, useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import _pick from "lodash/pick";
-import _isArray from "lodash/isArray";
-import _findIndex from "lodash/findIndex";
-import _get from "lodash/get";
+import React, { useContext, useState } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
+import _pick from 'lodash/pick';
+import _isArray from 'lodash/isArray';
+import _findIndex from 'lodash/findIndex';
+import _get from 'lodash/get';
 import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { UploadFile } from 'antd/lib/upload/interface';
 
 import ImagesViewer from '../commons/ImagesViewer';
-import CustomUpload, {
-  CustomUploadPorps,
-  filterFileList,
-} from "../commons/CustomUpload/index";
+import CustomUpload, { CustomUploadPorps, filterFileList } from '../commons/CustomUpload/index';
 // import { getBase64 } from '../../../utils';
 import ConfigContext from '../../contexts/ConfigContext/context';
-import styles from "./index.less";
-import { useIntl } from "../../contexts/Intlcontext";
+import styles from './index.less';
+import { useIntl } from '../../contexts/Intlcontext';
 
 export interface PicturesWallProps extends CustomUploadPorps {
   viewerProps?: ViewerProps;
@@ -26,11 +23,7 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
   const { pictureAccept: defaultPictureAccept } = useContext(ConfigContext);
   const intl = useIntl();
 
-  const {
-    fileList = [],
-    pictureAccept = defaultPictureAccept,
-    viewerProps,
-  } = props;
+  const { fileList = [], pictureAccept = defaultPictureAccept, viewerProps } = props;
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -53,7 +46,7 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
   const uploadButton = (
     <div>
       <PlusOutlined />
-      <div className="ant-upload-text">{intl.getMessage('picturesWall.upload', '上传')}</div>
+      <div className='ant-upload-text'>{intl.getMessage('picturesWall.upload', '上传')}</div>
     </div>
   );
 
@@ -65,19 +58,19 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        listType="picture-card"
+        listType='picture-card'
       >
         {fileList.length >= (props.filesCountLimit || 1) ? null : uploadButton}
       </CustomUpload>
       <ImagesViewer
         visible={previewVisible}
-        images={fileList.map(item => ({ src: item.url!, alt: item.fileName }))}
+        images={fileList.map((item) => ({ src: item.url!, alt: item.fileName }))}
         onClose={() => setPreviewVisible(false)}
         activeIndex={activeIndex}
         {...viewerProps}
       />
     </div>
   );
-}
+};
 
 export default PicturesWall;

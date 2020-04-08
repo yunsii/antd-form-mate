@@ -1,19 +1,16 @@
-import React from "react";
+import React from 'react';
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
-import { Input, InputNumber, Slider, Cascader } from "antd";
-import CustomDatePicker, { CustomRangePicker } from "./components/CustomDatePicker/index";
-import CustomSwitch from "./components/CustomSwitch/index";
-import CustomSelect from "./components/CustomSelect/index";
-import PicturesWall from "./components/PicturesWall/index";
-import CustomDragger from "./components/CustomDragger";
-import CustomCheckGroup from "./components/CustomCheckGroup/index";
-import CustomRadioGroup from "./components/CustomRadioGroup/index";
+import { Input, InputNumber, Slider, Cascader } from 'antd';
+import CustomDatePicker, { CustomRangePicker } from './components/CustomDatePicker/index';
+import CustomSwitch from './components/CustomSwitch/index';
+import CustomSelect from './components/CustomSelect/index';
+import PicturesWall from './components/PicturesWall/index';
+import CustomDragger from './components/CustomDragger';
+import CustomCheckGroup from './components/CustomCheckGroup/index';
+import CustomRadioGroup from './components/CustomRadioGroup/index';
 import InputNumberRange from './components/InputNumberRange';
-import {
-  ComponentType,
-  ComponentProps,
-} from "./interfaces";
+import { ComponentType, ComponentProps } from './interfaces';
 
 import { InjectIntl } from './components/FormMate/utils';
 
@@ -27,43 +24,31 @@ registerComponent('date', <CustomDatePicker />);
 registerComponent('datetime', <CustomDatePicker showTime />);
 registerComponent('date-range', <CustomRangePicker format='YYYY-MM-DD' />);
 registerComponent('datetime-range', <CustomRangePicker format='YYYY-MM-DD HH:mm:ss' showTime />);
-registerComponent('number', (
-  <InjectIntl
-    propName='placeholder'
-    intlPath='placeholder.number'
-    intlDefaultMessage='请输入'
-  >
+registerComponent(
+  'number',
+  <InjectIntl propName='placeholder' intlPath='placeholder.number' intlDefaultMessage='请输入'>
     <InputNumber />
   </InjectIntl>
-));
+);
 registerComponent('number-range', <InputNumberRange />);
-registerComponent('select', (
-  <InjectIntl
-    propName='placeholder'
-    intlPath='placeholder.select'
-    intlDefaultMessage='请选择'
-  >
+registerComponent(
+  'select',
+  <InjectIntl propName='placeholder' intlPath='placeholder.select' intlDefaultMessage='请选择'>
     <CustomSelect />
   </InjectIntl>
-));
-registerComponent('textarea', (
-  <InjectIntl
-    propName='placeholder'
-    intlPath='placeholder.textarea'
-    intlDefaultMessage='请输入'
-  >
+);
+registerComponent(
+  'textarea',
+  <InjectIntl propName='placeholder' intlPath='placeholder.textarea' intlDefaultMessage='请输入'>
     <Input.TextArea />
   </InjectIntl>
-));
-registerComponent('password', (
-  <InjectIntl
-    propName='placeholder'
-    intlPath='placeholder.password'
-    intlDefaultMessage='请输入密码'
-  >
+);
+registerComponent(
+  'password',
+  <InjectIntl propName='placeholder' intlPath='placeholder.password' intlDefaultMessage='请输入密码'>
     <Input.Password />
   </InjectIntl>
-));
+);
 registerComponent('picture', <PicturesWall />);
 registerComponent('switch', <CustomSwitch />);
 registerComponent('slider', <Slider />);
@@ -71,32 +56,26 @@ registerComponent('file-dragger', <CustomDragger />);
 registerComponent('check-group', <CustomCheckGroup />);
 registerComponent('radio-group', <CustomRadioGroup />);
 registerComponent('picture', <PicturesWall />);
-registerComponent('string', (
-  <InjectIntl
-    propName='placeholder'
-    intlPath='placeholder.string'
-    intlDefaultMessage='请输入'
-  >
+registerComponent(
+  'string',
+  <InjectIntl propName='placeholder' intlPath='placeholder.string' intlDefaultMessage='请输入'>
     <Input />
   </InjectIntl>
-));
-registerComponent('cascader', (
-  <InjectIntl
-    propName='placeholder'
-    intlPath='placeholder.select'
-    intlDefaultMessage='请选择'
-  >
+);
+registerComponent(
+  'cascader',
+  <InjectIntl propName='placeholder' intlPath='placeholder.select' intlDefaultMessage='请选择'>
     <Cascader />
   </InjectIntl>
-));
+);
 
 export type ComponentMap = {
-  [key in ComponentType]?: [React.ComponentClass | React.FC | React.ExoticComponent, ComponentProps?]
-}
+  [key in ComponentType]?: [React.ComponentClass | React.FC | React.ExoticComponent, ComponentProps?];
+};
 
-const getComponent = <T extends ComponentType[keyof ComponentType]>(type: T) => {
+const getComponent = (type: ComponentType) => {
   const result = registeredComponents.get(type);
   return result || registeredComponents.get('string');
-}
+};
 
 export default getComponent;

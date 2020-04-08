@@ -6,7 +6,7 @@ export interface FormMateConsumerProps {
 
 export const FormMateContext = React.createContext<FormMateConsumerProps>({});
 
-FormMateContext.displayName = 'antd-form-mate\'s FormMateContext';
+FormMateContext.displayName = "antd-form-mate's FormMateContext";
 
 /** 共享 `FormMate` 组件属性 */
 export default FormMateContext;
