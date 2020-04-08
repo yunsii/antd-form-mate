@@ -6,7 +6,7 @@ import { Form } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 
-import { FormMateItemProps, ComponentType, ComponentProps } from '../../../interfaces';
+import { FormMateItemProps } from '../../../interfaces';
 import { ConfigContext } from '../../../contexts/ConfigContext/context';
 import { useIntl } from '../../../contexts/Intlcontext';
 // import { renderCol } from '../../FormMate/utils';
@@ -14,13 +14,13 @@ import getComponent from '../../../map';
 import { FormMateItemDisplayName } from '../../../constants/components';
 import { setValuePropName } from './utils';
 
-const FormMateItem = <T extends ComponentType[keyof ComponentType], P extends ComponentProps>({
+const FormMateItem: React.FC<FormMateItemProps> = ({
   type = 'string' as any,
   name,
   componentProps,
   children,
   ...restFormItemProps
-}: FormMateItemProps<T, P>) => {
+}) => {
   const intl = useIntl();
   const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
 
@@ -34,7 +34,7 @@ const FormMateItem = <T extends ComponentType[keyof ComponentType], P extends Co
     if (extra === false || extra === null) {
       return undefined;
     }
-    return extra || commonExtra[type as ComponentType];
+    return extra || commonExtra[type];
   }
 
   if (type === 'plain') {
@@ -61,7 +61,7 @@ const FormMateItem = <T extends ComponentType[keyof ComponentType], P extends Co
       return children;
     }
     return React.cloneElement(typedComponent, {
-      ...setCommonProps(type as ComponentType, _get(typedComponent.props, 'style')),
+      ...setCommonProps(type, _get(typedComponent.props, 'style')),
       ...componentProps,
     });
   }
@@ -88,7 +88,7 @@ const FormMateItem = <T extends ComponentType[keyof ComponentType], P extends Co
       style={setStyle()}
       extra={setExtra()}
       {...rest}
-      valuePropName={setValuePropName(type as ComponentType)}
+      valuePropName={setValuePropName(type)}
       rules={setRules()}
     >
       {createElement()}
