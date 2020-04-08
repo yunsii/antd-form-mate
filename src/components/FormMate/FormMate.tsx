@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
@@ -19,13 +19,7 @@ export interface FormMateProps extends FormProps {
 }
 
 export const FormMate = (props: FormMateProps) => {
-  const {
-    initialValues,
-    renderChildren,
-    renderItem,
-    children,
-    ...rest
-  } = props;
+  const { initialValues, renderChildren, renderItem, children, ...rest } = props;
 
   const fieldsType = {};
 
@@ -43,11 +37,11 @@ export const FormMate = (props: FormMateProps) => {
 
   const processInitialValues = () => {
     const result = {};
-    _keys(initialValues).forEach(item => {
-      result[item] = setInitialValue(fieldsType[item], initialValues?.[item])
+    _keys(initialValues).forEach((item) => {
+      result[item] = setInitialValue(fieldsType[item], initialValues?.[item]);
     });
     return result;
-  }
+  };
 
   return (
     <FormMateContext.Provider
@@ -55,12 +49,9 @@ export const FormMate = (props: FormMateProps) => {
         renderItem,
       }}
     >
-      <Form
-        initialValues={processInitialValues()}
-        {...rest}
-      >
+      <Form initialValues={processInitialValues()} {...rest}>
         {renderChildren ? renderChildren(renderItems) : children}
       </Form>
     </FormMateContext.Provider>
-  )
-}
+  );
+};

@@ -1,8 +1,8 @@
-import { Form } from "antd";
-import FormMateItem from "./FormMateItem";
-import FormMateDynamic from "./FormMateDynamic";
+import { Form } from 'antd';
+import FormMateItem from './FormMateItem';
+import FormMateDynamic from './FormMateDynamic';
 
-import { FormMate as InternalForm } from "./FormMate";
+import { FormMate as InternalForm } from './FormMate';
 
 type InternalForm = typeof InternalForm;
 
