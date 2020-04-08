@@ -6,7 +6,7 @@ import { Form } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 
-import { FormMateItemProps } from '../../../interfaces';
+import { FormMateItemProps, ComponentType } from '../../../interfaces';
 import { ConfigContext } from '../../../contexts/ConfigContext/context';
 import { useIntl } from '../../../contexts/Intlcontext';
 // import { renderCol } from '../../FormMate/utils';
@@ -14,13 +14,13 @@ import getComponent from '../../../map';
 import { FormMateItemDisplayName } from '../../../constants/components';
 import { setValuePropName } from './utils';
 
-const FormMateItem: React.FC<FormMateItemProps> = ({
-  type = 'string' as any,
+const FormMateItem = <T, P = {}>({
+  type = 'string',
   name,
   componentProps,
   children,
   ...restFormItemProps
-}) => {
+}: FormMateItemProps<T, P>) => {
   const intl = useIntl();
   const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
 
@@ -34,7 +34,7 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
     if (extra === false || extra === null) {
       return undefined;
     }
-    return extra || commonExtra[type];
+    return extra || commonExtra[type as ComponentType];
   }
 
   if (type === 'plain') {
@@ -54,14 +54,14 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
     );
   }
 
-  const typedComponent = getComponent(type) as JSX.Element;
+  const typedComponent = getComponent(type as ComponentType) as JSX.Element;
 
   function createElement(): FormItemProps['children'] {
     if (type === 'custom') {
       return children;
     }
     return React.cloneElement(typedComponent, {
-      ...setCommonProps(type, _get(typedComponent.props, 'style')),
+      ...setCommonProps(type as ComponentType, _get(typedComponent.props, 'style')),
       ...componentProps,
     });
   }
@@ -88,7 +88,7 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
       style={setStyle()}
       extra={setExtra()}
       {...rest}
-      valuePropName={setValuePropName(type)}
+      valuePropName={setValuePropName(type as ComponentType)}
       rules={setRules()}
     >
       {createElement()}
