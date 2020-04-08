@@ -4,6 +4,7 @@ import _isFunction from 'lodash/isFunction';
 import _find from 'lodash/find';
 import { Form } from "antd";
 import { FormInstance } from "antd/lib/form";
+import { FormItemProps } from "antd/lib/form/FormItem";
 
 import { FormMateItemProps } from "../../../interfaces";
 import { ConfigContext } from '../../../contexts/ConfigContext/context';
@@ -66,7 +67,7 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
 
   const typedComponent = getComponent(type);
 
-  function createElement() {
+  function createElement(): FormItemProps['children'] {
     if (type === 'custom') { return children; }
     return (
       React.cloneElement(typedComponent, {
@@ -104,7 +105,7 @@ const FormMateItem: React.FC<FormMateItemProps> = ({
       valuePropName={setValuePropName(type)}
       rules={setRules()}
     >
-      {createElement()!}
+      {createElement()}
     </Form.Item>
   );
 }
