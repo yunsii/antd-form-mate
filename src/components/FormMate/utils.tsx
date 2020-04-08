@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
 
 import { useIntl } from '../../contexts/Intlcontext';
-import { ComponentType } from "../../interfaces";
+import { ComponentType } from '../../interfaces';
 
 export interface InjectIntlProps {
   propName: string;
@@ -13,19 +13,27 @@ export interface InjectIntlProps {
   children: JSX.Element;
 }
 
-export const InjectIntl: React.FC<InjectIntlProps> = ({ propName, intlPath, intlDefaultMessage, children, ...rest }) => {
+export const InjectIntl: React.FC<InjectIntlProps> = ({
+  propName,
+  intlPath,
+  intlDefaultMessage,
+  children,
+  ...rest
+}) => {
   const intl = useIntl();
   return React.cloneElement(children, {
     [propName]: intl.getMessage(intlPath, intlDefaultMessage),
     ...rest,
   });
-}
+};
 
 export function getChildName(child: React.ReactNode) {
   if (React.isValidElement(child) && !_isString(child)) {
-    if (_isString(child.type)) { return child.type; }
+    if (_isString(child.type)) {
+      return child.type;
+    }
 
-    return child.type.name;
+    return (child.type as any).displayName || child.type.name || 'Component';
   }
   return null;
 }
