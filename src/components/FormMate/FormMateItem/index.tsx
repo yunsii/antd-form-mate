@@ -46,7 +46,7 @@ const FormMateItem = <T, P = {}>({
         {({ getFieldValue }: FormInstance) => {
           return (
             <Form.Item name={name} style={setStyle()} extra={setExtra()} {...rest}>
-              <div className="ant-form-text">{getFieldValue(name!)}</div>
+              <div className='ant-form-text'>{getFieldValue(name!)}</div>
             </Form.Item>
           );
         }}
@@ -63,7 +63,7 @@ const FormMateItem = <T, P = {}>({
     return React.cloneElement(typedComponent, {
       ...setCommonProps(type as ComponentType, _get(typedComponent.props, 'style')),
       ...componentProps,
-    });
+    }) as FormItemProps['children'];
   }
 
   function setRules() {
