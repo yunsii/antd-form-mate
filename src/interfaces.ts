@@ -73,7 +73,7 @@ export interface FormMateItemProps<T = never, P = never> extends CustomFormItemP
   type?: ComponentType | T;
   name: NamePath;
   componentProps?: ComponentProps | P;
-  children?: React.ReactNode;
+  children?: FormItemProps['children'];
 }
 
 export interface FormMateDynamicProps<T = never, P = never> extends FormMateItemProps<T, P> {
