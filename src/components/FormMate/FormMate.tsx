@@ -4,19 +4,13 @@ import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
 import _keys from 'lodash/keys';
 import { Form } from 'antd';
-import { FormProps } from 'antd/lib/form';
 
 import FormMateContext from '../../contexts/FormMateContext';
 import { FormMateDynamicDisplayName } from '../../constants/components';
 import { getChildName } from './utils';
 import setInitialValue from '../../utils/setValue';
+import { FormMateProps } from '../../interfaces';
 // import { setInitialValue } from './setValue';
-
-export interface FormMateProps extends FormProps {
-  renderChildren?: (children: React.ReactNode) => React.ReactNode;
-  /** item: 渲染子节点，name: 子节点组件名称，通常为 `FormMateItem` */
-  renderItem?: (item: React.ReactNode, name: string | null) => React.ReactNode;
-}
 
 export const FormMate = (props: FormMateProps) => {
   const { initialValues, renderChildren, renderItem, children, ...rest } = props;

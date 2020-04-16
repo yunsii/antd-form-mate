@@ -3,7 +3,7 @@ import { InputNumberProps } from 'antd/lib/input-number';
 import { PasswordProps, TextAreaProps, InputProps } from 'antd/lib/input';
 import { SliderProps } from 'antd/lib/slider';
 import { CascaderProps } from 'antd/lib/cascader';
-import { NamePath } from 'rc-field-form/lib/interface';
+import { FormProps } from 'antd/lib/form';
 import { CustomDatePickerProps, CustomRangePickerProps } from './components/CustomDatePicker/index';
 import { CustomSwitchProps } from './components/CustomSwitch/index';
 import { CustomSelectProps } from './components/CustomSelect/index';
@@ -62,7 +62,7 @@ export type ComponentProps =
   | TextAreaProps
   | InputProps;
 
-export interface CustomFormItemProps extends Omit<FormItemProps, 'name' | 'children'> {
+export interface CustomFormItemProps extends Omit<FormItemProps, 'children'> {
   dense?: boolean;
 }
 
@@ -71,11 +71,16 @@ export interface CustomFormItemProps extends Omit<FormItemProps, 'name' | 'child
  */
 export interface FormMateItemProps<T = never, P = never> extends CustomFormItemProps {
   type?: ComponentType | T;
-  name: NamePath;
   componentProps?: ComponentProps | P;
   children?: FormItemProps['children'];
 }
 
 export interface FormMateDynamicProps<T = never, P = never> extends FormMateItemProps<T, P> {
   render?: (form: FormInstance) => boolean | null | undefined;
+}
+
+export interface FormMateProps extends FormProps {
+  renderChildren?: (children: React.ReactNode) => React.ReactNode;
+  /** item: 渲染子节点，name: 子节点组件名称，通常为 `FormMateItem` */
+  renderItem?: (item: React.ReactNode, name: string | null) => React.ReactNode;
 }
