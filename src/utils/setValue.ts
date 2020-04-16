@@ -57,14 +57,14 @@ function setFileNameByPath(path: string) {
   return pathSegment[pathSegment.length - 1];
 }
 
-export function setFileList(value?: string | any[]): UploadFile[] {
+export function setFileList(value?: string | any[], setFileName?: (path: string) => string): UploadFile[] {
   let fileList: UploadFile[] = [];
+  const _setFileName = setFileName || setFileNameByPath;
   if (value && _isString(value)) {
-    fileList = [{ uid: setFileNameByPath(value), url: value, name: setFileNameByPath(value), status: 'done' } as any];
+    fileList = [{ uid: _setFileName(value), url: value, name: _setFileName(value), status: 'done' } as any];
   } else if (value && _isArray(value) && _isString(value[0])) {
     fileList = value.map(
-      (item, index) =>
-        ({ uid: setFileNameByPath(item), url: item, name: setFileNameByPath(item), status: 'done' } as any)
+      (item, index) => ({ uid: _setFileName(item), url: item, name: _setFileName(item), status: 'done' } as any)
     );
   }
   return fileList;
