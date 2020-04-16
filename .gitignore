@@ -90,3 +90,6 @@ typings/
 # custom
 dist/
 storybook-static/
+
+# vscode
+.vscode/settings.json
