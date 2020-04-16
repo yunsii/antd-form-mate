@@ -32,32 +32,33 @@ $ cd antd-form-mate
 $ npm install
 $ npm start
 ```
+
 ## 使用
 
 由于没有打包发布的经验，所以在 3.0.0 之前的版本除了一些未知的 bug 外，可能会存在一些兼容性问题。此次重构到 3.0.0 后，后续发包当慎重起见。
 
 ### 内建类型
 
-|    | 类型               | 备注          |
-|----|--------------------|--------------|
-| 1  | `custom`          | 自定义组件类型，通过 `component` 属性传入组件 |
-| 2  | `date`            |              |
-| 3  | `datetime`        |              |
-| 4  | `date-range`     | 日期范围         |
-| 5  | `datetime-range` | 日期时间范围       |
-| 6  | `number`          |              |
-| 7  | `select`          |              |
-| 8  | `textarea`        |              |
-| 9  | `password`        |              |
-| 10 | `picture`         |              |
-| 11 | `switch`          |              |
-| 12 | `slider`          | 滑动输入         |
-| 13 | `file-dragger`   |              |
-| 14 | `string`          | **默认类型** |
-| 15 | `check-group`    | 多选框          |
-| 16 | `radio-group`    | 单选框          |
-| 17 | `number-range`     | 数字区间         |
-| 18 | `cascader`       | 级联选择         |
+|     | 类型             | 备注                                          |
+| --- | ---------------- | --------------------------------------------- |
+| 1   | `custom`         | 自定义组件类型，通过 `component` 属性传入组件 |
+| 2   | `date`           |                                               |
+| 3   | `datetime`       |                                               |
+| 4   | `date-range`     | 日期范围                                      |
+| 5   | `datetime-range` | 日期时间范围                                  |
+| 6   | `number`         |                                               |
+| 7   | `select`         |                                               |
+| 8   | `textarea`       |                                               |
+| 9   | `password`       |                                               |
+| 10  | `picture`        |                                               |
+| 11  | `switch`         |                                               |
+| 12  | `slider`         | 滑动输入                                      |
+| 13  | `file-dragger`   |                                               |
+| 14  | `string`         | **默认类型**                                  |
+| 15  | `check-group`    | 多选框                                        |
+| 16  | `radio-group`    | 单选框                                        |
+| 17  | `number-range`   | 数字区间                                      |
+| 18  | `cascader`       | 级联选择                                      |
 
 除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 类型外的组件。
 
@@ -69,20 +70,20 @@ $ npm start
 
 #### `FormMate.Item` 表单项
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `type` | 上述类型 | [`ComponentType`](/src/interfaces.ts#L16) | `string` |
-| `name` | 字段名 | [`NamePath`](https://next.ant.design/components/form-cn/#NamePath) | - |
-| `dense` | 使得 Form.Item 的 `marginBottom` 为 0 | `boolean` | `false` |
-| `componentProps` | 额外的组件属性 | [`ComponentProps`](/src/interfaces.ts#L47) | - |
+| 参数             | 说明                                  | 类型                                                               | 默认值   |
+| ---------------- | ------------------------------------- | ------------------------------------------------------------------ | -------- |
+| `type`           | 上述类型                              | [`ComponentType`](/src/interfaces.ts#L16)                          | `string` |
+| `name`           | 字段名                                | [`NamePath`](https://next.ant.design/components/form-cn/#NamePath) | -        |
+| `dense`          | 使得 Form.Item 的 `marginBottom` 为 0 | `boolean`                                                          | `false`  |
+| `componentProps` | 额外的输入组件属性                    | [`ComponentProps`](/src/interfaces.ts#L47)                         | -        |
 
 其他属性可参考 [`Form.Item`](https://ant.design/components/form-cn/#Form.Item) 组件属性，特别的 `children` 属性仅当类型为 `custom` 时可用。
 
 #### `FormMate.Dynamic` 动态表单项
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `render` | 判断是否渲染 | `(form: FormInstance) => boolean \| null \| undefined` | - |
+| 参数     | 说明         | 类型                                                   | 默认值 |
+| -------- | ------------ | ------------------------------------------------------ | ------ |
+| `render` | 判断是否渲染 | `(form: FormInstance) => boolean \| null \| undefined` | -      |
 
 其他属性可参考 [`FormMate.Item`](#FormMate.Item-表单项) 组件属性，可配置 `children` 。
 
@@ -160,22 +161,22 @@ export default BasicForm;
 
 将注册新类型的模块称为组件。
 
-|    | 仓库 | 说明 |
-| -- | ---- | ---- |
-| 1  | [antd-form-mate-location](https://github.com/zpr1g/antd-form-mate-location) | 高德地图地理位置录入 |
+|     | 仓库                                                                        | 说明                 |
+| --- | --------------------------------------------------------------------------- | -------------------- |
+| 1   | [antd-form-mate-location](https://github.com/zpr1g/antd-form-mate-location) | 高德地图地理位置录入 |
 
 ## 扩展
 
 将基于本组件实现新功能的模块称为扩展。
 
-|    | 仓库 | 说明 |
-| -- | ---- | ---- |
-| 1  | [antd-form-mate-editable](https://github.com/zpr1g/antd-form-mate-editable) | 可编辑表格 |
+|     | 仓库                                                                        | 说明       |
+| --- | --------------------------------------------------------------------------- | ---------- |
+| 1   | [antd-form-mate-editable](https://github.com/zpr1g/antd-form-mate-editable) | 可编辑表格 |
 
 ## To Do
 
 - [x] [antd-form-mate-v4](https://github.com/zpr1g/antd-form-mate/projects/1)
-- [ ] [antd-form-mate-v5](https://github.com/zpr1g/antd-form-mate/projects/2)
+- [x] [antd-form-mate-v5](https://github.com/zpr1g/antd-form-mate/projects/2)
 
 ## 升级
 
@@ -183,14 +184,16 @@ export default BasicForm;
 
 表单组件升级到 4.0 后，由于 `initialValues` 提升到 `Form` 组件中统一配置，且由于之前组件对并没有对 `Form` 组件进行封装，导致了一些使用上的不便，故再次重构，旨在让整个组件的结构和使用更优雅。下面总结 v4 到 v5 的变更：
 
-1. 文件结构调整
+1. 文件结构调整，使其更清晰合理
 2. 基于 `Form` 封装 `FormMate` 组件
-3. 在 `FormMate` 中处理表单初始值，统一字段值类型
-  * `switch` -> `boolean`
-  * `date` 相关 -> `Moment`
-  * 文件相关 -> `UploadFile[]`
-4. 重构表单项创建方式，使用 `FormMate.Item` 组件创建
-5. 移除不必要的默认配置，如 `defaultItemLayout` 等，完全可以在使用时再自定义配置即可
+3. 在 `FormMate` 中处理表单初始值，[统一字段值类型](./src/utils/setValue.ts#L8)
+
+- `switch` -> `boolean`
+- `date` 相关 -> `Moment`
+- 文件相关 -> `UploadFile[]` ，内部默认使用以 `/` 分割后的 url 数组的最后一个字符串。如果不能满足需求，现目前的方案是导出 `setInitialValue()` 和 `setFileList()` 单独处理初始值后传入
+
+4. 重构表单项创建方式，使用 `FormMate.Item` 和 `FormMate.Dynamic` 组件创建
+5. 移除不必要的默认配置，如 `defaultItemLayout` 等，完全可以在实际场景中二次封装即可
 
 ### 从 v3 到 v4
 
@@ -207,7 +210,7 @@ export default BasicForm;
 
 ```js
 export const defaultExtra = {
-  picture: "请上传图片",
+  picture: '请上传图片',
 };
 ```
 
