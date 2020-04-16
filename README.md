@@ -91,7 +91,7 @@ $ npm start
 
 ```tsx
 import * as React from 'react';
-import { Form, Button } from 'antd';
+import { Button } from 'antd';
 import FormMate from 'antd-form-mate';
 
 
@@ -130,14 +130,14 @@ const BasicForm: React.FC = (props) => {
           return (getFieldValue('name') === 'form');
         }}
       />
-      <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
+      <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
         <Button
           type="primary"
           htmlType="submit"
         >
           提交
         </Button>
-      </Form.Item>
+      </FormMate.Item>
     </Form>
   )
 }
