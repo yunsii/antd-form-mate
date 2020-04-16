@@ -1,10 +1,10 @@
 import * as React from 'react';
 // import { action } from '@storybook/addon-actions';
 import moment from 'moment';
-// import { Form, Button } from 'antd';
-import { Form, Button, Row, Col } from 'antd';
-import { ComponentType } from '../../src/interfaces';
+import { Button, Row, Col } from 'antd';
+
 import FormMate, { ConfigProvider } from '../../src';
+import { ComponentType } from '../../src/interfaces';
 
 const { useState, useEffect } = React;
 const dateFormat = 'YYYY-MM-DD';
@@ -254,7 +254,7 @@ const BasicForm: React.FC = () => {
             return getFieldValue('name') === 'form';
           }}
         />
-        <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
+        <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
           <Button type='primary' htmlType='submit'>
             提交
           </Button>
@@ -268,7 +268,7 @@ const BasicForm: React.FC = () => {
           >
             其他
           </Button>
-        </Form.Item>
+        </FormMate.Item>
       </FormMate>
     </ConfigProvider>
   );

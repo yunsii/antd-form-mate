@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Form, Button } from 'antd';
-import FormMate from '../../src';
-import { ConfigProvider } from '../../src';
+
+import FormMate, { ConfigProvider } from '../../src';
 
 const initialValues = {
   picture: [
