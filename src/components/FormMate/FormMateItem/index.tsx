@@ -30,6 +30,15 @@ const FormMateItem = <T, P = {}>({
     return dense ? { marginBottom: 0, ...style } : style;
   }
 
+  if (!name) {
+    /** 如果没有 `name` ，尚可使用 `dense` 属性 */
+    return (
+      <Form.Item style={setStyle()} {...restFormItemProps}>
+        {children}
+      </Form.Item>
+    );
+  }
+
   function setExtra() {
     if (extra === false || extra === null) {
       return undefined;
