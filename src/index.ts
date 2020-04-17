@@ -18,5 +18,4 @@ export { default as Dragger } from './components/CustomDragger';
 export { default as PicturesWall } from './components/PicturesWall';
 export { default as InputNumberRange } from './components/InputNumberRange';
 
-export { setInitialValue, setFileList } from './utils/setValue';
 export { getBase64, getImageDimension, progressXhr } from './utils/commons';
