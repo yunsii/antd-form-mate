@@ -13,7 +13,7 @@ import { FormMateProps } from '../../interfaces';
 // import { setInitialValue } from './setValue';
 
 export const FormMate = (props: FormMateProps) => {
-  const { initialValues, renderChildren, renderItem, children, ...rest } = props;
+  const { initialValues, renderChildren, renderItem, children, postInitialValues, ...rest } = props;
 
   const fieldsType = {};
 
@@ -34,7 +34,7 @@ export const FormMate = (props: FormMateProps) => {
     _keys(initialValues).forEach((item) => {
       result[item] = setInitialValue(fieldsType[item], initialValues?.[item]);
     });
-    return result;
+    return postInitialValues?.(result) || result;
   };
 
   return (

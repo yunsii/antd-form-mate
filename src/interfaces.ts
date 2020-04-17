@@ -79,8 +79,13 @@ export interface FormMateDynamicProps<T = never, P = never> extends FormMateItem
   render?: (form: FormInstance) => boolean | null | undefined;
 }
 
+type Filter<T, U> = T extends U ? T : never; // Remove types from T that are not assignable to U
+
 export interface FormMateProps extends FormProps {
   renderChildren?: (children: React.ReactNode) => React.ReactNode;
   /** item: 渲染子节点，name: 子节点组件名称，通常为 `FormMateItem` */
   renderItem?: (item: React.ReactNode, name: string | null) => React.ReactNode;
+  postInitialValues?: (
+    initialValues: Filter<FormProps['initialValues'], Object>
+  ) => Filter<FormProps['initialValues'], Object>;
 }
