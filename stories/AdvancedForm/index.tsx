@@ -44,6 +44,14 @@ class AdvancedForm extends React.Component {
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           initialValues={initialValues}
+          postInitialValues={(values) => {
+            values.file.map((item, index) => {
+              item.name = 'custom_name_' + (index + 1);
+              return item;
+            });
+
+            return values;
+          }}
           labelCol={{
             span: 8,
           }}
