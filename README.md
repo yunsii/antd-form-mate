@@ -188,9 +188,10 @@ export default BasicForm;
 2. 基于 `Form` 封装 `FormMate` 组件
 3. 在 `FormMate` 中处理表单初始值，[统一字段值类型](./src/utils/setValue.ts#L8)
 
-- `switch` -> `boolean`
-- `date` 相关 -> `Moment`
-- 文件相关 -> `UploadFile[]` ，内部默认使用以 `/` 分割后的 url 数组的最后一个字符串。如果不能满足需求，现目前的方案是导出 `setInitialValue()` 和 `setFileList()` 单独处理初始值后传入
+   - `switch` -> `boolean`
+   - `date` 相关 -> `Moment`
+   - 文件相关 -> `UploadFile[]` ，内部默认使用以 `/` 分割后的 url 数组的最后一个字符串
+   - 特别的，如果像文件相关的内部字段转换不满足实际需求，可通过 `postInitialValues()` 属性对内部转换的结果再次进行处理
 
 4. 重构表单项创建方式，使用 `FormMate.Item` 和 `FormMate.Dynamic` 组件创建
 5. 移除不必要的默认配置，如 `defaultItemLayout` 等，完全可以在实际场景中二次封装即可
