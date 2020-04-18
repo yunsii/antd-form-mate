@@ -155,17 +155,13 @@ export default BasicForm;
 
 未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
 
-## 模块
+## 模块化
 
-### 组件
+### 注册新组件
 
-将注册新类型的模块称为组件。
+可参考 [antd-form-mate-location](https://github.com/zpr1g/antd-form-mate-location/blob/master/stories/components/FormMateItem/index.tsx#L8) - 高德地图地理位置录入组件的注册使用。
 
-|     | 仓库                                                                        | 说明                 |
-| --- | --------------------------------------------------------------------------- | -------------------- |
-| 1   | [antd-form-mate-location](https://github.com/zpr1g/antd-form-mate-location) | 高德地图地理位置录入 |
-
-## 扩展
+### 扩展
 
 将基于本组件实现新功能的模块称为扩展。
 
@@ -182,7 +178,7 @@ export default BasicForm;
 
 ### 从 v4 到 v5
 
-表单组件升级到 4.0 后，由于 `initialValues` 提升到 `Form` 组件中统一配置，且由于之前组件对并没有对 `Form` 组件进行封装，导致了一些使用上的不便，故再次重构，旨在让整个组件的结构和使用更优雅。下面总结 v4 到 v5 的变更：
+表单组件升级到 antd 4.0 后，由于 `initialValues` 提升到 `Form` 组件中统一配置，且由于之前组件并没有对 `Form` 组件进行封装，导致了一些使用上的不便，故再次重构，旨在让整个组件的结构和使用更优雅。下面总结 v4 到 v5 的变更：
 
 1. 文件结构调整，使其更清晰合理
 2. 基于 `Form` 封装 `FormMate` 组件
