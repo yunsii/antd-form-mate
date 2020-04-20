@@ -7,8 +7,6 @@ import { RangePickerProps, DatePickerProps } from 'antd/lib/date-picker';
 
 import { setDatetimeValue, setDatetimeRangeValue } from '../../utils/setValue';
 
-const { RangePicker } = DatePicker;
-
 function disabledLessThanOrEqualTodayDate(current: Moment) {
   return current && current < moment().endOf('day');
 }
@@ -41,7 +39,7 @@ export class CustomRangePicker extends Component<CustomRangePickerProps> {
   render() {
     const { disabledPastDays, disabledFutureDays, value, ...rest } = this.props;
     return (
-      <RangePicker
+      <DatePicker.RangePicker
         disabledDate={setDisabledDate(disabledFutureDays, disabledPastDays)}
         {...rest}
         value={setDatetimeRangeValue(value)}
