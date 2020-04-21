@@ -68,6 +68,16 @@ $ npm start
 
 ### API
 
+#### `FormMate` 表单容器
+
+| 参数                | 说明                               | 类型                                                               | 默认值 |
+| ------------------- | ---------------------------------- | ------------------------------------------------------------------ | ------ |
+| `renderChildren`    | 自定义 `children` 渲染             | `(children: React.ReactNode) => React.ReactNode`                   | -      |
+| `renderItem`        | 自定义每个子项的渲染               | `(item: React.ReactNode, name: string \| null) => React.ReactNode` | -      |
+| `postInitialValues` | 对于内部已经处理过的初始值再次处理 | `Function`                                                         | -      |
+
+由于需要根据输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）的配置默认处理初始值，所以输入项必须在 `FormMate` 组件下，不能在中间插入其他组件，否则会导致默认处理对初始值的处理无法生效。当然，如果不需要这个 feature ，完全可以不 care 。
+
 #### `FormMate.Item` 表单项
 
 | 参数             | 说明                                  | 类型                                                               | 默认值   |
@@ -94,15 +104,14 @@ import * as React from 'react';
 import { Button } from 'antd';
 import FormMate from 'antd-form-mate';
 
-
 const BasicForm: React.FC = (props) => {
   const handleFinish = (values) => {
     console.log('Received values of form: ', values);
-  }
+  };
 
   const handleFinishFailed = (errors) => {
     console.log('Errors:', errors);
-  }
+  };
 
   return (
     <FormMate
@@ -116,31 +125,23 @@ const BasicForm: React.FC = (props) => {
       onFinish={handleFinish}
       onFinishFailed={handleFinishFailed}
     >
-      <FormMate.Item
-        type='string'
-        name='name'
-        label='姓名'
-        rules={[{ required: true, message: '请输入姓名！' }]}
-      />
+      <FormMate.Item type='string' name='name' label='姓名' rules={[{ required: true, message: '请输入姓名！' }]} />
       <FormMate.Dynamic
         type='string'
         name='dynamic'
         label='动态字段'
         render={({ getFieldValue }) => {
-          return (getFieldValue('name') === 'form');
+          return getFieldValue('name') === 'form';
         }}
       />
       <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
-        <Button
-          type="primary"
-          htmlType="submit"
-        >
+        <Button type='primary' htmlType='submit'>
           提交
         </Button>
       </FormMate.Item>
     </FormMate>
-  )
-}
+  );
+};
 
 export default BasicForm;
 ```
