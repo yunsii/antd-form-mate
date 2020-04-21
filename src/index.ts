@@ -13,7 +13,6 @@ export { default as CheckGroup } from './components/CustomCheckGroup';
 export { default as DatePicker } from './components/CustomDatePicker';
 export { default as RadioGroup } from './components/CustomRadioGroup';
 export { default as Select } from './components/CustomSelect';
-export { default as Switch } from './components/CustomSwitch';
 export { default as Dragger } from './components/CustomDragger';
 export { default as PicturesWall } from './components/PicturesWall';
 export { default as InputNumberRange } from './components/InputNumberRange';

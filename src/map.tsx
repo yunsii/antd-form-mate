@@ -1,9 +1,8 @@
 import React from 'react';
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
-import { Input, InputNumber, Slider, Cascader } from 'antd';
+import { Input, InputNumber, Slider, Cascader, Switch } from 'antd';
 import CustomDatePicker, { CustomRangePicker } from './components/CustomDatePicker/index';
-import CustomSwitch from './components/CustomSwitch/index';
 import CustomSelect from './components/CustomSelect/index';
 import PicturesWall from './components/PicturesWall/index';
 import CustomDragger from './components/CustomDragger';
@@ -50,7 +49,7 @@ registerComponent(
   </InjectIntl>
 );
 registerComponent('picture', <PicturesWall />);
-registerComponent('switch', <CustomSwitch />);
+registerComponent('switch', <Switch />);
 registerComponent('slider', <Slider />);
 registerComponent('file-dragger', <CustomDragger />);
 registerComponent('check-group', <CustomCheckGroup />);
