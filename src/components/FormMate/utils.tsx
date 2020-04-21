@@ -27,8 +27,12 @@ export const InjectIntl: React.FC<InjectIntlProps> = ({
   });
 };
 
+export function isJsxChild(child: React.ReactNode): child is JSX.Element {
+  return React.isValidElement(child) && !_isString(child);
+}
+
 export function getChildName(child: React.ReactNode) {
-  if (React.isValidElement(child) && !_isString(child)) {
+  if (isJsxChild(child)) {
     if (_isString(child.type)) {
       return child.type;
     }
