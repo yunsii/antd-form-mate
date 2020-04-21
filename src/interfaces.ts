@@ -1,11 +1,11 @@
 import { FormItemProps, FormInstance } from 'antd/lib/form';
 import { InputNumberProps } from 'antd/lib/input-number';
+import { SwitchProps } from 'antd/lib/switch';
 import { PasswordProps, TextAreaProps, InputProps } from 'antd/lib/input';
 import { SliderProps } from 'antd/lib/slider';
 import { CascaderProps } from 'antd/lib/cascader';
 import { FormProps } from 'antd/lib/form';
 import { CustomDatePickerProps, CustomRangePickerProps } from './components/CustomDatePicker/index';
-import { CustomSwitchProps } from './components/CustomSwitch/index';
 import { CustomSelectProps } from './components/CustomSelect/index';
 import { PicturesWallProps } from './components/PicturesWall/index';
 import { CustomDraggerProps } from './components/CustomDragger';
@@ -53,7 +53,7 @@ export type ComponentProps =
   | CascaderProps
   | PasswordProps
   | PicturesWallProps
-  | CustomSwitchProps
+  | SwitchProps
   | SliderProps
   | CustomDraggerProps
   | CustomCheckGroupProps
