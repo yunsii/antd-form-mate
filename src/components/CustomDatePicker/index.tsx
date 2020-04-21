@@ -5,8 +5,6 @@ import _isArray from 'lodash/isArray';
 import { DatePicker } from 'antd';
 import { RangePickerProps, DatePickerProps } from 'antd/lib/date-picker';
 
-import { setDatetimeValue, setDatetimeRangeValue } from '../../utils/setValue';
-
 function disabledLessThanOrEqualTodayDate(current: Moment) {
   return current && current < moment().endOf('day');
 }
@@ -37,12 +35,11 @@ interface QuickDisabledProps {
 export type CustomRangePickerProps = RangePickerProps & QuickDisabledProps;
 export class CustomRangePicker extends Component<CustomRangePickerProps> {
   render() {
-    const { disabledPastDays, disabledFutureDays, value, ...rest } = this.props;
+    const { disabledPastDays, disabledFutureDays, ...rest } = this.props;
     return (
       <DatePicker.RangePicker
         disabledDate={setDisabledDate(disabledFutureDays, disabledPastDays)}
         {...rest}
-        value={setDatetimeRangeValue(value)}
       />
     );
   }
@@ -51,12 +48,11 @@ export class CustomRangePicker extends Component<CustomRangePickerProps> {
 export type CustomDatePickerProps = DatePickerProps & QuickDisabledProps;
 export default class CustomDatePicker extends Component<CustomDatePickerProps> {
   render() {
-    const { disabledPastDays, disabledFutureDays, value, ...rest } = this.props;
+    const { disabledPastDays, disabledFutureDays, ...rest } = this.props;
     return (
       <DatePicker
         disabledDate={setDisabledDate(disabledFutureDays, disabledPastDays)}
         {...rest}
-        value={setDatetimeValue(value)}
       />
     );
   }
