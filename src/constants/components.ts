@@ -1,2 +1,3 @@
-export const FormMateItemDisplayName = 'FormMateItem';
-export const FormMateDynamicDisplayName = 'FormMateDynamic';
+export const FormMateItemDisplayName = '__FormMateItem';
+export const FormMateDynamicDisplayName = '__FormMateDynamic';
+export const FormMateWrapperDisplayName = '__FormMateWrapper';
