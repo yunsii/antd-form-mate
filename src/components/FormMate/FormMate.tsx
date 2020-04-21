@@ -10,7 +10,6 @@ import { FormMateDynamicDisplayName } from '../../constants/components';
 import { getChildName } from './utils';
 import setInitialValue from '../../utils/setValue';
 import { FormMateProps } from '../../interfaces';
-// import { setInitialValue } from './setValue';
 
 export const FormMate = (props: FormMateProps) => {
   const { initialValues, renderChildren, renderItem, children, postInitialValues, ...rest } = props;
