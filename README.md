@@ -117,7 +117,7 @@ const BasicForm: React.FC = (props) => {
       onFinishFailed={handleFinishFailed}
     >
       <FormMate.Item
-        type='date'
+        type='string'
         name='name'
         label='姓名'
         rules={[{ required: true, message: '请输入姓名！' }]}
@@ -138,7 +138,7 @@ const BasicForm: React.FC = (props) => {
           提交
         </Button>
       </FormMate.Item>
-    </Form>
+    </FormMate>
   )
 }
 
