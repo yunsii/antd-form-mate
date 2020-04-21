@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import { action } from '@storybook/addon-actions';
 import moment from 'moment';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col, Space } from 'antd';
 
 import FormMate, { ConfigProvider } from '../../src';
 import { ComponentType } from '../../src/interfaces';
@@ -255,19 +255,21 @@ const BasicForm: React.FC = () => {
           }}
         />
         <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
-          <Button type='primary' htmlType='submit'>
-            提交
-          </Button>
-          <Button
-            style={{ marginLeft: 8 }}
-            onClick={() => {
-              form.setFieldsValue({
-                'number-range': [4, 6.4],
-              });
-            }}
-          >
-            其他
-          </Button>
+          <Space>
+            <Button type='primary' htmlType='submit'>
+              提交
+            </Button>
+            <Button
+              style={{ marginLeft: 8 }}
+              onClick={() => {
+                form.setFieldsValue({
+                  'number-range': [4, 6.4],
+                });
+              }}
+            >
+              其他
+            </Button>
+          </Space>
         </FormMate.Item>
       </FormMate>
     </ConfigProvider>
