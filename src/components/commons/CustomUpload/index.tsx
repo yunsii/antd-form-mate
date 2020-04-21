@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { Upload, message } from "antd";
+import React, { useContext } from 'react';
+import { Upload, message } from 'antd';
 import { UploadProps } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
-import _isString from "lodash/isString";
-import _isArray from "lodash/isArray";
+import _isString from 'lodash/isString';
+import _isArray from 'lodash/isArray';
 import _template from 'lodash/template';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils/commons';
 import {
@@ -40,7 +40,7 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
 
   return new Promise(async (resolve, reject) => {
     if (accept && typeof accept === 'string') {
-      const mimeTypeReg = new RegExp(accept.replace(/,/g, "|"));
+      const mimeTypeReg = new RegExp(accept.replace(/,/g, '|'));
       if (!mimeTypeReg.test(name) && !mimeTypeReg.test(type)) {
         message.error(mimeLimitHint(accept));
         return reject();
@@ -67,57 +67,57 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
           return reject();
         }
       }
-
-      return resolve();
     }
 
     const isLtCount = uploadedFileList.length < filesCountLimit;
     if (!isLtCount) {
-      message.error(countLimitHint(filesCountLimit))
+      message.error(countLimitHint(filesCountLimit));
     }
+
+    console.log('fileSizeLimit', fileSizeLimit);
     const isLtSize = sizeOfFile(file) <= fileSizeLimit;
     if (!isLtSize) {
       message.error(sizeLimitHint(fileSizeLimit));
     }
-    if (isLtCount && isLtSize) {
-      return resolve();
-    };
-    reject();
-  }) as Promise<void>
-}
+    if (!isLtCount || !isLtSize) {
+      return reject();
+    }
+    resolve();
+  }) as Promise<void>;
+};
 
 export function filterFileList(fileList: UploadFile[]) {
-  return fileList.filter(item => item.status !== undefined && item.status !== 'error');
+  return fileList.filter((item) => item.status !== undefined && item.status !== 'error');
 }
 
 export const customRequest = (
   uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any> = uploadByBase64Default,
-  isUploadOk: (response: any) => boolean = isUploadOkDefault,
-) => async ({
-  file,
-  onSuccess,
-  onError,
-  onProgress,
-}) => {
-    const response = await uploadFn(file, (percent) => onProgress({ percent }));
-    if (isUploadOk(response)) {
-      onSuccess(response, file);
-    } else {
-      onError(response);
-    }
-  };
-
+  isUploadOk: (response: any) => boolean = isUploadOkDefault
+) => async ({ file, onSuccess, onError, onProgress }) => {
+  const response = await uploadFn(file, (percent) => onProgress({ percent }));
+  if (isUploadOk(response)) {
+    onSuccess(response, file);
+  } else {
+    onError(response);
+  }
+};
 
 export interface CustomUploadPorps extends UploadProps {
   uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
   isUploadOk?: (response: any) => boolean;
-  getUrl?: (response: any) => { url: string, thumbUrl?: string };
+  getUrl?: (response: any) => { url: string; thumbUrl?: string };
   children?: React.ReactChildren | React.ReactNode;
   filesCountLimit?: number;
+  /** 单位 `b` */
   fileSizeLimit?: number;
   dimensionLimit?: string;
   /** return hint if validate failed */
-  checkImage?: (info: { dimension: { width: number, height: number }, type: string, name: string, size: number }) => string | undefined;
+  checkImage?: (info: {
+    dimension: { width: number; height: number };
+    type: string;
+    name: string;
+    size: number;
+  }) => string | undefined;
   // countLimitHint?: (countLimit: number) => string;
   // sizeLimitHint?: (sizeLimit: number) => string;
   // imageLimitHint?: (dimensionLimit: string, customCheck: boolean) => string;
@@ -148,19 +148,20 @@ export default function CustomUpload(props: CustomUploadPorps) {
   const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk, getUrl: defaultGetUrl } = useContext(ConfigContext);
   const intl = useIntl();
 
-  const processFileList = fileList?.map(item => {
-    if (item.response) {
-      return { ...item, ...defaultGetUrl(item.response) };
-    }
-    return item;
-  }) || [];
+  const processFileList =
+    fileList?.map((item) => {
+      if (item.response) {
+        return { ...item, ...defaultGetUrl(item.response) };
+      }
+      return item;
+    }) || [];
 
   return (
     <Upload
       accept={accept}
-      name="image"
+      name='image'
       customRequest={customRequest(uploadFn || defaultUploadFn, isUploadOk || defaultIsUploadOk)}
-      listType={listType || "text"}
+      listType={listType || 'text'}
       fileList={processFileList}
       onChange={onChange}
       beforeUpload={commonBeforeUpload({
