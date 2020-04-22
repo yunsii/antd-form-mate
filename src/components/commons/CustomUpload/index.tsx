@@ -141,16 +141,8 @@ export default function CustomUpload(props: CustomUploadPorps) {
     ...rest
   } = props;
 
-  const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk, getUrl: defaultGetUrl } = useContext(ConfigContext);
+  const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk } = useContext(ConfigContext);
   const intl = useIntl();
-
-  const processFileList =
-    fileList?.map((item) => {
-      if (item.response) {
-        return { ...item, ...defaultGetUrl(item.response) };
-      }
-      return item;
-    }) || [];
 
   return (
     <Upload
@@ -158,7 +150,7 @@ export default function CustomUpload(props: CustomUploadPorps) {
       name='image'
       customRequest={customRequest(uploadFn || defaultUploadFn, isUploadOk || defaultIsUploadOk)}
       listType={listType || 'text'}
-      fileList={processFileList}
+      fileList={fileList}
       onChange={onChange}
       beforeUpload={commonBeforeUpload({
         accept,
