@@ -74,14 +74,14 @@ $ npm start
 | `grid`              | 由于通过 `flex` 布局输入项较为常见，故集成了该配置 | [`Grid`](/src/interfaces.ts#L86)                                   | -      |
 | `ref`               | 继承自 `FormInstance` ，用于管理表单初始值         | [`FormMateInstance`](/src/interfaces.ts#L101)                      | -      |
 
-##### 关于 `initialValue`
+##### 关于 `initialValues`
 
-为了简化使用，`FormMate` 组件会在内部统一转换 `initialValue` ，方便在实际业务场景中统一处理。组件提供两种方式配置 `initialValue` ：
+为了简化使用，`FormMate` 组件会在内部统一转换 `initialValues` ，方便在实际业务场景中统一处理。组件提供两种方式配置 `initialValues` ：
 
-- 直接配置 `initialValue` 。只能在以下两种场景下使用：
-  - 无**特殊类型**字段值(时间，文件，开关等可能不能直接赋值给输入组件的值)
-  - 输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）作为 `FormMate` 组件的直接子组件，不能被其他组件包裹
-- 通过 `ref` 配置 `initialValue` 。可参考[示例用法](/stories/BasicForm/index.tsx#L14)。这种情况下，就不会限制输入项只能在 `FormMate` 组件下了，此外如果需要重置表单，通过 `ref` 调用 `resetFieldsValue()` 即可。
+1. 直接配置 `initialValues` 。只能在以下两种场景下使用：
+   - 无**特殊类型**字段值(时间，文件，开关等可能不能直接赋值给输入组件的值)
+   - 输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）作为 `FormMate` 组件的直接子组件，不能被其他组件包裹
+2. 通过 `ref` 配置 `initialValues` 。可参考[示例用法](/stories/BasicForm/index.tsx#L14)。这种情况下，就不会限制输入项只能在 `FormMate` 组件下了，此外如果需要重置表单，通过 `ref` 调用 `resetFieldsValue()` 即可。
 
 #### `FormMate.Item` 表单项
 
