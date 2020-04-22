@@ -1,7 +1,8 @@
 import React from 'react';
+import { FormMateProps } from '../../interfaces';
 
 export interface FormMateConsumerProps {
-  renderItem?: (item: React.ReactNode, name: string | null) => React.ReactNode;
+  renderItem?: FormMateProps['renderItem'];
 }
 
 export const FormMateContext = React.createContext<FormMateConsumerProps>({});
