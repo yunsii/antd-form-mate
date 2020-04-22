@@ -1,7 +1,7 @@
 import React from 'react';
-// import 'antd/dist/antd.css';
+import { Upload, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import './index.less';
-import { Upload, Icon, Modal } from 'antd';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -16,6 +16,7 @@ export default class PicturesWall extends React.Component {
   state = {
     previewVisible: false,
     previewImage: '',
+    previewTitle: '',
     fileList: [
       {
         uid: '-1',
@@ -44,8 +45,7 @@ export default class PicturesWall extends React.Component {
       {
         uid: '-5',
         name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        status: 'error',
       },
     ],
   };
@@ -60,16 +60,17 @@ export default class PicturesWall extends React.Component {
     this.setState({
       previewImage: file.url || file.preview,
       previewVisible: true,
+      previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
     });
   };
 
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
+    const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>
-        <Icon type='plus' />
+        <PlusOutlined />
         <div className='ant-upload-text'>Upload</div>
       </div>
     );
@@ -84,7 +85,7 @@ export default class PicturesWall extends React.Component {
         >
           {fileList.length >= 8 ? null : uploadButton}
         </Upload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+        <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={this.handleCancel}>
           <img alt='example' style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>

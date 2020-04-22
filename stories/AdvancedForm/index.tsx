@@ -2,7 +2,16 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Form, Button } from 'antd';
 
-import FormMate, { ConfigProvider } from '../../src';
+import FormMate, { ConfigProvider, getBase64 } from '../../src';
+
+function delay(ms: number) {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      resolve()
+      clearTimeout(timer);
+    }, ms)
+  })
+}
 
 const initialValues = {
   picture: [
@@ -33,6 +42,15 @@ class AdvancedForm extends React.Component {
       <ConfigProvider
         commonExtra={{
           picture: '自定义图片默认提示',
+        }}
+        uploadFn={async (file) => {
+          await delay(2000);
+          return {
+            data: {
+              url: await getBase64(file),
+              thumbUrl: await getBase64(file),
+            }
+          }
         }}
         getUrl={(response) => {
           console.log(response);
@@ -65,7 +83,7 @@ class AdvancedForm extends React.Component {
             label='图片'
             componentProps={{
               filesCountLimit: 4,
-              fileSizeLimit: 500 * 1024,
+              // fileSizeLimit: 500 * 1024,
               // accept: 'image/*',
               // dimensionLimit: '520*360',
               // dimensionLimit: '<520*360',
@@ -89,8 +107,9 @@ class AdvancedForm extends React.Component {
             name='file'
             label='文件'
             componentProps={{
-              accept: 'image/*',
+              // accept: 'image/*',
               filesCountLimit: 2,
+              // onPreview: (file) => { console.log(file) }
             }}
           />
           <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
