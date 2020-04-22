@@ -67,4 +67,5 @@ export const defaultViewerProps: ViewerProps = {
   noImgDetails: true,
   scalable: false,
   zoomable: false,
+  attribute: false,
 };
