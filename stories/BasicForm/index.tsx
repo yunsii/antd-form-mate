@@ -1,17 +1,19 @@
 import * as React from 'react';
 // import { action } from '@storybook/addon-actions';
 import moment from 'moment';
-import { Button, Row, Col, Space } from 'antd';
+import { Button, Space } from 'antd';
 
 import FormMate, { ConfigProvider } from '../../src';
-import { ComponentType } from '../../src/interfaces';
+import { ComponentType, FormMateInstance } from '../../src/interfaces';
 
-const { useState, useEffect } = React;
+const { useEffect } = React;
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
 const BasicForm: React.FC = () => {
+  const formMateRef = React.useRef<FormMateInstance>(null);
   const [form] = FormMate.useForm();
+
   const initialValues = {
     hidden: 1,
     plain: 'plain',
@@ -28,19 +30,16 @@ const BasicForm: React.FC = () => {
     'number-range': [0, 4],
     dynamic: '2020-04-07',
   };
-  const [text, setText] = useState<string>();
 
   useEffect(() => {
-    form.setFieldsValue({
-      name: text,
-      textarea: text,
-      hidden: text,
-    });
-  }, [text]);
+    formMateRef.current?.setInitialValue(initialValues);
+  }, []);
 
   const handleFinish = () => {
+    const rawValues = formMateRef.current?.getFieldsValue(true);
+    console.log('Received raw values of form: ', rawValues);
     // 过滤，得到当前显示组件的字段值
-    const values = form.getFieldsValue(undefined, () => true);
+    const values = formMateRef.current?.getFieldsValue(undefined, () => true);
     console.log('Received values of form: ', values);
   };
 
@@ -56,10 +55,11 @@ const BasicForm: React.FC = () => {
       }}
     >
       <FormMate
+        ref={formMateRef}
         form={form}
         onFinish={handleFinish}
         onFinishFailed={handleFinishFailed}
-        initialValues={initialValues}
+        // initialValues={initialValues}
         onValuesChange={(changedValues, allValues) => {
           console.log('onValuesChange', changedValues, allValues);
         }}
@@ -71,16 +71,15 @@ const BasicForm: React.FC = () => {
         // layout='vertical'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        renderChildren={(children) => {
-          return <Row>{children}</Row>;
+        grid={{
+          col: {
+            sm: 24,
+            md: 12,
+            lg: 8,
+          },
         }}
-        renderItem={(item) => {
-          // console.log(name, item);
-          return (
-            <Col sm={24} md={12} lg={8}>
-              {item}
-            </Col>
-          );
+        onReset={() => {
+          formMateRef.current?.resetFieldsValue();
         }}
       >
         <FormMate.Item type='plain' name='plain' label='纯文本' required />
@@ -241,7 +240,13 @@ const BasicForm: React.FC = () => {
           label='姓名'
           rules={[{ required: true, message: '请输入姓名！' }]}
           componentProps={{
-            onChange: (event: any) => setText(event.target.value),
+            onChange: (event: any) => {
+              formMateRef.current?.setFieldsValue({
+                name: event.target.value,
+                textarea: event.target.value,
+                hidden: event.target.value,
+              });
+            },
           }}
         />
         <FormMate.Dynamic
@@ -249,7 +254,6 @@ const BasicForm: React.FC = () => {
           name='dynamic'
           label='dynamic'
           required
-          shouldUpdate
           render={({ getFieldValue }) => {
             return getFieldValue('name') === 'form';
           }}
@@ -259,10 +263,11 @@ const BasicForm: React.FC = () => {
             <Button type='primary' htmlType='submit'>
               提交
             </Button>
+            <Button htmlType='reset'>重置</Button>
             <Button
               style={{ marginLeft: 8 }}
               onClick={() => {
-                form.setFieldsValue({
+                formMateRef.current?.setFieldsValue({
                   'number-range': [4, 6.4],
                 });
               }}
