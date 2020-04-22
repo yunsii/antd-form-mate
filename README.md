@@ -50,10 +50,10 @@ $ npm start
 | 7   | `select`         |                                               |
 | 8   | `textarea`       |                                               |
 | 9   | `password`       |                                               |
-| 10  | `picture`        |                                               |
+| 10  | `picture`        | 内置预览组件                                  |
 | 11  | `switch`         |                                               |
 | 12  | `slider`         | 滑动输入                                      |
-| 13  | `file-dragger`   |                                               |
+| 13  | `file-dragger`   | 可拖拽文件上传                                |
 | 14  | `string`         | **默认类型**                                  |
 | 15  | `check-group`    | 多选框                                        |
 | 16  | `radio-group`    | 单选框                                        |
