@@ -1,10 +1,12 @@
 import React from 'react';
 import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
+import _keys from 'lodash/keys';
 
 import { FormMateItemDisplayName, FormMateDynamicDisplayName } from '../../constants/components';
 import { useIntl } from '../../contexts/Intlcontext';
-import { ComponentType, FormMateItemProps } from '../../interfaces';
+import setInitialValueByType from '../../utils/setValue';
+import { ComponentType, FormMateItemProps, Filter, FormMateProps } from '../../interfaces';
 
 export interface InjectIntlProps {
   propName: string;
@@ -66,3 +68,14 @@ export function getFormItemName(child: React.ReactNode): FormMateItemProps['name
   }
   return undefined;
 }
+export type Store = Filter<FormMateProps['initialValues'], Object>;
+
+export const processInitialValues = (values: Store, fieldsType: any, postProcess?: (values: Store) => Store) => {
+  const result = { ...values };
+
+  _keys(fieldsType).forEach((item) => {
+    result[item] = setInitialValueByType(fieldsType[item], values?.[item]);
+  });
+
+  return postProcess ? postProcess(result) : result;
+};
