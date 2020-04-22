@@ -106,6 +106,12 @@ $ npm start
 
 参考[类型定义](/src/contexts/ConfigContext/index.tsx#L20)即可
 
+#### 其他
+
+内部使用的[部分组件和函数](/src/index.ts)已导出。
+
+未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
+
 ### 基础用法
 
 ```tsx
@@ -154,16 +160,6 @@ const BasicForm: React.FC = (props) => {
 
 export default BasicForm;
 ```
-
-### 全局配置
-
-表单全局配置可见 [`ConfigProvider`](/src/contexts/ConfigContext/index.tsx#L20) ，使用可参考 [`stories/BasicForm/index.tsx`](/stories/BasicForm/index.tsx#L52)
-
-### 备注
-
-另，内部使用的[部分组件和函数](/src/index.ts)已导出。
-
-未尽事宜，可参考 [index.stories.tsx](/stories/index.stories.tsx) 。
 
 ## 模块化
 
