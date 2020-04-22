@@ -20,10 +20,10 @@ export interface PicturesWallProps extends CustomUploadPorps {
 }
 
 const PicturesWall: React.FC<PicturesWallProps> = (props) => {
-  const { pictureAccept: defaultPictureAccept } = useContext(ConfigContext);
+  const { pictureAccept: defaultPictureAccept, getUrl: defaultGetUrl } = useContext(ConfigContext);
   const intl = useIntl();
 
-  const { fileList = [], pictureAccept = defaultPictureAccept, viewerProps } = props;
+  const { fileList = [], pictureAccept = defaultPictureAccept, viewerProps, getUrl = defaultGetUrl } = props;
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -51,9 +51,9 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
     <div className={`${styles.pictureWall} clearfix`}>
       <CustomUpload
         accept={pictureAccept}
+        onPreview={handlePreview}
         {...props}
         fileList={fileList}
-        onPreview={handlePreview}
         onChange={handleChange}
         listType='picture-card'
       >
@@ -61,7 +61,7 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
       </CustomUpload>
       <ImagesViewer
         visible={previewVisible}
-        images={fileList.map((item) => ({ src: item.url!, alt: item.fileName }))}
+        images={fileList.filter(item => item.url || item.response).map((item) => ({ src: item.url || getUrl(item.response).url, alt: item.name }))}
         onClose={() => setPreviewVisible(false)}
         activeIndex={activeIndex}
         {...viewerProps}
