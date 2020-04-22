@@ -21,7 +21,7 @@ export const FormMateDynamic = <T, P = {}>({
   const { renderItem } = useContext(FormMateContext);
 
   return (
-    <Form.Item noStyle shouldUpdate={shouldUpdate}>
+    <Form.Item noStyle shouldUpdate={shouldUpdate || true}>
       {render
         ? (((form: FormInstance) => {
             const isVisible = render(form);
