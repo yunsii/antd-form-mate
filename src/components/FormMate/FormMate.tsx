@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Form, Row, Col } from 'antd';
+import { FormInstance } from 'antd/lib/form';
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
@@ -7,11 +8,16 @@ import _keys from 'lodash/keys';
 
 import FormMateContext from '../../contexts/FormMateContext';
 import { isFormItem, isFormDynamic, getFormItemName } from './utils';
-import setInitialValue from '../../utils/setValue';
-import { FormMateProps, FormMateItemProps } from '../../interfaces';
+import setInitialValueByType from '../../utils/setValue';
+import { FormMateProps, FormMateItemProps, Filter, FormMateInstance } from '../../interfaces';
 
-export const FormMate = (props: FormMateProps) => {
-  const { initialValues, renderChildren, renderItem, children, postInitialValues, grid, ...rest } = props;
+export type Store = Filter<FormMateProps['initialValues'], Object>;
+
+export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props, ref) => {
+  const { initialValues, renderChildren, renderItem, children, postInitialValues, grid, form, ...rest } = props;
+  const [internalForm] = Form.useForm(form);
+  const formRef = useRef<FormInstance>(null);
+  const storeRef = useRef<FormMateProps['initialValues']>();
 
   const _renderChildren = grid ? (_children: React.ReactNode) => <Row {...grid.row}>{_children}</Row> : renderChildren;
   const _renderItem = grid
@@ -35,13 +41,39 @@ export const FormMate = (props: FormMateProps) => {
     return _renderItem ? _renderItem(child, getFormItemName(child)) : child;
   });
 
-  const processInitialValues = () => {
-    const result = {};
-    _keys(initialValues).forEach((item) => {
-      result[item] = setInitialValue(fieldsType[item], initialValues?.[item]);
+  const processInitialValues = (values: Store) => {
+    const result = { ...values };
+
+    _keys(fieldsType).forEach((item) => {
+      result[item] = setInitialValueByType(fieldsType[item], values?.[item]);
     });
+
     return postInitialValues?.(result) || result;
   };
+
+  React.useImperativeHandle(
+    ref,
+    () =>
+      ({
+        ...formRef.current,
+
+        setInitialValue: (values: Store) => {
+          console.log('call setInitialValue');
+          if (storeRef.current) {
+            return;
+          }
+
+          const store = processInitialValues(values);
+          internalForm.setFieldsValue(store);
+
+          storeRef.current = store;
+        },
+        resetFieldsValue: () => {
+          console.log('call resetFieldsValue', storeRef.current);
+          internalForm.setFieldsValue(storeRef.current || {});
+        },
+      } as any)
+  );
 
   return (
     <FormMateContext.Provider
@@ -49,9 +81,14 @@ export const FormMate = (props: FormMateProps) => {
         renderItem: _renderItem,
       }}
     >
-      <Form initialValues={processInitialValues()} {...rest}>
+      <Form
+        ref={formRef}
+        form={internalForm}
+        initialValues={initialValues && processInitialValues(initialValues)}
+        {...rest}
+      >
         {_renderChildren ? _renderChildren(renderItems) : children}
       </Form>
     </FormMateContext.Provider>
   );
-};
+});

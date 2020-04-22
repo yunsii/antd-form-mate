@@ -81,7 +81,7 @@ export interface FormMateDynamicProps<T = never, P = never> extends FormMateItem
   render?: (form: FormInstance) => boolean | null | undefined;
 }
 
-type Filter<T, U> = T extends U ? T : never; // Remove types from T that are not assignable to U
+export type Filter<T, U> = T extends U ? T : never; // Remove types from T that are not assignable to U
 
 export interface FormMateProps extends FormProps {
   renderChildren?: (children: React.ReactNode) => React.ReactNode;
@@ -94,4 +94,9 @@ export interface FormMateProps extends FormProps {
     row?: RowProps;
     col?: ColProps | ((name: FormMateItemProps['name']) => ColProps);
   };
+}
+
+export interface FormMateInstance extends FormInstance {
+  setInitialValue: (initialValues: FormMateProps['initialValues']) => void;
+  resetFieldsValue: () => void;
 }
