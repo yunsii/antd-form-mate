@@ -62,21 +62,26 @@ $ npm start
 
 除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 类型外的组件。
 
-#### 表单实战总结
-
-1. 对于**特殊类型**的字段值在设置初始值时可构造为组件内部的所需的值类型，以便后续表单值的统一处理，避免一些繁琐的判断。特殊类型像日期时间（ `moment` ）、文件（ `{ uid: string; name: string; url: string; status: "done"; }[]` ）、开关（ `boolean` ）等，已通过 `FormMate` 组件实现统一处理。
-
 ### API
 
 #### `FormMate` 表单容器
 
-| 参数                | 说明                               | 类型                                                               | 默认值 |
-| ------------------- | ---------------------------------- | ------------------------------------------------------------------ | ------ |
-| `renderChildren`    | 自定义 `children` 渲染             | `(children: React.ReactNode) => React.ReactNode`                   | -      |
-| `renderItem`        | 自定义每个子项的渲染               | `(item: React.ReactNode, name: string \| null) => React.ReactNode` | -      |
-| `postInitialValues` | 对于内部已经处理过的初始值再次处理 | `Function`                                                         | -      |
+| 参数                | 说明                                               | 类型                                                               | 默认值 |
+| ------------------- | -------------------------------------------------- | ------------------------------------------------------------------ | ------ |
+| `renderChildren`    | 自定义 `children` 渲染                             | `(children: React.ReactNode) => React.ReactNode`                   | -      |
+| `renderItem`        | 自定义每个子项的渲染                               | `(item: React.ReactNode, name: string \| null) => React.ReactNode` | -      |
+| `postInitialValues` | 对于内部已经处理过的初始值再次处理                 | `Function`                                                         | -      |
+| `grid`              | 由于通过 `flex` 布局输入项较为常见，故集成了该配置 | [`Grid`](/src/interfaces.ts#L86)                                   | -      |
+| `ref`               | 继承自 `FormInstance` ，用于管理表单初始值         | [`FormMateInstance`](/src/interfaces.ts#L101)                      | -      |
 
-由于需要根据输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）的配置默认处理初始值，所以输入项必须在 `FormMate` 组件下，不能在中间插入其他组件，否则会导致默认处理对初始值的处理无法生效。当然，如果不需要这个 feature ，完全可以不 care 。
+##### 关于 `initialValue`
+
+为了简化使用，`FormMate` 组件会在内部统一转换 `initialValue` ，方便在实际业务场景中统一处理。组件提供两种方式配置 `initialValue` ：
+
+- 直接配置 `initialValue` 。只能在以下两种场景下使用：
+  - 无**特殊类型**字段值(时间，文件，开关等可能不能直接赋值给输入组件的值)
+  - 输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）作为 `FormMate` 组件的直接子组件，不能被其他组件包裹
+- 通过 `ref` 配置 `initialValue` 。可参考[示例用法](/stories/BasicForm/index.tsx#L14)。这种情况下，就不会限制输入项只能在 `FormMate` 组件下了，此外如果需要重置表单，通过 `ref` 调用 `resetFieldsValue()` 即可。
 
 #### `FormMate.Item` 表单项
 
