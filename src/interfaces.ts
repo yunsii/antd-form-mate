@@ -1,4 +1,6 @@
 import { FormItemProps, FormInstance } from 'antd/lib/form';
+import { RowProps } from 'antd/lib/row';
+import { ColProps } from 'antd/lib/col';
 import { InputNumberProps } from 'antd/lib/input-number';
 import { SwitchProps } from 'antd/lib/switch';
 import { PasswordProps, TextAreaProps, InputProps } from 'antd/lib/input';
@@ -83,9 +85,13 @@ type Filter<T, U> = T extends U ? T : never; // Remove types from T that are not
 
 export interface FormMateProps extends FormProps {
   renderChildren?: (children: React.ReactNode) => React.ReactNode;
-  /** item: 渲染子节点，name: 子节点组件名称，通常为 `FormMateItem` */
-  renderItem?: (item: React.ReactNode, name: string | null) => React.ReactNode;
+  /** item: 渲染子节点，name: 表单项字段名 */
+  renderItem?: (item: React.ReactNode, name: FormMateItemProps['name']) => React.ReactNode;
   postInitialValues?: (
     initialValues: Filter<FormProps['initialValues'], Object>
   ) => Filter<FormProps['initialValues'], Object>;
+  grid?: {
+    row?: RowProps;
+    col?: ColProps | ((name: FormMateItemProps['name']) => ColProps);
+  };
 }
