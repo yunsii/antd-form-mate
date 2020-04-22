@@ -2,8 +2,9 @@ import React from 'react';
 import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
 
+import { FormMateItemDisplayName, FormMateDynamicDisplayName } from '../../constants/components';
 import { useIntl } from '../../contexts/Intlcontext';
-import { ComponentType } from '../../interfaces';
+import { ComponentType, FormMateItemProps } from '../../interfaces';
 
 export interface InjectIntlProps {
   propName: string;
@@ -47,4 +48,21 @@ export function getChildType(child: React.ReactNode): ComponentType | null {
     return child.props.type;
   }
   return null;
+}
+
+export function isFormItem(child: React.ReactNode): child is JSX.Element {
+  return (
+    React.isValidElement(child) && [FormMateItemDisplayName, FormMateDynamicDisplayName].includes(getChildName(child))
+  );
+}
+
+export const isFormDynamic = (child: React.ReactNode) => {
+  return React.isValidElement(child) && FormMateDynamicDisplayName === getChildName(child);
+};
+
+export function getFormItemName(child: React.ReactNode): FormMateItemProps['name'] {
+  if (isFormItem(child)) {
+    return child.props.name;
+  }
+  return undefined;
 }
