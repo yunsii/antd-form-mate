@@ -21,11 +21,11 @@ const { Dragger } = Upload as any;
 export interface CustomDraggerProps extends CustomUploadPorps {}
 
 const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
-  const { getUrl: defaultGetUrl, uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk } = useContext(ConfigContext);
+  const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk } = useContext(ConfigContext);
   const intl = useIntl();
 
   const {
-    getUrl = defaultGetUrl,
+    getUrl,
     uploadFn = defaultUploadFn,
     isUploadOk = defaultIsUploadOk,
     onChange,
