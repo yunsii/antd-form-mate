@@ -29,14 +29,11 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handlePreview = async (file: UploadFile) => {
-    console.log(fileList, file);
-    console.log(_findIndex(fileList, { uid: file.uid }));
     setActiveIndex(_findIndex(fileList, { uid: file.uid }));
     setPreviewVisible(true);
   };
 
   const handleChange = ({ fileList }: { fileList: UploadFile[] }) => {
-    console.log('handleChange', fileList);
     const { onChange } = props;
     if (onChange) {
       onChange(filterFileList(fileList) as any);

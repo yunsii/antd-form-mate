@@ -51,7 +51,6 @@ export function isLimitDimension(limits: any[], dimension: { width: number, heig
 }
 
 export const setMimeLimitHint = (intl: IntlType) => (accept: string) => {
-  console.log(intl.getMessage('hint.mimeLimitTplt', '文件类型限制：${ limit }'));
   return _template(intl.getMessage('hint.mimeLimitTplt', '文件类型限制：${ limit }'))({ limit: accept });
 }
 

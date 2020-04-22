@@ -48,10 +48,8 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
     }
 
     if (/image\/./.test(type)) {
-      console.log(file);
       const dataUrl: any = await getBase64(file);
       const dimension: any = await getImageDimension(dataUrl);
-      console.log(dimension);
 
       const customHint = checkImage({ dimension, type, name, size: sizeOfFile(file) });
       if (customHint) {
@@ -61,7 +59,6 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
 
       if (dimensionLimit) {
         const limits = processDimensionLimit(dimensionLimit);
-        console.log(limits);
         if (!isLimitDimension(limits, dimension)) {
           message.error(dimensionLimitHint(dimensionLimit));
           return reject();
@@ -74,7 +71,6 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
       message.error(countLimitHint(filesCountLimit));
     }
 
-    console.log('fileSizeLimit', fileSizeLimit);
     const isLtSize = sizeOfFile(file) <= fileSizeLimit;
     if (!isLtSize) {
       message.error(sizeLimitHint(fileSizeLimit));

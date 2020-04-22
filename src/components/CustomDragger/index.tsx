@@ -41,7 +41,6 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
   } = props;
 
   const handleChange = ({ fileList }) => {
-    console.log(fileList);
     const { onChange } = props;
     if (onChange) {
       onChange(filterFileList(fileList) as any);
