@@ -102,6 +102,10 @@ $ npm start
 
 其他属性可参考 [`FormMate.Item`](#FormMate.Item-表单项) 组件属性，可配置 `children` 。
 
+#### `ConfigProvider` 全局默认配置
+
+参考[类型定义](/src/contexts/ConfigContext/index.tsx#L20)即可
+
 ### 基础用法
 
 ```tsx
