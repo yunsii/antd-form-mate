@@ -29,6 +29,8 @@ const BasicForm: React.FC = () => {
     switch: 0,
     'number-range': [0, 4],
     dynamic: '2020-04-07',
+
+    name2: 'name2'
   };
 
   useEffect(() => {
@@ -258,6 +260,42 @@ const BasicForm: React.FC = () => {
             return getFieldValue('name') === 'form';
           }}
         />
+        <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
+          <Space>
+            <Button type='primary' htmlType='submit'>
+              提交
+            </Button>
+            <Button htmlType='reset'>重置</Button>
+            <Button
+              onClick={() => {
+                formMate.setFieldsValue({
+                  'number-range': [4, 6.4],
+                });
+              }}
+            >
+              其他
+            </Button>
+          </Space>
+        </FormMate.Item>
+      </FormMate>
+      <FormMate
+        formMate={formMate}
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        grid={{
+          col: {
+            sm: 24,
+            md: 12,
+            lg: 8,
+          },
+        }}
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          paddingTop: 20,
+        }}
+      >
+        <FormMate.Item name='name2' label='name2' />
         <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
           <Space>
             <Button type='primary' htmlType='submit'>
