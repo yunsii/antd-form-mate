@@ -5,8 +5,6 @@ import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { ComponentType } from '../../interfaces';
 import {
   uploadByBase64,
-  getUrl,
-  isUploadOk,
   pictureAccept,
   setDefaultRules,
   processSetCommonProps,
@@ -16,8 +14,6 @@ import {
 export interface ConfigConsumerProps {
   setCommonProps: (type: ComponentType, defaultStyle: any) => any;
   uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any>;
-  getUrl: (response: any) => { url: string; thumbUrl?: string };
-  isUploadOk: (response: any) => boolean;
   commonExtra: { [k in ComponentType]?: any };
   commonRules: { [k in ComponentType]?: Rule[] };
   pictureAccept: string;
@@ -27,8 +23,6 @@ export interface ConfigConsumerProps {
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
   setCommonProps: processSetCommonProps(),
   uploadFn: uploadByBase64,
-  getUrl,
-  isUploadOk,
   commonExtra: {},
   commonRules: setDefaultRules(),
   pictureAccept,

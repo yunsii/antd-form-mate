@@ -14,7 +14,7 @@ import {
   setSizeLimitHint,
   setDimensionLimitHint,
 } from './utils';
-import { uploadByBase64 as uploadByBase64Default, isUploadOk as isUploadOkDefault } from '../../../defaultConfig';
+import { uploadByBase64 as uploadByBase64Default } from '../../../defaultConfig';
 import ConfigContext from '../../../contexts/ConfigContext/context';
 import { useIntl } from '../../../contexts/Intlcontext';
 
@@ -87,21 +87,18 @@ export function filterFileList(fileList: UploadFile[]) {
 }
 
 export const customRequest = (
-  uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any> = uploadByBase64Default,
-  isUploadOk: (response: any) => boolean = isUploadOkDefault
+  uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any> = uploadByBase64Default
 ) => async ({ file, onSuccess, onError, onProgress }) => {
-  const response = await uploadFn(file, (percent) => onProgress({ percent }));
-  if (isUploadOk(response)) {
-    onSuccess(response, file);
+  const url = await uploadFn(file, (percent) => onProgress({ percent }));
+  if (url) {
+    onSuccess(url, file);
   } else {
-    onError(response);
+    onError(url);
   }
 };
 
 export interface CustomUploadPorps extends UploadProps {
-  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<any>;
-  isUploadOk?: (response: any) => boolean;
-  getUrl?: (response: any) => { url: string; thumbUrl?: string };
+  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<string>;
   children?: React.ReactChildren | React.ReactNode;
   filesCountLimit?: number;
   /** 单位 `b` */
@@ -135,20 +132,18 @@ export default function CustomUpload(props: CustomUploadPorps) {
     // countLimitHint,
     // sizeLimitHint,
     // imageLimitHint,
-    getUrl,
     uploadFn,
-    isUploadOk,
     ...rest
   } = props;
 
-  const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk } = useContext(ConfigContext);
+  const { uploadFn: defaultUploadFn } = useContext(ConfigContext);
   const intl = useIntl();
 
   return (
     <Upload
       accept={accept}
       name='image'
-      customRequest={customRequest(uploadFn || defaultUploadFn, isUploadOk || defaultIsUploadOk)}
+      customRequest={customRequest(uploadFn || defaultUploadFn)}
       listType={listType || 'text'}
       fileList={fileList}
       onChange={onChange}

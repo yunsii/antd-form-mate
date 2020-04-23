@@ -21,13 +21,11 @@ const { Dragger } = Upload as any;
 export interface CustomDraggerProps extends CustomUploadPorps {}
 
 const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
-  const { uploadFn: defaultUploadFn, isUploadOk: defaultIsUploadOk } = useContext(ConfigContext);
+  const { uploadFn: defaultUploadFn } = useContext(ConfigContext);
   const intl = useIntl();
 
   const {
-    getUrl,
     uploadFn = defaultUploadFn,
-    isUploadOk = defaultIsUploadOk,
     onChange,
     filesCountLimit,
     fileSizeLimit,
@@ -51,7 +49,7 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
     <Dragger
       name='file'
       // multiple: true
-      customRequest={customRequest(uploadFn, isUploadOk)}
+      customRequest={customRequest(uploadFn)}
       onChange={handleChange}
       fileList={fileList}
       beforeUpload={commonBeforeUpload({

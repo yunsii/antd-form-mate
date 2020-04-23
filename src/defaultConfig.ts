@@ -42,22 +42,7 @@ export const setDefaultRules: (intl?: IntlType) => { [k in ComponentType]?: Rule
 
 export async function uploadByBase64(file: File) {
   const dataUrl = await getBase64(file);
-  return {
-    data: {
-      url: dataUrl,
-      thumbUrl: dataUrl,
-    },
-  };
-}
-
-export function getUrl(response: any) {
-  const { data } = response || {};
-  return data;
-}
-
-export function isUploadOk(response: any) {
-  const { data } = response || {};
-  return !!data;
+  return dataUrl;
 }
 
 export const pictureAccept = 'image/*';
