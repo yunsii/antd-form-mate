@@ -59,8 +59,8 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
       <InputNumber
         style={{
           width: separatorWidth,
-          ...number2Props?.style,
         }}
+        tabIndex={-1}
         className={styles.separator}
         placeholder={separator || '~'}
       />
@@ -69,6 +69,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
         {...number2Props}
         style={{
           width: inputWidth,
+          ...number2Props?.style,
         }}
         value={getValue2()}
         onChange={(_value) => {
