@@ -2,6 +2,7 @@ import * as React from 'react';
 // import { action } from '@storybook/addon-actions';
 import moment from 'moment';
 import { Button, Space } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 
 import FormMate, { ConfigProvider } from '../../src';
 import { ComponentType } from '../../src/interfaces';
@@ -140,6 +141,7 @@ const BasicForm: React.FC = () => {
           name='select'
           label='选择'
           componentProps={{
+            suffixIcon: <ReloadOutlined />,
             options: [
               {
                 label: '星系',
