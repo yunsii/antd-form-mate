@@ -66,13 +66,13 @@ $ npm start
 
 #### `FormMate` 表单容器
 
-| 参数                | 说明                                               | 类型                                                               | 默认值 |
-| ------------------- | -------------------------------------------------- | ------------------------------------------------------------------ | ------ |
-| `renderChildren`    | 自定义 `children` 渲染                             | `(children: React.ReactNode) => React.ReactNode`                   | -      |
-| `renderItem`        | 自定义每个子项的渲染                               | `(item: React.ReactNode, name: string \| null) => React.ReactNode` | -      |
-| `postInitialValues` | 对于内部已经处理过的初始值再次处理                 | `Function`                                                         | -      |
-| `grid`              | 由于通过 `flex` 布局输入项较为常见，故集成了该配置 | [`Grid`](/src/interfaces.ts#L86)                                   | -      |
-| `ref`               | 继承自 `FormInstance` ，用于管理表单初始值         | [`FormMateInstance`](/src/interfaces.ts#L101)                      | -      |
+| 参数                | 说明                                                 | 类型                                                               | 默认值 |
+| ------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ | ------ |
+| `renderChildren`    | 自定义 `children` 渲染                               | `(children: React.ReactNode) => React.ReactNode`                   | -      |
+| `renderItem`        | 自定义每个子项的渲染                                 | `(item: React.ReactNode, name: string \| null) => React.ReactNode` | -      |
+| `postInitialValues` | 对于内部已经处理过的初始值再次处理                   | `Function`                                                         | -      |
+| `grid`              | 由于通过 `flex` 布局输入项较为常见，故集成了该配置   | [`Grid`](/src/interfaces.ts#L86)                                   | -      |
+| `formMate`          | 继承自 `Form` 组件的 `form` 属性，用于管理表单初始值 | [`FormMateInstance`](/src/interfaces.ts#L104)                      | -      |
 
 ##### 关于 `initialValues`
 
@@ -81,7 +81,7 @@ $ npm start
 1. 直接配置 `initialValues` 。只能在以下两种场景下使用：
    - 无**特殊类型**字段值（时间，文件，开关等可能不能直接赋值给输入组件的值）
    - 输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）作为 `FormMate` 组件的直接子组件，不能被其他组件包裹
-2. 通过 `ref` 配置 `initialValues` 。可参考[示例用法](/stories/BasicForm/index.tsx#L14)。这种情况下，就不会限制输入项只能在 `FormMate` 组件下了，此外如果需要重置表单，通过 `ref` 调用 `resetFieldsValue()` 即可。
+2. 通过 `formMate` 配置 `initialValues` 。可参考[示例用法](/stories/BasicForm/index.tsx#L15)。这种情况下，就不会限制输入项只能在 `FormMate` 组件下了，此外如果需要重置表单，通过 `formMate` 调用 `resetFieldsValue()` 即可。
 
 #### `FormMate.Item` 表单项
 
