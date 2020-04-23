@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Input, InputNumber } from 'antd';
 import { InputNumberProps } from 'antd/lib/input-number';
-import _get from 'lodash/get';
 import _isNumber from 'lodash/isNumber';
 
 import { useIntl } from '../../contexts/Intlcontext';
@@ -27,27 +26,24 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   const intl = useIntl();
   const { value, onChange, separator, placeholder, number1Props, number2Props } = props;
 
-  const getValue1 = () => _get(value, '[0]');
-  const getValue2 = () => _get(value, '[1]');
-
-  const setValue1 = (v1) => {
+  const setValue1 = (v1: number | undefined) => {
     if (!_isNumber(v1)) {
       onChange?.(undefined);
     } else {
-      onChange?.([v1, getValue2() && getValue2() >= v1 ? getValue2() : v1]);
+      onChange?.([v1, value?.[1] && value[1] >= v1 ? value[1] : v1]);
     }
   };
 
-  const setValue2 = (v2) => {
+  const setValue2 = (v2: number | undefined) => {
     if (!_isNumber(v2)) {
       onChange?.(undefined);
     } else {
-      onChange?.([getValue1() && getValue1() <= v2 ? getValue1() : v2, v2]);
+      onChange?.([value?.[0] && value[0] <= v2 ? value[0] : v2, v2]);
     }
   };
 
   useEffect(() => {
-    if (!_isNumber(getValue1()) && !_isNumber(getValue2())) {
+    if (!_isNumber(value?.[0]) && !_isNumber(value?.[1])) {
       onChange?.(undefined);
     }
   }, [value]);
@@ -61,7 +57,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
           width: inputWidth,
           ...number1Props?.style,
         }}
-        value={getValue1()}
+        value={value?.[0]}
         onChange={(_value) => {
           setValue1(_value);
         }}
@@ -81,7 +77,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
           width: inputWidth,
           ...number2Props?.style,
         }}
-        value={getValue2()}
+        value={value?.[1]}
         onChange={(_value) => {
           setValue2(_value);
         }}
