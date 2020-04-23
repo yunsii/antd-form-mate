@@ -1,8 +1,9 @@
 import React, { forwardRef } from 'react';
 import { Select, Spin } from 'antd';
+import { SelectProps } from 'antd/lib/select';
 import { OptionsType } from 'rc-select/lib/interface';
 
-export interface CustomSelectProps {
+export interface CustomSelectProps extends SelectProps<any> {
   options?: OptionsType;
   disabledStyle?: React.CSSProperties;
   loading?: boolean;
