@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import _get from 'lodash/get';
-import _isFunction from 'lodash/isFunction';
 import _find from 'lodash/find';
 import { Form } from 'antd';
 import { FormInstance } from 'antd/lib/form';

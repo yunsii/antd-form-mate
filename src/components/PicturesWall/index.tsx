@@ -1,9 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import _pick from 'lodash/pick';
-import _isArray from 'lodash/isArray';
 import _findIndex from 'lodash/findIndex';
-import _get from 'lodash/get';
 import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { UploadFile } from 'antd/lib/upload/interface';
 

@@ -1,7 +1,4 @@
-import _keys from 'lodash/keys';
 import _cloneDeep from 'lodash/cloneDeep';
-import _pick from 'lodash/pick';
-import _flatten from 'lodash/flatten';
 
 export function isDevelopEnv() {
   return process.env.NODE_ENV === 'development';
@@ -80,7 +77,7 @@ export const progressXhr: (url: string, data: ProgressEventData, events: Progres
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
     if (headers) {
-      _keys(headers).forEach((item) => {
+      Object.keys(headers).forEach((item) => {
         xhr.setRequestHeader(item, headers[item]);
       });
     } else {

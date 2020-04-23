@@ -1,10 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Form, Row, Col } from 'antd';
 import { FormInstance } from 'antd/lib/form';
-import _get from 'lodash/get';
-import _isFunction from 'lodash/isFunction';
-import _isString from 'lodash/isString';
-import _keys from 'lodash/keys';
 
 import { INTERNAL_HOOK_MARK } from '../../constants/components';
 import FormMateContext from '../../contexts/FormMateContext';
@@ -19,8 +15,8 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
   const _renderChildren = grid ? (_children: React.ReactNode) => <Row {...grid.row}>{_children}</Row> : renderChildren;
   const _renderItem = grid
     ? (child: React.ReactNode, name: FormMateItemProps['name']) => (
-        <Col {...(_isFunction(grid.col) ? grid.col(name) : grid.col)}>{child}</Col>
-      )
+      <Col {...(typeof grid.col === 'function' ? grid.col(name) : grid.col)}>{child}</Col>
+    )
     : renderItem;
 
   const fieldsType = {};

@@ -2,9 +2,6 @@ import React, { useContext } from 'react';
 import { Upload, message } from 'antd';
 import { UploadProps } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
-import _isString from 'lodash/isString';
-import _isArray from 'lodash/isArray';
-import _template from 'lodash/template';
 import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils/commons';
 import {
   processDimensionLimit,

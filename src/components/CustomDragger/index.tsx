@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import _get from 'lodash/get';
 
 import {
   CustomUploadPorps,

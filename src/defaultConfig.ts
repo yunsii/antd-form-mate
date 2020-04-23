@@ -1,4 +1,3 @@
-import _isFunction from 'lodash/isFunction';
 import { Rule } from 'rc-field-form/lib/interface';
 import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { ComponentType } from './interfaces';
@@ -10,8 +9,8 @@ const setDefaultCommenStyle = (type: ComponentType) => {
   return type !== 'switch' ? commenStyle : {};
 };
 
-export function processSetCommonProps(setCommonProps: (type: ComponentType, defaultStyle: any) => any = () => ({})) {
-  if (!_isFunction(setCommonProps)) {
+export function processSetCommonProps(setCommonProps: (type: ComponentType) => any = () => ({})) {
+  if (typeof setCommonProps !== 'function') {
     throw new Error('setCommonProps is not a function.');
   }
 

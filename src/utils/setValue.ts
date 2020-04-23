@@ -1,6 +1,4 @@
 import moment, { Moment } from 'moment';
-import _isArray from 'lodash/isArray';
-import _isString from 'lodash/isString';
 
 import { UploadFile } from 'antd/lib/upload/interface';
 import { ComponentType } from '../interfaces';
@@ -46,7 +44,7 @@ export function setDatetimeValue(value: undefined | null | number | Moment): Dat
 
 type DatetimeRangeValue = [null, null] | [Moment, Moment];
 export function setDatetimeRangeValue(value): DatetimeRangeValue {
-  if (_isArray(value) && value.length >= 2) {
+  if (Array.isArray(value) && value.length >= 2) {
     return [setDatetimeValue(value[0]), setDatetimeValue(value[1])] as DatetimeRangeValue;
   }
   return [null, null];
@@ -60,9 +58,9 @@ function setFileNameByPath(path: string) {
 export function setFileList(value?: string | any[], setFileName?: (path: string) => string): UploadFile[] {
   let fileList: UploadFile[] = [];
   const _setFileName = setFileName || setFileNameByPath;
-  if (value && _isString(value)) {
+  if (value && typeof value === 'string') {
     fileList = [{ uid: _setFileName(value), url: value, name: _setFileName(value), status: 'done' } as any];
-  } else if (value && _isArray(value) && _isString(value[0])) {
+  } else if (value && Array.isArray(value) && typeof value[0] === 'string') {
     fileList = value.map(
       (item, index) => ({ uid: _setFileName(item), url: item, name: _setFileName(item), status: 'done' } as any)
     );

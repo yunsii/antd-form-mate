@@ -1,7 +1,6 @@
 import React from 'react';
 import { Checkbox, Row, Col } from 'antd';
 import { CheckboxGroupProps } from 'antd/lib/checkbox';
-import _isString from 'lodash/isString';
 
 export interface CustomCheckGroupProps extends CheckboxGroupProps {
   cols?: 1 | 2 | 3 | 4 | 6 | 8 | 12 | 24;
@@ -19,7 +18,7 @@ export default class CustomCheckGroup extends React.Component<CustomCheckGroupPr
         <Row>
           {options &&
             options.map((item) => {
-              if (_isString(item)) {
+              if (typeof item === 'string') {
                 return (
                   <Col>
                     <Checkbox value={item}>{item}</Checkbox>

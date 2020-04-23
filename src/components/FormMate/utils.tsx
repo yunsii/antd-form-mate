@@ -1,8 +1,5 @@
 import React, { useRef } from 'react';
 import { Form } from 'antd';
-import _isFunction from 'lodash/isFunction';
-import _isString from 'lodash/isString';
-import _keys from 'lodash/keys';
 
 import { FormMateItemDisplayName, FormMateDynamicDisplayName, INTERNAL_HOOK_MARK } from '../../constants/components';
 import { useIntl } from '../../contexts/Intlcontext';
@@ -32,12 +29,12 @@ export const InjectIntl: React.FC<InjectIntlProps> = ({
 };
 
 export function isJsxChild(child: React.ReactNode): child is JSX.Element {
-  return React.isValidElement(child) && !_isString(child);
+  return React.isValidElement(child) && typeof child !== 'string';
 }
 
 export function getChildName(child: React.ReactNode) {
   if (isJsxChild(child)) {
-    if (_isString(child.type)) {
+    if (typeof child.type === 'string') {
       return child.type;
     }
 
@@ -47,7 +44,7 @@ export function getChildName(child: React.ReactNode) {
 }
 
 export function getChildType(child: React.ReactNode): ComponentType | null {
-  if (React.isValidElement(child) && !_isString(child)) {
+  if (React.isValidElement(child) && typeof child !== 'string') {
     return child.props.type;
   }
   return null;
@@ -77,7 +74,7 @@ export type PostProcess = (values: Store) => Store;
 export const processInitialValues = (values: Store, fieldsType: any, postProcess?: PostProcess) => {
   const result = { ...values };
 
-  _keys(fieldsType).forEach((item) => {
+  Object.keys(fieldsType).forEach((item) => {
     result[item] = setInitialValueByType(fieldsType[item], values?.[item]);
   });
 

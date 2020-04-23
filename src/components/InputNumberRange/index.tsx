@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Input, InputNumber } from 'antd';
 import { InputNumberProps } from 'antd/lib/input-number';
-import _isNumber from 'lodash/isNumber';
 
 import { useIntl } from '../../contexts/Intlcontext';
 import styles from './index.less';
@@ -27,7 +26,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   const { value, onChange, separator, placeholder, number1Props, number2Props } = props;
 
   const setValue1 = (v1: number | undefined) => {
-    if (!_isNumber(v1)) {
+    if (typeof v1 !== 'number') {
       onChange?.(undefined);
     } else {
       onChange?.([v1, value?.[1] && value[1] >= v1 ? value[1] : v1]);
@@ -35,7 +34,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   };
 
   const setValue2 = (v2: number | undefined) => {
-    if (!_isNumber(v2)) {
+    if (typeof v2 !== 'number') {
       onChange?.(undefined);
     } else {
       onChange?.([value?.[0] && value[0] <= v2 ? value[0] : v2, v2]);
@@ -43,7 +42,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   };
 
   useEffect(() => {
-    if (!_isNumber(value?.[0]) && !_isNumber(value?.[1])) {
+    if (typeof value?.[0] !== 'number' && typeof value?.[1] !== 'number') {
       onChange?.(undefined);
     }
   }, [value]);

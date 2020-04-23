@@ -1,6 +1,4 @@
 import React from 'react';
-import _get from 'lodash/get';
-import _isFunction from 'lodash/isFunction';
 import { Input, InputNumber, Slider, Cascader, Switch } from 'antd';
 import CustomDatePicker, { CustomRangePicker } from './components/CustomDatePicker/index';
 import CustomSelect from './components/CustomSelect/index';
