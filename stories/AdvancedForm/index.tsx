@@ -7,10 +7,10 @@ import FormMate, { ConfigProvider, getBase64 } from '../../src';
 function delay(ms: number) {
   return new Promise((resolve) => {
     const timer = setTimeout(() => {
-      resolve()
+      resolve();
       clearTimeout(timer);
-    }, ms)
-  })
+    }, ms);
+  });
 }
 
 const initialValues = {
@@ -45,16 +45,8 @@ class AdvancedForm extends React.Component {
         }}
         uploadFn={async (file) => {
           await delay(2000);
-          return {
-            data: {
-              url: await getBase64(file),
-              thumbUrl: await getBase64(file),
-            }
-          }
-        }}
-        getUrl={(response) => {
-          console.log(response);
-          return response.data;
+          await getBase64(file);
+          return '';
         }}
       >
         <FormMate
