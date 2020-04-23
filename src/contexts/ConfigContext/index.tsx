@@ -15,8 +15,8 @@ import { useIntl } from '../Intlcontext';
 
 export interface ConfigProviderProps {
   setCommonProps?: (type: ComponentType, defaultStyle: any) => any;
-  /** 默认统一使用 base64 编码预览，如果配置则直接上传，可配置第二个参数设置上传进度 */
-  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<string>;
+  /** 默认统一使用 base64 编码预览，如果配置则直接上传，可配置第二个参数设置上传进度，返回上传文件的链接即可 */
+  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<string | void>;
   commonExtra?: { [k in ComponentType]?: any };
   commonRules?: { [k in ComponentType]?: Rule[] };
   /** 配置可上传的图片类型 */
