@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input, InputNumber } from 'antd';
 import { InputNumberProps } from 'antd/lib/input-number';
 import _get from 'lodash/get';
@@ -31,16 +31,26 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   const getValue2 = () => _get(value, '[1]');
 
   const setValue1 = (v1) => {
-    if (_isNumber(v1)) {
-      onChange?.([v1, getValue2()]);
+    if (!_isNumber(v1)) {
+      onChange?.(undefined);
+    } else {
+      onChange?.([v1, getValue2() && getValue2() >= v1 ? getValue2() : v1]);
     }
   };
 
   const setValue2 = (v2) => {
-    if (_isNumber(v2)) {
-      onChange?.([getValue1(), v2]);
+    if (!_isNumber(v2)) {
+      onChange?.(undefined);
+    } else {
+      onChange?.([getValue1() && getValue1() <= v2 ? getValue1() : v2, v2]);
     }
   };
+
+  useEffect(() => {
+    if (!getValue1() && !getValue2()) {
+      onChange?.(undefined);
+    }
+  }, [value]);
 
   return (
     <Input.Group compact>
