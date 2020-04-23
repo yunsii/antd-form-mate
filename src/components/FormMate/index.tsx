@@ -1,8 +1,9 @@
 import { Form } from 'antd';
+
 import FormMateItem from './FormMateItem';
 import FormMateDynamic from './FormMateDynamic';
-
 import { FormMate as InternalForm } from './FormMate';
+import { useFormMate } from './utils';
 
 type InternalForm = typeof InternalForm;
 
@@ -10,7 +11,7 @@ type InternalForm = typeof InternalForm;
  * 让表单使用更轻松
  */
 interface FormMate extends InternalForm {
-  useForm: typeof Form.useForm;
+  useFormMate: typeof useFormMate;
   Item: typeof FormMateItem;
   Dynamic: typeof FormMateDynamic;
   List: typeof Form.List;
@@ -19,7 +20,7 @@ interface FormMate extends InternalForm {
 
 const FormMate: FormMate = InternalForm as FormMate;
 
-FormMate.useForm = Form.useForm;
+FormMate.useFormMate = useFormMate;
 FormMate.Item = FormMateItem;
 FormMate.Dynamic = FormMateDynamic;
 FormMate.List = Form.List;

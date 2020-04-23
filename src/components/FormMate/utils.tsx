@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { Form } from 'antd';
 import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
 import _keys from 'lodash/keys';
 
-import { FormMateItemDisplayName, FormMateDynamicDisplayName } from '../../constants/components';
+import { FormMateItemDisplayName, FormMateDynamicDisplayName, INTERNAL_HOOK_MARK } from '../../constants/components';
 import { useIntl } from '../../contexts/Intlcontext';
 import setInitialValueByType from '../../utils/setValue';
-import { ComponentType, FormMateItemProps, Filter, FormMateProps } from '../../interfaces';
+import { ComponentType, FormMateItemProps, Filter, FormMateProps, FormMateInstance } from '../../interfaces';
 
 export interface InjectIntlProps {
   propName: string;
@@ -68,9 +69,12 @@ export function getFormItemName(child: React.ReactNode): FormMateItemProps['name
   }
   return undefined;
 }
+
 export type Store = Filter<FormMateProps['initialValues'], Object>;
 
-export const processInitialValues = (values: Store, fieldsType: any, postProcess?: (values: Store) => Store) => {
+export type PostProcess = (values: Store) => Store;
+
+export const processInitialValues = (values: Store, fieldsType: any, postProcess?: PostProcess) => {
   const result = { ...values };
 
   _keys(fieldsType).forEach((item) => {
@@ -79,3 +83,46 @@ export const processInitialValues = (values: Store, fieldsType: any, postProcess
 
   return postProcess ? postProcess(result) : result;
 };
+
+export function useFormMate(formMate?: FormMateInstance): [FormMateInstance] {
+  const [antdForm] = Form.useForm();
+  const storeRef = useRef<FormMateProps['initialValues']>();
+  const fieldsTypeRef = useRef<any>();
+  const postProcessRef = useRef<PostProcess>();
+
+  const wrapForm: FormMateInstance = React.useMemo(
+    () =>
+      formMate || {
+        ...antdForm,
+        getFormMateInternalHook: (key: string) => {
+          if (key === INTERNAL_HOOK_MARK) {
+            return {
+              setFieldsType: (types: any) => {
+                if (!fieldsTypeRef.current) {
+                  fieldsTypeRef.current = types;
+                }
+              },
+              setPostProcess: (postProcess: PostProcess) => {
+                if (!postProcessRef.current) {
+                  postProcessRef.current = postProcess;
+                }
+              },
+            };
+          }
+          return null;
+        },
+        setInitialValues: (values: Store) => {
+          if (!storeRef.current) {
+            storeRef.current = processInitialValues(values, fieldsTypeRef.current, postProcessRef.current);
+            antdForm.setFieldsValue(storeRef.current);
+          }
+        },
+        resetFieldsValue: () => {
+          antdForm.setFieldsValue(storeRef.current || {});
+        },
+      },
+    [formMate, antdForm]
+  );
+
+  return [wrapForm];
+}

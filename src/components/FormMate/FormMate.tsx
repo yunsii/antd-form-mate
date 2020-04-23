@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Form, Row, Col } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import _get from 'lodash/get';
@@ -6,13 +6,14 @@ import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
 import _keys from 'lodash/keys';
 
+import { INTERNAL_HOOK_MARK } from '../../constants/components';
 import FormMateContext from '../../contexts/FormMateContext';
-import { isFormItem, isFormDynamic, getFormItemName, Store, processInitialValues } from './utils';
-import { FormMateProps, FormMateItemProps, FormMateInstance } from '../../interfaces';
+import { isFormItem, isFormDynamic, getFormItemName, Store, useFormMate } from './utils';
+import { FormMateProps, FormMateItemProps, FormMateInstance, InternalFormMateInstance } from '../../interfaces';
 
 export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props, ref) => {
-  const { initialValues, renderChildren, renderItem, children, postInitialValues, grid, form, ...rest } = props;
-  const [internalForm] = Form.useForm(form);
+  const { initialValues, renderChildren, renderItem, children, postInitialValues, grid, formMate, ...rest } = props;
+  const [internalForm] = useFormMate(formMate);
   const formRef = useRef<FormInstance>(null);
 
   const _renderChildren = grid ? (_children: React.ReactNode) => <Row {...grid.row}>{_children}</Row> : renderChildren;
@@ -36,31 +37,29 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
     return _renderItem ? _renderItem(child, getFormItemName(child)) : child;
   });
 
-  const processedInitialValues = initialValues && processInitialValues(initialValues, fieldsType, postInitialValues);
+  const { setFieldsType, setPostProcess } = (internalForm as InternalFormMateInstance).getFormMateInternalHook(
+    INTERNAL_HOOK_MARK
+  )!;
 
-  const storeRef = useRef<FormMateProps['initialValues']>(processedInitialValues);
+  setFieldsType(fieldsType);
+  if (postInitialValues) {
+    setPostProcess(postInitialValues);
+  }
 
-  React.useImperativeHandle(
-    ref,
-    () =>
-      ({
-        ...formRef.current,
+  useEffect(() => {
+    initialValues && internalForm.setInitialValues(initialValues);
+  }, []);
 
-        setInitialValue: (values: Store) => {
-          if (storeRef.current) {
-            return;
-          }
+  React.useImperativeHandle(ref, () => ({
+    ...formRef.current!,
 
-          const store = processInitialValues(values, fieldsType, postInitialValues);
-          internalForm.setFieldsValue(store);
-
-          storeRef.current = store;
-        },
-        resetFieldsValue: () => {
-          internalForm.setFieldsValue(storeRef.current || {});
-        },
-      } as any)
-  );
+    setInitialValues: (values: Store) => {
+      internalForm.setInitialValues(values);
+    },
+    resetFieldsValue: () => {
+      internalForm.resetFieldsValue();
+    },
+  }));
 
   return (
     <FormMateContext.Provider
@@ -68,7 +67,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
         renderItem: _renderItem,
       }}
     >
-      <Form ref={formRef} form={internalForm} initialValues={processedInitialValues} {...rest}>
+      <Form ref={formRef} form={internalForm} {...rest}>
         {_renderChildren ? _renderChildren(renderItems) : children}
       </Form>
     </FormMateContext.Provider>

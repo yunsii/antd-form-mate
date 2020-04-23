@@ -4,15 +4,14 @@ import moment from 'moment';
 import { Button, Space } from 'antd';
 
 import FormMate, { ConfigProvider } from '../../src';
-import { ComponentType, FormMateInstance } from '../../src/interfaces';
+import { ComponentType } from '../../src/interfaces';
 
 const { useEffect } = React;
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
 const BasicForm: React.FC = () => {
-  const formMateRef = React.useRef<FormMateInstance>(null);
-  const [form] = FormMate.useForm();
+  const [formMate] = FormMate.useFormMate();
 
   const initialValues = {
     hidden: 1,
@@ -32,14 +31,14 @@ const BasicForm: React.FC = () => {
   };
 
   useEffect(() => {
-    formMateRef.current?.setInitialValue(initialValues);
+    formMate.setInitialValues(initialValues);
   }, []);
 
   const handleFinish = () => {
-    const rawValues = formMateRef.current?.getFieldsValue(true);
+    const rawValues = formMate.getFieldsValue(true);
     console.log('Received raw values of form: ', rawValues);
     // 过滤，得到当前显示组件的字段值
-    const values = formMateRef.current?.getFieldsValue(undefined, () => true);
+    const values = formMate.getFieldsValue(undefined, () => true);
     console.log('Received values of form: ', values);
   };
 
@@ -55,8 +54,7 @@ const BasicForm: React.FC = () => {
       }}
     >
       <FormMate
-        ref={formMateRef}
-        form={form}
+        formMate={formMate}
         onFinish={handleFinish}
         onFinishFailed={handleFinishFailed}
         // initialValues={initialValues}
@@ -79,7 +77,7 @@ const BasicForm: React.FC = () => {
           },
         }}
         onReset={() => {
-          formMateRef.current?.resetFieldsValue();
+          formMate.resetFieldsValue();
         }}
       >
         <FormMate.Item type='plain' name='plain' label='纯文本' required />
@@ -241,7 +239,7 @@ const BasicForm: React.FC = () => {
           rules={[{ required: true, message: '请输入姓名！' }]}
           componentProps={{
             onChange: (event: any) => {
-              formMateRef.current?.setFieldsValue({
+              formMate.setFieldsValue({
                 name: event.target.value,
                 textarea: event.target.value,
                 hidden: event.target.value,
@@ -265,9 +263,8 @@ const BasicForm: React.FC = () => {
             </Button>
             <Button htmlType='reset'>重置</Button>
             <Button
-              style={{ marginLeft: 8 }}
               onClick={() => {
-                formMateRef.current?.setFieldsValue({
+                formMate.setFieldsValue({
                   'number-range': [4, 6.4],
                 });
               }}

@@ -14,6 +14,7 @@ import { CustomDraggerProps } from './components/CustomDragger';
 import { CustomCheckGroupProps } from './components/CustomCheckGroup/index';
 import { CustomRadioGroupProps } from './components/CustomRadioGroup/index';
 import { InputNumberRangeProps } from './components/InputNumberRange/index';
+import { PostProcess } from './components/FormMate/utils';
 
 export type ComponentType =
   | 'plain'
@@ -88,7 +89,9 @@ export interface Grid {
   col?: ColProps | ((name: FormMateItemProps['name']) => ColProps);
 }
 
-export interface FormMateProps extends FormProps {
+export interface FormMateProps extends Omit<FormProps, 'form'> {
+  formMate?: FormMateInstance;
+
   renderChildren?: (children: React.ReactNode) => React.ReactNode;
   /** item: 渲染子节点，name: 表单项字段名 */
   renderItem?: (item: React.ReactNode, name: FormMateItemProps['name']) => React.ReactNode;
@@ -99,6 +102,15 @@ export interface FormMateProps extends FormProps {
 }
 
 export interface FormMateInstance extends FormInstance {
-  setInitialValue: (initialValues: FormMateProps['initialValues']) => void;
+  setInitialValues: (initialValues: Filter<FormMateProps['initialValues'], Object>) => void;
   resetFieldsValue: () => void;
+}
+
+export interface FormMateInternalHook {
+  setFieldsType: (types: any) => void;
+  setPostProcess: (postProcess: PostProcess) => void;
+}
+
+export interface InternalFormMateInstance extends FormMateInstance {
+  getFormMateInternalHook: (key: string) => FormMateInternalHook | null;
 }
