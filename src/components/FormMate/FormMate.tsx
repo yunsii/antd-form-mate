@@ -4,7 +4,7 @@ import { FormInstance } from 'antd/lib/form';
 
 import { INTERNAL_HOOK_MARK } from '../../constants/components';
 import FormMateContext from '../../contexts/FormMateContext';
-import { isFormItem, isFormDynamic, getFormItemName, Store, useFormMate } from './utils';
+import { isFormItem, isFormDynamic, getFormItemName, useFormMate } from './utils';
 import { FormMateProps, FormMateItemProps, FormMateInstance, InternalFormMateInstance } from '../../interfaces';
 
 export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props, ref) => {
@@ -46,16 +46,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
     initialValues && internalForm.setInitialValues(initialValues);
   }, []);
 
-  React.useImperativeHandle(ref, () => ({
-    ...formRef.current!,
-
-    setInitialValues: (values: Store) => {
-      internalForm.setInitialValues(values);
-    },
-    resetFieldsValue: () => {
-      internalForm.resetFieldsValue();
-    },
-  }));
+  React.useImperativeHandle(ref, () => internalForm);
 
   return (
     <FormMateContext.Provider
