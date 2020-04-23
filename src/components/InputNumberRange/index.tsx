@@ -47,7 +47,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   };
 
   useEffect(() => {
-    if (!getValue1() && !getValue2()) {
+    if (!_isNumber(getValue1()) && !_isNumber(getValue2())) {
       onChange?.(undefined);
     }
   }, [value]);
