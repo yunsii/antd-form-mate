@@ -104,7 +104,7 @@ $ npm start
 
 #### `ConfigProvider` 全局默认配置
 
-参考[类型定义](/src/contexts/ConfigContext/index.tsx#L20)即可
+参考[类型定义](/src/contexts/ConfigContext/index.tsx#L16)即可
 
 #### 其他
 
