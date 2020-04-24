@@ -190,7 +190,7 @@ export default BasicForm;
 
    - `switch` -> `boolean`
    - `date` 相关 -> `Moment`
-   - 文件相关 -> `UploadFile[]` ，内部默认使用以 `/` 分割后的 url 数组的最后一个字符串
+   - 文件相关 -> `UploadFile[]` ，内部默认使用以 `/` 分割后的 url 数组的最后一个字符串作为文件名称
    - 特别的，如果像文件相关的内部字段转换不满足实际需求，可通过 `postInitialValues()` 属性对内部转换的结果再次进行处理
 
 4. 重构表单项创建方式，使用 `FormMate.Item` 和 `FormMate.Dynamic` 组件创建
