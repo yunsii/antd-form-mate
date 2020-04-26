@@ -11,3 +11,5 @@ tsconfig.json
 *.log
 /src/
 /storybook-static/
+webpack.config.js
+.travis.yml
