@@ -20,6 +20,6 @@
     "sourceMap": false,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*", "stories/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "packages", ".storybook"]
 }
