@@ -20,6 +20,6 @@
     "sourceMap": false,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*", "stories/EditableTable"],
-  "exclude": ["node_modules", "stories", "packages", ".storybook"]
+  "include": ["src/**/*", "stories/**/*"],
+  "exclude": ["node_modules", "packages", ".storybook"]
 }
