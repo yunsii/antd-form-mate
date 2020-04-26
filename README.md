@@ -12,7 +12,7 @@
 
 </div>
 
-![antd-form-mate-basic.png](https://i.loli.net/2020/02/20/lOFpTMW75JukNZC.png)
+![antd-form-mate.png](https://i.loli.net/2020/04/26/gLTEx6RzYisNwGW.png)
 
 **[在线预览 ->](http://zpr1g.github.io/antd-form-mate)**
 
