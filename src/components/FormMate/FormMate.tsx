@@ -15,7 +15,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
   const _renderChildren = grid ? (_children: React.ReactNode) => <Row {...grid.row}>{_children}</Row> : renderChildren;
   const _renderItem = grid
     ? (child: React.ReactNode, name: FormMateItemProps['name']) => (
-      <Col {...(typeof grid.col === 'function' ? grid.col(name) : grid.col)}>{child}</Col>
+      <Col {...(typeof grid.col === 'function' ? grid.col(child, name) : grid.col)}>{child}</Col>
     )
     : renderItem;
 
