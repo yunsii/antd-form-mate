@@ -113,7 +113,7 @@ export function useFormMate(formMate?: FormMateInstance): [FormMateInstance] {
            * 使用 Popover 等组件时由于还未渲染 FormMate 组件， fieldsTypeRef.current 可能为 `undefined` ，
            * 故与此类组件结合使用时，应在 FormMate 组件上直接配置 `initialValues`
            */
-          if (!storeRef.current && fieldsTypeRef.current) {
+          if (fieldsTypeRef.current) {
             storeRef.current = processInitialValues(values, fieldsTypeRef.current, postProcessRef.current);
             antdForm.setFieldsValue(storeRef.current);
           }

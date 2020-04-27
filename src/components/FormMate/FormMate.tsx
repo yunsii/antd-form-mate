@@ -54,7 +54,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
 
   useEffect(() => {
     initialValues && internalForm.setInitialValues(initialValues);
-  }, []);
+  }, [initialValues]);
 
   React.useImperativeHandle(ref, () => internalForm);
 
