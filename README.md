@@ -76,10 +76,10 @@ $ npm start
 
 ##### 关于 `initialValues`
 
-为了简化使用，`FormMate` 组件会在内部统一转换 `initialValues` ，方便在实际业务场景中统一处理，故输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）必须作为 `FormMate` 组件的直接子组件，不能被其他组件包裹，这样才能让 `FormMate` 组件内部正确转换相关初始值。组件提供两种方式配置 `initialValues` ：
+为了简化使用，`FormMate` 组件会在内部统一转换 `initialValues` 且可**初始值可重写**，方便在实际业务场景中的使用和处理，故输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）必须作为 `FormMate` 组件的直接子组件，不能被其他组件包裹，这样才能让 `FormMate` 组件内部正确转换相关初始值。组件提供两种方式配置 `initialValues` ：
 
-1. 直接配置 `initialValues` 。无法异步使用。
-2. 通过 `formMate` 配置 `initialValues` 。可参考[示例用法](/stories/BasicForm/index.tsx#L15)。这样就可以异步设置初始值了，此外如果需要重置表单，通过 `formMate` 调用 `resetFieldsValue()` 即可。
+1. 直接在 `FormMate` 配置 `initialValues`
+2. 通过 `formMate` 配置 `initialValues` 。可参考[示例用法](/stories/BasicForm/index.tsx#L15)。这样就可以异步设置初始值了，此外如果需要重置表单，通过 `formMate` 调用 `resetFieldsValue()` 即可
 
 #### `FormMate.Item` 表单项
 
