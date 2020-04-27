@@ -13,11 +13,21 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
   const formRef = useRef<FormInstance>(null);
 
   const _renderChildren = grid ? (_children: React.ReactNode) => <Row {...grid.row}>{_children}</Row> : renderChildren;
-  const _renderItem = grid
-    ? (child: React.ReactNode, name: FormMateItemProps['name']) => (
-      <Col {...(typeof grid.col === 'function' ? grid.col(child, name) : grid.col)}>{child}</Col>
-    )
-    : renderItem;
+  const _renderItem = (() => {
+    if (grid) {
+      return (child: React.ReactNode, name: FormMateItemProps['name']) => {
+        if (typeof grid.col === 'function') {
+          /** 如果 grid.col 函数无返回值，直接渲染 child ，可避免渲染无效节点与 Col 组件结合占位 */
+          if (grid.col(child, name)) {
+            return <Col {...grid.col(child, name)}>{child}</Col>;
+          }
+          return child;
+        }
+        return <Col {...grid.col}>{child}</Col>;
+      };
+    }
+    return renderItem;
+  })();
 
   const fieldsType = {};
   const renderItems = React.Children.map(children, (child) => {

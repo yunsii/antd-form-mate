@@ -86,7 +86,7 @@ export type Filter<T, U> = T extends U ? T : never; // Remove types from T that 
 
 export interface Grid {
   row?: RowProps;
-  col?: ColProps | ((item: React.ReactNode, name: FormMateItemProps['name']) => ColProps);
+  col?: ColProps | ((item: React.ReactNode, name: FormMateItemProps['name']) => ColProps | void);
 }
 
 export interface FormMateProps extends Omit<FormProps, 'form'> {
