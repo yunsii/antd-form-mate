@@ -31,7 +31,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
 
   const setValue1 = (v1: number | undefined) => {
     onChange?.({
-      min: v1,
+      min: v1 || undefined,
       max: value?.max,
     });
   };
@@ -39,7 +39,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   const setValue2 = (v2: number | undefined) => {
     onChange?.({
       min: value?.min,
-      max: v2,
+      max: v2 || undefined,
     });
   };
 
