@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Input, InputNumber } from 'antd';
 import { InputNumberProps } from 'antd/lib/input-number';
 
@@ -10,7 +10,10 @@ export type CustomInputNumberProps = Omit<InputNumberProps, 'value' | 'onChange'
 const separatorWidth = 36;
 const inputWidth = `calc(50% - ${separatorWidth / 2}px)`;
 
-export type NumberRangeValue = undefined | [number, number];
+export interface NumberRangeValue {
+  min?: number;
+  max?: number;
+}
 
 export interface InputNumberRangeProps {
   value?: NumberRangeValue;
@@ -24,31 +27,44 @@ export interface InputNumberRangeProps {
 export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
   const intl = useIntl();
   const { value, onChange, separator, placeholder, number1Props, number2Props } = props;
+  const foucsRef = useRef<boolean>(false);
 
   const setValue1 = (v1: number | undefined) => {
-    if (typeof v1 !== 'number') {
-      onChange?.(undefined);
-    } else {
-      onChange?.([v1, value?.[1] && value[1] >= v1 ? value[1] : v1]);
-    }
+    onChange?.({
+      min: v1,
+      max: value?.max,
+    });
   };
 
   const setValue2 = (v2: number | undefined) => {
-    if (typeof v2 !== 'number') {
-      onChange?.(undefined);
-    } else {
-      onChange?.([value?.[0] && value[0] <= v2 ? value[0] : v2, v2]);
-    }
+    onChange?.({
+      min: value?.min,
+      max: v2,
+    });
   };
 
-  useEffect(() => {
-    if (typeof value?.[0] !== 'number' && typeof value?.[1] !== 'number') {
-      onChange?.(undefined);
-    }
-  }, [value]);
+  const handleBlur = () => {
+    foucsRef.current = false;
+
+    const timer = setTimeout(() => {
+      if (!foucsRef.current && value?.min && value?.max && value.min > value.max) {
+        onChange?.({
+          min: value.max,
+          max: value.min,
+        });
+      }
+      clearTimeout(timer);
+    });
+  };
 
   return (
-    <Input.Group compact>
+    <Input.Group
+      compact
+      onFocus={() => {
+        foucsRef.current = true;
+      }}
+      onBlur={handleBlur}
+    >
       <InputNumber
         placeholder={placeholder?.[0] || intl.getMessage('placeholder.number', '请输入')}
         {...number1Props}
@@ -56,7 +72,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
           width: inputWidth,
           ...number1Props?.style,
         }}
-        value={value?.[0]}
+        value={value?.min}
         onChange={(_value) => {
           setValue1(_value);
         }}
@@ -76,7 +92,7 @@ export const InputNumberRange: React.FC<InputNumberRangeProps> = (props) => {
           width: inputWidth,
           ...number2Props?.style,
         }}
-        value={value?.[1]}
+        value={value?.max}
         onChange={(_value) => {
           setValue2(_value);
         }}
