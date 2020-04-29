@@ -57,7 +57,7 @@ $ npm start
 | 14  | `string`         | **默认类型**                                  |
 | 15  | `check-group`    | 多选框                                        |
 | 16  | `radio-group`    | 单选框                                        |
-| 17  | `number-range`   | 数字区间                                      |
+| 17  | `number-range`   | 数字区间, `{ min?: number, max?: number }`    |
 | 18  | `cascader`       | 级联选择                                      |
 
 除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 类型外的组件。
