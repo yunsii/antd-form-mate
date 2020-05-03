@@ -15,9 +15,7 @@ import { setCountLimitHint, setSizeLimitHint } from '../commons/CustomUpload/uti
 import ConfigContext from '../../contexts/ConfigContext/context';
 import { useIntl } from '../../contexts/Intlcontext';
 
-const { Dragger } = Upload as any;
-
-export interface CustomDraggerProps extends CustomUploadPorps {}
+export interface CustomDraggerProps extends CustomUploadPorps { }
 
 const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
   const { uploadFn: defaultUploadFn } = useContext(ConfigContext);
@@ -45,7 +43,7 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
   };
 
   return (
-    <Dragger
+    <Upload.Dragger
       name='file'
       // multiple: true
       customRequest={customRequest(uploadFn)}
@@ -75,7 +73,7 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
           Support for a single or bulk upload. Strictly prohibit from uploading company data or other
           band files
         </p> */}
-    </Dragger>
+    </Upload.Dragger>
   );
 };
 
