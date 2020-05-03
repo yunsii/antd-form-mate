@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { Form, Button } from 'antd';
+import { Form, Button, message } from 'antd';
 
 import FormMate, { ConfigProvider, getBase64 } from '../../src';
 
@@ -46,7 +46,7 @@ class AdvancedForm extends React.Component {
         uploadFn={async (file) => {
           await delay(2000);
           await getBase64(file);
-          return '';
+          return getBase64(file);
         }}
       >
         <FormMate
@@ -92,6 +92,12 @@ class AdvancedForm extends React.Component {
               onChange: (file) => {
                 console.log(file);
               },
+              onRemove: async () => {
+                const hide = message.loading('删除中')
+                await delay(2000);
+                hide();
+                return true;
+              }
             }}
           />
           <FormMate.Item
@@ -102,6 +108,15 @@ class AdvancedForm extends React.Component {
               // accept: 'image/*',
               filesCountLimit: 2,
               // onPreview: (file) => { console.log(file) }
+              onChange: (file) => {
+                console.log(file);
+              },
+              onRemove: async () => {
+                const hide = message.loading('删除中')
+                await delay(2000);
+                hide();
+                return true;
+              }
             }}
           />
           <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
