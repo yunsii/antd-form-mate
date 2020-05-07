@@ -26,7 +26,11 @@ export const FormMateDynamic = <T, P = {}>({
               return null;
             }
 
-            const formItem = <FormMateItem name={name} {...restFormItemProps} />;
+            const formItem = (
+              <FormMateItem name={name} {...restFormItemProps}>
+                {children}
+              </FormMateItem>
+            );
             return renderItem ? renderItem(formItem, getChildName(formItem)) : formItem;
           }) as any)
         : children!}
