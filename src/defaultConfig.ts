@@ -6,23 +6,20 @@ import { IntlType, zhCNIntl } from './contexts/Intlcontext';
 
 const commonStyle = { width: '100%' };
 
-const setDefaultCommonStyle = (type: ComponentType) => {
-  return type !== 'switch' ? commonStyle : {};
-};
-
+/** 处理传入的 `setCommonProps` ，返回增强的 `setCommonProps` */
 export function processSetCommonProps(setCommonProps: (type: ComponentType) => any = () => ({})) {
   if (typeof setCommonProps !== 'function') {
     throw new Error('setCommonProps is not a function.');
   }
 
-  return (type: ComponentType, defaultStyle: any) => {
+  return (type: ComponentType, defaultStyle: React.CSSProperties, useCommonStyle: boolean = true) => {
     const { style = {}, ...rest } = setCommonProps(type) || {};
     // console.log(type, rest);
     return {
       ...rest,
       style: {
         ...defaultStyle,
-        ...setDefaultCommonStyle(type),
+        ...(useCommonStyle ? commonStyle : {}),
         ...style,
       },
     };

@@ -62,6 +62,16 @@ const FormMateItem = <T, P = {}>({
     );
   }
 
+  const useCommonStyle = () => {
+    if (type === 'switch') {
+      return false;
+    }
+    if (children) {
+      return false;
+    }
+    return true;
+  };
+
   const typedComponent = getComponent(type as ComponentType) as JSX.Element;
 
   function createElement(): FormItemProps['children'] {
@@ -69,7 +79,7 @@ const FormMateItem = <T, P = {}>({
       return children;
     }
     return React.cloneElement(typedComponent, {
-      ...setCommonProps(type as ComponentType, _get(typedComponent.props, 'style')),
+      ...setCommonProps(type as ComponentType, _get(typedComponent.props, 'style'), useCommonStyle()),
       ...componentProps,
     }) as FormItemProps['children'];
   }
@@ -100,6 +110,7 @@ const FormMateItem = <T, P = {}>({
       rules={setRules()}
     >
       {createElement()}
+      {children}
     </Form.Item>
   );
 };

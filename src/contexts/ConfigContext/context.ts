@@ -12,7 +12,7 @@ import {
 } from '../../defaultConfig';
 
 export interface ConfigConsumerProps {
-  setCommonProps: (type: ComponentType, defaultStyle: any) => any;
+  setCommonProps: (type: ComponentType, defaultStyle: any, useCommonStyle?: boolean) => any;
   uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any>;
   commonExtra: { [k in ComponentType]?: any };
   commonRules: { [k in ComponentType]?: Rule[] };
