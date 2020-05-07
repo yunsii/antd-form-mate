@@ -8,6 +8,8 @@ import VariantForm from './VariantForm';
 import MultiForm from './MultiForm';
 import UploadForm from './UploadForm';
 
+import Select from './SelectDemo';
+
 import PopoverForm from './PopoverForm';
 
 import PicturesWall from './PictureWall';
@@ -19,6 +21,8 @@ storiesOf('ant-form-mate', module).add('Picker Form', () => <PickerForm />);
 storiesOf('ant-form-mate', module).add('Variant Form', () => <VariantForm />);
 storiesOf('ant-form-mate', module).add('Upload Form', () => <UploadForm />);
 storiesOf('ant-form-mate', module).add('Multi-Form', () => <MultiForm />);
+
+storiesOf('ant-form-mate components', module).add('Select', () => <Select />);
 
 storiesOf('ant-form-mate usage', module).add('with Popover', () => <PopoverForm />);
 
