@@ -108,6 +108,7 @@ export default () => {
                 {
                   label: '银河',
                   value: 'galaxy',
+                  disabled: true,
                 },
               ],
             },
