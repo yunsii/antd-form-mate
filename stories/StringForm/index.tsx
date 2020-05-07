@@ -36,6 +36,10 @@ export default () => {
       onReset={() => {
         formMate.resetFieldsValue();
       }}
+      renderItem={(item, name) => {
+        console.log(name)
+        return name !== 'name' ? item : undefined;
+      }}
     >
       <FormMate.Item
         type='string'
