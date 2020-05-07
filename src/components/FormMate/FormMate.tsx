@@ -30,7 +30,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
   })();
 
   const fieldsType = {};
-  const renderItems = React.Children.map(children, (child) => {
+  const formItems = React.Children.map(children, (child) => {
     if (isFormItem(child) && child.props.name) {
       fieldsType[child.props.name] = child.props.type;
     }
@@ -65,7 +65,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
       }}
     >
       <Form ref={formRef} form={internalForm} {...rest}>
-        {_renderChildren ? _renderChildren(renderItems) : children}
+        {_renderChildren ? _renderChildren(formItems) : formItems}
       </Form>
     </FormMateContext.Provider>
   );
