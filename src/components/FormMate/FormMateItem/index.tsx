@@ -23,7 +23,7 @@ const FormMateItem = <T, P = {}>({
   const intl = useIntl();
   const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
 
-  const { style, dense, extra, wrapperCol, labelCol, rules, ...rest } = restFormItemProps;
+  const { style, dense, extra, rules, ...rest } = restFormItemProps;
 
   function setStyle() {
     return dense ? { marginBottom: 0, ...style } : style;
