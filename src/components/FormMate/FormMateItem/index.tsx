@@ -66,9 +66,9 @@ const FormMateItem = <T, P = {}>({
     if (type === 'switch') {
       return false;
     }
-    if (children) {
-      return false;
-    }
+    // if (children) {
+    //   return false;
+    // }
     return true;
   };
 
@@ -110,7 +110,7 @@ const FormMateItem = <T, P = {}>({
       rules={setRules()}
     >
       {createElement()}
-      {children}
+      {/* {children} */}
     </Form.Item>
   );
 };
