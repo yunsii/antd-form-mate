@@ -38,6 +38,9 @@ export default () => {
         formMate.resetFieldsValue();
       }}
     >
+      <FormMate.Item type='number' name='number1' label='数字'>
+        <span style={{ marginLeft: 8 }}>%</span>
+      </FormMate.Item>
       <FormMate.Item type='number' name='number' label='数字' />
       <FormMate.Item type='number-range' name='number-range' label='数字区间' />
       <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
