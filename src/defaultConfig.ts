@@ -4,9 +4,10 @@ import { ComponentType } from './interfaces';
 import { getBase64 } from './utils/commons';
 import { IntlType, zhCNIntl } from './contexts/Intlcontext';
 
-const commenStyle = { width: '100%' };
-const setDefaultCommenStyle = (type: ComponentType) => {
-  return type !== 'switch' ? commenStyle : {};
+const commonStyle = { width: '100%' };
+
+const setDefaultCommonStyle = (type: ComponentType) => {
+  return type !== 'switch' ? commonStyle : {};
 };
 
 export function processSetCommonProps(setCommonProps: (type: ComponentType) => any = () => ({})) {
@@ -21,7 +22,7 @@ export function processSetCommonProps(setCommonProps: (type: ComponentType) => a
       ...rest,
       style: {
         ...defaultStyle,
-        ...setDefaultCommenStyle(type),
+        ...setDefaultCommonStyle(type),
         ...style,
       },
     };
