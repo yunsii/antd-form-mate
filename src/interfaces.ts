@@ -86,7 +86,7 @@ export type Filter<T, U> = T extends U ? T : never; // Remove types from T that 
 
 export interface Grid {
   row?: RowProps;
-  col?: ColProps | ((item: React.ReactNode, name: FormMateItemProps['name'], index: number) => ColProps | void);
+  col?: ColProps | ((item: React.ReactNode, name: FormMateItemProps['name'], index?: number) => ColProps | void);
 }
 
 export interface FormMateProps extends Omit<FormProps, 'form'> {
@@ -94,7 +94,7 @@ export interface FormMateProps extends Omit<FormProps, 'form'> {
 
   renderChildren?: (children: React.ReactNode) => React.ReactNode;
   /** item: 渲染子节点，name: 表单项字段名 */
-  renderItem?: (item: React.ReactNode, name: FormMateItemProps['name'], index: number) => React.ReactNode;
+  renderItem?: (item: React.ReactNode, name: FormMateItemProps['name'], index?: number) => React.ReactNode;
   postInitialValues?: (
     initialValues: Filter<FormProps['initialValues'], Object>
   ) => Filter<FormProps['initialValues'], Object>;
