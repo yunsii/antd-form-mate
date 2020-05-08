@@ -69,7 +69,7 @@ $ npm start
 | 参数                | 说明                                                 | 类型                                                               | 默认值 |
 | ------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ | ------ |
 | `renderChildren`    | 自定义 `children` 渲染                               | `(children: React.ReactNode) => React.ReactNode`                   | -      |
-| `renderItem`        | 自定义每个子项的渲染                                 | `(item: React.ReactNode, name: string \| null) => React.ReactNode` | -      |
+| `renderItem`        | 自定义每个子项的渲染                                 | `(item: React.ReactNode, name: string \| null, index?: number) => React.ReactNode` | -      |
 | `postInitialValues` | 对于内部已经处理过的初始值再次处理                   | `Function`                                                         | -      |
 | `grid`              | 由于通过 `flex` 布局输入项较为常见，故集成了该配置   | [`Grid`](/src/interfaces.ts#L86)                                   | -      |
 | `formMate`          | 继承自 `Form` 组件的 `form` 属性，用于管理表单初始值 | [`FormMateInstance`](/src/interfaces.ts#L104)                      | -      |

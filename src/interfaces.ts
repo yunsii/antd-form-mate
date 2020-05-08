@@ -93,7 +93,7 @@ export interface FormMateProps extends Omit<FormProps, 'form'> {
   formMate?: FormMateInstance;
 
   renderChildren?: (children: React.ReactNode) => React.ReactNode;
-  /** item: 渲染子节点，name: 表单项字段名 */
+  /** item: 渲染子节点，name: 表单项字段名, index: 表单项索引，如果为动态类型，index 为 undefined */
   renderItem?: (item: React.ReactNode, name: FormMateItemProps['name'], index?: number) => React.ReactNode;
   postInitialValues?: (
     initialValues: Filter<FormProps['initialValues'], Object>
