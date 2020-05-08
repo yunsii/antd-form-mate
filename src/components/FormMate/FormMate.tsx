@@ -15,11 +15,11 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
   const _renderChildren = grid ? (_children: React.ReactNode) => <Row {...grid.row}>{_children}</Row> : renderChildren;
   const _renderItem = (() => {
     if (grid) {
-      return (child: React.ReactNode, name: FormMateItemProps['name']) => {
+      return (child: React.ReactNode, name: FormMateItemProps['name'], index: number) => {
         if (typeof grid.col === 'function') {
           /** 如果 grid.col 函数无返回值，直接渲染 child ，可避免渲染无效节点与 Col 组件结合占位 */
-          if (grid.col(child, name)) {
-            return <Col {...grid.col(child, name)}>{child}</Col>;
+          if (grid.col(child, name, index)) {
+            return <Col {...grid.col(child, name, index)}>{child}</Col>;
           }
           return child;
         }
@@ -30,7 +30,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
   })();
 
   const fieldsType = {};
-  const formItems = React.Children.map(children, (child) => {
+  const formItems = React.Children.map(children, (child, index) => {
     if (isFormItem(child) && child.props.name) {
       fieldsType[child.props.name] = child.props.type;
     }
@@ -40,7 +40,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
       return child;
     }
 
-    return _renderItem ? _renderItem(child, getFormItemName(child)) : child;
+    return _renderItem ? _renderItem(child, getFormItemName(child), index) : child;
   });
 
   const { setFieldsType, setPostProcess } = (internalForm as InternalFormMateInstance).getFormMateInternalHook(
