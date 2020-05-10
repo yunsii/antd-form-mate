@@ -2,7 +2,11 @@ import React, { useContext } from 'react';
 import { Upload, message } from 'antd';
 import { UploadProps } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
-import { sizeOfFile, getImageDimension, getBase64 } from '../../../utils/commons';
+import {
+  sizeOfFile,
+  getImageDimension,
+  getBase64,
+} from '../../../utils/commons';
 import {
   processDimensionLimit,
   isLimitDimension,
@@ -31,7 +35,7 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
     sizeLimitHint,
     checkImage = () => undefined,
 
-    fileList: uploadedFileList,
+    fileList: uploadedFileList = [],
   } = limit;
   const { name, type } = file;
 
@@ -48,7 +52,12 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
       const dataUrl: any = await getBase64(file);
       const dimension: any = await getImageDimension(dataUrl);
 
-      const customHint = checkImage({ dimension, type, name, size: sizeOfFile(file) });
+      const customHint = checkImage({
+        dimension,
+        type,
+        name,
+        size: sizeOfFile(file),
+      });
       if (customHint) {
         message.error(customHint);
         return reject();
@@ -80,11 +89,16 @@ export const commonBeforeUpload = (limit: any) => (file: any) => {
 };
 
 export function filterFileList(fileList: UploadFile[]) {
-  return fileList.filter((item) => item.status !== undefined && item.status !== 'error');
+  return fileList.filter(
+    (item) => item.status !== undefined && item.status !== 'error'
+  );
 }
 
 export const customRequest = (
-  uploadFn: (file: File, setProgress: (percent: number) => any) => Promise<any> = uploadByBase64Default
+  uploadFn: (
+    file: File,
+    setProgress: (percent: number) => any
+  ) => Promise<any> = uploadByBase64Default
 ) => async ({ file, onSuccess, onError, onProgress }) => {
   const url = await uploadFn(file, (percent) => onProgress({ percent }));
   if (url) {
@@ -95,7 +109,10 @@ export const customRequest = (
 };
 
 export interface CustomUploadPorps extends UploadProps {
-  uploadFn?: (file: File, setProgress: (percent: number) => any) => Promise<string>;
+  uploadFn?: (
+    file: File,
+    setProgress: (percent: number) => any
+  ) => Promise<string>;
   children?: React.ReactChildren | React.ReactNode;
   filesCountLimit?: number;
   /** 单位 `b` */
