@@ -7,6 +7,7 @@ import PickerForm from './PickerForm';
 import VariantForm from './VariantForm';
 import MultiForm from './MultiForm';
 import UploadForm from './UploadForm';
+import PlainForm from './PlainForm';
 
 import Select from './SelectDemo';
 
@@ -21,6 +22,7 @@ storiesOf('ant-form-mate', module).add('Picker Form', () => <PickerForm />);
 storiesOf('ant-form-mate', module).add('Variant Form', () => <VariantForm />);
 storiesOf('ant-form-mate', module).add('Upload Form', () => <UploadForm />);
 storiesOf('ant-form-mate', module).add('Multi-Form', () => <MultiForm />);
+storiesOf('ant-form-mate', module).add('Plain Form', () => <PlainForm />);
 
 storiesOf('ant-form-mate components', module).add('Select', () => <Select />);
 
