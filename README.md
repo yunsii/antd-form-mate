@@ -66,20 +66,20 @@ $ npm start
 
 #### `FormMate` 表单容器
 
-| 参数                | 说明                                                 | 类型                                                               | 默认值 |
-| ------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ | ------ |
-| `renderChildren`    | 自定义 `children` 渲染                               | `(children: React.ReactNode) => React.ReactNode`                   | -      |
+| 参数                | 说明                                                 | 类型                                                                               | 默认值 |
+| ------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- | ------ |
+| `renderChildren`    | 自定义 `children` 渲染                               | `(children: React.ReactNode) => React.ReactNode`                                   | -      |
 | `renderItem`        | 自定义每个子项的渲染                                 | `(item: React.ReactNode, name: string \| null, index?: number) => React.ReactNode` | -      |
-| `postInitialValues` | 对于内部已经处理过的初始值再次处理                   | `Function`                                                         | -      |
-| `grid`              | 由于通过 `flex` 布局输入项较为常见，故集成了该配置   | [`Grid`](/src/interfaces.ts#L86)                                   | -      |
-| `formMate`          | 继承自 `Form` 组件的 `form` 属性，用于管理表单初始值 | [`FormMateInstance`](/src/interfaces.ts#L104)                      | -      |
+| `postInitialValues` | 对于内部已经处理过的初始值再次处理                   | `Function`                                                                         | -      |
+| `grid`              | 由于通过 `flex` 布局输入项较为常见，故集成了该配置   | [`Grid`](/src/interfaces.ts#L86)                                                   | -      |
+| `formMate`          | 继承自 `Form` 组件的 `form` 属性，用于管理表单初始值 | [`FormMateInstance`](/src/interfaces.ts#L104)                                      | -      |
 
 ##### 关于 `initialValues`
 
-为了简化使用，`FormMate` 组件会在内部统一转换 `initialValues` 且可**初始值可重写**，方便在实际业务场景中的使用和处理，故输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）必须作为 `FormMate` 组件的直接子组件，不能被其他组件包裹，这样才能让 `FormMate` 组件内部正确转换相关初始值。组件提供两种方式配置 `initialValues` ：
+为了简化使用，`FormMate` 组件会在内部统一转换 `initialValues` 且可**初始值可重写**，方便在实际业务场景中的使用和处理，故输入项（ `FormMate.Item` 和 `FormMate.Dynamic` ）必须作为 `FormMate` 组件的直接子组件，不能被其他组件包裹，这样才能让 `FormMate` 组件内部正确转换相关初始值。
 
-1. 直接在 `FormMate` 配置 `initialValues`
-2. 通过 `formMate` 配置 `initialValues` 。可参考[示例用法](/stories/BasicForm/index.tsx#L15)。这样就可以异步设置初始值了，此外如果需要重置表单，通过 `formMate` 调用 `resetFieldsValue()` 即可
+1. 直接在 `FormMate` 配置 `initialValues` ，此法需自己转换相应的值类型。由于如果要实现法二的效果，还需要保存初始值的前一个状态并做深比较，私以为过于冗余了，故保留为 `Form` 组件原始的 API 。
+2. [推荐]通过 `formMate` 配置 `initialValues` 。可参考[示例用法](/stories/MultiForm/index.tsx#L29)。这样就可以异步设置初始值了，如果需要重置表单，通过 `formMate` 调用 `resetFieldsValue()` 即可。此外，该方案还可以反复擦写初始值。
 
 #### `FormMate.Item` 表单项
 
@@ -138,7 +138,12 @@ const BasicForm: React.FC = (props) => {
       onFinish={handleFinish}
       onFinishFailed={handleFinishFailed}
     >
-      <FormMate.Item type='string' name='name' label='姓名' rules={[{ required: true, message: '请输入姓名！' }]} />
+      <FormMate.Item
+        type='string'
+        name='name'
+        label='姓名'
+        rules={[{ required: true, message: '请输入姓名！' }]}
+      />
       <FormMate.Dynamic
         type='string'
         name='dynamic'
