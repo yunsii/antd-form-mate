@@ -10,7 +10,9 @@ const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
 export default () => {
+  console.log('render DateForm');
   const [formMate] = FormMate.useFormMate();
+  const [, forceUpdate] = React.useState();
 
   const initialValues = {
     formatDate: moment().format(dateFormat),
@@ -42,7 +44,6 @@ export default () => {
       formMate={formMate}
       onFinish={handleFinish}
       onFinishFailed={handleFinishFailed}
-      // initialValues={initialValues}
       onValuesChange={(changedValues, allValues) => {
         console.log('onValuesChange', changedValues, allValues);
       }}
@@ -70,13 +71,18 @@ export default () => {
         }}
       />
       <FormMate.Item type='date-range' name='date-period' label='日期区间' />
-      <FormMate.Item type='datetime-range' name='datetime-period' label='日期时间区间' />
+      <FormMate.Item
+        type='datetime-range'
+        name='datetime-period'
+        label='日期时间区间'
+      />
       <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
         <Space>
           <Button type='primary' htmlType='submit'>
             提交
           </Button>
           <Button htmlType='reset'>重置</Button>
+          <Button onClick={() => forceUpdate({})}>强制刷新</Button>
         </Space>
       </FormMate.Item>
     </FormMate>
