@@ -26,6 +26,8 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>(
       postInitialValues,
       grid,
       formMate,
+      type,
+      plainRender,
       ...rest
     } = props;
     const [internalForm] = useFormMate(formMate);
@@ -88,6 +90,8 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>(
       <FormMateContext.Provider
         value={{
           renderItem: _renderItem,
+          type,
+          plainRender,
         }}
       >
         <Form ref={formRef} form={internalForm} {...rest}>

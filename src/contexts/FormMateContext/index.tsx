@@ -1,8 +1,10 @@
 import React from 'react';
-import { FormMateProps } from '../../interfaces';
+import { FormMateProps, ComponentType } from '../../interfaces';
 
 export interface FormMateConsumerProps {
   renderItem?: FormMateProps['renderItem'];
+  type?: ComponentType;
+  plainRender?: FormMateProps['plainRender'];
 }
 
 export const FormMateContext = React.createContext<FormMateConsumerProps>({});
