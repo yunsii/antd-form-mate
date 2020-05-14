@@ -44,20 +44,21 @@ $ npm start
 | 3   | `time`           |                                               |
 | 4   | `datetime`       |                                               |
 | 5   | `date-range`     | 日期范围                                      |
-| 6   | `datetime-range` | 日期时间范围                                  |
-| 7   | `number`         |                                               |
-| 8   | `select`         |                                               |
-| 9   | `textarea`       |                                               |
-| 10  | `password`       |                                               |
-| 11  | `picture`        | 内置预览组件                                  |
-| 12  | `switch`         |                                               |
-| 13  | `slider`         | 滑动输入                                      |
-| 14  | `file-dragger`   | 可拖拽文件上传                                |
-| 15  | `string`         | **默认类型**                                  |
-| 16  | `check-group`    | 多选框                                        |
-| 17  | `radio-group`    | 单选框                                        |
-| 18  | `number-range`   | 数字区间, `{ min?: number, max?: number }`    |
-| 19  | `cascader`       | 级联选择                                      |
+| 6   | `time-range`     | 时间范围                                      |
+| 7   | `datetime-range` | 日期时间范围                                  |
+| 8   | `number`         |                                               |
+| 9   | `select`         |                                               |
+| 10  | `textarea`       |                                               |
+| 11  | `password`       |                                               |
+| 12  | `picture`        | 内置预览组件                                  |
+| 13  | `switch`         |                                               |
+| 14  | `slider`         | 滑动输入                                      |
+| 15  | `file-dragger`   | 可拖拽文件上传                                |
+| 16  | `string`         | **默认类型**                                  |
+| 17  | `check-group`    | 多选框                                        |
+| 18  | `radio-group`    | 单选框                                        |
+| 19  | `number-range`   | 数字区间, `{ min?: number, max?: number }`    |
+| 20  | `cascader`       | 级联选择                                      |
 
 除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 类型外的组件。
 
