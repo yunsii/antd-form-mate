@@ -24,7 +24,10 @@ export function setInitialValue(type: ComponentType, value: any) {
 export default setInitialValue;
 
 type DatetimeValue = undefined | Moment;
-export function setDatetimeValue(value: undefined | null | number | Moment): DatetimeValue {
+
+export function setDatetimeValue(
+  value: undefined | null | number | Moment
+): DatetimeValue {
   if (value instanceof moment) {
     return value as Moment;
   }
@@ -42,12 +45,16 @@ export function setDatetimeValue(value: undefined | null | number | Moment): Dat
   return undefined;
 }
 
-type DatetimeRangeValue = [null, null] | [Moment, Moment];
+type DatetimeRangeValue = null | [Moment, Moment];
+
 export function setDatetimeRangeValue(value): DatetimeRangeValue {
   if (Array.isArray(value) && value.length >= 2) {
-    return [setDatetimeValue(value[0]), setDatetimeValue(value[1])] as DatetimeRangeValue;
+    return [
+      setDatetimeValue(value[0]),
+      setDatetimeValue(value[1]),
+    ] as DatetimeRangeValue;
   }
-  return [null, null];
+  return null;
 }
 
 function setFileNameByPath(path: string) {
@@ -55,14 +62,30 @@ function setFileNameByPath(path: string) {
   return pathSegment[pathSegment.length - 1];
 }
 
-export function setFileList(value?: string | any[], setFileName?: (path: string) => string): UploadFile[] {
+export function setFileList(
+  value?: string | any[],
+  setFileName?: (path: string) => string
+): UploadFile[] {
   let fileList: UploadFile[] = [];
   const _setFileName = setFileName || setFileNameByPath;
   if (value && typeof value === 'string') {
-    fileList = [{ uid: _setFileName(value), url: value, name: _setFileName(value), status: 'done' } as any];
+    fileList = [
+      {
+        uid: _setFileName(value),
+        url: value,
+        name: _setFileName(value),
+        status: 'done',
+      } as any,
+    ];
   } else if (value && Array.isArray(value) && typeof value[0] === 'string') {
     fileList = value.map(
-      (item, index) => ({ uid: _setFileName(item), url: item, name: _setFileName(item), status: 'done' } as any)
+      (item, index) =>
+        ({
+          uid: _setFileName(item),
+          url: item,
+          name: _setFileName(item),
+          status: 'done',
+        } as any)
     );
   }
   return fileList;
