@@ -31,7 +31,9 @@ export const FormMateDynamic = <T, P = {}>({
                 {children}
               </FormMateItem>
             );
-            return renderItem ? renderItem(formItem, getChildName(formItem)) : formItem;
+            return renderItem
+              ? renderItem(formItem, getChildName(formItem))
+              : formItem;
           }) as any)
         : children!}
     </Form.Item>
