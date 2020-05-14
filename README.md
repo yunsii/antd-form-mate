@@ -41,22 +41,23 @@ $ npm start
 | --- | ---------------- | --------------------------------------------- |
 | 1   | `custom`         | 自定义组件类型，通过 `component` 属性传入组件 |
 | 2   | `date`           |                                               |
-| 3   | `datetime`       |                                               |
-| 4   | `date-range`     | 日期范围                                      |
-| 5   | `datetime-range` | 日期时间范围                                  |
-| 6   | `number`         |                                               |
-| 7   | `select`         |                                               |
-| 8   | `textarea`       |                                               |
-| 9   | `password`       |                                               |
-| 10  | `picture`        | 内置预览组件                                  |
-| 11  | `switch`         |                                               |
-| 12  | `slider`         | 滑动输入                                      |
-| 13  | `file-dragger`   | 可拖拽文件上传                                |
-| 14  | `string`         | **默认类型**                                  |
-| 15  | `check-group`    | 多选框                                        |
-| 16  | `radio-group`    | 单选框                                        |
-| 17  | `number-range`   | 数字区间, `{ min?: number, max?: number }`    |
-| 18  | `cascader`       | 级联选择                                      |
+| 3   | `time`           |                                               |
+| 4   | `datetime`       |                                               |
+| 5   | `date-range`     | 日期范围                                      |
+| 6   | `datetime-range` | 日期时间范围                                  |
+| 7   | `number`         |                                               |
+| 8   | `select`         |                                               |
+| 9   | `textarea`       |                                               |
+| 10  | `password`       |                                               |
+| 11  | `picture`        | 内置预览组件                                  |
+| 12  | `switch`         |                                               |
+| 13  | `slider`         | 滑动输入                                      |
+| 14  | `file-dragger`   | 可拖拽文件上传                                |
+| 15  | `string`         | **默认类型**                                  |
+| 16  | `check-group`    | 多选框                                        |
+| 17  | `radio-group`    | 单选框                                        |
+| 18  | `number-range`   | 数字区间, `{ min?: number, max?: number }`    |
+| 19  | `cascader`       | 级联选择                                      |
 
 除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 类型外的组件。
 
@@ -73,6 +74,8 @@ $ npm start
 | `postInitialValues` | 对于内部已经处理过的初始值再次处理                   | `Function`                                                                         | -      |
 | `grid`              | 由于通过 `flex` 布局输入项较为常见，故集成了该配置   | [`Grid`](/src/interfaces.ts#L86)                                                   | -      |
 | `formMate`          | 继承自 `Form` 组件的 `form` 属性，用于管理表单初始值 | [`FormMateInstance`](/src/interfaces.ts#L104)                                      | -      |
+| `type`              | 统一设置表单中的所有类型                             | [`ComponentType`](/src/interfaces.ts#L23)                                          | -      |
+| `plainRender`       | 自定义 `plain` 类型的渲染函数                        | [`Function`](/src/interfaces.ts#121)                                               | -      |
 
 ##### 关于 `initialValues`
 
@@ -81,11 +84,15 @@ $ npm start
 1. 直接在 `FormMate` 配置 `initialValues` ，此法需自己转换相应的值类型。由于如果要实现法二的效果，还需要保存初始值的前一个状态并做深比较，私以为过于冗余了，故保留为 `Form` 组件原始的 API 。
 2. [推荐]通过 `formMate` 配置 `initialValues` 。可参考[示例用法](/stories/MultiForm/index.tsx#L29)。这样就可以异步设置初始值了，如果需要重置表单，通过 `formMate` 调用 `resetFieldsValue()` 即可。此外，该方案还可以反复擦写初始值。
 
+##### `type` 与 `plainRender`
+
+配置 `type` 为 `'plain'` ，即可实现**详情展示**的功能，内部已初始化一个默认的对于不同类型渲染函数 [`defaultPlainRender`](/src/utils/plainRender.tsx#29) ，当然也可以通过 `plainRender` 属性重写默认的渲染函数。
+
 #### `FormMate.Item` 表单项
 
 | 参数             | 说明                                  | 类型                                                               | 默认值   |
 | ---------------- | ------------------------------------- | ------------------------------------------------------------------ | -------- |
-| `type`           | 上述类型                              | [`ComponentType`](/src/interfaces.ts#L16)                          | `string` |
+| `type`           | 上述类型                              | [`ComponentType`](/src/interfaces.ts#L23)                          | `string` |
 | `name`           | 字段名                                | [`NamePath`](https://next.ant.design/components/form-cn/#NamePath) | -        |
 | `dense`          | 使得 Form.Item 的 `marginBottom` 为 0 | `boolean`                                                          | `false`  |
 | `componentProps` | 额外的输入组件属性                    | [`ComponentProps`](/src/interfaces.ts#L47)                         | -        |
