@@ -36,7 +36,6 @@ export default () => {
       formMate={formMate}
       onFinish={handleFinish}
       onFinishFailed={handleFinishFailed}
-      // initialValues={initialValues}
       onValuesChange={(changedValues, allValues) => {
         console.log('onValuesChange', changedValues, allValues);
       }}
@@ -45,7 +44,6 @@ export default () => {
         margin: '0 auto',
         paddingTop: 20,
       }}
-      // layout='vertical'
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 12 }}
       onReset={() => {

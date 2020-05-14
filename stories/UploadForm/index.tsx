@@ -23,10 +23,6 @@ const initialValues = {
     'https://s2.ax1x.com/2019/09/25/uEvPxI.png',
     'https://infeng.github.io/react-viewer/bbbc41dac417d9fb4b275223a6a6d3e8.jpg',
   ],
-  location: {
-    position: { longitude: 114.104624, latitude: 22.554863 },
-    formattedAddress: '广东省深圳市罗湖区桂园街道红岭2118号大院建设集团大厦',
-  },
 };
 
 class AdvancedForm extends React.Component {
