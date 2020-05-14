@@ -3,6 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Form, Button, message } from 'antd';
 
 import FormMate, { ConfigProvider, getBase64 } from '../../src';
+import { FormMateInstance } from '../../src/interfaces';
 
 function delay(ms: number) {
   return new Promise((resolve) => {
@@ -29,12 +30,18 @@ const initialValues = {
 };
 
 class AdvancedForm extends React.Component {
+  formMateRef = React.createRef<FormMateInstance>();
+
   handleFinish = (values) => {
     console.log('Received values of form: ', values);
   };
 
   handleFinishFailed = (errors) => {
     console.log('Errors:', errors);
+  };
+
+  componentDidMount = () => {
+    this.formMateRef.current?.setInitialValues(initialValues);
   };
 
   render() {
@@ -50,10 +57,10 @@ class AdvancedForm extends React.Component {
         }}
       >
         <FormMate
+          ref={this.formMateRef}
           style={{ paddingTop: 20 }}
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
-          initialValues={initialValues}
           postInitialValues={(values) => {
             values.file.map((item, index) => {
               item.name = 'custom_name_' + (index + 1);
@@ -93,11 +100,11 @@ class AdvancedForm extends React.Component {
                 console.log(file);
               },
               onRemove: async () => {
-                const hide = message.loading('删除中')
+                const hide = message.loading('删除中');
                 await delay(2000);
                 hide();
                 return true;
-              }
+              },
             }}
           />
           <FormMate.Item
@@ -112,15 +119,19 @@ class AdvancedForm extends React.Component {
                 console.log(file);
               },
               onRemove: async () => {
-                const hide = message.loading('删除中')
+                const hide = message.loading('删除中');
                 await delay(2000);
                 hide();
                 return true;
-              }
+              },
             }}
           />
           <Form.Item wrapperCol={{ span: 12, offset: 8 }}>
-            <Button type='primary' htmlType='submit' onClick={action('click submit')}>
+            <Button
+              type='primary'
+              htmlType='submit'
+              onClick={action('click submit')}
+            >
               提交
             </Button>
           </Form.Item>
