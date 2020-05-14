@@ -1,6 +1,8 @@
 import React from 'react';
-import { Input, InputNumber, Slider, Cascader, Switch } from 'antd';
-import CustomDatePicker, { CustomRangePicker } from './components/CustomDatePicker/index';
+import { Input, InputNumber, Slider, Cascader, Switch, TimePicker } from 'antd';
+import CustomDatePicker, {
+  CustomRangePicker,
+} from './components/CustomDatePicker/index';
 import CustomSelect from './components/CustomSelect/index';
 import PicturesWall from './components/PicturesWall/index';
 import CustomDragger from './components/CustomDragger';
@@ -18,31 +20,51 @@ export function registerComponent(type: string, component: JSX.Element) {
 }
 
 registerComponent('date', <CustomDatePicker />);
+registerComponent('time', <TimePicker />);
 registerComponent('datetime', <CustomDatePicker showTime />);
 registerComponent('date-range', <CustomRangePicker format='YYYY-MM-DD' />);
-registerComponent('datetime-range', <CustomRangePicker format='YYYY-MM-DD HH:mm:ss' showTime />);
+registerComponent(
+  'datetime-range',
+  <CustomRangePicker format='YYYY-MM-DD HH:mm:ss' showTime />
+);
 registerComponent(
   'number',
-  <InjectIntl propName='placeholder' intlPath='placeholder.number' intlDefaultMessage='请输入'>
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.number'
+    intlDefaultMessage='请输入'
+  >
     <InputNumber />
   </InjectIntl>
 );
 registerComponent('number-range', <InputNumberRange />);
 registerComponent(
   'select',
-  <InjectIntl propName='placeholder' intlPath='placeholder.select' intlDefaultMessage='请选择'>
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.select'
+    intlDefaultMessage='请选择'
+  >
     <CustomSelect />
   </InjectIntl>
 );
 registerComponent(
   'textarea',
-  <InjectIntl propName='placeholder' intlPath='placeholder.textarea' intlDefaultMessage='请输入'>
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.textarea'
+    intlDefaultMessage='请输入'
+  >
     <Input.TextArea />
   </InjectIntl>
 );
 registerComponent(
   'password',
-  <InjectIntl propName='placeholder' intlPath='placeholder.password' intlDefaultMessage='请输入密码'>
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.password'
+    intlDefaultMessage='请输入密码'
+  >
     <Input.Password />
   </InjectIntl>
 );
@@ -55,19 +77,30 @@ registerComponent('radio-group', <CustomRadioGroup />);
 registerComponent('picture', <PicturesWall />);
 registerComponent(
   'string',
-  <InjectIntl propName='placeholder' intlPath='placeholder.string' intlDefaultMessage='请输入'>
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.string'
+    intlDefaultMessage='请输入'
+  >
     <Input />
   </InjectIntl>
 );
 registerComponent(
   'cascader',
-  <InjectIntl propName='placeholder' intlPath='placeholder.select' intlDefaultMessage='请选择'>
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.select'
+    intlDefaultMessage='请选择'
+  >
     <Cascader />
   </InjectIntl>
 );
 
 export type ComponentMap = {
-  [key in ComponentType]?: [React.ComponentClass | React.FC | React.ExoticComponent, ComponentProps?];
+  [key in ComponentType]?: [
+    React.ComponentClass | React.FC | React.ExoticComponent,
+    ComponentProps?
+  ];
 };
 
 const getComponent = (type: ComponentType) => {

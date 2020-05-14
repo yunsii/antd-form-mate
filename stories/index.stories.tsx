@@ -2,7 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import StringForm from './StringForm';
 import NumberForm from './NumberForm';
-import DateForm from './DateForm';
+import DatetimeForm from './DatetimeForm';
 import PickerForm from './PickerForm';
 import VariantForm from './VariantForm';
 import MultiForm from './MultiForm';
@@ -17,7 +17,7 @@ import PicturesWall from './PictureWall';
 
 storiesOf('ant-form-mate', module).add('String Form', () => <StringForm />);
 storiesOf('ant-form-mate', module).add('Number Form', () => <NumberForm />);
-storiesOf('ant-form-mate', module).add('Date Form', () => <DateForm />);
+storiesOf('ant-form-mate', module).add('Datetime Form', () => <DatetimeForm />);
 storiesOf('ant-form-mate', module).add('Picker Form', () => <PickerForm />);
 storiesOf('ant-form-mate', module).add('Variant Form', () => <VariantForm />);
 storiesOf('ant-form-mate', module).add('Upload Form', () => <UploadForm />);

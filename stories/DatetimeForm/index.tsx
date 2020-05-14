@@ -18,6 +18,7 @@ export default () => {
     formatDate: moment().format(dateFormat),
     unix: 1565151166,
     ms: 1565151166124,
+    time: moment(),
     datetime: moment().format(datetimeFormat),
     'date-period': ['2019-01-01 12:00:00', '2019-08-07 10:00:00'],
     'datetime-period': ['2019-01-01', '2019-08-07'],
@@ -62,6 +63,7 @@ export default () => {
       <FormMate.Item type='date' name='formatDate' label='格式化日期' />
       <FormMate.Item type='date' name='unix' label='unix 时间戳' />
       <FormMate.Item type='date' name='ms' label='毫秒时间戳' />
+      <FormMate.Item type='time' name='time' label='时间' />
       <FormMate.Item
         type='datetime'
         name='datetime'

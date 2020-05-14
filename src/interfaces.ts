@@ -6,6 +6,7 @@ import { SwitchProps } from 'antd/lib/switch';
 import { PasswordProps, TextAreaProps, InputProps } from 'antd/lib/input';
 import { SliderProps } from 'antd/lib/slider';
 import { CascaderProps } from 'antd/lib/cascader';
+import { TimePickerProps } from 'antd/lib/time-picker';
 import { FormProps } from 'antd/lib/form';
 import {
   CustomDatePickerProps,
@@ -23,6 +24,7 @@ export type ComponentType =
   | 'plain'
   | 'custom'
   | 'date'
+  | 'time'
   | 'datetime'
   | 'date-range'
   | 'datetime-range'
@@ -52,6 +54,7 @@ export type DefaultTypeRulesOptions = {
 
 export type ComponentProps =
   | CustomDatePickerProps
+  | TimePickerProps
   | CustomRangePickerProps
   | InputNumberProps
   | InputNumberRangeProps
