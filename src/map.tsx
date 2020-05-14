@@ -23,6 +23,7 @@ registerComponent('date', <CustomDatePicker />);
 registerComponent('time', <TimePicker />);
 registerComponent('datetime', <CustomDatePicker showTime />);
 registerComponent('date-range', <CustomRangePicker format='YYYY-MM-DD' />);
+registerComponent('time-range', <TimePicker.RangePicker picker='time' />);
 registerComponent(
   'datetime-range',
   <CustomRangePicker format='YYYY-MM-DD HH:mm:ss' showTime />

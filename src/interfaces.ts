@@ -27,6 +27,7 @@ export type ComponentType =
   | 'time'
   | 'datetime'
   | 'date-range'
+  | 'time-range'
   | 'datetime-range'
   | 'number'
   | 'number-range'

@@ -18,10 +18,11 @@ export default () => {
     formatDate: moment().format(dateFormat),
     unix: 1565151166,
     ms: 1565151166124,
-    time: moment(),
+    time: moment().unix(),
     datetime: moment().format(datetimeFormat),
-    'date-period': ['2019-01-01 12:00:00', '2019-08-07 10:00:00'],
-    'datetime-period': ['2019-01-01', '2019-08-07'],
+    dateRange: ['2019-01-01 12:00:00', '2019-08-07 10:00:00'],
+    timeRange: [moment().unix(), moment().add(3, 'hours').unix()],
+    datetimeRange: ['2019-01-01', '2019-08-07'],
   };
 
   useEffect(() => {
@@ -64,6 +65,7 @@ export default () => {
       <FormMate.Item type='date' name='unix' label='unix 时间戳' />
       <FormMate.Item type='date' name='ms' label='毫秒时间戳' />
       <FormMate.Item type='time' name='time' label='时间' />
+      <FormMate.Item type='time-range' name='timeRange' label='时间范围' />
       <FormMate.Item
         type='datetime'
         name='datetime'
@@ -72,10 +74,10 @@ export default () => {
           disabledPastDays: true,
         }}
       />
-      <FormMate.Item type='date-range' name='date-period' label='日期区间' />
+      <FormMate.Item type='date-range' name='dateRange' label='日期区间' />
       <FormMate.Item
         type='datetime-range'
-        name='datetime-period'
+        name='datetimeRange'
         label='日期时间区间'
       />
       <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>

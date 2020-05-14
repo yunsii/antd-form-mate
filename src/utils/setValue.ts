@@ -6,9 +6,11 @@ import { ComponentType } from '../interfaces';
 export function setInitialValue(type: ComponentType, value: any) {
   switch (type) {
     case 'date':
+    case 'time':
     case 'datetime':
       return setDatetimeValue(value);
     case 'date-range':
+    case 'time-range':
     case 'datetime-range':
       return setDatetimeRangeValue(value);
     case 'picture':
