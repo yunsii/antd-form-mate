@@ -64,6 +64,22 @@ $ npm start
 
 内部组件除了 `switch` 和 `custom` 外，默认宽度均为 `100%` 。
 
+### 新增功能
+
+- 日期相关
+  - `disabledPastDays` - 禁用过去的日期，包含今天
+  - `disabledFutureDays` - 禁用未来的日期
+- `select`
+  - `onReload` - 配置后可渲染一个后置的刷新按钮
+  - `addonAfter` - 自定义后置标签
+- 文件相关
+  - `filesCountLimit` - 上传文件个数限制
+  - `fileSizeLimit` - 上传文件大小限制
+  - `dimensionLimit` - 上传图片时，分辨率限制
+  - `checkImage` - 额外判断图片上传的限制，返回错误提示
+- `check-group` 、`radio-group`
+  - `cols` 可配置分为几列渲染
+
 ### API
 
 #### `FormMate` 表单容器
