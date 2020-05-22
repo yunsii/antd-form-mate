@@ -4,15 +4,7 @@ import { Form, Button, message } from 'antd';
 
 import FormMate, { ConfigProvider, getBase64 } from '../../src';
 import { FormMateInstance } from '../../src/interfaces';
-
-function delay(ms: number) {
-  return new Promise((resolve) => {
-    const timer = setTimeout(() => {
-      resolve();
-      clearTimeout(timer);
-    }, ms);
-  });
-}
+import { delay } from '../utils';
 
 const initialValues = {
   picture: [

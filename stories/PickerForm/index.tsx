@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Button, Space } from 'antd';
-import { ReloadOutlined } from '@ant-design/icons';
 
 import FormMate from '../../src';
+import { checkOptions, selectOptions, cascaderOptions } from './options';
+import { delay } from '../utils';
 
 const { useEffect } = React;
 
 export default () => {
   const [formMate] = FormMate.useFormMate();
+  const [loading, setLoading] = React.useState(false);
 
   const initialValues = {
     checks: ['earth'],
@@ -29,6 +31,12 @@ export default () => {
 
   const handleFinishFailed = (errors) => {
     console.log('Errors:', errors);
+  };
+
+  const handleLoading = async () => {
+    setLoading(true);
+    await delay(2000);
+    setLoading(false);
   };
 
   return (
@@ -55,16 +63,7 @@ export default () => {
         name='radio'
         label='单选'
         componentProps={{
-          options: [
-            {
-              label: '地球',
-              value: 'earth',
-            },
-            {
-              label: '银河',
-              value: 'galaxy',
-            },
-          ],
+          options: checkOptions,
           onChange: (value) => {
             console.log(value);
           },
@@ -76,16 +75,7 @@ export default () => {
         name='checks'
         label='多选'
         componentProps={{
-          options: [
-            {
-              label: '地球',
-              value: 'earth',
-            },
-            {
-              label: '银河',
-              value: 'galaxy',
-            },
-          ],
+          options: checkOptions,
           cols: 2,
         }}
       />
@@ -94,46 +84,19 @@ export default () => {
         name='select'
         label='选择'
         componentProps={{
-          suffixIcon: <ReloadOutlined />,
-          options: [
-            {
-              label: '星系',
-              options: [
-                {
-                  label: '地球',
-                  value: 'earth',
-                },
-                {
-                  label: '银河',
-                  value: 'galaxy',
-                  disabled: true,
-                },
-              ],
-            },
-            {
-              label: '水果',
-              options: [
-                {
-                  label: '香蕉',
-                  value: 'banana',
-                },
-                {
-                  label: '苹果',
-                  value: 'apple',
-                },
-              ],
-            },
-          ],
-          // options: [
-          //   {
-          //     label: '地球',
-          //     value: 'earth',
-          //   },
-          //   {
-          //     label: '银河',
-          //     value: 'galaxy',
-          //   },
-          // ],
+          options: selectOptions,
+        }}
+      />
+      <FormMate.Item
+        type='select'
+        name='select1'
+        label='选择'
+        componentProps={{
+          options: selectOptions,
+          loading,
+          onReload: () => {
+            handleLoading();
+          },
         }}
       />
       <FormMate.Item
@@ -141,36 +104,7 @@ export default () => {
         name='cascader'
         label='级联'
         componentProps={{
-          options: [
-            {
-              label: '蔬菜',
-              value: 'vegetable',
-              children: [
-                {
-                  label: '土豆',
-                  value: 'potato',
-                },
-                {
-                  label: '白菜',
-                  value: 'cabbage',
-                },
-              ],
-            },
-            {
-              label: '水果',
-              value: 'fruit',
-              children: [
-                {
-                  label: '香蕉',
-                  value: 'banana',
-                },
-                {
-                  label: '苹果',
-                  value: 'apple',
-                },
-              ],
-            },
-          ],
+          options: cascaderOptions,
         }}
       />
       <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
