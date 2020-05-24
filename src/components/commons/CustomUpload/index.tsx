@@ -98,7 +98,7 @@ export const customRequest = (
   uploadFn: (
     file: File,
     setProgress: (percent: number) => any
-  ) => Promise<any> = uploadByBase64Default
+  ) => Promise<string | void> = uploadByBase64Default
 ) => async ({ file, onSuccess, onError, onProgress }) => {
   const url = await uploadFn(file, (percent) => onProgress({ percent }));
   if (url) {
@@ -112,7 +112,7 @@ export interface CustomUploadPorps extends UploadProps {
   uploadFn?: (
     file: File,
     setProgress: (percent: number) => any
-  ) => Promise<string>;
+  ) => Promise<string | void>;
   children?: React.ReactChildren | React.ReactNode;
   filesCountLimit?: number;
   /** 单位 `b` */
