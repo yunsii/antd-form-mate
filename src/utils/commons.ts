@@ -4,16 +4,18 @@ export function isDevelopEnv() {
   return process.env.NODE_ENV === 'development';
 }
 
-export function getBase64(file: File): Promise<any> {
-  return new Promise((resolve, reject) => {
+export function getBase64(file: File | Blob) {
+  return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => resolve(reader.result as string);
     reader.onerror = (error) => reject(error);
   });
 }
 
-export function getImageDimension(imageUrl: string): Promise<{ width: number; height: number }> {
+export function getImageDimension(
+  imageUrl: string
+): Promise<{ width: number; height: number }> {
   const img = new Image();
   img.src = imageUrl;
   return new Promise((resolve, reject) => {
@@ -68,7 +70,11 @@ export type ProgressEventEvents = {
   onProgress: OnEvent;
   onTimeout?: OnEvent;
 };
-export const progressXhr: (url: string, data: ProgressEventData, events: ProgressEventEvents) => Promise<any> = (
+export const progressXhr: (
+  url: string,
+  data: ProgressEventData,
+  events: ProgressEventEvents
+) => Promise<any> = (
   url,
   { method, data, headers, withCredentials = true },
   { onProgress = () => {}, onTimeout = () => {} }
