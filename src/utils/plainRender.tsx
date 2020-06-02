@@ -19,22 +19,15 @@ const getOption = (value, options) => {
 const joinOptions = (options) => {
   return _join(
     options.map((item) => item.label),
-    ', '
+    '，'
   );
 };
 
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-function plainRender(
-  type: ComponentType,
-  value: any,
-  componentProps: ComponentProps
-): any {
-  if (
-    (!isBoolean(value) && !value) ||
-    (Array.isArray(value) && value.length === 0)
-  ) {
+function plainRender(type: ComponentType, value: any, componentProps: ComponentProps): any {
+  if ((!isBoolean(value) && !value) || (Array.isArray(value) && value.length === 0)) {
     return '-';
   }
 
@@ -46,21 +39,13 @@ function plainRender(
     case 'date-range':
       return `${value[0].format(dateFormat)} ~ ${value[1].format(dateFormat)}`;
     case 'datetime-range':
-      return `${value[0].format(datetimeFormat)} ~ ${value[1].format(
-        datetimeFormat
-      )}`;
+      return `${value[0].format(datetimeFormat)} ~ ${value[1].format(datetimeFormat)}`;
     case 'number':
       return value ?? '-';
     case 'select':
-      const {
-        options: selectOptions,
-        mode,
-      } = componentProps as CustomSelectProps;
+      const { options: selectOptions, mode } = componentProps as CustomSelectProps;
       const getTargetItem = (_value) => {
-        return getOption(
-          _value,
-          _flatten(selectOptions?.map((item) => item.options || item))
-        );
+        return getOption(_value, _flatten(selectOptions?.map((item) => item.options || item)));
       };
 
       if (mode === 'tags') {
@@ -68,28 +53,15 @@ function plainRender(
       }
 
       if (mode === 'multiple') {
-        const targets = value.map((item) => getTargetItem);
+        const targets = value.map(getTargetItem);
         return joinOptions(targets);
       }
 
-      console.log(getTargetItem(value));
       return getTargetItem(value)?.label;
     case 'picture':
-      return (
-        <PicturesWall
-          fileList={value}
-          {...(componentProps as PicturesWallProps)}
-          disabled
-        />
-      );
+      return <PicturesWall fileList={value} {...(componentProps as PicturesWallProps)} disabled />;
     case 'file-dragger':
-      return (
-        <PicturesWall
-          fileList={value}
-          {...(componentProps as CustomDraggerProps)}
-          disabled
-        />
-      );
+      return <PicturesWall fileList={value} {...(componentProps as CustomDraggerProps)} disabled />;
     case 'check-group':
       const { options: checkOptions } = componentProps as CustomRadioGroupProps;
       return joinOptions(value.map((item) => getOption(item, checkOptions)));
@@ -111,7 +83,6 @@ function plainRender(
         console.log(value?.[index], _options);
         const target = getOption(value?.[index], _options)!;
 
-        console.log(target);
         labels.push(target.label);
         selectedOptions.push(target);
 

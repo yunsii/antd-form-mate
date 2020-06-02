@@ -22,9 +22,7 @@ const FormMateItem = <T, P = {}>({
   ...restFormItemProps
 }: FormMateItemProps<T, P>) => {
   const intl = useIntl();
-  const { setCommonProps, commonExtra, commonRules } = useContext(
-    ConfigContext
-  );
+  const { setCommonProps, commonExtra, commonRules } = useContext(ConfigContext);
   const { type: contextType, plainRender } = useContext(FormMateContext);
 
   const { style, dense, extra, rules, ...rest } = restFormItemProps;
@@ -57,9 +55,7 @@ const FormMateItem = <T, P = {}>({
     return (
       <Form.Item
         noStyle
-        shouldUpdate={(prevValues, currentValues) =>
-          _get(prevValues, name!) !== _get(currentValues, name!)
-        }
+        shouldUpdate={(prevValues, currentValues) => _get(prevValues, name!) !== _get(currentValues, name!)}
       >
         {({ getFieldValue }: FormInstance) => {
           const itemValue = getFieldValue(name!);
@@ -73,31 +69,16 @@ const FormMateItem = <T, P = {}>({
             }
 
             /** 优先使用自定义渲染 */
-            const result =
-              plainRender &&
-              plainRender(
-                type as ComponentType,
-                itemValue,
-                (componentProps = {})
-              );
+            const result = plainRender && plainRender(type as ComponentType, itemValue, (componentProps = {}));
 
             if (result) {
               return result;
             }
 
-            return defaultPlainRender(
-              type as any,
-              itemValue,
-              componentProps || {}
-            );
+            return defaultPlainRender(type as any, itemValue, componentProps || {});
           };
           return (
-            <Form.Item
-              name={name}
-              style={getStyle()}
-              extra={setExtra()}
-              {...rest}
-            >
+            <Form.Item name={name} style={getStyle()} extra={setExtra()} {...rest}>
               <div className='ant-form-text'>{_plainRender()}</div>
             </Form.Item>
           );
@@ -123,11 +104,7 @@ const FormMateItem = <T, P = {}>({
       return children;
     }
     return React.cloneElement(typedComponent, {
-      ...setCommonProps(
-        getType(),
-        _get(typedComponent.props, 'style'),
-        useCommonStyle()
-      ),
+      ...setCommonProps(getType(), _get(typedComponent.props, 'style'), useCommonStyle()),
       ...componentProps,
     }) as FormItemProps['children'];
   }
@@ -139,10 +116,7 @@ const FormMateItem = <T, P = {}>({
       result = [
         {
           required: true,
-          message: `${rest.label} ${intl.getMessage(
-            'message.isRequired',
-            '必填'
-          )}`,
+          message: `${rest.label} ${intl.getMessage('message.isRequired', '必填')}`,
         },
         ...result,
       ];
