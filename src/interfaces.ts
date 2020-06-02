@@ -9,10 +9,7 @@ import { CascaderProps } from 'antd/lib/cascader';
 import { TimePickerProps } from 'antd/lib/time-picker';
 import { TimeRangePickerProps } from 'antd/lib/time-picker';
 import { FormProps } from 'antd/lib/form';
-import {
-  CustomDatePickerProps,
-  CustomRangePickerProps,
-} from './components/CustomDatePicker/index';
+import { CustomDatePickerProps, CustomRangePickerProps } from './components/CustomDatePicker/index';
 import { CustomSelectProps } from './components/CustomSelect/index';
 import { PicturesWallProps } from './components/PicturesWall/index';
 import { CustomDraggerProps } from './components/CustomDragger';
@@ -81,15 +78,13 @@ export interface CustomFormItemProps extends Omit<FormItemProps, 'children'> {
 /**
  * `children` prop is usable with `custom` type.
  */
-export interface FormMateItemProps<T = never, P = never>
-  extends CustomFormItemProps {
+export interface FormMateItemProps<T = never, P = never> extends CustomFormItemProps {
   type?: ComponentType | T;
   componentProps?: ComponentProps | P;
   children?: FormItemProps['children'];
 }
 
-export interface FormMateDynamicProps<T = never, P = never>
-  extends FormMateItemProps<T, P> {
+export interface FormMateDynamicProps<T = never, P = never> extends FormMateItemProps<T, P> {
   render?: (form: FormInstance) => boolean | null | undefined;
 }
 
@@ -97,13 +92,7 @@ export type Filter<T, U> = T extends U ? T : never; // Remove types from T that 
 
 export interface Grid {
   row?: RowProps;
-  col?:
-    | ColProps
-    | ((
-        item: React.ReactNode,
-        name: FormMateItemProps['name'],
-        index?: number
-      ) => ColProps | void);
+  col?: ColProps | ((item: React.ReactNode, name: FormMateItemProps['name'], index?: number) => ColProps | void);
 }
 
 export interface FormMateProps extends Omit<FormProps, 'form'> {
@@ -111,27 +100,22 @@ export interface FormMateProps extends Omit<FormProps, 'form'> {
 
   renderChildren?: (children: React.ReactNode) => React.ReactNode;
   /** item: 渲染子节点，name: 表单项字段名, index: 表单项索引，如果为动态类型，index 为 undefined */
-  renderItem?: (
-    item: React.ReactNode,
-    name: FormMateItemProps['name'],
-    index?: number
-  ) => React.ReactNode;
+  renderItem?: (item: React.ReactNode, name: FormMateItemProps['name'], index?: number) => React.ReactNode;
   postInitialValues?: (
     initialValues: Filter<FormProps['initialValues'], Object>
   ) => Filter<FormProps['initialValues'], Object>;
   grid?: Grid;
   type?: ComponentType;
-  plainRender?: (
-    type: ComponentType,
-    value: any,
-    componentProps: ComponentProps
-  ) => React.ReactNode;
+  plainRender?: (item: {
+    type: ComponentType;
+    value: any;
+    name: FormMateItemProps['name'];
+    componentProps: ComponentProps;
+  }) => React.ReactNode;
 }
 
 export interface FormMateInstance extends FormInstance {
-  setInitialValues: (
-    initialValues: Filter<FormMateProps['initialValues'], Object>
-  ) => void;
+  setInitialValues: (initialValues: Filter<FormMateProps['initialValues'], Object>) => void;
   resetFieldsValue: () => void;
 }
 
