@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Button, Space } from 'antd';
-import { ReloadOutlined } from '@ant-design/icons';
 
 import FormMate from '../../src';
 import moment from 'moment';
@@ -15,7 +14,8 @@ export default () => {
       date: moment().valueOf(),
       dateRange: [moment().valueOf(), moment().valueOf()],
       number: 48,
-      select: 'earth',
+      selectSingle: 'earth',
+      selectMultiple: ['earth'],
       textarea: '今天也是元气满满的一天',
       password: 'password',
       picture: [
@@ -81,10 +81,56 @@ export default () => {
       <FormMate.Item type='number' name='number' label='数值' />
       <FormMate.Item
         type='select'
-        name='select'
-        label='选择'
+        name='selectSingle'
+        label='选择框（单选）'
         componentProps={{
-          suffixIcon: <ReloadOutlined />,
+          options: [
+            {
+              label: '星系',
+              options: [
+                {
+                  label: '地球',
+                  value: 'earth',
+                },
+                {
+                  label: '银河',
+                  value: 'galaxy',
+                  disabled: true,
+                },
+              ],
+            },
+            {
+              label: '水果',
+              options: [
+                {
+                  label: '香蕉',
+                  value: 'banana',
+                },
+                {
+                  label: '苹果',
+                  value: 'apple',
+                },
+              ],
+            },
+          ],
+          // options: [
+          //   {
+          //     label: '地球',
+          //     value: 'earth',
+          //   },
+          //   {
+          //     label: '银河',
+          //     value: 'galaxy',
+          //   },
+          // ],
+        }}
+      />
+      <FormMate.Item
+        type='select'
+        name='selectMultiple'
+        label='选择框（多选）'
+        componentProps={{
+          mode: 'multiple',
           options: [
             {
               label: '星系',
@@ -136,7 +182,7 @@ export default () => {
       <FormMate.Item
         type='check-group'
         name='checkGroup'
-        label='多选'
+        label='多选框'
         componentProps={{
           options: [
             {
@@ -154,7 +200,7 @@ export default () => {
       <FormMate.Item
         type='radio-group'
         name='radioGroup'
-        label='单选'
+        label='单选框'
         componentProps={{
           options: [
             {
@@ -210,7 +256,6 @@ export default () => {
           ],
         }}
       />
-
       <FormMate.Item wrapperCol={{ span: 12, offset: 8 }}>
         <Space>
           <Button type='primary' htmlType='submit'>
