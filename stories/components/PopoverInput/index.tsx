@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Popover, Space, Spin } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
@@ -25,6 +25,12 @@ export default <T, R>(props: PopoverInputProps<T, R>) => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    formMate?.setInitialValues({
+      [item.name as string]: initialValue,
+    });
+  }, [initialValue]);
+
   const handleOk = async () => {
     const values = await interanlFormMate.validateFields();
     setLoading(true);
@@ -46,13 +52,7 @@ export default <T, R>(props: PopoverInputProps<T, R>) => {
       destroyTooltipOnHide
       content={
         <Spin spinning={loading}>
-          <FormMate
-            initialValues={{
-              [item.name as string]: initialValue,
-            }}
-            formMate={interanlFormMate}
-            layout='inline'
-          >
+          <FormMate formMate={interanlFormMate} layout='inline'>
             <FormMate.Item {...item} dense />
             <FormMate.Item>
               <Space>
