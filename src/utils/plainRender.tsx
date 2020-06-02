@@ -5,7 +5,7 @@ import _flatten from 'lodash/flatten';
 import _join from 'lodash/join';
 import isBoolean from 'lodash/isBoolean';
 
-import { ComponentType, ComponentProps } from '../interfaces';
+import { ComponentType, ComponentProps, FormMateItemProps } from '../interfaces';
 import { CustomSelectProps } from '../components/CustomSelect';
 import PicturesWall, { PicturesWallProps } from '../components/PicturesWall';
 import { CustomRadioGroupProps } from '../components/CustomRadioGroup';
@@ -26,7 +26,16 @@ const joinOptions = (options) => {
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-function plainRender(type: ComponentType, value: any, componentProps: ComponentProps): any {
+function plainRender({
+  type,
+  value,
+  componentProps,
+}: {
+  type: ComponentType;
+  value: any;
+  name: FormMateItemProps['name'];
+  componentProps: ComponentProps;
+}): any {
   if ((!isBoolean(value) && !value) || (Array.isArray(value) && value.length === 0)) {
     return '-';
   }

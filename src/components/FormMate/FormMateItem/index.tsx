@@ -69,13 +69,25 @@ const FormMateItem = <T, P = {}>({
             }
 
             /** 优先使用自定义渲染 */
-            const result = plainRender && plainRender(type as ComponentType, itemValue, (componentProps = {}));
+            const result =
+              plainRender &&
+              plainRender({
+                type: type as ComponentType,
+                name,
+                value: itemValue,
+                componentProps: componentProps || {},
+              });
 
             if (result) {
               return result;
             }
 
-            return defaultPlainRender(type as any, itemValue, componentProps || {});
+            return defaultPlainRender({
+              type: type as ComponentType,
+              name,
+              value: itemValue,
+              componentProps: componentProps || {},
+            });
           };
           return (
             <Form.Item name={name} style={getStyle()} extra={setExtra()} {...rest}>
