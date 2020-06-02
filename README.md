@@ -80,7 +80,7 @@ $ npm start
 - `check-group` 、`radio-group`
   - `cols` 可配置分为几列渲染
 
-关于文件上传的函数 `uploadFn` ，可统一配置，也可对 `file-dragger` 和 `picture` 单独配置。内部默认转换成 base64 字符串。配置后则通过接口上传，成功直接返回图片链接即可，否者返回 falsy 值即可。
+关于文件上传的函数 `uploadFn` ，可统一配置，也可对 `file-dragger` 和 `picture` 单独配置。内部默认转换成 base64 字符串。配置后则通过接口上传，成功直接返回图片链接即可，否者返回 falsy 值即可。此外，内部默认截取以 `/` 分割链接后最后一个元素为文件名，当类型为 `picture` 时，几乎无影响（不会显示展示）。如果为 `file-dragger` 时，由于需要显示展示，故可能截取的文件名不合适，可通过 `postInitialValues` 修改。另，由于现在内部只在初始值时自动格式化值的类型，故当通过 `formMate` 设值时，切记需要转换值类型。
 
 ### API
 
