@@ -80,6 +80,8 @@ $ npm start
 - `check-group` 、`radio-group`
   - `cols` 可配置分为几列渲染
 
+关于文件上传的函数 `uploadFn` ，可统一配置，也可对 `file-dragger` 和 `picture` 单独配置。内部默认转换成 base64 字符串。配置后则通过接口上传，成功直接返回图片链接即可，否者返回 falsy 值即可。
+
 ### API
 
 #### `FormMate` 表单容器
@@ -126,7 +128,7 @@ $ npm start
 
 #### `ConfigProvider` 全局默认配置
 
-参考[类型定义](/src/contexts/ConfigContext/index.tsx#L16)即可
+参考[类型定义](/src/contexts/ConfigContext/index.tsx#L15)即可
 
 #### 其他
 
