@@ -1,98 +1,89 @@
-const tsImportPluginFactory = require('ts-import-plugin');
-const nodeExternals = require('webpack-node-externals');
-const TerserPlugin = require('terser-webpack-plugin');
+const path = require('path');
 
-const moduleName = "index";
-
-const webpackConfig = {
-  mode: "production",
-  devtool: "source-map",
-  entry: "./src/index.ts",
+module.exports = {
+  entry: './src/index.ts',
   output: {
-    filename: `${moduleName}.js`,
-    library: moduleName,
-    libraryTarget: 'umd',
-    umdNamedDefine: true
+    library: 'AntdFormMate',
+    libraryExport: 'default',
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].umd.js',
+    globalObject: 'this',
   },
+  mode: 'production',
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx"]
+    extensions: ['.ts', '.tsx', '.json', '.css', '.js'],
   },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        loader: 'ts-loader',
-        options: {
-          getCustomTransformers: () => ({
-            before: [tsImportPluginFactory({
-              libraryName: 'antd',
-              libraryDirectory: 'es',
-              style: true
-            })]
-          }),
-        },
-      },
-      {
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        test: /\.(js|jsx)$/,
-        options: {
-          presets: ['@babel/react'],
-          plugins: [
-            ["@babel/plugin-proposal-decorators", { legacy: true }],
-            ['@babel/plugin-proposal-class-properties'],
-            ['import', {
-              libraryName: 'antd',
-              libraryDirectory: 'es',
-              style: true
-            }]
-          ]
-        },
-      },
-      {
-        test: /\.(css|less)$/,
-        include: /node_modules/,
-        use: [{
-          loader: 'style-loader' // creates style nodes from JS strings
-        }, {
-          loader: 'css-loader', // translates CSS into CommonJS
-        }, {
-          loader: 'less-loader', // compiles Less to CSS
-          options: { javascriptEnabled: true, sourceMap: true },
-        }],
-      },
-      {
-        test: /\.(css|less)$/,
-        exclude: /node_modules/,
-        use: [{
-          loader: 'style-loader' // creates style nodes from JS strings
-        }, {
-          loader: 'css-loader', // translates CSS into CommonJS
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
           options: {
-            modules: {
-              localIdentName: '[path][name]__[local]--[hash:base64:5]',
-            },
-          }
-        }, {
-          loader: 'less-loader', // compiles Less to CSS
-          options: { javascriptEnabled: true, sourceMap: true },
-        }],
-      },
-    ]
-  },
-  externals: [nodeExternals()],
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        sourceMap: false, // Must be set to true if using source-maps in production
-        terserOptions: {
-          compress: {
-            drop_console: true,
+            presets: ['@babel/typescript', '@babel/env', '@babel/react'],
+            plugins: ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread'],
           },
         },
-      }),
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/typescript',
+              [
+                '@babel/env',
+                {
+                  loose: true,
+                  modules: false,
+                },
+              ],
+              '@babel/react',
+            ],
+            plugins: ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread'],
+          },
+        },
+      },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader', // creates style nodes from JS strings
+          },
+          {
+            loader: 'css-loader', // translates CSS into CommonJS
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader', // creates style nodes from JS strings
+          },
+          {
+            loader: 'css-loader', // translates CSS into CommonJS
+          },
+        ],
+      },
     ],
   },
+  externals: [
+    {
+      react: 'React',
+      'react-dom': 'ReactDOM',
+      antd: 'antd',
+      moment: 'moment',
+    },
+    /^antd/,
+  ],
 };
-
-module.exports = webpackConfig;

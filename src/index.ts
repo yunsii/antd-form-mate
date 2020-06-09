@@ -1,5 +1,5 @@
 export { ConfigProvider } from './contexts/ConfigContext';
-export { IntlProvider, IntlConsumer, createIntl, IntlType, zhCNIntl, enUSIntl } from './contexts/Intlcontext';
+export type { IntlProvider, IntlConsumer, createIntl, IntlType, zhCNIntl, enUSIntl } from './contexts/Intlcontext';
 
 import FormMate from './components/FormMate';
 export default FormMate;

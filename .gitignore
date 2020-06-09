@@ -88,8 +88,9 @@ typings/
 .dynamodb/
 
 # custom
-dist/
-storybook-static/
+dist
+es
+lib
 
 # vscode
 .vscode/settings.json

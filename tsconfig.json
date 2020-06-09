@@ -1,25 +1,37 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "lib": ["es5", "es6", "es7", "es2017", "dom"],
+    "outDir": "build/dist",
+    "module": "esnext",
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "sourceMap": true,
+    "baseUrl": ".",
     "jsx": "react",
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "rootDirs": ["src"],
-    "outDir": "dist",
-    "removeComments": false,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": false,
-    "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "sourceMap": false,
-    "emitDecoratorMetadata": true
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "paths": {
+      "antd-form-mate": ["./src"]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "packages", ".storybook"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "tslint:latest",
+    "tslint-config-prettier",
+    "example",
+    "_test_",
+    "tests"
+  ]
 }
