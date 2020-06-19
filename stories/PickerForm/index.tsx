@@ -54,6 +54,15 @@ export default () => {
       }}
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 12 }}
+      // grid={{
+      //   row: { gutter: 16 },
+      //   col: (item, name, index) => {
+      //     if (item) {
+      //       return {};
+      //     }
+      //     return undefined;
+      //   },
+      // }}
       onReset={() => {
         formMate.resetFieldsValue();
       }}
@@ -85,6 +94,7 @@ export default () => {
         label='选择'
         componentProps={{
           options: selectOptions,
+          style: { minWidth: 160 },
         }}
       />
       <FormMate.Item
@@ -97,6 +107,7 @@ export default () => {
           onReload: () => {
             handleLoading();
           },
+          style: { minWidth: 160 },
         }}
       />
       <FormMate.Item

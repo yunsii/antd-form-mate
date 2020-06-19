@@ -19,7 +19,7 @@ export default forwardRef<Select, CustomSelectProps>((props, ref) => {
 
   const renderOptions = (items: OptionsType) => {
     return items.map((item) => {
-      const { options, ...itemRest } = item;
+      const { options, value, ...itemRest } = item;
       if (options) {
         return (
           <Select.OptGroup key={`${item.label}`} {...itemRest}>
@@ -29,7 +29,7 @@ export default forwardRef<Select, CustomSelectProps>((props, ref) => {
       }
 
       return (
-        <Select.Option key={item.value} value={item.value} {...itemRest}>
+        <Select.Option key={item.value} value={value} {...itemRest}>
           {item.label}
         </Select.Option>
       );
@@ -47,13 +47,7 @@ export default forwardRef<Select, CustomSelectProps>((props, ref) => {
   }
 
   return (
-    <AddonWrapper
-      addonAfter={
-        addonAfter || (
-          <ReloadOutlined onClick={onReload} />
-        )
-      }
-    >
+    <AddonWrapper addonAfter={addonAfter || <ReloadOutlined onClick={onReload} />}>
       {cloneElement(renderSelect(), { className: styles['addon-select'] })}
     </AddonWrapper>
   );
