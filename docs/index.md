@@ -1,15 +1,27 @@
 ---
-title: antd-form-mate 表单组件
-order: 10
-sidemenu: false
+title: antd-form-mate - make form fluent
+hero:
+  title: antd-form-mate
+  desc: 让表单开发更加流畅
+  actions:
+    - text: 快速上手
+      link: /docs/getting-started
+features:
+  - title: 简单高效
+    desc: 通过类型灵活控制输入组件，内部也会根据类型自动转换初始值，更多细节值得探索。
+  - title: 内容丰富
+    desc: 包含各种常用的输入组件，也会提供一些常用的自定义组件。
+  - title: 完备的教程
+    desc: 努力完善文档，力求提供各种可直接使用的 Demo 。
+footer: Open-source MIT Licensed | Copyright © 2019-present<br />Powered by [dumi](https://d.umijs.org)
 ---
 
-<h1 align="center">antd-form-mate</h1>
+## 轻松上手
 
-<div align="center">
+```bash
+// 安装依赖
+npm i antd-form-mate --save
 
-🏆 Use Ant Design Form like a Pro!
-
-</div>
-
-antd-form-mate 基于 antd 的 Form 组件封装，使用更加简单方便。
+// 使用
+import FormMate from 'antd-form-mate';
+```
