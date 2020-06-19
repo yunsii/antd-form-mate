@@ -91,6 +91,9 @@ typings/
 dist
 es
 lib
+.umi
+.umi-production
+lerna-debug.log
 
 # vscode
 .vscode/settings.json
