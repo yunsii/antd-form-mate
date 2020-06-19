@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "father build && webpack",
+    "build:doc": "dumi build",
     "lint": "npm run lint-eslint && npm run lint:style && tsc --noEmit",
     "lint-eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
     "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty \"./src\" ./tests && npm run lint:style",
