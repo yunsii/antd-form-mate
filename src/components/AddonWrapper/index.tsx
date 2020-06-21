@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { cloneElement } from '../../utils/reactNode';
 import styles from './index.less';
 
 export interface AddonWrapperProps {
@@ -21,7 +20,7 @@ const AddonWrapper: React.FC<AddonWrapperProps> = (props) => {
   return (
     <span className={styles.wrapper}>
       {addonBeforeNode}
-      {cloneElement(children, { style: null })}
+      {children}
       {addonAfterNode}
     </span>
   );
