@@ -16,6 +16,8 @@ features:
 footer: Open-source MIT Licensed | Copyright © 2019-present<br />Powered by [dumi](https://d.umijs.org)
 ---
 
+*v6.0 开发中...*
+
 ## 轻松上手
 
 ```bash
