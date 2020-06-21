@@ -5,7 +5,7 @@ hero:
   desc: 让表单开发更加流畅
   actions:
     - text: 快速上手
-      link: /docs/getting-started
+      link: /getting-started
 features:
   - title: 简单高效
     desc: 通过类型灵活控制输入组件，内部也会根据类型自动转换初始值，更多细节值得探索。
