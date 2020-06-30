@@ -48,17 +48,18 @@ $ npm start
 | 7   | `datetime-range` | 日期时间范围                                  |
 | 8   | `number`         |                                               |
 | 9   | `select`         |                                               |
-| 10  | `textarea`       |                                               |
-| 11  | `password`       |                                               |
-| 12  | `picture`        | 内置预览组件                                  |
-| 13  | `switch`         |                                               |
-| 14  | `slider`         | 滑动输入                                      |
-| 15  | `file-dragger`   | 可拖拽文件上传                                |
-| 16  | `string`         | **默认类型**                                  |
-| 17  | `check-group`    | 多选框                                        |
-| 18  | `radio-group`    | 单选框                                        |
-| 19  | `number-range`   | 数字区间, `{ min?: number, max?: number }`    |
-| 20  | `cascader`       | 级联选择                                      |
+| 10  | `tree-select`    |                                               |
+| 11  | `textarea`       |                                               |
+| 12  | `password`       |                                               |
+| 13  | `picture`        | 内置预览组件                                  |
+| 14  | `switch`         |                                               |
+| 15  | `slider`         | 滑动输入                                      |
+| 16  | `file-dragger`   | 可拖拽文件上传                                |
+| 17  | `string`         | **默认类型**                                  |
+| 18  | `check-group`    | 多选框                                        |
+| 19  | `radio-group`    | 单选框                                        |
+| 20  | `number-range`   | 数字区间, `{ min?: number, max?: number }`    |
+| 21  | `cascader`       | 级联选择                                      |
 
 除此之外，可通过 [`registerComponent`](/src/index.ts#L11) 方法注册组件实现类型扩展或重写除 `custom` 类型外的组件。
 
@@ -164,12 +165,7 @@ const BasicForm: React.FC = (props) => {
       onFinish={handleFinish}
       onFinishFailed={handleFinishFailed}
     >
-      <FormMate.Item
-        type='string'
-        name='name'
-        label='姓名'
-        rules={[{ required: true, message: '请输入姓名！' }]}
-      />
+      <FormMate.Item type='string' name='name' label='姓名' rules={[{ required: true, message: '请输入姓名！' }]} />
       <FormMate.Dynamic
         type='string'
         name='dynamic'
