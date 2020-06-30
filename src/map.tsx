@@ -4,6 +4,7 @@ import CustomDatePicker, {
   CustomRangePicker,
 } from './components/CustomDatePicker/index';
 import CustomSelect from './components/CustomSelect/index';
+import CustomTreeSelect from './components/CustomTreeSelect/index';
 import PicturesWall from './components/PicturesWall/index';
 import CustomDragger from './components/CustomDragger';
 import CustomCheckGroup from './components/CustomCheckGroup/index';
@@ -47,6 +48,16 @@ registerComponent(
     intlDefaultMessage='请选择'
   >
     <CustomSelect />
+  </InjectIntl>
+);
+registerComponent(
+  'tree-select',
+  <InjectIntl
+    propName='placeholder'
+    intlPath='placeholder.select'
+    intlDefaultMessage='请选择'
+  >
+    <CustomTreeSelect />
   </InjectIntl>
 );
 registerComponent(

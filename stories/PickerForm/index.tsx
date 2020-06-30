@@ -111,6 +111,19 @@ export default () => {
         }}
       />
       <FormMate.Item
+        type='tree-select'
+        name='treeSelect'
+        label='树选择'
+        componentProps={{
+          options: selectOptions,
+          loading,
+          onReload: () => {
+            handleLoading();
+          },
+          style: { minWidth: 160 },
+        }}
+      />
+      <FormMate.Item
         type='cascader'
         name='cascader'
         label='级联'

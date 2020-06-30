@@ -11,6 +11,7 @@ import { TimeRangePickerProps } from 'antd/lib/time-picker';
 import { FormProps } from 'antd/lib/form';
 import { CustomDatePickerProps, CustomRangePickerProps } from './components/CustomDatePicker/index';
 import { CustomSelectProps } from './components/CustomSelect/index';
+import { CustomTreeSelectProps } from './components/CustomTreeSelect/index';
 import { PicturesWallProps } from './components/PicturesWall/index';
 import { CustomDraggerProps } from './components/CustomDragger';
 import { CustomCheckGroupProps } from './components/CustomCheckGroup/index';
@@ -30,6 +31,7 @@ export type ComponentType =
   | 'number'
   | 'number-range'
   | 'select'
+  | 'tree-select'
   | 'cascader'
   | 'password'
   | 'picture'
@@ -59,6 +61,7 @@ export type ComponentProps =
   | InputNumberProps
   | InputNumberRangeProps
   | CustomSelectProps
+  | CustomTreeSelectProps
   | CascaderProps
   | PasswordProps
   | PicturesWallProps
