@@ -88,7 +88,10 @@ typings/
 .dynamodb/
 
 # custom
-dist/
+dist
+es
+lib
+.umi
 storybook-static/
 
 # vscode
