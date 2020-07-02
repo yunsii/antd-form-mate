@@ -5,6 +5,7 @@ import { FormMateItemDisplayName, FormMateDynamicDisplayName, INTERNAL_HOOK_MARK
 import { useIntl } from '../../contexts/Intlcontext';
 import setInitialValueByType from '../../utils/setValue';
 import { ComponentType, FormMateItemProps, Filter, FormMateProps, FormMateInstance } from '../../interfaces';
+import { NewFormMateItemProps } from './FormMateItem';
 
 export interface InjectIntlProps {
   propName: string;
@@ -32,7 +33,7 @@ export function isJsxChild(child: React.ReactNode): child is JSX.Element {
   return React.isValidElement(child) && typeof child !== 'string';
 }
 
-export function getChildName(child: React.ReactNode) {
+export function getChildName(child: React.ReactNode): string | null {
   if (isJsxChild(child)) {
     if (typeof child.type === 'string') {
       return child.type;
@@ -51,13 +52,11 @@ export function getChildType(child: React.ReactNode): ComponentType | null {
 }
 
 export function isFormItem(child: React.ReactNode): child is JSX.Element {
-  return (
-    React.isValidElement(child) && [FormMateItemDisplayName, FormMateDynamicDisplayName].includes(getChildName(child))
-  );
+  return !!(React.isValidElement(child) && getChildName(child)?.startsWith('FM'));
 }
 
 export const isFormDynamic = (child: React.ReactNode) => {
-  return React.isValidElement(child) && FormMateDynamicDisplayName === getChildName(child);
+  return React.isValidElement(child) && (child.props as NewFormMateItemProps).dynamicRender;
 };
 
 export function getFormItemName(child: React.ReactNode): FormMateItemProps['name'] {
@@ -115,6 +114,7 @@ export function useFormMate(formMate?: FormMateInstance): [FormMateInstance] {
            */
           if (fieldsTypeRef.current) {
             storeRef.current = processInitialValues(values, fieldsTypeRef.current, postProcessRef.current);
+            console.log(storeRef.current);
             antdForm.setFieldsValue(storeRef.current);
           }
         },
