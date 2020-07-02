@@ -1,6 +1,6 @@
 import _template from 'lodash/template';
 
-import { IntlType } from '../../../contexts/Intlcontext';
+import { IntlType } from '../../contexts/Intlcontext';
 
 export function processDimensionLimit(dimensionLimit: string) {
   let result: any[] = [false, false];

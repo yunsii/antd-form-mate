@@ -3,19 +3,19 @@ import { Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
 import {
-  CustomUploadPorps,
+  CoreUploadPorps,
 
   // defaultCountLimitHint,
   // defaultSizeLimitHint,
   filterFileList,
   commonBeforeUpload,
   customRequest,
-} from '../commons/CustomUpload/index';
-import { setCountLimitHint, setSizeLimitHint } from '../commons/CustomUpload/utils';
+} from '../CoreUpload';
+import { setCountLimitHint, setSizeLimitHint } from '../CoreUpload/utils';
 import ConfigContext from '../../contexts/ConfigContext/context';
 import { useIntl } from '../../contexts/Intlcontext';
 
-export interface CustomDraggerProps extends CustomUploadPorps { }
+export interface CustomDraggerProps extends CoreUploadPorps {}
 
 const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
   const { uploadFn: defaultUploadFn } = useContext(ConfigContext);

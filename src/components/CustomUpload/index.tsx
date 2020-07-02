@@ -5,22 +5,22 @@ import ViewerProps from 'react-viewer/lib/ViewerProps';
 import { UploadFile } from 'antd/lib/upload/interface';
 
 import ImagesViewer from '../commons/ImagesViewer';
-import CustomUpload, { CustomUploadPorps, filterFileList } from '../commons/CustomUpload/index';
+import CoreUpload, { CoreUploadPorps, filterFileList } from '../CoreUpload';
 // import { getBase64 } from '../../../utils';
 import ConfigContext from '../../contexts/ConfigContext/context';
 import styles from './index.less';
 import { useIntl } from '../../contexts/Intlcontext';
 
-export interface PicturesWallProps extends CustomUploadPorps {
+export interface CustomUploadProps extends CoreUploadPorps {
   viewerProps?: ViewerProps;
   pictureAccept?: string;
 }
 
-const PicturesWall: React.FC<PicturesWallProps> = (props) => {
+const CustomUpload: React.FC<CustomUploadProps> = (props) => {
   const { pictureAccept: defaultPictureAccept } = useContext(ConfigContext);
   const intl = useIntl();
 
-  const { fileList = [], pictureAccept = defaultPictureAccept, viewerProps } = props;
+  const { fileList = [], pictureAccept = defaultPictureAccept, viewerProps, children } = props;
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -46,16 +46,16 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
 
   return (
     <div className={`${styles.pictureWall} clearfix`}>
-      <CustomUpload
+      <CoreUpload
         accept={pictureAccept}
         onPreview={handlePreview}
+        listType='picture-card'
         {...props}
         fileList={fileList}
         onChange={handleChange}
-        listType='picture-card'
       >
-        {fileList.length >= (props.filesCountLimit || 1) ? null : uploadButton}
-      </CustomUpload>
+        {fileList.length >= (props.filesCountLimit || 1) ? null : children || uploadButton}
+      </CoreUpload>
       <ImagesViewer
         visible={previewVisible}
         images={fileList
@@ -69,4 +69,4 @@ const PicturesWall: React.FC<PicturesWallProps> = (props) => {
   );
 };
 
-export default PicturesWall;
+export default CustomUpload;

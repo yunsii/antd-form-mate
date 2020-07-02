@@ -6,7 +6,7 @@ import {
   sizeOfFile,
   getImageDimension,
   getBase64,
-} from '../../../utils/commons';
+} from '../../utils/commons';
 import {
   processDimensionLimit,
   isLimitDimension,
@@ -15,9 +15,9 @@ import {
   setSizeLimitHint,
   setDimensionLimitHint,
 } from './utils';
-import { uploadByBase64 as uploadByBase64Default } from '../../../defaultConfig';
-import ConfigContext from '../../../contexts/ConfigContext/context';
-import { useIntl } from '../../../contexts/Intlcontext';
+import { uploadByBase64 as uploadByBase64Default } from '../../defaultConfig';
+import ConfigContext from '../../contexts/ConfigContext/context';
+import { useIntl } from '../../contexts/Intlcontext';
 
 export const defaultFilesCountLimit = 1;
 export const defaultFileSizeLimit = Infinity;
@@ -108,7 +108,7 @@ export const customRequest = (
   }
 };
 
-export interface CustomUploadPorps extends UploadProps {
+export interface CoreUploadPorps extends UploadProps {
   uploadFn?: (
     file: File,
     setProgress: (percent: number) => any
@@ -131,7 +131,7 @@ export interface CustomUploadPorps extends UploadProps {
 }
 
 // https://github.com/react-component/upload/blob/master/examples/customRequest.js
-export default function CustomUpload(props: CustomUploadPorps) {
+export default function CoreUpload(props: CoreUploadPorps) {
   const {
     accept,
     listType,
