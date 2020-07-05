@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getEntryDisplayName } from './utils';
 import { CustomRangePicker, CustomRangePickerProps } from '../components/CustomDatePicker';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
@@ -13,6 +14,6 @@ const DateRangeEntry: React.FC<DateRangeEntryProps> = (props) => {
   );
 };
 
-DateRangeEntry.displayName = `FM.${DateRangeEntry.name}`;
+DateRangeEntry.displayName = getEntryDisplayName(DateRangeEntry);
 
 export default DateRangeEntry;

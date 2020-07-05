@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getEntryDisplayName } from './utils';
 import CustomSelect, { CustomSelectProps } from '../components/CustomSelect';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
@@ -13,6 +14,6 @@ const SelectEntry: React.FC<SelectEntryProps> = (props) => {
   );
 };
 
-SelectEntry.displayName = `FM.${SelectEntry.name}`;
+SelectEntry.displayName = getEntryDisplayName(SelectEntry);
 
 export default SelectEntry;

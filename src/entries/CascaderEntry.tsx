@@ -3,6 +3,7 @@ import { Cascader } from 'antd';
 import { CascaderProps, CascaderOptionType } from 'antd/lib/cascader';
 import _find from 'lodash/find';
 
+import { getEntryDisplayName } from './utils';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
 
 export interface CascaderEntryProps extends NewFormMateItemPropsWithoutChildren<CascaderProps> {}
@@ -41,6 +42,6 @@ const CascaderEntry: React.FC<CascaderEntryProps> = (props) => {
   );
 };
 
-CascaderEntry.displayName = `FM.${CascaderEntry.name}`;
+CascaderEntry.displayName = getEntryDisplayName(CascaderEntry);
 
 export default CascaderEntry;

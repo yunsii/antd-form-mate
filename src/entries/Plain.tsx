@@ -2,6 +2,7 @@ import React from 'react';
 import _get from 'lodash/get';
 import { FormInstance } from 'antd/lib/form';
 
+import { getEntryDisplayName } from './utils';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
 export interface PlainProps extends NewFormMateItemPropsWithoutChildren<void> {}
@@ -25,6 +26,6 @@ const Plain: React.FC<PlainProps> = (props) => {
   );
 };
 
-Plain.displayName = `FM.${Plain.name}`;
+Plain.displayName = getEntryDisplayName(Plain);
 
 export default Plain;

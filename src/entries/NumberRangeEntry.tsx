@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getEntryDisplayName } from './utils';
 import InputNumberRange, { InputNumberRangeProps } from '../components/InputNumberRange';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
@@ -13,6 +14,6 @@ const NumberRangeEntry: React.FC<NumberRangeEntryProps> = (props) => {
   );
 };
 
-NumberRangeEntry.displayName = `FM.${NumberRangeEntry.name}`;
+NumberRangeEntry.displayName = getEntryDisplayName(NumberRangeEntry);
 
 export default NumberRangeEntry;

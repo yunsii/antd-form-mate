@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch } from 'antd';
 import { SwitchProps } from 'antd/lib/switch';
 
+import { getEntryDisplayName } from './utils';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
 export interface SwitchEntryProps extends NewFormMateItemPropsWithoutChildren<SwitchProps> {}
@@ -14,6 +15,6 @@ const SwitchEntry: React.FC<SwitchEntryProps> = (props) => {
   );
 };
 
-SwitchEntry.displayName = `FM.${SwitchEntry.name}`;
+SwitchEntry.displayName = getEntryDisplayName(SwitchEntry);
 
 export default SwitchEntry;

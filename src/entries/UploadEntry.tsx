@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getEntryDisplayName } from './utils';
 import CustomUpload, { CustomUploadProps } from '../components/CustomUpload';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
@@ -13,6 +14,6 @@ const UploadEntry: React.FC<UpdateEntryProps> = (props) => {
   );
 };
 
-UploadEntry.displayName = `FM.${UploadEntry.name}`;
+UploadEntry.displayName = getEntryDisplayName(UploadEntry);
 
 export default UploadEntry;

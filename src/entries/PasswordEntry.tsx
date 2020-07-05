@@ -2,6 +2,7 @@ import React from 'react';
 import { Input } from 'antd';
 import { PasswordProps } from 'antd/lib/input';
 
+import { getEntryDisplayName } from './utils';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
 export interface PasswordEntryProps extends NewFormMateItemPropsWithoutChildren<PasswordProps> {}
@@ -14,6 +15,6 @@ const PasswordEntry: React.FC<PasswordEntryProps> = (props) => {
   );
 };
 
-PasswordEntry.displayName = `FM.${PasswordEntry.name}`;
+PasswordEntry.displayName = getEntryDisplayName(PasswordEntry);
 
 export default PasswordEntry;

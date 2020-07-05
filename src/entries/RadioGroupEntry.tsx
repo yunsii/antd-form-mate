@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getEntryDisplayName } from './utils';
 import CustomRadioGroup, { CustomRadioGroupProps } from '../components/CustomRadioGroup';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
@@ -13,6 +14,6 @@ const RadioGroupEntry: React.FC<RadioGroupEntryProps> = (props) => {
   );
 };
 
-RadioGroupEntry.displayName = `FM.${RadioGroupEntry.name}`;
+RadioGroupEntry.displayName = getEntryDisplayName(RadioGroupEntry);
 
 export default RadioGroupEntry;

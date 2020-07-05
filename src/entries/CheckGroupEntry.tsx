@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getEntryDisplayName } from './utils';
 import CustomCheckGroup, { CustomCheckGroupProps } from '../components/CustomCheckGroup';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
@@ -13,6 +14,6 @@ const CheckGroupEntry: React.FC<CheckGroupEntryProps> = (props) => {
   );
 };
 
-CheckGroupEntry.displayName = `FM.${CheckGroupEntry.name}`;
+CheckGroupEntry.displayName = getEntryDisplayName(CheckGroupEntry);
 
 export default CheckGroupEntry;

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getEntryDisplayName } from './utils';
 import CustomUploadDragger, { CustomDraggerProps } from '../components/CustomUploadDragger';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
@@ -13,6 +14,6 @@ const UploadDraggerEntry: React.FC<UpdateDraggerEntryProps> = (props) => {
   );
 };
 
-UploadDraggerEntry.displayName = `FM.${UploadDraggerEntry.name}`;
+UploadDraggerEntry.displayName = getEntryDisplayName(UploadDraggerEntry);
 
 export default UploadDraggerEntry;
