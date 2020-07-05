@@ -31,7 +31,7 @@ export const FormMate = React.forwardRef<FormMateInstance, FormMateProps>((props
 
   const fieldsType = {};
   const formItems = React.Children.map(children, (child, index) => {
-    if (isFormItem(child) && child.props.name) {
+    if (isFormItem(child) && child.props.name && (child.type as any).displayName) {
       fieldsType[child.props.name] = (child.type as any).displayName;
     }
 
