@@ -21,16 +21,12 @@ export default () => {
   return (
     <div>
       <FM
-        style={{ maxWidth: 600 }}
+        style={{ maxWidth: 800 }}
         onFinish={setValues}
-        // initialValues={{
-        //   Plain: 'Plain',
-        //   Cascader: ['vegetable', 'potato'],
-        // }}
         formMate={fm}
         grid={{
           row: {
-            gutter: 8,
+            gutter: 16,
           },
           col: {
             xs: 12,
