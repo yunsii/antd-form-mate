@@ -8,6 +8,7 @@ import { FormInstance, FormItemProps } from 'antd/lib/form';
 import FormMateContext from '../../../contexts/FormMateContext';
 import { useIntl } from '../../../contexts/Intlcontext';
 import { FormMateItemDisplayName } from '../../../constants/components';
+import { cloneElement } from '../../../utils/reactNode';
 
 export type PlainRenderFn<P = Object> = (item: {
   value: any;
@@ -100,7 +101,7 @@ const FormMateItem = <P,>(props: NewFormMateItemProps<P>) => {
 
   return (
     <Form.Item name={name} {...rest} style={getStyle()} rules={setRules()}>
-      {children}
+      {cloneElement(children, _get(children, 'props.style') ? {} : { style: { width: '100%' } })}
     </Form.Item>
   );
 };

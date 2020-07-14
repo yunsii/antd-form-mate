@@ -10,7 +10,7 @@ export interface SwitchEntryProps extends NewFormMateItemPropsWithoutChildren<Sw
 const SwitchEntry: React.FC<SwitchEntryProps> = (props) => {
   return (
     <FormMateItem valuePropName='checked' {...props}>
-      <Switch {...props.entryProps} />
+      <Switch style={{}} {...props.entryProps} />
     </FormMateItem>
   );
 };
