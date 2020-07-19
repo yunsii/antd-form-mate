@@ -6,9 +6,9 @@ import _find from 'lodash/find';
 import { getEntryDisplayName, getTargetOption } from './utils';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
 
-export interface CascaderEntryProps extends NewFormMateItemPropsWithoutChildren<CascaderProps> {}
+export interface CascaderEntryProps extends NewFormMateItemPropsWithoutChildren<any, CascaderProps> {}
 
-const plainRender: PlainRenderFn<CascaderProps> = ({ name, value, entryProps }) => {
+const plainRender: PlainRenderFn<any, CascaderProps> = ({ name, value, entryProps }) => {
   const { options: cascaderOptions, displayRender = (labels) => labels.join(' / ') } = entryProps;
 
   const labels: React.ReactNode[] = [];

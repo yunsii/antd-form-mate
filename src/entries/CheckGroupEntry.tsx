@@ -1,14 +1,19 @@
 import React from 'react';
 
-import { getEntryDisplayName } from './utils';
+import { getEntryDisplayName, joinOptions, getTargetOption } from './utils';
 import CustomCheckGroup, { CustomCheckGroupProps } from '../components/CustomCheckGroup';
-import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
+import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
 
-export interface CheckGroupEntryProps extends NewFormMateItemPropsWithoutChildren<CustomCheckGroupProps> {}
+export interface CheckGroupEntryProps extends NewFormMateItemPropsWithoutChildren<any, CustomCheckGroupProps> {}
+
+const plainRender: PlainRenderFn<any, CustomCheckGroupProps> = ({ value, entryProps }) => {
+  const { options = [] } = entryProps;
+  return joinOptions(value?.map((item: any) => getTargetOption(item, options as any)));
+};
 
 const CheckGroupEntry: React.FC<CheckGroupEntryProps> = (props) => {
   return (
-    <FormMateItem {...props}>
+    <FormMateItem plainRender={plainRender} {...props}>
       <CustomCheckGroup {...props.entryProps} />
     </FormMateItem>
   );
