@@ -44,6 +44,7 @@ export default () => {
         <FM.CheckGroup
           name='CheckGroup'
           label='CheckGroup'
+          plain={plain}
           entryProps={{
             options: checkOptions,
           }}
