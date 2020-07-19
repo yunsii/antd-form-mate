@@ -11,20 +11,20 @@ import { FormMateItemDisplayName } from '../../../constants/components';
 import { cloneElement } from '../../../utils/reactNode';
 
 export type PlainRenderFn<V = any, P = Object> = (item: {
-  value: any;
+  value: V;
   name: NewFormMateItemProps<P>['name'];
   entryProps: P;
 }) => React.ReactNode;
 
-export interface NewFormMateItemProps<P = Object> extends FormItemProps {
+export interface NewFormMateItemProps<V = any, P = Object> extends FormItemProps {
   entryProps?: P;
   plain?: boolean;
-  plainRender?: PlainRenderFn<P>;
+  plainRender?: PlainRenderFn<V, P>;
   dynamicRender?: (form: FormInstance) => boolean | void;
   dense?: boolean;
 }
 
-export type NewFormMateItemPropsWithoutChildren<P = Object> = Omit<NewFormMateItemProps<P>, 'children'>;
+export type NewFormMateItemPropsWithoutChildren<V = any, P = Object> = Omit<NewFormMateItemProps<V, P>, 'children'>;
 
 const FormMateItem = <P,>(props: NewFormMateItemProps<P>) => {
   const intl = useIntl();
