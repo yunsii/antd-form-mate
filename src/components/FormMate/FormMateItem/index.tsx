@@ -10,7 +10,7 @@ import { useIntl } from '../../../contexts/Intlcontext';
 import { FormMateItemDisplayName } from '../../../constants/components';
 import { cloneElement } from '../../../utils/reactNode';
 
-export type PlainRenderFn<P = Object> = (item: {
+export type PlainRenderFn<V = any, P = Object> = (item: {
   value: any;
   name: NewFormMateItemProps<P>['name'];
   entryProps: P;
@@ -70,11 +70,13 @@ const FormMateItem = <P,>(props: NewFormMateItemProps<P>) => {
           return (
             <Form.Item name={name} style={getStyle()} {...rest}>
               <div className='ant-form-text'>
-                {plainRender?.({
-                  name,
-                  value: itemValue,
-                  entryProps: entryProps || ({} as P),
-                }) || 'No plainRender.'}
+                {typeof plainRender === 'function'
+                  ? plainRender({
+                      name,
+                      value: itemValue,
+                      entryProps: entryProps || ({} as P),
+                    }) || '-'
+                  : 'No plainRender.'}
               </div>
             </Form.Item>
           );
