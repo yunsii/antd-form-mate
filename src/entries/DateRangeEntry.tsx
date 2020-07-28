@@ -1,15 +1,16 @@
 import React from 'react';
+import { DatePicker } from 'antd';
+import { RangePickerProps } from 'antd/lib/date-picker';
 
 import { getEntryDisplayName } from './utils';
-import { CustomRangePicker, CustomRangePickerProps } from '../components/CustomDatePicker';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
-export interface DateRangeEntryProps extends NewFormMateItemPropsWithoutChildren<CustomRangePickerProps> {}
+export interface DateRangeEntryProps extends NewFormMateItemPropsWithoutChildren<RangePickerProps> {}
 
 const DateRangeEntry: React.FC<DateRangeEntryProps> = (props) => {
   return (
     <FormMateItem {...props}>
-      <CustomRangePicker {...props.entryProps} />
+      <DatePicker.RangePicker picker='date' {...props.entryProps} />
     </FormMateItem>
   );
 };

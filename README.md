@@ -217,6 +217,7 @@ export default BasicForm;
 使用 father 编译，而不是直接使用 webpack 打包成一个文件的方式。另外，为组件做减法，移除一些不需要内置的逻辑，减小打包体积。下面总结 v5 到 v6 的一些使用上的变化：
 
 1. 移除 datetime 和 datetime-range 类型，可通过 date 和 date-range 派生。
+2. 移除内置的快捷日期禁用配置。
 
 ### 从 v4 到 v5
 

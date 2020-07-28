@@ -3,13 +3,13 @@ import { RowProps } from 'antd/lib/row';
 import { ColProps } from 'antd/lib/col';
 import { InputNumberProps } from 'antd/lib/input-number';
 import { SwitchProps } from 'antd/lib/switch';
+import { DatePickerProps, RangePickerProps } from 'antd/lib/date-picker';
 import { PasswordProps, TextAreaProps, InputProps } from 'antd/lib/input';
 import { SliderProps } from 'antd/lib/slider';
 import { CascaderProps } from 'antd/lib/cascader';
 import { TimePickerProps } from 'antd/lib/time-picker';
 import { TimeRangePickerProps } from 'antd/lib/time-picker';
 import { FormProps } from 'antd/lib/form';
-import { CustomDatePickerProps, CustomRangePickerProps } from './components/CustomDatePicker/index';
 import { CustomSelectProps } from './components/CustomSelect/index';
 import { PicturesWallProps } from './components/PicturesWall/index';
 import { CustomDraggerProps } from './components/CustomDragger';
@@ -52,10 +52,10 @@ export type DefaultTypeRulesOptions = {
 };
 
 export type ComponentProps =
-  | CustomDatePickerProps
+  | DatePickerProps
   | TimePickerProps
   | TimeRangePickerProps
-  | CustomRangePickerProps
+  | RangePickerProps
   | InputNumberProps
   | InputNumberRangeProps
   | CustomSelectProps

@@ -8,7 +8,6 @@ export { default as CoreUpload } from './components/CoreUpload';
 export { default as ImagesViewer } from './components/commons/ImagesViewer';
 
 export { default as CheckGroup } from './components/CustomCheckGroup';
-export { default as DatePicker } from './components/CustomDatePicker';
 export { default as RadioGroup } from './components/CustomRadioGroup';
 export { default as Select } from './components/CustomSelect';
 export { default as UploadDragger } from './components/CustomUploadDragger';
