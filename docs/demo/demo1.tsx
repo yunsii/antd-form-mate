@@ -56,6 +56,7 @@ export default () => {
         <FM.Date
           name='Datetime'
           label='Datetime'
+          plain={plain}
           entryProps={{
             showTime: true,
           }}
