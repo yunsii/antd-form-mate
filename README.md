@@ -1,4 +1,6 @@
-<h1 align="center">antd-form-mate</h1>
+<div align="center">
+	<img src="static/banner.svg" width="800" height="400">
+</div>
 
 <div align="center">
 
@@ -164,12 +166,7 @@ const BasicForm: React.FC = (props) => {
       onFinish={handleFinish}
       onFinishFailed={handleFinishFailed}
     >
-      <FormMate.Item
-        type='string'
-        name='name'
-        label='姓名'
-        rules={[{ required: true, message: '请输入姓名！' }]}
-      />
+      <FormMate.Item type='string' name='name' label='姓名' rules={[{ required: true, message: '请输入姓名！' }]} />
       <FormMate.Dynamic
         type='string'
         name='dynamic'
@@ -208,7 +205,7 @@ export default BasicForm;
 
 - [x] [antd-form-mate-v4](https://github.com/zpr1g/antd-form-mate/projects/1)
 - [x] [antd-form-mate-v5](https://github.com/zpr1g/antd-form-mate/projects/2)
-- [] [antd-form-mate-v6](https://github.com/zpr1g/antd-form-mate/projects/3)
+- [][antd-form-mate-v6](https://github.com/zpr1g/antd-form-mate/projects/3)
 
 ## 升级
 
