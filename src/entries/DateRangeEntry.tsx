@@ -7,10 +7,11 @@ import { Moment } from 'moment';
 import { getEntryDisplayName } from './utils';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
 
-export interface DateRangeEntryProps
-  extends NewFormMateItemPropsWithoutChildren<RangeValue<Moment>, RangePickerProps> {}
+type Value = RangeValue<Moment>;
 
-const plainRender: PlainRenderFn<RangeValue<Moment>, RangePickerProps> = ({ value, entryProps }) => {
+export interface DateRangeEntryProps extends NewFormMateItemPropsWithoutChildren<Value, RangePickerProps> {}
+
+const plainRender: PlainRenderFn<Value, RangePickerProps> = ({ value, entryProps }) => {
   const { showTime, format } = entryProps as any;
   if (value) {
     return value
