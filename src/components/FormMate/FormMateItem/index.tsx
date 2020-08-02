@@ -14,7 +14,7 @@ export type PlainRenderFn<V = any, P = Object> = (item: {
   value: V;
   name: NewFormMateItemProps<P>['name'];
   entryProps: P;
-}) => React.ReactNode;
+}) => React.ReactNode | void;
 
 export interface NewFormMateItemProps<V = any, P = any> extends FormItemProps {
   entryProps?: P;
