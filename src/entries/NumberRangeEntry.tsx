@@ -1,14 +1,21 @@
 import React from 'react';
 
 import { getEntryDisplayName } from './utils';
-import InputNumberRange, { InputNumberRangeProps } from '../components/InputNumberRange';
-import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
+import InputNumberRange, { InputNumberRangeProps, RangeValue } from '../components/InputNumberRange';
+import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
 
-export interface NumberRangeEntryProps extends NewFormMateItemPropsWithoutChildren<InputNumberRangeProps> {}
+export interface NumberRangeEntryProps extends NewFormMateItemPropsWithoutChildren<RangeValue, InputNumberRangeProps> {}
+
+const plainRender: PlainRenderFn<RangeValue, InputNumberRangeProps> = ({ value, entryProps }) => {
+  const { separator } = entryProps;
+  if (value) {
+    return value.join(separator || '~');
+  }
+};
 
 const NumberRangeEntry: React.FC<NumberRangeEntryProps> = (props) => {
   return (
-    <FormMateItem {...props}>
+    <FormMateItem plainRender={plainRender} {...props}>
       <InputNumberRange {...props.entryProps} />
     </FormMateItem>
   );
