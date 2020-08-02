@@ -8,7 +8,7 @@ import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from
 
 export interface DateEntryProps extends NewFormMateItemPropsWithoutChildren<Moment, DatePickerProps> {}
 
-const plainRender: PlainRenderFn<Moment | undefined, DatePickerProps> = ({ value, entryProps }) => {
+const plainRender: PlainRenderFn<Moment | null, DatePickerProps> = ({ value, entryProps }) => {
   const { showTime, format } = entryProps as any;
   return value?.format((format as string) || (showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'));
 };
