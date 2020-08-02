@@ -61,22 +61,23 @@ export default () => {
             showTime: true,
           }}
         />
-        <FM.DateRange name='DateRange' label='DateRange' />
+        <FM.DateRange name='DateRange' label='DateRange' plain={plain} />
         <FM.DateRange
           name='DatetimeRange'
           label='DatetimeRange'
+          plain={plain}
           entryProps={{
             showTime: true,
           }}
         />
-        <FM.Input name='Input' label='Input' />
+        <FM.Input name='Input' label='Input' plain={plain} />
         <FM.Input
           name='DynamicInput'
           label='DynamicInput'
           dynamicRender={(form) => form.getFieldValue('Input') === 'hello'}
         />
-        <FM.Number name='Number' label='Number' />
-        <FM.NumberRange name='NumberRange' label='NumberRange' />
+        <FM.Number name='Number' label='Number' plain={plain} />
+        <FM.NumberRange name='NumberRange' label='NumberRange' plain={plain} />
         <FM.Password name='Password' label='Password' />
         <FM.Plain name='Plain' label='Plain' />
         <FM.RadioGroup
