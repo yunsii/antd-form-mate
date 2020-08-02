@@ -3,13 +3,19 @@ import { InputNumber } from 'antd';
 import { InputNumberProps } from 'antd/lib/input-number';
 
 import { getEntryDisplayName } from './utils';
-import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
+import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
 
-export interface NumberEntryProps extends NewFormMateItemPropsWithoutChildren<InputNumberProps> {}
+type Value = number | undefined;
+
+export interface NumberEntryProps extends NewFormMateItemPropsWithoutChildren<Value, InputNumberProps> {}
+
+const plainRender: PlainRenderFn<Value, InputNumberProps> = ({ value, entryProps }) => {
+  return value;
+};
 
 const NumberEntry: React.FC<NumberEntryProps> = (props) => {
   return (
-    <FormMateItem {...props}>
+    <FormMateItem plainRender={plainRender} {...props}>
       <InputNumber {...props.entryProps} />
     </FormMateItem>
   );
