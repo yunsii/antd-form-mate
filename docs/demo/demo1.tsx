@@ -83,6 +83,7 @@ export default () => {
         <FM.RadioGroup
           name='RadioGroup'
           label='RadioGroup'
+          plain={plain}
           entryProps={{
             options: checkOptions,
           }}
