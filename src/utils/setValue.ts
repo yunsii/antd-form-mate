@@ -57,6 +57,23 @@ function setFileNameByPath(path: string) {
   return pathSegment[pathSegment.length - 1];
 }
 
+function matchFileItem(values: UploadFile[]) {
+  for (let i = 0; i < values.length; i += 1) {
+    if (
+      !(
+        values[i].uid &&
+        typeof values[i].name === 'string' &&
+        values[i].status === 'done' &&
+        typeof values[i].url === 'string' &&
+        values[i].url.match(/^(http|https):\/\/([\w.]+\/?)\S*/)
+      )
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export function setFileList(value?: string | any[], setFileName?: (path: string) => string): UploadFile[] {
   let fileList: UploadFile[] = [];
   const _setFileName = setFileName || setFileNameByPath;
@@ -79,6 +96,8 @@ export function setFileList(value?: string | any[], setFileName?: (path: string)
           status: 'done',
         } as any)
     );
+  } else if (value && Array.isArray(value) && matchFileItem(value)) {
+    fileList = value;
   }
   return fileList;
 }
