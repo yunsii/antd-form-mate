@@ -89,7 +89,9 @@ export default () => {
           }}
         />
         <FM.Select name='Select' label='Select' plain={plain} entryProps={{ options: selectOptions }} />
-        <FM.Slider name='Slider' label='Slider' />
+        {/* multi select */}
+        <FM.Slider name='Slider' label='Slider' plain={plain} />
+        {/* range slider */}
         <FM.Switch name='Switch' label='Switch' />
         <FM.TextArea name='TextArea' label='TextArea' />
         <FM.Time name='Time' label='Time' />

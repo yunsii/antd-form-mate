@@ -1,15 +1,22 @@
 import React from 'react';
 import { Slider } from 'antd';
-import { SliderProps } from 'antd/lib/slider';
+import { SliderSingleProps, SliderRangeProps } from 'antd/lib/slider';
 
 import { getEntryDisplayName } from './utils';
-import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
+import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
 
-export interface SliderEntryProps extends NewFormMateItemPropsWithoutChildren<SliderProps> {}
+export interface SliderEntryProps
+  extends NewFormMateItemPropsWithoutChildren<any, SliderSingleProps | SliderRangeProps> {}
+
+const plainRender: PlainRenderFn<any, SliderSingleProps | SliderRangeProps> = ({ value, entryProps }) => {
+  const { range } = entryProps;
+
+  return range ? value.join('~') : value;
+};
 
 const SliderEntry: React.FC<SliderEntryProps> = (props) => {
   return (
-    <FormMateItem {...props}>
+    <FormMateItem plainRender={plainRender} {...props}>
       <Slider {...props.entryProps} />
     </FormMateItem>
   );
