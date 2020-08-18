@@ -205,7 +205,7 @@ export default BasicForm;
 
 - [x] [antd-form-mate-v4](https://github.com/zpr1g/antd-form-mate/projects/1)
 - [x] [antd-form-mate-v5](https://github.com/zpr1g/antd-form-mate/projects/2)
-- [][antd-form-mate-v6](https://github.com/zpr1g/antd-form-mate/projects/3)
+- [ ] [antd-form-mate-v6](https://github.com/zpr1g/antd-form-mate/projects/3) 进行中...
 
 ## 升级
 
