@@ -88,7 +88,7 @@ export default () => {
             options: checkOptions,
           }}
         />
-        <FM.Select name='Select' label='Select' entryProps={{ options: selectOptions }} />
+        <FM.Select name='Select' label='Select' plain={plain} entryProps={{ options: selectOptions }} />
         <FM.Slider name='Slider' label='Slider' />
         <FM.Switch name='Switch' label='Switch' />
         <FM.TextArea name='TextArea' label='TextArea' />
