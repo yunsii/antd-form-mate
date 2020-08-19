@@ -4,16 +4,18 @@ import _find from 'lodash/find';
 import _omit from 'lodash/omit';
 import { Form } from 'antd';
 import { FormInstance, FormItemProps } from 'antd/lib/form';
-
 import FormMateContext from '../../../contexts/FormMateContext';
 import { useIntl } from '../../../contexts/Intlcontext';
 import { FormMateItemDisplayName } from '../../../constants/components';
 import { cloneElement } from '../../../utils/reactNode';
 
+declare type RenderChildren = (form: FormInstance) => React.ReactNode;
+
 export type PlainRenderFn<V = any, P = Object> = (item: {
   value: V;
   name: NewFormMateItemProps<P>['name'];
   entryProps: P;
+  children: RenderChildren | React.ReactNode;
 }) => any;
 
 export interface NewFormMateItemProps<V = any, P = any> extends FormItemProps {
@@ -75,6 +77,7 @@ const FormMateItem = <P,>(props: NewFormMateItemProps<P>) => {
                       name,
                       value: itemValue,
                       entryProps: entryProps || ({} as P),
+                      children,
                     }) ?? '-'
                   : 'No plainRender.'}
               </div>

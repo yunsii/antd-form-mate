@@ -92,7 +92,7 @@ export default () => {
         {/* multi select */}
         <FM.Slider name='Slider' label='Slider' plain={plain} />
         {/* range slider */}
-        <FM.Switch name='Switch' label='Switch' />
+        <FM.Switch name='Switch' label='Switch' plain={plain} />
         <FM.TextArea name='TextArea' label='TextArea' />
         <FM.Time name='Time' label='Time' />
         <FM.TimeRange name='TimeRange' label='TimeRange' />
