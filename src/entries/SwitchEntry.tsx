@@ -6,7 +6,7 @@ import { getEntryDisplayName } from './utils';
 import { cloneElement } from '../utils/reactNode';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
 
-export interface SwitchEntryProps extends NewFormMateItemPropsWithoutChildren<SwitchProps> {}
+export interface SwitchEntryProps extends NewFormMateItemPropsWithoutChildren<boolean, SwitchProps> {}
 
 const SwitchEntry: React.FC<SwitchEntryProps> = (props) => {
   return (
