@@ -3,13 +3,17 @@ import { Input } from 'antd';
 import { TextAreaProps } from 'antd/lib/input';
 
 import { getEntryDisplayName } from './utils';
-import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components/FormMate/FormMateItem';
+import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
 
-export interface TextAreaEntryProps extends NewFormMateItemPropsWithoutChildren<TextAreaProps> {}
+export interface TextAreaEntryProps extends NewFormMateItemPropsWithoutChildren<string, TextAreaProps> {}
+
+const plainRender: PlainRenderFn<string, TextAreaProps> = ({ value, entryProps }) => {
+  return value;
+};
 
 const TextAreaEntry: React.FC<TextAreaEntryProps> = (props) => {
   return (
-    <FormMateItem {...props}>
+    <FormMateItem plainRender={plainRender} {...props}>
       <Input.TextArea {...props.entryProps} />
     </FormMateItem>
   );

@@ -93,7 +93,7 @@ export default () => {
         <FM.Slider name='Slider' label='Slider' plain={plain} />
         {/* range slider */}
         <FM.Switch name='Switch' label='Switch' plain={plain} />
-        <FM.TextArea name='TextArea' label='TextArea' />
+        <FM.TextArea name='TextArea' label='TextArea' plain={plain} />
         <FM.Time name='Time' label='Time' />
         <FM.TimeRange name='TimeRange' label='TimeRange' />
         <FM.Upload name='Upload' label='Upload' />
