@@ -24,6 +24,14 @@ export default () => {
         style={{ maxWidth: 800 }}
         onFinish={setValues}
         formMate={fm}
+        labelCol={{
+          xs: { span: 24 },
+          sm: { span: 7 },
+        }}
+        wrapperCol={{
+          xs: { span: 24 },
+          sm: { span: 14 },
+        }}
         grid={{
           row: {
             gutter: 16,
@@ -98,7 +106,7 @@ export default () => {
         <FM.TimeRange name='TimeRange' label='TimeRange' />
         <FM.Upload name='Upload' label='Upload' />
         <FM.UploadDragger name='UploadDragger' label='UploadDragger' />
-        <FM.Item>
+        <FM.Item wrapperCol={{ offset: 7 }}>
           <Space direction='horizontal'>
             <Button type='primary' htmlType='submit'>
               提交
