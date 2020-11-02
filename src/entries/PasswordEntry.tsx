@@ -7,13 +7,13 @@ import FormMateItem, { NewFormMateItemPropsWithoutChildren } from '../components
 
 export interface PasswordEntryProps extends NewFormMateItemPropsWithoutChildren<PasswordProps> {}
 
-const PasswordEntry: React.FC<PasswordEntryProps> = (props) => {
+const PasswordEntry = React.forwardRef<unknown, PasswordEntryProps>((props, ref) => {
   return (
     <FormMateItem {...props}>
-      <Input.Password {...props.entryProps} />
+      <Input.Password ref={ref} {...props.entryProps} />
     </FormMateItem>
   );
-};
+});
 
 PasswordEntry.displayName = getEntryDisplayName(PasswordEntry);
 

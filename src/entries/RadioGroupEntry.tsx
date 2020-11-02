@@ -1,9 +1,9 @@
 import React from 'react';
+import { CheckboxOptionType } from 'antd/lib/checkbox';
 
 import { getEntryDisplayName } from './utils';
 import CustomRadioGroup, { CustomRadioGroupProps } from '../components/CustomRadioGroup';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
-import { CheckboxOptionType } from 'antd/lib/checkbox';
 
 export interface RadioGroupEntryProps extends NewFormMateItemPropsWithoutChildren<any, CustomRadioGroupProps> {}
 
