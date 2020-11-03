@@ -60,7 +60,7 @@ export default () => {
         <FM.Custom name='Custom' label='Custom'>
           <Input />
         </FM.Custom>
-        <FM.Date name='Date' label='Date' />
+        <FM.Date name='Date' label='Date' plain={plain} />
         <FM.Date
           name='Datetime'
           label='Datetime'
@@ -86,6 +86,7 @@ export default () => {
         />
         <FM.Number name='Number' label='Number' plain={plain} />
         <FM.NumberRange name='NumberRange' label='NumberRange' plain={plain} />
+        {/* Password no plain prop */}
         <FM.Password name='Password' label='Password' />
         <FM.Plain name='Plain' label='Plain' />
         <FM.RadioGroup
@@ -103,7 +104,7 @@ export default () => {
         <FM.Switch name='Switch' label='Switch' plain={plain} />
         <FM.TextArea name='TextArea' label='TextArea' plain={plain} />
         <FM.Time name='Time' label='Time' plain={plain} />
-        <FM.TimeRange name='TimeRange' label='TimeRange' />
+        <FM.TimeRange name='TimeRange' label='TimeRange' plain={plain} />
         <FM.Upload name='Upload' label='Upload' />
         <FM.UploadDragger name='UploadDragger' label='UploadDragger' />
         <FM.Item wrapperCol={{ offset: 7 }}>
