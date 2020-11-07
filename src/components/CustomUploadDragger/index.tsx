@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Upload } from 'antd';
+import { DraggerProps } from 'antd/es/upload/Dragger'
 import { InboxOutlined } from '@ant-design/icons';
 
 import {
@@ -35,7 +36,7 @@ const CustomDragger: React.FC<CustomDraggerProps> = (props) => {
     ...rest
   } = props;
 
-  const handleChange = ({ fileList }) => {
+  const handleChange: DraggerProps['onChange'] = ({ fileList }) => {
     const { onChange } = props;
     if (onChange) {
       onChange(filterFileList(fileList) as any);
