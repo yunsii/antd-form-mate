@@ -71,16 +71,14 @@ const FormMateItem = <P,>(props: NewFormMateItemProps<P>) => {
 
           return (
             <Form.Item name={name} style={getStyle()} {...rest}>
-              <div className='ant-form-text'>
-                {typeof plainRender === 'function'
-                  ? plainRender({
-                      name,
-                      value: itemValue,
-                      entryProps: entryProps || ({} as P),
-                      children,
-                    }) ?? '-'
-                  : 'No plainRender.'}
-              </div>
+              {typeof plainRender === 'function'
+                ? plainRender({
+                    name,
+                    value: itemValue,
+                    entryProps: entryProps || ({} as P),
+                    children,
+                  }) ?? '-'
+                : 'No plainRender.'}
             </Form.Item>
           );
         }}
