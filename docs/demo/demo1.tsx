@@ -105,8 +105,8 @@ export default () => {
         <FM.TextArea name='TextArea' label='TextArea' plain={plain} />
         <FM.Time name='Time' label='Time' plain={plain} />
         <FM.TimeRange name='TimeRange' label='TimeRange' plain={plain} />
-        <FM.Upload name='Upload' label='Upload' />
-        <FM.UploadDragger name='UploadDragger' label='UploadDragger' />
+        <FM.Upload name='Upload' label='Upload' plain={plain} />
+        <FM.UploadDragger name='UploadDragger' label='UploadDragger' plain={plain} />
         <FM.Item wrapperCol={{ offset: 7 }}>
           <Space direction='horizontal'>
             <Button type='primary' htmlType='submit'>
