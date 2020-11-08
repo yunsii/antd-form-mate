@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Form } from 'antd';
 
-import { FormMateItemDisplayName, FormMateDynamicDisplayName, INTERNAL_HOOK_MARK } from '../../constants/components';
+import { INTERNAL_HOOK_MARK } from '../../constants/components';
 import { useIntl } from '../../contexts/Intlcontext';
 import setInitialValueByType from '../../utils/setValue';
 import { ComponentType, FormMateItemProps, Filter, FormMateProps, FormMateInstance } from '../../interfaces';
@@ -114,7 +114,7 @@ export function useFormMate(formMate?: FormMateInstance): [FormMateInstance] {
            */
           if (fieldsTypeRef.current) {
             storeRef.current = processInitialValues(values, fieldsTypeRef.current, postProcessRef.current);
-            console.log(storeRef.current);
+            console.log('store', storeRef.current);
             antdForm.setFieldsValue(storeRef.current);
           }
         },
