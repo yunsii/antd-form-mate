@@ -2,8 +2,9 @@ import React from 'react';
 import { TimePicker } from 'antd';
 import { TimePickerProps } from 'antd/lib/time-picker';
 
-import { getEntryDisplayName } from './utils';
+// import { getEntryDisplayName } from './utils';
 import FormMateItem, { NewFormMateItemPropsWithoutChildren, PlainRenderFn } from '../components/FormMate/FormMateItem';
+import { ENTRY_PREFIX } from '../constants/components';
 
 export interface TimeEntryProps extends NewFormMateItemPropsWithoutChildren<TimePickerProps> {}
 
@@ -20,6 +21,7 @@ const TimeEntry = React.forwardRef<any, TimeEntryProps>((props, ref) => {
   );
 });
 
-TimeEntry.displayName = getEntryDisplayName(TimeEntry);
+/** 通过 forwardRef 包裹后不能通过 getEntryDisplayName 设值 */
+TimeEntry.displayName = `${ENTRY_PREFIX}.TimeEntry`;
 
 export default TimeEntry;
